@@ -1,0 +1,39 @@
+name: CRM CI
+
+on:
+  push:
+    paths:
+      - 'crm/**'
+  pull_request:
+    paths:
+      - 'crm/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: ./crm
+        
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer, phpstan
+          coverage: none
+
+      - name: Install Dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest --quiet
+
+      - name: Run Migrations
+        run: php artisan migrate --seed
+
+      - name: Run PHPStan (Static Analysis)
+        run: phpstan analyse --level=9 app/
+
+      - name: Run Tests (PHPUnit)
+        run: php artisan test

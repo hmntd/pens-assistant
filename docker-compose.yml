@@ -1,0 +1,124 @@
+version: "3.9"
+
+services:
+  webserver:
+    image: nginx:alpine
+    container_name: pens_nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./crm:/var/www
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - crm
+    networks:
+      - pens_net
+
+  crm:
+    build:
+      context: .
+      dockerfile: crm/Dockerfile
+    container_name: pens_crm
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./crm:/var/www
+      - ./protos:/var/www/protos
+    environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: crm_db
+      DB_PORT: 5432
+      DB_DATABASE: crm_db
+      DB_USERNAME: postgres
+      DB_PASSWORD: secret_crm_password
+      CALC_GRPC_HOST: calc:50051
+      OCR_GRPC_HOST: ocr:50052
+    depends_on:
+      crm_db:
+        condition: service_healthy
+      calc:
+        condition: service_started
+      ocr:
+        condition: service_started
+    networks:
+      - pens_net
+
+  calc:
+    build:
+      context: .
+      dockerfile: calc/Dockerfile
+    container_name: pens_calc
+    restart: unless-stopped
+    ports:
+      - "50051:50051"
+    environment:
+      DB_HOST: calc_db
+      DB_PORT: 5432
+      DB_NAME: calc_db
+      DB_USER: postgres
+      DB_PASSWORD: secret_calc_password
+    depends_on:
+      calc_db:
+        condition: service_healthy
+    networks:
+      - pens_net
+
+  ocr:
+    build:
+      context: .
+      dockerfile: ocr/Dockerfile
+    container_name: pens_ocr
+    restart: unless-stopped
+    ports:
+      - "50052:50052"
+    networks:
+      - pens_net
+
+  crm_db:
+    image: postgres:16-alpine
+    container_name: pens_crm_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: crm_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - crm_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d crm_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - pens_net
+
+  calc_db:
+    image: postgres:16-alpine
+    container_name: pens_calc_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: calc_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5433:5432"
+    volumes:
+      - calc_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d calc_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - pens_net
+
+volumes:
+  crm_db_data:
+  calc_db_data:
+
+networks:
+  pens_net:
+    driver: bridge
