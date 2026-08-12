@@ -31,7 +31,7 @@ services:
       DB_PORT: 5432
       DB_DATABASE: crm_db
       DB_USERNAME: postgres
-      DB_PASSWORD: secret_crm_password
+      DB_PASSWORD: password
       CALC_GRPC_HOST: calc:50051
       OCR_GRPC_HOST: ocr:50052
     depends_on:
@@ -57,7 +57,7 @@ services:
       DB_PORT: 5432
       DB_NAME: calc_db
       DB_USER: postgres
-      DB_PASSWORD: secret_calc_password
+      DB_PASSWORD: password
     depends_on:
       calc_db:
         condition: service_healthy

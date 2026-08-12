@@ -18,6 +18,8 @@ RUN apt-get update && apt-get install -y \
 COPY calc/ /app/
 COPY protos/ /app/protos/
 
+RUN protoc -I=/app/protos --cpp_out=/app/src --grpc_out=/app/src --plugin=protoc-gen-grpc=$(which grpc_cpp_plugin) /app/protos/calc.proto
+
 RUN mkdir -p build && cd build \
     && cmake .. \
     && make -j$(nproc)

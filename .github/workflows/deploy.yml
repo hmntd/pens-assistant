@@ -1,0 +1,61 @@
+name: CD Pipeline - Deploy with Deployer
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy to ${{ github.ref == 'refs/heads/main' && 'Production' || 'Development' }}
+    runs-on: ubuntu-latest
+    
+    environment:
+      name: ${{ github.ref == 'refs/heads/main' && 'production' || 'development' }}
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP & Deployer
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          tools: deployer
+
+      - name: Setup SSH Access
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Add Server to Known Hosts
+        env:
+          SERVER_HOST: ${{ vars.SERVER_HOST }}
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+          if [ -n "$SERVER_HOST" ]; then
+            ssh-keyscan -H "$SERVER_HOST" >> ~/.ssh/known_hosts
+          fi
+
+      - name: Generate .env file
+        env:
+          APP_KEY: ${{ secrets.APP_KEY }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+        run: |
+          printf "APP_KEY=%s\n" "$APP_KEY" >> .env
+          printf "DB_PASSWORD=%s\n" "$DB_PASSWORD" >> .env
+
+      - name: Execute Deployer
+        env:
+          SERVER_HOST: ${{ vars.SERVER_HOST }}
+          SERVER_USER: ${{ vars.SERVER_USER }}
+          DEPLOY_PATH: ${{ vars.DEPLOY_PATH }}
+        run: |
+          TARGET="${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}"
+          dep deploy "$TARGET" -v

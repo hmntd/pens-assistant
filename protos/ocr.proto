@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package ocr;
+
+// Оголошуємо сервіс та його методи
+service OcrService {
+    rpc SayHello (HelloRequest) returns (HelloResponse);
+}
+
+// Формат запиту
+message HelloRequest {
+    string name = 1;
+}
+
+// Формат відповіді
+message HelloResponse {
+    string message = 1;
+}
