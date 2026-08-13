@@ -1,5 +1,12 @@
 <?php
 
+use App\Http\Controllers\Admin\Document\AdminIndexDocumentController;
+use App\Http\Controllers\Admin\Document\AdminIndexDocumentStatusesController;
+use App\Http\Controllers\Admin\Document\AdminShowDocumentController;
+use App\Http\Controllers\Document\DeleteDocumentController;
+use App\Http\Controllers\Document\IndexDocumentController;
+use App\Http\Controllers\Document\ShowDocumentController;
+use App\Http\Controllers\Document\UploadDocumentController;
 use App\Http\Controllers\PensionCoefficient\DeletePensionCoefficientController;
 use App\Http\Controllers\PensionCoefficient\IndexPensionCoefficientController;
 use App\Http\Controllers\PensionCoefficient\StorePensionCoefficientController;
@@ -10,6 +17,19 @@ Route::inertia('/', 'Welcome')->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'Dashboard')->name('dashboard');
+});
+
+Route::middleware(['auth'])->prefix('documents')->group(function () {
+    Route::get('/', IndexDocumentController::class)->name('documents.index');
+    Route::post('/upload', UploadDocumentController::class)->name('documents.upload');
+    Route::get('/{id}', ShowDocumentController::class)->name('documents.show');
+    Route::delete('/{id}', DeleteDocumentController::class)->name('documents.destroy');
+});
+
+Route::middleware(['auth', 'admin'])->prefix('admin/documents')->group(function () {
+    Route::get('/', AdminIndexDocumentController::class)->name('admin.documents.index');
+    Route::get('/statuses', AdminIndexDocumentStatusesController::class)->name('admin.documents.statuses');
+    Route::get('/{id}', AdminShowDocumentController::class)->name('admin.documents.show');
 });
 
 Route::middleware(['auth', 'admin'])->prefix('pension-coefficients')->group(function () {

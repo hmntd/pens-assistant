@@ -17,10 +17,17 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(RoleSeeder::class);
 
+        $adminEmail = (string) config('app.admin.email', '');
+        $adminPassword = (string) config('app.admin.password', '');
+
+        if (empty($adminEmail) || empty($adminPassword)) {
+            return;
+        }
+
         $admin = User::factory()->create([
             'name' => 'Admin',
-            'email' => config('app.admin.email'),
-            'password' => config('app.admin.password')
+            'email' => $adminEmail,
+            'password' => $adminPassword,
         ]);
         $admin->assignRole('admin');
     }

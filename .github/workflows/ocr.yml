@@ -4,9 +4,11 @@ on:
   push:
     paths:
       - 'ocr/**'
+      - 'protos/ocr.proto'
   pull_request:
     paths:
       - 'ocr/**'
+      - 'protos/ocr.proto'
 
 permissions:
   contents: read
@@ -29,11 +31,17 @@ jobs:
           cache: 'pip'
           cache-dependency-path: 'ocr/requirements.txt'
 
-      - name: Install dependencies
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y tesseract-ocr libtesseract-dev poppler-utils
+
+      - name: Install Python dependencies & generate Protobuf
         run: |
           python -m pip install --upgrade pip
           pip install flake8 pytest
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          python -m grpc_tools.protoc -I../protos --python_out=src --grpc_python_out=src ../protos/ocr.proto
 
       - name: Lint with Flake8
         run: flake8 src/ --count --select=E9,F63,F7,F82 --show-source --statistics
