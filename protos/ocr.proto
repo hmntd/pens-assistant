@@ -2,17 +2,20 @@ syntax = "proto3";
 
 package ocr;
 
-// Оголошуємо сервіс та його методи
 service OcrService {
-    rpc SayHello (HelloRequest) returns (HelloResponse);
+    rpc RecognizeTaxDocument (OcrRequest) returns (OcrResponse);
 }
 
-// Формат запиту
-message HelloRequest {
-    string name = 1;
+message OcrRequest {
+    bytes file_content = 1;
+    string file_extension = 2;
+    string document_type = 3;
 }
 
-// Формат відповіді
-message HelloResponse {
-    string message = 1;
+message OcrResponse {
+    bool success = 1;
+    string raw_text = 2;
+    map<string, string> data = 3;
+    float confidence = 4;
+    string error_message = 5;
 }

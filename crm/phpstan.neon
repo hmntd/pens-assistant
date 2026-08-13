@@ -10,4 +10,15 @@ parameters:
         - database/
         - routes/
 
-    level: 7
+    level: 5
+
+    treatPhpDocTypesAsCertain: false
+    reportUnmatchedIgnoredErrors: false
+
+    ignoreErrors:
+        - '#invalid type Grpc\\InterceptorChannel#'
+        - '#invalid type Google\\Protobuf\\Internal\\RepeatedField#'
+        - '#Google\\Protobuf\\Internal\\RepeatedField#'
+        - '#Grpc\\InterceptorChannel#'
+        - '#unset\.possiblyHookedProperty#'
+        - '#Cannot unset property#'

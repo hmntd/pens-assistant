@@ -16,15 +16,26 @@ class Ocr
         }
         $pool->internalAddGeneratedFile(
             '
-™
-	ocr.protoocr"
-HelloRequest
-name (	" 
-HelloResponse
-message (	2?
+é
+	ocr.protoocr"Q
 
-OcrService1
-SayHello.ocr.HelloRequest.ocr.HelloResponsebproto3'
+OcrRequest
+file_content (
+file_extension (	
+document_type (	"²
+OcrResponse
+success (
+raw_text (	(
+data (2.ocr.OcrResponse.DataEntry
+
+confidence (
+error_message (	+
+	DataEntry
+key (	
+value (	:82G
+
+OcrService9
+RecognizeTaxDocument.ocr.OcrRequest.ocr.OcrResponsebproto3'
         , true);
 
         static::$is_initialized = true;

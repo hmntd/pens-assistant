@@ -8,10 +8,10 @@ class OcrServiceClient extends \Grpc\BaseStub {
         parent::__construct($hostname, $opts, $channel);
     }
 
-    public function SayHello(\Ocr\HelloRequest $argument, $metadata = [], $options = []) {
-        return $this->_simpleRequest('/ocr.OcrService/SayHello',
+    public function RecognizeTaxDocument(\Ocr\OcrRequest $argument, $metadata = [], $options = []) {
+        return $this->_simpleRequest('/ocr.OcrService/RecognizeTaxDocument',
             $argument,
-            ['\Ocr\HelloResponse', 'decode'],
+            ['\Ocr\OcrResponse', 'decode'],
             $metadata, $options);
     }
 }

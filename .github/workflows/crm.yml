@@ -27,6 +27,7 @@ jobs:
         with:
           php-version: '8.5'
           tools: composer, phpstan
+          extensions: grpc, protobuf
           coverage: none
 
       - name: Setup Node.js
@@ -56,7 +57,7 @@ jobs:
           DB_DATABASE: ':memory:'
 
       - name: Run PHPStan (Static Analysis)
-        run: vendor/bin/phpstan analyse --level=5 app/
+        run: vendor/bin/phpstan analyse --level=5 --memory-limit=1G app/
 
       - name: Run Tests (PHPUnit)
         run: php artisan test

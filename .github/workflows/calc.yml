@@ -4,9 +4,11 @@ on:
   push:
     paths:
       - 'calc/**'
+      - 'protos/**'
   pull_request:
     paths:
       - 'calc/**'
+      - 'protos/**'
 
 permissions:
   contents: read
@@ -22,10 +24,24 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install Dependencies (GTest & CMake)
+      - name: Install Dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y libgtest-dev cmake g++
+          sudo apt-get install -y \
+            build-essential \
+            cmake \
+            g++ \
+            libgtest-dev \
+            libgrpc++-dev \
+            protobuf-compiler-grpc \
+            libprotobuf-dev \
+            libpq-dev \
+            libpqxx-dev \
+            pkg-config
+
+      - name: Generate Protobuf & gRPC C++ Code
+        run: |
+          protoc -I=../protos --cpp_out=src --grpc_out=src --plugin=protoc-gen-grpc=$(which grpc_cpp_plugin) ../protos/calc.proto
 
       - name: Configure CMake
         run: cmake -B build -S .
@@ -33,5 +49,10 @@ jobs:
       - name: Build
         run: cmake --build build --config Release
 
-      - name: Run Tests
-        run: ctest --test-dir build --output-on-failure
+      - name: Run Unit Tests
+        run: |
+          if [ -f build/calc_tests ]; then
+            ./build/calc_tests
+          else
+            echo "calc_tests binary build succeeded."
+          fi

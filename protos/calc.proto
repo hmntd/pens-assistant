@@ -3,13 +3,83 @@ syntax = "proto3";
 package calc;
 
 service CalcService {
-    rpc SayHello (HelloRequest) returns (HelloResponse);
+    rpc CalculatePension (PensionRequest) returns (PensionResponse);
+    rpc ListCoefficients (ListCoefficientsRequest) returns (ListCoefficientsResponse);
+    rpc AddCoefficient (AddCoefficientRequest) returns (AddCoefficientResponse);
+    rpc UpdateCoefficient (UpdateCoefficientRequest) returns (UpdateCoefficientResponse);
+    rpc DeleteCoefficient (DeleteCoefficientRequest) returns (DeleteCoefficientResponse);
 }
 
-message HelloRequest {
-    string name = 1;
+message TaxRecord {
+    int32 year = 1;
+    double annual_income = 2;
+    double tax_paid = 3;
+    int32 months_worked = 4;
 }
 
-message HelloResponse {
-    string message = 1;
+message PensionRequest {
+    string customer_id = 1;
+    int32 birth_year = 2;
+    int32 target_retirement_year = 3;
+    repeated TaxRecord history = 4;
+}
+
+message PensionResponse {
+    bool success = 1;
+    double estimated_monthly_pension = 2;
+    double total_accumulated_capital = 3;
+    string calculation_breakdown = 4;
+    string error_message = 5;
+}
+
+message PensionCoefficient {
+    int32 id = 1;
+    int32 year = 2;
+    int32 month = 3;
+    double coefficient = 4;
+    string description = 5;
+}
+
+message ListCoefficientsRequest {}
+
+message ListCoefficientsResponse {
+    bool success = 1;
+    repeated PensionCoefficient coefficients = 2;
+    string error_message = 3;
+}
+
+message AddCoefficientRequest {
+    int32 year = 1;
+    int32 month = 2;
+    double coefficient = 3;
+    string description = 4;
+}
+
+message AddCoefficientResponse {
+    bool success = 1;
+    PensionCoefficient coefficient = 2;
+    string error_message = 3;
+}
+
+message UpdateCoefficientRequest {
+    int32 id = 1;
+    int32 year = 2;
+    int32 month = 3;
+    double coefficient = 4;
+    string description = 5;
+}
+
+message UpdateCoefficientResponse {
+    bool success = 1;
+    PensionCoefficient coefficient = 2;
+    string error_message = 3;
+}
+
+message DeleteCoefficientRequest {
+    int32 id = 1;
+}
+
+message DeleteCoefficientResponse {
+    bool success = 1;
+    string error_message = 2;
 }

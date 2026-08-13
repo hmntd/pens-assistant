@@ -51,6 +51,11 @@ task('docker:up', function () {
     run('cd {{release_path}} && docker compose up -d');
 });
 
+desc('Run Calc database migrations inside container');
+task('calc:migrate', function () {
+    run('cd {{release_path}} && bash calc/database/run_migrations.sh');
+});
+
 desc('Run CRM migrations inside container');
 task('crm:migrate', function () {
     run('cd {{release_path}} && docker compose exec -T crm php artisan migrate --force');
@@ -75,6 +80,7 @@ task('deploy', [
     'deploy:writable',
     'docker:build',
     'docker:up',
+    'calc:migrate',
     'crm:migrate',
     'crm:cache',
     'deploy:symlink',

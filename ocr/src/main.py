@@ -7,10 +7,19 @@ import ocr_pb2
 import ocr_pb2_grpc
 
 class OcrServicer(ocr_pb2_grpc.OcrServiceServicer):
-    def SayHello(self, request, context):
-        print(f"[OCR] Received request from: {request.name}", flush=True)
-        return ocr_pb2.HelloResponse(
-            message=f"Hello world! It's Python OCR service."
+    def RecognizeTaxDocument(self, request, context):
+        print(f"[OCR] Processing document type: {request.document_type}, ext: {request.file_extension}", flush=True)
+        return ocr_pb2.OcrResponse(
+            success=True,
+            raw_text="Simulated OCR Text: Income Certificate 2024. Total Income: $105,000",
+            data={
+                "taxpayer_name": "John Doe",
+                "year": "2024",
+                "annual_income": "105000",
+                "document_type": request.document_type
+            },
+            confidence=0.98,
+            error_message=""
         )
 
 def serve():

@@ -16,15 +16,70 @@ class Calc
         }
         $pool->internalAddGeneratedFile(
             '
-ž
+É
 
-calc.protocalc"
-HelloRequest
-name (	" 
-HelloResponse
-message (	2B
-CalcService3
-SayHello.calc.HelloRequest.calc.HelloResponsebproto3'
+calc.protocalc"Y
+	TaxRecord
+year (
+annual_income (
+tax_paid (
+months_worked ("{
+PensionRequest
+customer_id (	
+
+birth_year (
+target_retirement_year ( 
+history (2.calc.TaxRecord"ž
+PensionResponse
+success (!
+estimated_monthly_pension (!
+total_accumulated_capital (
+calculation_breakdown (	
+error_message (	"g
+PensionCoefficient
+
+id (
+year (
+month (
+coefficient (
+description (	"
+ListCoefficientsRequest"r
+ListCoefficientsResponse
+success (.
+coefficients (2.calc.PensionCoefficient
+error_message (	"^
+AddCoefficientRequest
+year (
+month (
+coefficient (
+description (	"o
+AddCoefficientResponse
+success (-
+coefficient (2.calc.PensionCoefficient
+error_message (	"m
+UpdateCoefficientRequest
+
+id (
+year (
+month (
+coefficient (
+description (	"r
+UpdateCoefficientResponse
+success (-
+coefficient (2.calc.PensionCoefficient
+error_message (	"&
+DeleteCoefficientRequest
+
+id ("C
+DeleteCoefficientResponse
+success (
+error_message (	2š
+CalcService?
+CalculatePension.calc.PensionRequest.calc.PensionResponseQ
+ListCoefficients.calc.ListCoefficientsRequest.calc.ListCoefficientsResponseK
+AddCoefficient.calc.AddCoefficientRequest.calc.AddCoefficientResponseT
+UpdateCoefficient.calc.UpdateCoefficientRequest.calc.UpdateCoefficientResponseT
+DeleteCoefficient.calc.DeleteCoefficientRequest.calc.DeleteCoefficientResponsebproto3'
         , true);
 
         static::$is_initialized = true;
