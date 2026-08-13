@@ -2,12 +2,27 @@
 
 namespace Tests\Feature\PensionCoefficient;
 
+use App\Models\User;
+use Database\Seeders\RoleSeeder;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Response;
 use Tests\TestCase;
 
 class StorePensionCoefficientTest extends TestCase
 {
+    use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->seed(RoleSeeder::class);
+    }
+
     public function test_can_store_pension_coefficient(): void
     {
+        $admin = User::factory()->create();
+        $admin->assignRole('admin');
+
         $payload = [
             'year' => 2028,
             'month' => 5,
@@ -15,9 +30,9 @@ class StorePensionCoefficientTest extends TestCase
             'description' => 'Травень 2028 - Прогноз',
         ];
 
-        $response = $this->postJson(route('pension-coefficients.store'), $payload);
+        $response = $this->actingAs($admin)->postJson(route('pension-coefficients.store'), $payload);
 
-        $response->assertStatus(201)
+        $response->assertStatus(Response::HTTP_CREATED)
             ->assertJson([
                 'status' => 'success',
                 'data' => [
@@ -31,15 +46,18 @@ class StorePensionCoefficientTest extends TestCase
 
     public function test_store_validation_fails_for_invalid_month(): void
     {
+        $admin = User::factory()->create();
+        $admin->assignRole('admin');
+
         $payload = [
             'year' => 2028,
             'month' => 15,
             'coefficient' => 1.095,
         ];
 
-        $response = $this->postJson(route('pension-coefficients.store'), $payload);
+        $response = $this->actingAs($admin)->postJson(route('pension-coefficients.store'), $payload);
 
-        $response->assertStatus(422)
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
             ->assertJsonValidationErrors(['month']);
     }
 }

@@ -12,7 +12,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'Dashboard')->name('dashboard');
 });
 
-Route::prefix('pension-coefficients')->group(function () {
+Route::middleware(['auth', 'admin'])->prefix('pension-coefficients')->group(function () {
     Route::get('/', IndexPensionCoefficientController::class)->name('pension-coefficients.index');
     Route::post('/', StorePensionCoefficientController::class)->name('pension-coefficients.store');
     Route::put('/{id}', UpdatePensionCoefficientController::class)->name('pension-coefficients.update');
