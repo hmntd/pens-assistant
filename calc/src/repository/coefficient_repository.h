@@ -23,6 +23,7 @@ public:
     std::optional<CoefficientRecord> add(int year, int month, double coefficient, const std::string& description);
     std::optional<CoefficientRecord> update(int id, int year, int month, double coefficient, const std::string& description);
     bool remove(int id);
+    bool upsertAverageSalary(int year, int month, double amount);
 };
 
 }

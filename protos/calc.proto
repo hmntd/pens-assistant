@@ -8,6 +8,7 @@ service CalcService {
     rpc AddCoefficient (AddCoefficientRequest) returns (AddCoefficientResponse);
     rpc UpdateCoefficient (UpdateCoefficientRequest) returns (UpdateCoefficientResponse);
     rpc DeleteCoefficient (DeleteCoefficientRequest) returns (DeleteCoefficientResponse);
+    rpc SyncAverageSalaries (SyncAverageSalariesRequest) returns (SyncAverageSalariesResponse);
 }
 
 message TaxRecord {
@@ -82,4 +83,20 @@ message DeleteCoefficientRequest {
 message DeleteCoefficientResponse {
     bool success = 1;
     string error_message = 2;
+}
+
+message AverageSalaryRecord {
+    int32 year = 1;
+    int32 month = 2;
+    double amount = 3;
+}
+
+message SyncAverageSalariesRequest {
+    repeated AverageSalaryRecord salaries = 1;
+}
+
+message SyncAverageSalariesResponse {
+    bool success = 1;
+    int32 processed_count = 2;
+    string error_message = 3;
 }

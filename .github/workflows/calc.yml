@@ -51,8 +51,15 @@ jobs:
 
       - name: Run Unit Tests
         run: |
-          if [ -f build/calc_tests ]; then
-            ./build/calc_tests
-          else
-            echo "calc_tests binary build succeeded."
+          if [ -f build/unit_calculator_tests ]; then
+            ./build/unit_calculator_tests
+          fi
+          if [ -f build/unit_repository_tests ]; then
+            ./build/unit_repository_tests
+          fi
+
+      - name: Run Feature Tests
+        run: |
+          if [ -f build/feature_grpc_tests ]; then
+            ./build/feature_grpc_tests
           fi

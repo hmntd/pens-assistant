@@ -31,8 +31,8 @@ target_link_libraries(calc_service
     ${PQXX_LIBRARIES}
 )
 
-add_executable(calc_tests
-    tests/test_pension_calculator.cpp
+add_executable(unit_calculator_tests
+    tests/unit/test_pension_calculator.cpp
     src/db/db_config.cpp
     src/repository/coefficient_repository.cpp
     src/service/pension_calculator.cpp
@@ -40,7 +40,38 @@ add_executable(calc_tests
     src/calc.grpc.pb.cc
 )
 
-target_link_libraries(calc_tests
+target_link_libraries(unit_calculator_tests
+    gRPC::grpc++
+    protobuf::libprotobuf
+    ${PQXX_LIBRARIES}
+)
+
+add_executable(unit_repository_tests
+    tests/unit/test_coefficient_repository.cpp
+    src/db/db_config.cpp
+    src/repository/coefficient_repository.cpp
+    src/service/pension_calculator.cpp
+    src/calc.pb.cc 
+    src/calc.grpc.pb.cc
+)
+
+target_link_libraries(unit_repository_tests
+    gRPC::grpc++
+    protobuf::libprotobuf
+    ${PQXX_LIBRARIES}
+)
+
+add_executable(feature_grpc_tests
+    tests/feature/test_calc_grpc_service.cpp
+    src/db/db_config.cpp
+    src/repository/coefficient_repository.cpp
+    src/service/pension_calculator.cpp
+    src/grpc/calc_service_impl.cpp
+    src/calc.pb.cc 
+    src/calc.grpc.pb.cc
+)
+
+target_link_libraries(feature_grpc_tests
     gRPC::grpc++
     protobuf::libprotobuf
     ${PQXX_LIBRARIES}

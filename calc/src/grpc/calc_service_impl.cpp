@@ -78,5 +78,19 @@ CalcServiceImpl::CalcServiceImpl()
     return ::grpc::Status::OK;
 }
 
+::grpc::Status CalcServiceImpl::SyncAverageSalaries(::grpc::ServerContext* context, const ::calc::SyncAverageSalariesRequest* request, ::calc::SyncAverageSalariesResponse* reply) {
+    int processed = 0;
+    for (int i = 0; i < request->salaries_size(); ++i) {
+        const auto& item = request->salaries(i);
+        if (repo_.upsertAverageSalary(item.year(), item.month(), item.amount())) {
+            processed++;
+        }
+    }
+    reply->set_success(true);
+    reply->set_processed_count(processed);
+    reply->set_error_message("");
+    return ::grpc::Status::OK;
+}
+
 }
 }

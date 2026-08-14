@@ -52,6 +52,8 @@ services:
     restart: unless-stopped
     ports:
       - "50051:50051"
+    volumes:
+      - ./calc/tests:/app/tests
     environment:
       DB_HOST: calc_db
       DB_PORT: 5432

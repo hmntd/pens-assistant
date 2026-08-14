@@ -42,4 +42,11 @@ class CalcServiceClient extends \Grpc\BaseStub {
             ['\Calc\DeleteCoefficientResponse', 'decode'],
             $metadata, $options);
     }
+
+    public function SyncAverageSalaries(\Calc\SyncAverageSalariesRequest $argument, $metadata = [], $options = []) {
+        return $this->_simpleRequest('/calc.CalcService/SyncAverageSalaries',
+            $argument,
+            ['\Calc\SyncAverageSalariesResponse', 'decode'],
+            $metadata, $options);
+    }
 }

@@ -121,5 +121,26 @@ bool CoefficientRepository::remove(int id) {
     return false;
 }
 
+bool CoefficientRepository::upsertAverageSalary(int year, int month, double amount) {
+    try {
+        pqxx::connection conn(db::DbConfig::getConnectionString());
+        if (!conn.is_open()) {
+            std::cerr << "[Calc DB] Failed to open PostgreSQL connection." << std::endl;
+            return false;
+        }
+
+        pqxx::work txn(conn);
+        txn.exec_params(
+            "INSERT INTO pfu_average_salaries (year, month, amount) VALUES ($1, $2, $3) ON CONFLICT (year, month) DO UPDATE SET amount = EXCLUDED.amount",
+            year, month, amount
+        );
+        txn.commit();
+        return true;
+    } catch (const std::exception& e) {
+        std::cerr << "[Calc DB Exception upsertAverageSalary] " << e.what() << std::endl;
+    }
+    return false;
+}
+
 }
 }

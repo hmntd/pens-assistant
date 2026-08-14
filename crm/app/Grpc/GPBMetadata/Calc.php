@@ -16,7 +16,7 @@ class Calc
         }
         $pool->internalAddGeneratedFile(
             '
-É
+”
 
 calc.protocalc"Y
 	TaxRecord
@@ -73,13 +73,24 @@ birth_year (
 id ("C
 DeleteCoefficientResponse
 success (
-error_message (	2š
+error_message (	"B
+AverageSalaryRecord
+year (
+month (
+amount ("I
+SyncAverageSalariesRequest+
+salaries (2.calc.AverageSalaryRecord"^
+SyncAverageSalariesResponse
+success (
+processed_count (
+error_message (	2ö
 CalcService?
 CalculatePension.calc.PensionRequest.calc.PensionResponseQ
 ListCoefficients.calc.ListCoefficientsRequest.calc.ListCoefficientsResponseK
 AddCoefficient.calc.AddCoefficientRequest.calc.AddCoefficientResponseT
 UpdateCoefficient.calc.UpdateCoefficientRequest.calc.UpdateCoefficientResponseT
-DeleteCoefficient.calc.DeleteCoefficientRequest.calc.DeleteCoefficientResponsebproto3'
+DeleteCoefficient.calc.DeleteCoefficientRequest.calc.DeleteCoefficientResponseZ
+SyncAverageSalaries .calc.SyncAverageSalariesRequest!.calc.SyncAverageSalariesResponsebproto3'
         , true);
 
         static::$is_initialized = true;

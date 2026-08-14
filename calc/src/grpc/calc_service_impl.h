@@ -22,6 +22,7 @@ public:
     ::grpc::Status AddCoefficient(::grpc::ServerContext* context, const ::calc::AddCoefficientRequest* request, ::calc::AddCoefficientResponse* reply) override;
     ::grpc::Status UpdateCoefficient(::grpc::ServerContext* context, const ::calc::UpdateCoefficientRequest* request, ::calc::UpdateCoefficientResponse* reply) override;
     ::grpc::Status DeleteCoefficient(::grpc::ServerContext* context, const ::calc::DeleteCoefficientRequest* request, ::calc::DeleteCoefficientResponse* reply) override;
+    ::grpc::Status SyncAverageSalaries(::grpc::ServerContext* context, const ::calc::SyncAverageSalariesRequest* request, ::calc::SyncAverageSalariesResponse* reply) override;
 };
 
 }
