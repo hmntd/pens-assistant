@@ -3,12 +3,59 @@ syntax = "proto3";
 package calc;
 
 service CalcService {
-    rpc CalculatePension (PensionRequest) returns (PensionResponse);
+    rpc CalculatePension (CalculatePensionRequest) returns (CalculatePensionResponse);
     rpc ListCoefficients (ListCoefficientsRequest) returns (ListCoefficientsResponse);
     rpc AddCoefficient (AddCoefficientRequest) returns (AddCoefficientResponse);
     rpc UpdateCoefficient (UpdateCoefficientRequest) returns (UpdateCoefficientResponse);
     rpc DeleteCoefficient (DeleteCoefficientRequest) returns (DeleteCoefficientResponse);
     rpc SyncAverageSalaries (SyncAverageSalariesRequest) returns (SyncAverageSalariesResponse);
+    rpc UpsertSubsistenceMinimum (UpsertSubsistenceMinimumRequest) returns (UpsertSubsistenceMinimumResponse);
+    rpc ListSubsistenceMinimums (ListSubsistenceMinimumsRequest) returns (ListSubsistenceMinimumsResponse);
+    rpc UpdateSubsistenceMinimum (UpdateSubsistenceMinimumRequest) returns (UpdateSubsistenceMinimumResponse);
+    rpc DeleteSubsistenceMinimum (DeleteSubsistenceMinimumRequest) returns (DeleteSubsistenceMinimumResponse);
+}
+
+enum Gender {
+    MALE = 0;
+    FEMALE = 1;
+}
+
+enum PensionType {
+    OLD_AGE = 0;
+    DISABILITY = 1;
+    LOSS_OF_BREADWINNER = 2;
+}
+
+enum DisabilityGroup {
+    DISABILITY_NONE = 0;
+    GROUP_1 = 1;
+    GROUP_2 = 2;
+    GROUP_3 = 3;
+}
+
+enum BenefitType {
+    BENEFIT_NONE = 0;
+    COMBAT_VETERAN = 1;         // УБД (+25% of subsistence minimum for disabled)
+    HONORARY_DONOR = 2;         // Почесний донор (+10% of general subsistence minimum)
+    CHORNOBYL_LIQUIDATOR = 3;   // Чорнобилець-ліквідатор (+30% of subsistence minimum for disabled)
+    DISABLED_CHILD_CARE = 4;    // Догляд за дитиною з інвалідністю (+10% of subsistence minimum for disabled)
+}
+
+message EmploymentPeriod {
+    string start_date = 1;      // "YYYY-MM-DD"
+    string end_date = 2;        // "YYYY-MM-DD"
+    double multiplier = 3;      // e.g. 1.0 (standard) or 2.0 (hazardous/dangerous work)
+}
+
+message SalaryMonthRecord {
+    int32 year = 1;
+    int32 month = 2;
+    double amount = 3;
+}
+
+message SubsistenceMinimums {
+    double for_disabled_persons = 1; // e.g. 2361.0 UAH
+    double general_minimum = 2;      // e.g. 2920.0 UAH
 }
 
 message TaxRecord {
@@ -16,6 +63,50 @@ message TaxRecord {
     double annual_income = 2;
     double tax_paid = 3;
     int32 months_worked = 4;
+}
+
+message CalculatePensionRequest {
+    string customer_id = 1;
+    Gender gender = 2;
+    string date_of_birth = 3;                // "YYYY-MM-DD"
+    string retirement_date = 4;             // "YYYY-MM-DD"
+    PensionType pension_type = 5;
+    DisabilityGroup disability_group = 6;
+    int32 dependents_count = 7;             // For LOSS_OF_BREADWINNER
+    repeated EmploymentPeriod employment_history = 8;
+    repeated SalaryMonthRecord salary_history = 9;
+    repeated BenefitType benefits = 10;
+    SubsistenceMinimums subsistence_minimums = 11;
+    bool enable_optimization_rule = 12;     // Drop worst 10% of salary months if it improves Kz
+    double zp_macroeconomic_average = 13;   // Average national salary for 3 prior years (Zp)
+    repeated TaxRecord history = 14;         // Backward compatibility
+    int32 birth_year = 15;                  // Backward compatibility
+    int32 target_retirement_year = 16;       // Backward compatibility
+}
+
+message BenefitSurchargeDetail {
+    BenefitType benefit = 1;
+    string name = 2;
+    double amount = 3;
+}
+
+message CalculatePensionResponse {
+    bool success = 1;
+    double final_pension = 2;               // Clamped final pension payment (UAH)
+    double base_pension = 3;                // P = Zp * Kz * Ks
+    double zp_macroeconomic_average = 4;    // Zp
+    double kz_wage_coefficient = 5;         // Kz
+    double ks_service_coefficient = 6;      // Ks
+    int32 total_service_months = 7;
+    double pension_type_modifier = 8;       // e.g. 1.0, 0.9, 0.5
+    double extra_service_allowance = 9;     // Surcharge for years over 30 (women) or 35 (men)
+    double total_benefit_surcharges = 10;    // Sum of all active benefits
+    double pre_clamped_pension = 11;        // Unclamped sum
+    bool is_minimum_clamped = 12;
+    bool is_maximum_clamped = 13;
+    repeated BenefitSurchargeDetail applied_benefits = 14;
+    repeated string calculation_logs = 15;
+    string error_message = 16;
 }
 
 message PensionRequest {
@@ -99,4 +190,53 @@ message SyncAverageSalariesResponse {
     bool success = 1;
     int32 processed_count = 2;
     string error_message = 3;
+}
+
+message UpsertSubsistenceMinimumRequest {
+    int32 year = 1;
+    double for_disabled_persons = 2;
+    double general_minimum = 3;
+}
+
+message UpsertSubsistenceMinimumResponse {
+    bool success = 1;
+    string message = 2;
+    string error_message = 3;
+}
+
+message ListSubsistenceMinimumsRequest {}
+
+message SubsistenceMinimumRecord {
+    int32 id = 1;
+    int32 year = 2;
+    double for_disabled_persons = 3;
+    double general_minimum = 4;
+}
+
+message ListSubsistenceMinimumsResponse {
+    bool success = 1;
+    repeated SubsistenceMinimumRecord records = 2;
+    string error_message = 3;
+}
+
+message UpdateSubsistenceMinimumRequest {
+    int32 id = 1;
+    int32 year = 2;
+    double for_disabled_persons = 3;
+    double general_minimum = 4;
+}
+
+message UpdateSubsistenceMinimumResponse {
+    bool success = 1;
+    SubsistenceMinimumRecord record = 2;
+    string error_message = 3;
+}
+
+message DeleteSubsistenceMinimumRequest {
+    int32 id = 1;
+}
+
+message DeleteSubsistenceMinimumResponse {
+    bool success = 1;
+    string error_message = 2;
 }

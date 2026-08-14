@@ -30,20 +30,26 @@ void test_grpc_calculate_pension() {
     calc::grpc_service::CalcServiceImpl service;
     grpc::ServerContext context;
 
-    calc::PensionRequest request;
-    calc::PensionResponse response;
+    calc::CalculatePensionRequest request;
+    calc::CalculatePensionResponse response;
 
-    request.set_customer_id("feature-test-user");
-    request.set_birth_year(1980);
-    request.set_target_retirement_year(2045);
+    request.set_customer_id("feature-test-user-1002");
+    request.set_gender(calc::Gender::MALE);
+    request.set_pension_type(calc::PensionType::OLD_AGE);
+    request.set_zp_macroeconomic_average(13559.41);
+    request.add_benefits(calc::BenefitType::HONORARY_DONOR);
 
     auto status = service.CalculatePension(&context, &request, &response);
 
     assert(status.ok());
     assert(response.success() == true);
-    assert(response.estimated_monthly_pension() >= 1250.0);
+    assert(response.final_pension() >= 2361.0);
+    assert(response.total_benefit_surcharges() > 0.0);
+    assert(response.applied_benefits_size() == 1);
+    assert(response.applied_benefits(0).benefit() == calc::BenefitType::HONORARY_DONOR);
 
-    std::cout << "  ✓ test_grpc_calculate_pension passed!" << std::endl;
+    std::cout << "  ✓ test_grpc_calculate_pension passed! (Final Pension: " 
+              << response.final_pension() << " UAH)" << std::endl;
 }
 
 int main() {

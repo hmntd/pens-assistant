@@ -11,12 +11,21 @@ use App\Http\Controllers\PensionCoefficient\DeletePensionCoefficientController;
 use App\Http\Controllers\PensionCoefficient\IndexPensionCoefficientController;
 use App\Http\Controllers\PensionCoefficient\StorePensionCoefficientController;
 use App\Http\Controllers\PensionCoefficient\UpdatePensionCoefficientController;
+use App\Http\Controllers\PensionCalculation\IndexPensionCalculationController;
+use App\Http\Controllers\PensionCalculation\ShowPensionCalculationController;
+use App\Http\Controllers\PensionCalculation\StorePensionCalculationController;
 use Illuminate\Support\Facades\Route;
 
 Route::inertia('/', 'Welcome')->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'Dashboard')->name('dashboard');
+});
+
+Route::middleware(['auth'])->prefix('pension-calculations')->group(function () {
+    Route::get('/', IndexPensionCalculationController::class)->name('pension-calculations.index');
+    Route::post('/', StorePensionCalculationController::class)->name('pension-calculations.store');
+    Route::get('/{id}', ShowPensionCalculationController::class)->name('pension-calculations.show');
 });
 
 Route::middleware(['auth'])->prefix('documents')->group(function () {
@@ -37,6 +46,13 @@ Route::middleware(['auth', 'admin'])->prefix('pension-coefficients')->group(func
     Route::post('/', StorePensionCoefficientController::class)->name('pension-coefficients.store');
     Route::put('/{id}', UpdatePensionCoefficientController::class)->name('pension-coefficients.update');
     Route::delete('/{id}', DeletePensionCoefficientController::class)->name('pension-coefficients.destroy');
+});
+
+Route::middleware(['auth', 'admin'])->prefix('admin/subsistence-minimums')->group(function () {
+    Route::get('/', \App\Http\Controllers\Admin\IndexSubsistenceMinimumController::class)->name('admin.subsistence-minimums.index');
+    Route::post('/', \App\Http\Controllers\Admin\StoreSubsistenceMinimumController::class)->name('admin.subsistence-minimums.store');
+    Route::put('/{id}', \App\Http\Controllers\Admin\UpdateSubsistenceMinimumController::class)->name('admin.subsistence-minimums.update');
+    Route::delete('/{id}', \App\Http\Controllers\Admin\DeleteSubsistenceMinimumController::class)->name('admin.subsistence-minimums.destroy');
 });
 
 Route::get('/grpc-test', function () {
@@ -68,7 +84,7 @@ Route::get('/grpc-test', function () {
         'credentials' => \Grpc\ChannelCredentials::createInsecure(),
     ]);
 
-    $calcRequest = new \Calc\PensionRequest();
+    $calcRequest = new \Calc\CalculatePensionRequest();
     $calcRequest->setCustomerId('user-999');
     $calcRequest->setBirthYear(1990);
     $calcRequest->setTargetRetirementYear(2055);
@@ -89,16 +105,16 @@ Route::get('/grpc-test', function () {
     // Pass the array of TaxRecord objects into the request
     $calcRequest->setHistory([$record2024, $record2025]);
 
-    /** @var \Calc\PensionResponse $calcResponse */
+    /** @var \Calc\CalculatePensionResponse $calcResponse */
     list($calcResponse, $calcStatus) = $calcClient->CalculatePension($calcRequest)->wait();
 
     $calcResult = [];
     if ($calcStatus->code === \Grpc\STATUS_OK && $calcResponse && $calcResponse->getSuccess()) {
         $calcResult = [
             'status' => 'success',
-            'estimated_monthly_pension' => $calcResponse->getEstimatedMonthlyPension(),
-            'total_accumulated_capital' => $calcResponse->getTotalAccumulatedCapital(),
-            'breakdown' => $calcResponse->getCalculationBreakdown(),
+            'final_pension' => $calcResponse->getFinalPension(),
+            'base_pension' => $calcResponse->getBasePension(),
+            'logs' => iterator_to_array($calcResponse->getCalculationLogs()),
         ];
     } else {
         $calcResult = ['status' => 'error', 'message' => $calcResponse ? $calcResponse->getErrorMessage() : ($calcStatus->details ?? 'Connection failed')];

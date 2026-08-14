@@ -132,7 +132,7 @@ class DocumentOcrService
             'credentials' => \Grpc\ChannelCredentials::createInsecure(),
         ]);
 
-        $calcRequest = new \Calc\PensionRequest();
+        $calcRequest = new \Calc\CalculatePensionRequest();
         $calcRequest->setCustomerId((string) $user->id);
         $calcRequest->setBirthYear($user->birth_year ?? 1990);
         $calcRequest->setTargetRetirementYear($user->target_retirement_year ?? 2055);
@@ -151,7 +151,7 @@ class DocumentOcrService
             $calcRequest->setHistory($records);
         }
 
-        /** @var \Calc\PensionResponse|null $calcResponse */
+        /** @var \Calc\CalculatePensionResponse|null $calcResponse */
         list($calcResponse, $calcStatus) = $calcClient->CalculatePension($calcRequest)->wait();
 
         if ($calcStatus->code !== \Grpc\STATUS_OK || !$calcResponse || !$calcResponse->getSuccess()) {
@@ -170,10 +170,12 @@ class DocumentOcrService
 
         $pension = CalculatedPension::create([
             'user_id' => $user->id,
-            'estimated_monthly_pension' => $calcResponse->getEstimatedMonthlyPension(),
-            'total_accumulated_capital' => $calcResponse->getTotalAccumulatedCapital(),
+            'final_pension' => $calcResponse->getFinalPension(),
+            'base_pension' => $calcResponse->getBasePension(),
+            'estimated_monthly_pension' => $calcResponse->getFinalPension(),
+            'total_accumulated_capital' => $calcResponse->getBasePension() * 12 * 20,
             'calculation_breakdown' => [
-                'breakdown' => $calcResponse->getCalculationBreakdown(),
+                'logs' => iterator_to_array($calcResponse->getCalculationLogs()),
                 'records_count' => count($records),
             ],
         ]);

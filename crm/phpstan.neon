@@ -20,5 +20,6 @@ parameters:
         - '#invalid type Google\\Protobuf\\Internal\\RepeatedField#'
         - '#Google\\Protobuf\\Internal\\RepeatedField#'
         - '#Grpc\\InterceptorChannel#'
+        - '#Google\\Protobuf\\Internal\\GPBUtil::checkEnum#'
         - '#unset\.possiblyHookedProperty#'
         - '#Cannot unset property#'

@@ -99,6 +99,20 @@ return [
             'sslmode' => env('DB_SSLMODE', 'prefer'),
         ],
 
+        'calc_db' => [
+            'driver' => 'pgsql',
+            'host' => env('CALC_DB_HOST', 'calc_db'),
+            'port' => env('CALC_DB_PORT', '5432'),
+            'database' => env('CALC_DB_DATABASE', 'calc_db'),
+            'username' => env('CALC_DB_USERNAME', 'postgres'),
+            'password' => env('CALC_DB_PASSWORD', 'password'),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+            'search_path' => 'public',
+            'sslmode' => 'prefer',
+        ],
+
         'sqlsrv' => [
             'driver' => 'sqlsrv',
             'url' => env('DB_URL'),

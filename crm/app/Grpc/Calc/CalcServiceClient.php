@@ -8,10 +8,10 @@ class CalcServiceClient extends \Grpc\BaseStub {
         parent::__construct($hostname, $opts, $channel);
     }
 
-    public function CalculatePension(\Calc\PensionRequest $argument, $metadata = [], $options = []) {
+    public function CalculatePension(\Calc\CalculatePensionRequest $argument, $metadata = [], $options = []) {
         return $this->_simpleRequest('/calc.CalcService/CalculatePension',
             $argument,
-            ['\Calc\PensionResponse', 'decode'],
+            ['\Calc\CalculatePensionResponse', 'decode'],
             $metadata, $options);
     }
 
@@ -47,6 +47,34 @@ class CalcServiceClient extends \Grpc\BaseStub {
         return $this->_simpleRequest('/calc.CalcService/SyncAverageSalaries',
             $argument,
             ['\Calc\SyncAverageSalariesResponse', 'decode'],
+            $metadata, $options);
+    }
+
+    public function UpsertSubsistenceMinimum(\Calc\UpsertSubsistenceMinimumRequest $argument, $metadata = [], $options = []) {
+        return $this->_simpleRequest('/calc.CalcService/UpsertSubsistenceMinimum',
+            $argument,
+            ['\Calc\UpsertSubsistenceMinimumResponse', 'decode'],
+            $metadata, $options);
+    }
+
+    public function ListSubsistenceMinimums(\Calc\ListSubsistenceMinimumsRequest $argument, $metadata = [], $options = []) {
+        return $this->_simpleRequest('/calc.CalcService/ListSubsistenceMinimums',
+            $argument,
+            ['\Calc\ListSubsistenceMinimumsResponse', 'decode'],
+            $metadata, $options);
+    }
+
+    public function UpdateSubsistenceMinimum(\Calc\UpdateSubsistenceMinimumRequest $argument, $metadata = [], $options = []) {
+        return $this->_simpleRequest('/calc.CalcService/UpdateSubsistenceMinimum',
+            $argument,
+            ['\Calc\UpdateSubsistenceMinimumResponse', 'decode'],
+            $metadata, $options);
+    }
+
+    public function DeleteSubsistenceMinimum(\Calc\DeleteSubsistenceMinimumRequest $argument, $metadata = [], $options = []) {
+        return $this->_simpleRequest('/calc.CalcService/DeleteSubsistenceMinimum',
+            $argument,
+            ['\Calc\DeleteSubsistenceMinimumResponse', 'decode'],
             $metadata, $options);
     }
 }

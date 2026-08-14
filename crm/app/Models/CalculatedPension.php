@@ -10,6 +10,17 @@ use Illuminate\Support\Carbon;
 /**
  * @property int $id
  * @property int $user_id
+ * @property float|null $final_pension
+ * @property float|null $base_pension
+ * @property float|null $zp_macroeconomic_average
+ * @property float|null $kz_wage_coefficient
+ * @property float|null $ks_service_coefficient
+ * @property int|null $total_service_months
+ * @property string|null $pension_type
+ * @property string|null $disability_group
+ * @property array|null $input_parameters
+ * @property array|null $applied_benefits
+ * @property array|null $calculation_logs
  * @property float $estimated_monthly_pension
  * @property float $total_accumulated_capital
  * @property array|null $calculation_breakdown
@@ -37,7 +48,16 @@ class CalculatedPension extends Model
         return [
             'estimated_monthly_pension' => 'decimal:2',
             'total_accumulated_capital' => 'decimal:2',
+            'final_pension' => 'decimal:2',
+            'base_pension' => 'decimal:2',
+            'zp_macroeconomic_average' => 'decimal:2',
+            'kz_wage_coefficient' => 'decimal:4',
+            'ks_service_coefficient' => 'decimal:4',
+            'total_service_months' => 'integer',
             'calculation_breakdown' => 'array',
+            'input_parameters' => 'array',
+            'applied_benefits' => 'array',
+            'calculation_logs' => 'array',
         ];
     }
 
