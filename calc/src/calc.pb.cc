@@ -55,6 +55,7 @@ PROTOBUF_CONSTEXPR SubsistenceMinimums::SubsistenceMinimums(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.for_disabled_persons_)*/0
   , /*decltype(_impl_.general_minimum_)*/0
+  , /*decltype(_impl_.age_surcharge_cap_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct SubsistenceMinimumsDefaultTypeInternal {
   PROTOBUF_CONSTEXPR SubsistenceMinimumsDefaultTypeInternal()
@@ -366,6 +367,7 @@ PROTOBUF_CONSTEXPR UpsertSubsistenceMinimumRequest::UpsertSubsistenceMinimumRequ
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.for_disabled_persons_)*/0
   , /*decltype(_impl_.general_minimum_)*/0
+  , /*decltype(_impl_.age_surcharge_cap_)*/0
   , /*decltype(_impl_.year_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct UpsertSubsistenceMinimumRequestDefaultTypeInternal {
@@ -409,6 +411,7 @@ PROTOBUF_CONSTEXPR SubsistenceMinimumRecord::SubsistenceMinimumRecord(
   , /*decltype(_impl_.year_)*/0
   , /*decltype(_impl_.for_disabled_persons_)*/0
   , /*decltype(_impl_.general_minimum_)*/0
+  , /*decltype(_impl_.age_surcharge_cap_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct SubsistenceMinimumRecordDefaultTypeInternal {
   PROTOBUF_CONSTEXPR SubsistenceMinimumRecordDefaultTypeInternal()
@@ -440,6 +443,7 @@ PROTOBUF_CONSTEXPR UpdateSubsistenceMinimumRequest::UpdateSubsistenceMinimumRequ
   , /*decltype(_impl_.year_)*/0
   , /*decltype(_impl_.for_disabled_persons_)*/0
   , /*decltype(_impl_.general_minimum_)*/0
+  , /*decltype(_impl_.age_surcharge_cap_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct UpdateSubsistenceMinimumRequestDefaultTypeInternal {
   PROTOBUF_CONSTEXPR UpdateSubsistenceMinimumRequestDefaultTypeInternal()
@@ -524,6 +528,7 @@ const uint32_t TableStruct_calc_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(pro
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::calc::SubsistenceMinimums, _impl_.for_disabled_persons_),
   PROTOBUF_FIELD_OFFSET(::calc::SubsistenceMinimums, _impl_.general_minimum_),
+  PROTOBUF_FIELD_OFFSET(::calc::SubsistenceMinimums, _impl_.age_surcharge_cap_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::calc::TaxRecord, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -722,6 +727,7 @@ const uint32_t TableStruct_calc_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(pro
   PROTOBUF_FIELD_OFFSET(::calc::UpsertSubsistenceMinimumRequest, _impl_.year_),
   PROTOBUF_FIELD_OFFSET(::calc::UpsertSubsistenceMinimumRequest, _impl_.for_disabled_persons_),
   PROTOBUF_FIELD_OFFSET(::calc::UpsertSubsistenceMinimumRequest, _impl_.general_minimum_),
+  PROTOBUF_FIELD_OFFSET(::calc::UpsertSubsistenceMinimumRequest, _impl_.age_surcharge_cap_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::calc::UpsertSubsistenceMinimumResponse, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -747,6 +753,7 @@ const uint32_t TableStruct_calc_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(pro
   PROTOBUF_FIELD_OFFSET(::calc::SubsistenceMinimumRecord, _impl_.year_),
   PROTOBUF_FIELD_OFFSET(::calc::SubsistenceMinimumRecord, _impl_.for_disabled_persons_),
   PROTOBUF_FIELD_OFFSET(::calc::SubsistenceMinimumRecord, _impl_.general_minimum_),
+  PROTOBUF_FIELD_OFFSET(::calc::SubsistenceMinimumRecord, _impl_.age_surcharge_cap_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::calc::ListSubsistenceMinimumsResponse, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -766,6 +773,7 @@ const uint32_t TableStruct_calc_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(pro
   PROTOBUF_FIELD_OFFSET(::calc::UpdateSubsistenceMinimumRequest, _impl_.year_),
   PROTOBUF_FIELD_OFFSET(::calc::UpdateSubsistenceMinimumRequest, _impl_.for_disabled_persons_),
   PROTOBUF_FIELD_OFFSET(::calc::UpdateSubsistenceMinimumRequest, _impl_.general_minimum_),
+  PROTOBUF_FIELD_OFFSET(::calc::UpdateSubsistenceMinimumRequest, _impl_.age_surcharge_cap_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::calc::UpdateSubsistenceMinimumResponse, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -795,33 +803,33 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 0, -1, -1, sizeof(::calc::EmploymentPeriod)},
   { 9, -1, -1, sizeof(::calc::SalaryMonthRecord)},
   { 18, -1, -1, sizeof(::calc::SubsistenceMinimums)},
-  { 26, -1, -1, sizeof(::calc::TaxRecord)},
-  { 36, -1, -1, sizeof(::calc::CalculatePensionRequest)},
-  { 58, -1, -1, sizeof(::calc::BenefitSurchargeDetail)},
-  { 67, -1, -1, sizeof(::calc::CalculatePensionResponse)},
-  { 89, -1, -1, sizeof(::calc::PensionRequest)},
-  { 99, -1, -1, sizeof(::calc::PensionResponse)},
-  { 110, -1, -1, sizeof(::calc::PensionCoefficient)},
-  { 121, -1, -1, sizeof(::calc::ListCoefficientsRequest)},
-  { 127, -1, -1, sizeof(::calc::ListCoefficientsResponse)},
-  { 136, -1, -1, sizeof(::calc::AddCoefficientRequest)},
-  { 146, -1, -1, sizeof(::calc::AddCoefficientResponse)},
-  { 155, -1, -1, sizeof(::calc::UpdateCoefficientRequest)},
-  { 166, -1, -1, sizeof(::calc::UpdateCoefficientResponse)},
-  { 175, -1, -1, sizeof(::calc::DeleteCoefficientRequest)},
-  { 182, -1, -1, sizeof(::calc::DeleteCoefficientResponse)},
-  { 190, -1, -1, sizeof(::calc::AverageSalaryRecord)},
-  { 199, -1, -1, sizeof(::calc::SyncAverageSalariesRequest)},
-  { 206, -1, -1, sizeof(::calc::SyncAverageSalariesResponse)},
-  { 215, -1, -1, sizeof(::calc::UpsertSubsistenceMinimumRequest)},
-  { 224, -1, -1, sizeof(::calc::UpsertSubsistenceMinimumResponse)},
-  { 233, -1, -1, sizeof(::calc::ListSubsistenceMinimumsRequest)},
-  { 239, -1, -1, sizeof(::calc::SubsistenceMinimumRecord)},
-  { 249, -1, -1, sizeof(::calc::ListSubsistenceMinimumsResponse)},
-  { 258, -1, -1, sizeof(::calc::UpdateSubsistenceMinimumRequest)},
-  { 268, -1, -1, sizeof(::calc::UpdateSubsistenceMinimumResponse)},
-  { 277, -1, -1, sizeof(::calc::DeleteSubsistenceMinimumRequest)},
-  { 284, -1, -1, sizeof(::calc::DeleteSubsistenceMinimumResponse)},
+  { 27, -1, -1, sizeof(::calc::TaxRecord)},
+  { 37, -1, -1, sizeof(::calc::CalculatePensionRequest)},
+  { 59, -1, -1, sizeof(::calc::BenefitSurchargeDetail)},
+  { 68, -1, -1, sizeof(::calc::CalculatePensionResponse)},
+  { 90, -1, -1, sizeof(::calc::PensionRequest)},
+  { 100, -1, -1, sizeof(::calc::PensionResponse)},
+  { 111, -1, -1, sizeof(::calc::PensionCoefficient)},
+  { 122, -1, -1, sizeof(::calc::ListCoefficientsRequest)},
+  { 128, -1, -1, sizeof(::calc::ListCoefficientsResponse)},
+  { 137, -1, -1, sizeof(::calc::AddCoefficientRequest)},
+  { 147, -1, -1, sizeof(::calc::AddCoefficientResponse)},
+  { 156, -1, -1, sizeof(::calc::UpdateCoefficientRequest)},
+  { 167, -1, -1, sizeof(::calc::UpdateCoefficientResponse)},
+  { 176, -1, -1, sizeof(::calc::DeleteCoefficientRequest)},
+  { 183, -1, -1, sizeof(::calc::DeleteCoefficientResponse)},
+  { 191, -1, -1, sizeof(::calc::AverageSalaryRecord)},
+  { 200, -1, -1, sizeof(::calc::SyncAverageSalariesRequest)},
+  { 207, -1, -1, sizeof(::calc::SyncAverageSalariesResponse)},
+  { 216, -1, -1, sizeof(::calc::UpsertSubsistenceMinimumRequest)},
+  { 226, -1, -1, sizeof(::calc::UpsertSubsistenceMinimumResponse)},
+  { 235, -1, -1, sizeof(::calc::ListSubsistenceMinimumsRequest)},
+  { 241, -1, -1, sizeof(::calc::SubsistenceMinimumRecord)},
+  { 252, -1, -1, sizeof(::calc::ListSubsistenceMinimumsResponse)},
+  { 261, -1, -1, sizeof(::calc::UpdateSubsistenceMinimumRequest)},
+  { 272, -1, -1, sizeof(::calc::UpdateSubsistenceMinimumResponse)},
+  { 281, -1, -1, sizeof(::calc::DeleteSubsistenceMinimumRequest)},
+  { 288, -1, -1, sizeof(::calc::DeleteSubsistenceMinimumResponse)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -862,130 +870,133 @@ const char descriptor_table_protodef_calc_2eproto[] PROTOBUF_SECTION_VARIABLE(pr
   "\n\nstart_date\030\001 \001(\t\022\020\n\010end_date\030\002 \001(\t\022\022\n\n"
   "multiplier\030\003 \001(\001\"@\n\021SalaryMonthRecord\022\014\n"
   "\004year\030\001 \001(\005\022\r\n\005month\030\002 \001(\005\022\016\n\006amount\030\003 \001"
-  "(\001\"L\n\023SubsistenceMinimums\022\034\n\024for_disable"
+  "(\001\"g\n\023SubsistenceMinimums\022\034\n\024for_disable"
   "d_persons\030\001 \001(\001\022\027\n\017general_minimum\030\002 \001(\001"
-  "\"Y\n\tTaxRecord\022\014\n\004year\030\001 \001(\005\022\025\n\rannual_in"
-  "come\030\002 \001(\001\022\020\n\010tax_paid\030\003 \001(\001\022\025\n\rmonths_w"
-  "orked\030\004 \001(\005\"\315\004\n\027CalculatePensionRequest\022"
-  "\023\n\013customer_id\030\001 \001(\t\022\034\n\006gender\030\002 \001(\0162\014.c"
-  "alc.Gender\022\025\n\rdate_of_birth\030\003 \001(\t\022\027\n\017ret"
-  "irement_date\030\004 \001(\t\022\'\n\014pension_type\030\005 \001(\016"
-  "2\021.calc.PensionType\022/\n\020disability_group\030"
-  "\006 \001(\0162\025.calc.DisabilityGroup\022\030\n\020dependen"
-  "ts_count\030\007 \001(\005\0222\n\022employment_history\030\010 \003"
-  "(\0132\026.calc.EmploymentPeriod\022/\n\016salary_his"
-  "tory\030\t \003(\0132\027.calc.SalaryMonthRecord\022#\n\010b"
-  "enefits\030\n \003(\0162\021.calc.BenefitType\0227\n\024subs"
-  "istence_minimums\030\013 \001(\0132\031.calc.Subsistenc"
-  "eMinimums\022 \n\030enable_optimization_rule\030\014 "
-  "\001(\010\022 \n\030zp_macroeconomic_average\030\r \001(\001\022 \n"
-  "\007history\030\016 \003(\0132\017.calc.TaxRecord\022\022\n\nbirth"
-  "_year\030\017 \001(\005\022\036\n\026target_retirement_year\030\020 "
-  "\001(\005\"Z\n\026BenefitSurchargeDetail\022\"\n\007benefit"
-  "\030\001 \001(\0162\021.calc.BenefitType\022\014\n\004name\030\002 \001(\t\022"
-  "\016\n\006amount\030\003 \001(\001\"\365\003\n\030CalculatePensionResp"
-  "onse\022\017\n\007success\030\001 \001(\010\022\025\n\rfinal_pension\030\002"
-  " \001(\001\022\024\n\014base_pension\030\003 \001(\001\022 \n\030zp_macroec"
-  "onomic_average\030\004 \001(\001\022\033\n\023kz_wage_coeffici"
-  "ent\030\005 \001(\001\022\036\n\026ks_service_coefficient\030\006 \001("
-  "\001\022\034\n\024total_service_months\030\007 \001(\005\022\035\n\025pensi"
-  "on_type_modifier\030\010 \001(\001\022\037\n\027extra_service_"
-  "allowance\030\t \001(\001\022 \n\030total_benefit_surchar"
-  "ges\030\n \001(\001\022\033\n\023pre_clamped_pension\030\013 \001(\001\022\032"
-  "\n\022is_minimum_clamped\030\014 \001(\010\022\032\n\022is_maximum"
-  "_clamped\030\r \001(\010\0226\n\020applied_benefits\030\016 \003(\013"
-  "2\034.calc.BenefitSurchargeDetail\022\030\n\020calcul"
-  "ation_logs\030\017 \003(\t\022\025\n\rerror_message\030\020 \001(\t\""
-  "{\n\016PensionRequest\022\023\n\013customer_id\030\001 \001(\t\022\022"
-  "\n\nbirth_year\030\002 \001(\005\022\036\n\026target_retirement_"
-  "year\030\003 \001(\005\022 \n\007history\030\004 \003(\0132\017.calc.TaxRe"
-  "cord\"\236\001\n\017PensionResponse\022\017\n\007success\030\001 \001("
-  "\010\022!\n\031estimated_monthly_pension\030\002 \001(\001\022!\n\031"
-  "total_accumulated_capital\030\003 \001(\001\022\035\n\025calcu"
-  "lation_breakdown\030\004 \001(\t\022\025\n\rerror_message\030"
-  "\005 \001(\t\"g\n\022PensionCoefficient\022\n\n\002id\030\001 \001(\005\022"
-  "\014\n\004year\030\002 \001(\005\022\r\n\005month\030\003 \001(\005\022\023\n\013coeffici"
-  "ent\030\004 \001(\001\022\023\n\013description\030\005 \001(\t\"\031\n\027ListCo"
-  "efficientsRequest\"r\n\030ListCoefficientsRes"
-  "ponse\022\017\n\007success\030\001 \001(\010\022.\n\014coefficients\030\002"
-  " \003(\0132\030.calc.PensionCoefficient\022\025\n\rerror_"
-  "message\030\003 \001(\t\"^\n\025AddCoefficientRequest\022\014"
-  "\n\004year\030\001 \001(\005\022\r\n\005month\030\002 \001(\005\022\023\n\013coefficie"
-  "nt\030\003 \001(\001\022\023\n\013description\030\004 \001(\t\"o\n\026AddCoef"
-  "ficientResponse\022\017\n\007success\030\001 \001(\010\022-\n\013coef"
-  "ficient\030\002 \001(\0132\030.calc.PensionCoefficient\022"
-  "\025\n\rerror_message\030\003 \001(\t\"m\n\030UpdateCoeffici"
-  "entRequest\022\n\n\002id\030\001 \001(\005\022\014\n\004year\030\002 \001(\005\022\r\n\005"
-  "month\030\003 \001(\005\022\023\n\013coefficient\030\004 \001(\001\022\023\n\013desc"
-  "ription\030\005 \001(\t\"r\n\031UpdateCoefficientRespon"
+  "\022\031\n\021age_surcharge_cap\030\003 \001(\001\"Y\n\tTaxRecord"
+  "\022\014\n\004year\030\001 \001(\005\022\025\n\rannual_income\030\002 \001(\001\022\020\n"
+  "\010tax_paid\030\003 \001(\001\022\025\n\rmonths_worked\030\004 \001(\005\"\315"
+  "\004\n\027CalculatePensionRequest\022\023\n\013customer_i"
+  "d\030\001 \001(\t\022\034\n\006gender\030\002 \001(\0162\014.calc.Gender\022\025\n"
+  "\rdate_of_birth\030\003 \001(\t\022\027\n\017retirement_date\030"
+  "\004 \001(\t\022\'\n\014pension_type\030\005 \001(\0162\021.calc.Pensi"
+  "onType\022/\n\020disability_group\030\006 \001(\0162\025.calc."
+  "DisabilityGroup\022\030\n\020dependents_count\030\007 \001("
+  "\005\0222\n\022employment_history\030\010 \003(\0132\026.calc.Emp"
+  "loymentPeriod\022/\n\016salary_history\030\t \003(\0132\027."
+  "calc.SalaryMonthRecord\022#\n\010benefits\030\n \003(\016"
+  "2\021.calc.BenefitType\0227\n\024subsistence_minim"
+  "ums\030\013 \001(\0132\031.calc.SubsistenceMinimums\022 \n\030"
+  "enable_optimization_rule\030\014 \001(\010\022 \n\030zp_mac"
+  "roeconomic_average\030\r \001(\001\022 \n\007history\030\016 \003("
+  "\0132\017.calc.TaxRecord\022\022\n\nbirth_year\030\017 \001(\005\022\036"
+  "\n\026target_retirement_year\030\020 \001(\005\"Z\n\026Benefi"
+  "tSurchargeDetail\022\"\n\007benefit\030\001 \001(\0162\021.calc"
+  ".BenefitType\022\014\n\004name\030\002 \001(\t\022\016\n\006amount\030\003 \001"
+  "(\001\"\365\003\n\030CalculatePensionResponse\022\017\n\007succe"
+  "ss\030\001 \001(\010\022\025\n\rfinal_pension\030\002 \001(\001\022\024\n\014base_"
+  "pension\030\003 \001(\001\022 \n\030zp_macroeconomic_averag"
+  "e\030\004 \001(\001\022\033\n\023kz_wage_coefficient\030\005 \001(\001\022\036\n\026"
+  "ks_service_coefficient\030\006 \001(\001\022\034\n\024total_se"
+  "rvice_months\030\007 \001(\005\022\035\n\025pension_type_modif"
+  "ier\030\010 \001(\001\022\037\n\027extra_service_allowance\030\t \001"
+  "(\001\022 \n\030total_benefit_surcharges\030\n \001(\001\022\033\n\023"
+  "pre_clamped_pension\030\013 \001(\001\022\032\n\022is_minimum_"
+  "clamped\030\014 \001(\010\022\032\n\022is_maximum_clamped\030\r \001("
+  "\010\0226\n\020applied_benefits\030\016 \003(\0132\034.calc.Benef"
+  "itSurchargeDetail\022\030\n\020calculation_logs\030\017 "
+  "\003(\t\022\025\n\rerror_message\030\020 \001(\t\"{\n\016PensionReq"
+  "uest\022\023\n\013customer_id\030\001 \001(\t\022\022\n\nbirth_year\030"
+  "\002 \001(\005\022\036\n\026target_retirement_year\030\003 \001(\005\022 \n"
+  "\007history\030\004 \003(\0132\017.calc.TaxRecord\"\236\001\n\017Pens"
+  "ionResponse\022\017\n\007success\030\001 \001(\010\022!\n\031estimate"
+  "d_monthly_pension\030\002 \001(\001\022!\n\031total_accumul"
+  "ated_capital\030\003 \001(\001\022\035\n\025calculation_breakd"
+  "own\030\004 \001(\t\022\025\n\rerror_message\030\005 \001(\t\"g\n\022Pens"
+  "ionCoefficient\022\n\n\002id\030\001 \001(\005\022\014\n\004year\030\002 \001(\005"
+  "\022\r\n\005month\030\003 \001(\005\022\023\n\013coefficient\030\004 \001(\001\022\023\n\013"
+  "description\030\005 \001(\t\"\031\n\027ListCoefficientsReq"
+  "uest\"r\n\030ListCoefficientsResponse\022\017\n\007succ"
+  "ess\030\001 \001(\010\022.\n\014coefficients\030\002 \003(\0132\030.calc.P"
+  "ensionCoefficient\022\025\n\rerror_message\030\003 \001(\t"
+  "\"^\n\025AddCoefficientRequest\022\014\n\004year\030\001 \001(\005\022"
+  "\r\n\005month\030\002 \001(\005\022\023\n\013coefficient\030\003 \001(\001\022\023\n\013d"
+  "escription\030\004 \001(\t\"o\n\026AddCoefficientRespon"
   "se\022\017\n\007success\030\001 \001(\010\022-\n\013coefficient\030\002 \001(\013"
   "2\030.calc.PensionCoefficient\022\025\n\rerror_mess"
-  "age\030\003 \001(\t\"&\n\030DeleteCoefficientRequest\022\n\n"
-  "\002id\030\001 \001(\005\"C\n\031DeleteCoefficientResponse\022\017"
-  "\n\007success\030\001 \001(\010\022\025\n\rerror_message\030\002 \001(\t\"B"
-  "\n\023AverageSalaryRecord\022\014\n\004year\030\001 \001(\005\022\r\n\005m"
-  "onth\030\002 \001(\005\022\016\n\006amount\030\003 \001(\001\"I\n\032SyncAverag"
-  "eSalariesRequest\022+\n\010salaries\030\001 \003(\0132\031.cal"
-  "c.AverageSalaryRecord\"^\n\033SyncAverageSala"
-  "riesResponse\022\017\n\007success\030\001 \001(\010\022\027\n\017process"
-  "ed_count\030\002 \001(\005\022\025\n\rerror_message\030\003 \001(\t\"f\n"
-  "\037UpsertSubsistenceMinimumRequest\022\014\n\004year"
-  "\030\001 \001(\005\022\034\n\024for_disabled_persons\030\002 \001(\001\022\027\n\017"
-  "general_minimum\030\003 \001(\001\"[\n UpsertSubsisten"
-  "ceMinimumResponse\022\017\n\007success\030\001 \001(\010\022\017\n\007me"
-  "ssage\030\002 \001(\t\022\025\n\rerror_message\030\003 \001(\t\" \n\036Li"
-  "stSubsistenceMinimumsRequest\"k\n\030Subsiste"
-  "nceMinimumRecord\022\n\n\002id\030\001 \001(\005\022\014\n\004year\030\002 \001"
-  "(\005\022\034\n\024for_disabled_persons\030\003 \001(\001\022\027\n\017gene"
-  "ral_minimum\030\004 \001(\001\"z\n\037ListSubsistenceMini"
-  "mumsResponse\022\017\n\007success\030\001 \001(\010\022/\n\007records"
-  "\030\002 \003(\0132\036.calc.SubsistenceMinimumRecord\022\025"
-  "\n\rerror_message\030\003 \001(\t\"r\n\037UpdateSubsisten"
-  "ceMinimumRequest\022\n\n\002id\030\001 \001(\005\022\014\n\004year\030\002 \001"
-  "(\005\022\034\n\024for_disabled_persons\030\003 \001(\001\022\027\n\017gene"
-  "ral_minimum\030\004 \001(\001\"z\n UpdateSubsistenceMi"
-  "nimumResponse\022\017\n\007success\030\001 \001(\010\022.\n\006record"
-  "\030\002 \001(\0132\036.calc.SubsistenceMinimumRecord\022\025"
-  "\n\rerror_message\030\003 \001(\t\"-\n\037DeleteSubsisten"
-  "ceMinimumRequest\022\n\n\002id\030\001 \001(\005\"J\n DeleteSu"
-  "bsistenceMinimumResponse\022\017\n\007success\030\001 \001("
-  "\010\022\025\n\rerror_message\030\002 \001(\t*\036\n\006Gender\022\010\n\004MA"
-  "LE\020\000\022\n\n\006FEMALE\020\001*C\n\013PensionType\022\013\n\007OLD_A"
-  "GE\020\000\022\016\n\nDISABILITY\020\001\022\027\n\023LOSS_OF_BREADWIN"
-  "NER\020\002*M\n\017DisabilityGroup\022\023\n\017DISABILITY_N"
-  "ONE\020\000\022\013\n\007GROUP_1\020\001\022\013\n\007GROUP_2\020\002\022\013\n\007GROUP"
-  "_3\020\003*z\n\013BenefitType\022\020\n\014BENEFIT_NONE\020\000\022\022\n"
-  "\016COMBAT_VETERAN\020\001\022\022\n\016HONORARY_DONOR\020\002\022\030\n"
-  "\024CHORNOBYL_LIQUIDATOR\020\003\022\027\n\023DISABLED_CHIL"
-  "D_CARE\020\0042\261\007\n\013CalcService\022Q\n\020CalculatePen"
-  "sion\022\035.calc.CalculatePensionRequest\032\036.ca"
-  "lc.CalculatePensionResponse\022Q\n\020ListCoeff"
-  "icients\022\035.calc.ListCoefficientsRequest\032\036"
-  ".calc.ListCoefficientsResponse\022K\n\016AddCoe"
-  "fficient\022\033.calc.AddCoefficientRequest\032\034."
-  "calc.AddCoefficientResponse\022T\n\021UpdateCoe"
-  "fficient\022\036.calc.UpdateCoefficientRequest"
-  "\032\037.calc.UpdateCoefficientResponse\022T\n\021Del"
-  "eteCoefficient\022\036.calc.DeleteCoefficientR"
-  "equest\032\037.calc.DeleteCoefficientResponse\022"
-  "Z\n\023SyncAverageSalaries\022 .calc.SyncAverag"
-  "eSalariesRequest\032!.calc.SyncAverageSalar"
-  "iesResponse\022i\n\030UpsertSubsistenceMinimum\022"
-  "%.calc.UpsertSubsistenceMinimumRequest\032&"
-  ".calc.UpsertSubsistenceMinimumResponse\022f"
-  "\n\027ListSubsistenceMinimums\022$.calc.ListSub"
-  "sistenceMinimumsRequest\032%.calc.ListSubsi"
-  "stenceMinimumsResponse\022i\n\030UpdateSubsiste"
-  "nceMinimum\022%.calc.UpdateSubsistenceMinim"
-  "umRequest\032&.calc.UpdateSubsistenceMinimu"
-  "mResponse\022i\n\030DeleteSubsistenceMinimum\022%."
-  "calc.DeleteSubsistenceMinimumRequest\032&.c"
-  "alc.DeleteSubsistenceMinimumResponseb\006pr"
-  "oto3"
+  "age\030\003 \001(\t\"m\n\030UpdateCoefficientRequest\022\n\n"
+  "\002id\030\001 \001(\005\022\014\n\004year\030\002 \001(\005\022\r\n\005month\030\003 \001(\005\022\023"
+  "\n\013coefficient\030\004 \001(\001\022\023\n\013description\030\005 \001(\t"
+  "\"r\n\031UpdateCoefficientResponse\022\017\n\007success"
+  "\030\001 \001(\010\022-\n\013coefficient\030\002 \001(\0132\030.calc.Pensi"
+  "onCoefficient\022\025\n\rerror_message\030\003 \001(\t\"&\n\030"
+  "DeleteCoefficientRequest\022\n\n\002id\030\001 \001(\005\"C\n\031"
+  "DeleteCoefficientResponse\022\017\n\007success\030\001 \001"
+  "(\010\022\025\n\rerror_message\030\002 \001(\t\"B\n\023AverageSala"
+  "ryRecord\022\014\n\004year\030\001 \001(\005\022\r\n\005month\030\002 \001(\005\022\016\n"
+  "\006amount\030\003 \001(\001\"I\n\032SyncAverageSalariesRequ"
+  "est\022+\n\010salaries\030\001 \003(\0132\031.calc.AverageSala"
+  "ryRecord\"^\n\033SyncAverageSalariesResponse\022"
+  "\017\n\007success\030\001 \001(\010\022\027\n\017processed_count\030\002 \001("
+  "\005\022\025\n\rerror_message\030\003 \001(\t\"\201\001\n\037UpsertSubsi"
+  "stenceMinimumRequest\022\014\n\004year\030\001 \001(\005\022\034\n\024fo"
+  "r_disabled_persons\030\002 \001(\001\022\027\n\017general_mini"
+  "mum\030\003 \001(\001\022\031\n\021age_surcharge_cap\030\004 \001(\001\"[\n "
+  "UpsertSubsistenceMinimumResponse\022\017\n\007succ"
+  "ess\030\001 \001(\010\022\017\n\007message\030\002 \001(\t\022\025\n\rerror_mess"
+  "age\030\003 \001(\t\" \n\036ListSubsistenceMinimumsRequ"
+  "est\"\206\001\n\030SubsistenceMinimumRecord\022\n\n\002id\030\001"
+  " \001(\005\022\014\n\004year\030\002 \001(\005\022\034\n\024for_disabled_perso"
+  "ns\030\003 \001(\001\022\027\n\017general_minimum\030\004 \001(\001\022\031\n\021age"
+  "_surcharge_cap\030\005 \001(\001\"z\n\037ListSubsistenceM"
+  "inimumsResponse\022\017\n\007success\030\001 \001(\010\022/\n\007reco"
+  "rds\030\002 \003(\0132\036.calc.SubsistenceMinimumRecor"
+  "d\022\025\n\rerror_message\030\003 \001(\t\"\215\001\n\037UpdateSubsi"
+  "stenceMinimumRequest\022\n\n\002id\030\001 \001(\005\022\014\n\004year"
+  "\030\002 \001(\005\022\034\n\024for_disabled_persons\030\003 \001(\001\022\027\n\017"
+  "general_minimum\030\004 \001(\001\022\031\n\021age_surcharge_c"
+  "ap\030\005 \001(\001\"z\n UpdateSubsistenceMinimumResp"
+  "onse\022\017\n\007success\030\001 \001(\010\022.\n\006record\030\002 \001(\0132\036."
+  "calc.SubsistenceMinimumRecord\022\025\n\rerror_m"
+  "essage\030\003 \001(\t\"-\n\037DeleteSubsistenceMinimum"
+  "Request\022\n\n\002id\030\001 \001(\005\"J\n DeleteSubsistence"
+  "MinimumResponse\022\017\n\007success\030\001 \001(\010\022\025\n\rerro"
+  "r_message\030\002 \001(\t*\036\n\006Gender\022\010\n\004MALE\020\000\022\n\n\006F"
+  "EMALE\020\001*C\n\013PensionType\022\013\n\007OLD_AGE\020\000\022\016\n\nD"
+  "ISABILITY\020\001\022\027\n\023LOSS_OF_BREADWINNER\020\002*M\n\017"
+  "DisabilityGroup\022\023\n\017DISABILITY_NONE\020\000\022\013\n\007"
+  "GROUP_1\020\001\022\013\n\007GROUP_2\020\002\022\013\n\007GROUP_3\020\003*\216\001\n\013"
+  "BenefitType\022\020\n\014BENEFIT_NONE\020\000\022\022\n\016COMBAT_"
+  "VETERAN\020\001\022\022\n\016HONORARY_DONOR\020\002\022\030\n\024CHORNOB"
+  "YL_LIQUIDATOR\020\003\022\027\n\023DISABLED_CHILD_CARE\020\004"
+  "\022\022\n\016AGE_SUPPLEMENT\020\0052\261\007\n\013CalcService\022Q\n\020"
+  "CalculatePension\022\035.calc.CalculatePension"
+  "Request\032\036.calc.CalculatePensionResponse\022"
+  "Q\n\020ListCoefficients\022\035.calc.ListCoefficie"
+  "ntsRequest\032\036.calc.ListCoefficientsRespon"
+  "se\022K\n\016AddCoefficient\022\033.calc.AddCoefficie"
+  "ntRequest\032\034.calc.AddCoefficientResponse\022"
+  "T\n\021UpdateCoefficient\022\036.calc.UpdateCoeffi"
+  "cientRequest\032\037.calc.UpdateCoefficientRes"
+  "ponse\022T\n\021DeleteCoefficient\022\036.calc.Delete"
+  "CoefficientRequest\032\037.calc.DeleteCoeffici"
+  "entResponse\022Z\n\023SyncAverageSalaries\022 .cal"
+  "c.SyncAverageSalariesRequest\032!.calc.Sync"
+  "AverageSalariesResponse\022i\n\030UpsertSubsist"
+  "enceMinimum\022%.calc.UpsertSubsistenceMini"
+  "mumRequest\032&.calc.UpsertSubsistenceMinim"
+  "umResponse\022f\n\027ListSubsistenceMinimums\022$."
+  "calc.ListSubsistenceMinimumsRequest\032%.ca"
+  "lc.ListSubsistenceMinimumsResponse\022i\n\030Up"
+  "dateSubsistenceMinimum\022%.calc.UpdateSubs"
+  "istenceMinimumRequest\032&.calc.UpdateSubsi"
+  "stenceMinimumResponse\022i\n\030DeleteSubsisten"
+  "ceMinimum\022%.calc.DeleteSubsistenceMinimu"
+  "mRequest\032&.calc.DeleteSubsistenceMinimum"
+  "Responseb\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_calc_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_calc_2eproto = {
-    false, false, 4924, descriptor_table_protodef_calc_2eproto,
+    false, false, 5056, descriptor_table_protodef_calc_2eproto,
     "calc.proto",
     &descriptor_table_calc_2eproto_once, nullptr, 0, 30,
     schemas, file_default_instances, TableStruct_calc_2eproto::offsets,
@@ -1055,6 +1066,7 @@ bool BenefitType_IsValid(int value) {
     case 2:
     case 3:
     case 4:
+    case 5:
       return true;
     default:
       return false;
@@ -1619,12 +1631,13 @@ SubsistenceMinimums::SubsistenceMinimums(const SubsistenceMinimums& from)
   new (&_impl_) Impl_{
       decltype(_impl_.for_disabled_persons_){}
     , decltype(_impl_.general_minimum_){}
+    , decltype(_impl_.age_surcharge_cap_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::memcpy(&_impl_.for_disabled_persons_, &from._impl_.for_disabled_persons_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.general_minimum_) -
-    reinterpret_cast<char*>(&_impl_.for_disabled_persons_)) + sizeof(_impl_.general_minimum_));
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.age_surcharge_cap_) -
+    reinterpret_cast<char*>(&_impl_.for_disabled_persons_)) + sizeof(_impl_.age_surcharge_cap_));
   // @@protoc_insertion_point(copy_constructor:calc.SubsistenceMinimums)
 }
 
@@ -1635,6 +1648,7 @@ inline void SubsistenceMinimums::SharedCtor(
   new (&_impl_) Impl_{
       decltype(_impl_.for_disabled_persons_){0}
     , decltype(_impl_.general_minimum_){0}
+    , decltype(_impl_.age_surcharge_cap_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
@@ -1663,8 +1677,8 @@ void SubsistenceMinimums::Clear() {
   (void) cached_has_bits;
 
   ::memset(&_impl_.for_disabled_persons_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.general_minimum_) -
-      reinterpret_cast<char*>(&_impl_.for_disabled_persons_)) + sizeof(_impl_.general_minimum_));
+      reinterpret_cast<char*>(&_impl_.age_surcharge_cap_) -
+      reinterpret_cast<char*>(&_impl_.for_disabled_persons_)) + sizeof(_impl_.age_surcharge_cap_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -1686,6 +1700,14 @@ const char* SubsistenceMinimums::_InternalParse(const char* ptr, ::_pbi::ParseCo
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 17)) {
           _impl_.general_minimum_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
+          goto handle_unusual;
+        continue;
+      // double age_surcharge_cap = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 25)) {
+          _impl_.age_surcharge_cap_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
           ptr += sizeof(double);
         } else
           goto handle_unusual;
@@ -1739,6 +1761,16 @@ uint8_t* SubsistenceMinimums::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteDoubleToArray(2, this->_internal_general_minimum(), target);
   }
 
+  // double age_surcharge_cap = 3;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_age_surcharge_cap = this->_internal_age_surcharge_cap();
+  uint64_t raw_age_surcharge_cap;
+  memcpy(&raw_age_surcharge_cap, &tmp_age_surcharge_cap, sizeof(tmp_age_surcharge_cap));
+  if (raw_age_surcharge_cap != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(3, this->_internal_age_surcharge_cap(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -1770,6 +1802,15 @@ size_t SubsistenceMinimums::ByteSizeLong() const {
   uint64_t raw_general_minimum;
   memcpy(&raw_general_minimum, &tmp_general_minimum, sizeof(tmp_general_minimum));
   if (raw_general_minimum != 0) {
+    total_size += 1 + 8;
+  }
+
+  // double age_surcharge_cap = 3;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_age_surcharge_cap = this->_internal_age_surcharge_cap();
+  uint64_t raw_age_surcharge_cap;
+  memcpy(&raw_age_surcharge_cap, &tmp_age_surcharge_cap, sizeof(tmp_age_surcharge_cap));
+  if (raw_age_surcharge_cap != 0) {
     total_size += 1 + 8;
   }
 
@@ -1805,6 +1846,13 @@ void SubsistenceMinimums::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, co
   if (raw_general_minimum != 0) {
     _this->_internal_set_general_minimum(from._internal_general_minimum());
   }
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_age_surcharge_cap = from._internal_age_surcharge_cap();
+  uint64_t raw_age_surcharge_cap;
+  memcpy(&raw_age_surcharge_cap, &tmp_age_surcharge_cap, sizeof(tmp_age_surcharge_cap));
+  if (raw_age_surcharge_cap != 0) {
+    _this->_internal_set_age_surcharge_cap(from._internal_age_surcharge_cap());
+  }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -1823,8 +1871,8 @@ void SubsistenceMinimums::InternalSwap(SubsistenceMinimums* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(SubsistenceMinimums, _impl_.general_minimum_)
-      + sizeof(SubsistenceMinimums::_impl_.general_minimum_)
+      PROTOBUF_FIELD_OFFSET(SubsistenceMinimums, _impl_.age_surcharge_cap_)
+      + sizeof(SubsistenceMinimums::_impl_.age_surcharge_cap_)
       - PROTOBUF_FIELD_OFFSET(SubsistenceMinimums, _impl_.for_disabled_persons_)>(
           reinterpret_cast<char*>(&_impl_.for_disabled_persons_),
           reinterpret_cast<char*>(&other->_impl_.for_disabled_persons_));
@@ -7404,6 +7452,7 @@ UpsertSubsistenceMinimumRequest::UpsertSubsistenceMinimumRequest(const UpsertSub
   new (&_impl_) Impl_{
       decltype(_impl_.for_disabled_persons_){}
     , decltype(_impl_.general_minimum_){}
+    , decltype(_impl_.age_surcharge_cap_){}
     , decltype(_impl_.year_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
@@ -7421,6 +7470,7 @@ inline void UpsertSubsistenceMinimumRequest::SharedCtor(
   new (&_impl_) Impl_{
       decltype(_impl_.for_disabled_persons_){0}
     , decltype(_impl_.general_minimum_){0}
+    , decltype(_impl_.age_surcharge_cap_){0}
     , decltype(_impl_.year_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
@@ -7485,6 +7535,14 @@ const char* UpsertSubsistenceMinimumRequest::_InternalParse(const char* ptr, ::_
         } else
           goto handle_unusual;
         continue;
+      // double age_surcharge_cap = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 33)) {
+          _impl_.age_surcharge_cap_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
+          goto handle_unusual;
+        continue;
       default:
         goto handle_unusual;
     }  // switch
@@ -7540,6 +7598,16 @@ uint8_t* UpsertSubsistenceMinimumRequest::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteDoubleToArray(3, this->_internal_general_minimum(), target);
   }
 
+  // double age_surcharge_cap = 4;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_age_surcharge_cap = this->_internal_age_surcharge_cap();
+  uint64_t raw_age_surcharge_cap;
+  memcpy(&raw_age_surcharge_cap, &tmp_age_surcharge_cap, sizeof(tmp_age_surcharge_cap));
+  if (raw_age_surcharge_cap != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(4, this->_internal_age_surcharge_cap(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -7571,6 +7639,15 @@ size_t UpsertSubsistenceMinimumRequest::ByteSizeLong() const {
   uint64_t raw_general_minimum;
   memcpy(&raw_general_minimum, &tmp_general_minimum, sizeof(tmp_general_minimum));
   if (raw_general_minimum != 0) {
+    total_size += 1 + 8;
+  }
+
+  // double age_surcharge_cap = 4;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_age_surcharge_cap = this->_internal_age_surcharge_cap();
+  uint64_t raw_age_surcharge_cap;
+  memcpy(&raw_age_surcharge_cap, &tmp_age_surcharge_cap, sizeof(tmp_age_surcharge_cap));
+  if (raw_age_surcharge_cap != 0) {
     total_size += 1 + 8;
   }
 
@@ -7610,6 +7687,13 @@ void UpsertSubsistenceMinimumRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message
   memcpy(&raw_general_minimum, &tmp_general_minimum, sizeof(tmp_general_minimum));
   if (raw_general_minimum != 0) {
     _this->_internal_set_general_minimum(from._internal_general_minimum());
+  }
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_age_surcharge_cap = from._internal_age_surcharge_cap();
+  uint64_t raw_age_surcharge_cap;
+  memcpy(&raw_age_surcharge_cap, &tmp_age_surcharge_cap, sizeof(tmp_age_surcharge_cap));
+  if (raw_age_surcharge_cap != 0) {
+    _this->_internal_set_age_surcharge_cap(from._internal_age_surcharge_cap());
   }
   if (from._internal_year() != 0) {
     _this->_internal_set_year(from._internal_year());
@@ -7985,12 +8069,13 @@ SubsistenceMinimumRecord::SubsistenceMinimumRecord(const SubsistenceMinimumRecor
     , decltype(_impl_.year_){}
     , decltype(_impl_.for_disabled_persons_){}
     , decltype(_impl_.general_minimum_){}
+    , decltype(_impl_.age_surcharge_cap_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::memcpy(&_impl_.id_, &from._impl_.id_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.general_minimum_) -
-    reinterpret_cast<char*>(&_impl_.id_)) + sizeof(_impl_.general_minimum_));
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.age_surcharge_cap_) -
+    reinterpret_cast<char*>(&_impl_.id_)) + sizeof(_impl_.age_surcharge_cap_));
   // @@protoc_insertion_point(copy_constructor:calc.SubsistenceMinimumRecord)
 }
 
@@ -8003,6 +8088,7 @@ inline void SubsistenceMinimumRecord::SharedCtor(
     , decltype(_impl_.year_){0}
     , decltype(_impl_.for_disabled_persons_){0}
     , decltype(_impl_.general_minimum_){0}
+    , decltype(_impl_.age_surcharge_cap_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
@@ -8031,8 +8117,8 @@ void SubsistenceMinimumRecord::Clear() {
   (void) cached_has_bits;
 
   ::memset(&_impl_.id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.general_minimum_) -
-      reinterpret_cast<char*>(&_impl_.id_)) + sizeof(_impl_.general_minimum_));
+      reinterpret_cast<char*>(&_impl_.age_surcharge_cap_) -
+      reinterpret_cast<char*>(&_impl_.id_)) + sizeof(_impl_.age_surcharge_cap_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -8070,6 +8156,14 @@ const char* SubsistenceMinimumRecord::_InternalParse(const char* ptr, ::_pbi::Pa
       case 4:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 33)) {
           _impl_.general_minimum_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
+          goto handle_unusual;
+        continue;
+      // double age_surcharge_cap = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 41)) {
+          _impl_.age_surcharge_cap_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
           ptr += sizeof(double);
         } else
           goto handle_unusual;
@@ -8135,6 +8229,16 @@ uint8_t* SubsistenceMinimumRecord::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteDoubleToArray(4, this->_internal_general_minimum(), target);
   }
 
+  // double age_surcharge_cap = 5;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_age_surcharge_cap = this->_internal_age_surcharge_cap();
+  uint64_t raw_age_surcharge_cap;
+  memcpy(&raw_age_surcharge_cap, &tmp_age_surcharge_cap, sizeof(tmp_age_surcharge_cap));
+  if (raw_age_surcharge_cap != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(5, this->_internal_age_surcharge_cap(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -8179,6 +8283,15 @@ size_t SubsistenceMinimumRecord::ByteSizeLong() const {
     total_size += 1 + 8;
   }
 
+  // double age_surcharge_cap = 5;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_age_surcharge_cap = this->_internal_age_surcharge_cap();
+  uint64_t raw_age_surcharge_cap;
+  memcpy(&raw_age_surcharge_cap, &tmp_age_surcharge_cap, sizeof(tmp_age_surcharge_cap));
+  if (raw_age_surcharge_cap != 0) {
+    total_size += 1 + 8;
+  }
+
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -8217,6 +8330,13 @@ void SubsistenceMinimumRecord::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_ms
   if (raw_general_minimum != 0) {
     _this->_internal_set_general_minimum(from._internal_general_minimum());
   }
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_age_surcharge_cap = from._internal_age_surcharge_cap();
+  uint64_t raw_age_surcharge_cap;
+  memcpy(&raw_age_surcharge_cap, &tmp_age_surcharge_cap, sizeof(tmp_age_surcharge_cap));
+  if (raw_age_surcharge_cap != 0) {
+    _this->_internal_set_age_surcharge_cap(from._internal_age_surcharge_cap());
+  }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -8235,8 +8355,8 @@ void SubsistenceMinimumRecord::InternalSwap(SubsistenceMinimumRecord* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(SubsistenceMinimumRecord, _impl_.general_minimum_)
-      + sizeof(SubsistenceMinimumRecord::_impl_.general_minimum_)
+      PROTOBUF_FIELD_OFFSET(SubsistenceMinimumRecord, _impl_.age_surcharge_cap_)
+      + sizeof(SubsistenceMinimumRecord::_impl_.age_surcharge_cap_)
       - PROTOBUF_FIELD_OFFSET(SubsistenceMinimumRecord, _impl_.id_)>(
           reinterpret_cast<char*>(&_impl_.id_),
           reinterpret_cast<char*>(&other->_impl_.id_));
@@ -8532,12 +8652,13 @@ UpdateSubsistenceMinimumRequest::UpdateSubsistenceMinimumRequest(const UpdateSub
     , decltype(_impl_.year_){}
     , decltype(_impl_.for_disabled_persons_){}
     , decltype(_impl_.general_minimum_){}
+    , decltype(_impl_.age_surcharge_cap_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::memcpy(&_impl_.id_, &from._impl_.id_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.general_minimum_) -
-    reinterpret_cast<char*>(&_impl_.id_)) + sizeof(_impl_.general_minimum_));
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.age_surcharge_cap_) -
+    reinterpret_cast<char*>(&_impl_.id_)) + sizeof(_impl_.age_surcharge_cap_));
   // @@protoc_insertion_point(copy_constructor:calc.UpdateSubsistenceMinimumRequest)
 }
 
@@ -8550,6 +8671,7 @@ inline void UpdateSubsistenceMinimumRequest::SharedCtor(
     , decltype(_impl_.year_){0}
     , decltype(_impl_.for_disabled_persons_){0}
     , decltype(_impl_.general_minimum_){0}
+    , decltype(_impl_.age_surcharge_cap_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
@@ -8578,8 +8700,8 @@ void UpdateSubsistenceMinimumRequest::Clear() {
   (void) cached_has_bits;
 
   ::memset(&_impl_.id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.general_minimum_) -
-      reinterpret_cast<char*>(&_impl_.id_)) + sizeof(_impl_.general_minimum_));
+      reinterpret_cast<char*>(&_impl_.age_surcharge_cap_) -
+      reinterpret_cast<char*>(&_impl_.id_)) + sizeof(_impl_.age_surcharge_cap_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -8617,6 +8739,14 @@ const char* UpdateSubsistenceMinimumRequest::_InternalParse(const char* ptr, ::_
       case 4:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 33)) {
           _impl_.general_minimum_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
+          goto handle_unusual;
+        continue;
+      // double age_surcharge_cap = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 41)) {
+          _impl_.age_surcharge_cap_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
           ptr += sizeof(double);
         } else
           goto handle_unusual;
@@ -8682,6 +8812,16 @@ uint8_t* UpdateSubsistenceMinimumRequest::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteDoubleToArray(4, this->_internal_general_minimum(), target);
   }
 
+  // double age_surcharge_cap = 5;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_age_surcharge_cap = this->_internal_age_surcharge_cap();
+  uint64_t raw_age_surcharge_cap;
+  memcpy(&raw_age_surcharge_cap, &tmp_age_surcharge_cap, sizeof(tmp_age_surcharge_cap));
+  if (raw_age_surcharge_cap != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(5, this->_internal_age_surcharge_cap(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -8726,6 +8866,15 @@ size_t UpdateSubsistenceMinimumRequest::ByteSizeLong() const {
     total_size += 1 + 8;
   }
 
+  // double age_surcharge_cap = 5;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_age_surcharge_cap = this->_internal_age_surcharge_cap();
+  uint64_t raw_age_surcharge_cap;
+  memcpy(&raw_age_surcharge_cap, &tmp_age_surcharge_cap, sizeof(tmp_age_surcharge_cap));
+  if (raw_age_surcharge_cap != 0) {
+    total_size += 1 + 8;
+  }
+
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -8764,6 +8913,13 @@ void UpdateSubsistenceMinimumRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message
   if (raw_general_minimum != 0) {
     _this->_internal_set_general_minimum(from._internal_general_minimum());
   }
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_age_surcharge_cap = from._internal_age_surcharge_cap();
+  uint64_t raw_age_surcharge_cap;
+  memcpy(&raw_age_surcharge_cap, &tmp_age_surcharge_cap, sizeof(tmp_age_surcharge_cap));
+  if (raw_age_surcharge_cap != 0) {
+    _this->_internal_set_age_surcharge_cap(from._internal_age_surcharge_cap());
+  }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -8782,8 +8938,8 @@ void UpdateSubsistenceMinimumRequest::InternalSwap(UpdateSubsistenceMinimumReque
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(UpdateSubsistenceMinimumRequest, _impl_.general_minimum_)
-      + sizeof(UpdateSubsistenceMinimumRequest::_impl_.general_minimum_)
+      PROTOBUF_FIELD_OFFSET(UpdateSubsistenceMinimumRequest, _impl_.age_surcharge_cap_)
+      + sizeof(UpdateSubsistenceMinimumRequest::_impl_.age_surcharge_cap_)
       - PROTOBUF_FIELD_OFFSET(UpdateSubsistenceMinimumRequest, _impl_.id_)>(
           reinterpret_cast<char*>(&_impl_.id_),
           reinterpret_cast<char*>(&other->_impl_.id_));

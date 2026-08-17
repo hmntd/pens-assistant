@@ -53,9 +53,9 @@ namespace calc
             double getAverageSalary(int year, int month) const;
             bool upsertAverageSalary(int year, int month, double amount);
             service::SubsistenceLimits getSubsistenceLimits(int year) const;
-            bool upsertSubsistenceLimits(int year, double for_disabled, double general, double age_surcharge_cap);
+            bool upsertSubsistenceLimits(int year, double for_disabled, double general, double age_surcharge_cap = 10340.35);
             std::vector<SubsistenceMinimumRecord> listSubsistenceMinimums() const;
-            std::optional<SubsistenceMinimumRecord> updateSubsistenceMinimum(int id, int year, double for_disabled, double general, double age_surcharge_cap);
+            std::optional<SubsistenceMinimumRecord> updateSubsistenceMinimum(int id, int year, double for_disabled, double general, double age_surcharge_cap = 10340.35);
             bool deleteSubsistenceMinimum(int id);
         };
 
