@@ -5,7 +5,10 @@ namespace calc {
 namespace grpc_service {
 
 CalcServiceImpl::CalcServiceImpl()
-    : calculator_(repository::CoefficientRepository()), repo_(repository::CoefficientRepository()) {}
+    : CalcServiceImpl(false) {}
+
+CalcServiceImpl::CalcServiceImpl(bool mock_mode)
+    : calculator_(repository::CoefficientRepository(mock_mode)), repo_(repository::CoefficientRepository(mock_mode)) {}
 
 ::grpc::Status CalcServiceImpl::CalculatePension(::grpc::ServerContext* context, const ::calc::CalculatePensionRequest* request, ::calc::CalculatePensionResponse* reply) {
     auto result = calculator_.calculate(request);

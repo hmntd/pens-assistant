@@ -53,6 +53,7 @@ services:
     ports:
       - "50051:50051"
     volumes:
+      - ./calc/src:/app/src
       - ./calc/tests:/app/tests
     environment:
       DB_HOST: calc_db

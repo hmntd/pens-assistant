@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 #include <optional>
+#include <map>
+#include <utility>
 
 #include "../service/pension_models.h"
 
@@ -31,7 +33,17 @@ namespace calc
 
         class CoefficientRepository
         {
+        private:
+            bool mock_mode_{false};
+            static inline std::map<std::pair<int, int>, double> mock_salaries_{};
+            static inline std::map<int, service::SubsistenceLimits> mock_limits_{};
+            static inline std::map<std::pair<int, int>, double> mock_coefficients_{};
+
         public:
+            explicit CoefficientRepository(bool mock_mode = false) : mock_mode_(mock_mode) {}
+            void setMockMode(bool enable) { mock_mode_ = enable; }
+            bool isMockMode() const { return mock_mode_; }
+
             double getCoefficient(int year, int month);
             std::vector<CoefficientRecord> listAll();
             std::optional<CoefficientRecord> add(int year, int month, double coefficient, const std::string &description);

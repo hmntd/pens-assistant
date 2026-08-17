@@ -5,7 +5,7 @@
 
 void test_grpc_sync_average_salaries() {
     std::cout << "[Feature Test] Running test_grpc_sync_average_salaries..." << std::endl;
-    calc::grpc_service::CalcServiceImpl service;
+    calc::grpc_service::CalcServiceImpl service(true);
     grpc::ServerContext context;
 
     calc::SyncAverageSalariesRequest request;
@@ -27,7 +27,7 @@ void test_grpc_sync_average_salaries() {
 
 void test_grpc_calculate_pension() {
     std::cout << "[Feature Test] Running test_grpc_calculate_pension..." << std::endl;
-    calc::grpc_service::CalcServiceImpl service;
+    calc::grpc_service::CalcServiceImpl service(true);
     grpc::ServerContext context;
 
     calc::CalculatePensionRequest request;
@@ -35,11 +35,27 @@ void test_grpc_calculate_pension() {
 
     request.set_customer_id("feature-test-user-1002");
     request.set_gender(calc::Gender::MALE);
+    request.set_retirement_date("2024-06-01");
     request.set_pension_type(calc::PensionType::OLD_AGE);
     request.set_zp_macroeconomic_average(13559.41);
     request.add_benefits(calc::BenefitType::HONORARY_DONOR);
 
+    auto *period = request.add_employment_history();
+    period->set_start_date("2000-01-01");
+    period->set_end_date("2020-12-31");
+    period->set_multiplier(1.0);
+
+    auto *s = request.add_salary_history();
+    s->set_year(2020);
+    s->set_month(1);
+    s->set_amount(15000.0);
+
     auto status = service.CalculatePension(&context, &request, &response);
+
+    if (!response.success())
+    {
+        std::cout << "[ERROR] gRPC CalculatePension failed: " << response.error_message() << std::endl;
+    }
 
     assert(status.ok());
     assert(response.success() == true);

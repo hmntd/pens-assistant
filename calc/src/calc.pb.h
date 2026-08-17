@@ -23,12 +23,14 @@
 #include <google/protobuf/io/coded_stream.h>
 #include <google/protobuf/arena.h>
 #include <google/protobuf/arenastring.h>
+#include <google/protobuf/generated_message_bases.h>
 #include <google/protobuf/generated_message_util.h>
 #include <google/protobuf/metadata_lite.h>
 #include <google/protobuf/generated_message_reflection.h>
 #include <google/protobuf/message.h>
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
+#include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
@@ -45,24 +47,747 @@ struct TableStruct_calc_2eproto {
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_calc_2eproto;
 namespace calc {
+class AddCoefficientRequest;
+struct AddCoefficientRequestDefaultTypeInternal;
+extern AddCoefficientRequestDefaultTypeInternal _AddCoefficientRequest_default_instance_;
+class AddCoefficientResponse;
+struct AddCoefficientResponseDefaultTypeInternal;
+extern AddCoefficientResponseDefaultTypeInternal _AddCoefficientResponse_default_instance_;
+class AverageSalaryRecord;
+struct AverageSalaryRecordDefaultTypeInternal;
+extern AverageSalaryRecordDefaultTypeInternal _AverageSalaryRecord_default_instance_;
+class BenefitSurchargeDetail;
+struct BenefitSurchargeDetailDefaultTypeInternal;
+extern BenefitSurchargeDetailDefaultTypeInternal _BenefitSurchargeDetail_default_instance_;
+class CalculatePensionRequest;
+struct CalculatePensionRequestDefaultTypeInternal;
+extern CalculatePensionRequestDefaultTypeInternal _CalculatePensionRequest_default_instance_;
+class CalculatePensionResponse;
+struct CalculatePensionResponseDefaultTypeInternal;
+extern CalculatePensionResponseDefaultTypeInternal _CalculatePensionResponse_default_instance_;
+class DeleteCoefficientRequest;
+struct DeleteCoefficientRequestDefaultTypeInternal;
+extern DeleteCoefficientRequestDefaultTypeInternal _DeleteCoefficientRequest_default_instance_;
+class DeleteCoefficientResponse;
+struct DeleteCoefficientResponseDefaultTypeInternal;
+extern DeleteCoefficientResponseDefaultTypeInternal _DeleteCoefficientResponse_default_instance_;
+class DeleteSubsistenceMinimumRequest;
+struct DeleteSubsistenceMinimumRequestDefaultTypeInternal;
+extern DeleteSubsistenceMinimumRequestDefaultTypeInternal _DeleteSubsistenceMinimumRequest_default_instance_;
+class DeleteSubsistenceMinimumResponse;
+struct DeleteSubsistenceMinimumResponseDefaultTypeInternal;
+extern DeleteSubsistenceMinimumResponseDefaultTypeInternal _DeleteSubsistenceMinimumResponse_default_instance_;
+class EmploymentPeriod;
+struct EmploymentPeriodDefaultTypeInternal;
+extern EmploymentPeriodDefaultTypeInternal _EmploymentPeriod_default_instance_;
+class ListCoefficientsRequest;
+struct ListCoefficientsRequestDefaultTypeInternal;
+extern ListCoefficientsRequestDefaultTypeInternal _ListCoefficientsRequest_default_instance_;
+class ListCoefficientsResponse;
+struct ListCoefficientsResponseDefaultTypeInternal;
+extern ListCoefficientsResponseDefaultTypeInternal _ListCoefficientsResponse_default_instance_;
+class ListSubsistenceMinimumsRequest;
+struct ListSubsistenceMinimumsRequestDefaultTypeInternal;
+extern ListSubsistenceMinimumsRequestDefaultTypeInternal _ListSubsistenceMinimumsRequest_default_instance_;
+class ListSubsistenceMinimumsResponse;
+struct ListSubsistenceMinimumsResponseDefaultTypeInternal;
+extern ListSubsistenceMinimumsResponseDefaultTypeInternal _ListSubsistenceMinimumsResponse_default_instance_;
+class PensionCoefficient;
+struct PensionCoefficientDefaultTypeInternal;
+extern PensionCoefficientDefaultTypeInternal _PensionCoefficient_default_instance_;
 class PensionRequest;
 struct PensionRequestDefaultTypeInternal;
 extern PensionRequestDefaultTypeInternal _PensionRequest_default_instance_;
 class PensionResponse;
 struct PensionResponseDefaultTypeInternal;
 extern PensionResponseDefaultTypeInternal _PensionResponse_default_instance_;
+class SalaryMonthRecord;
+struct SalaryMonthRecordDefaultTypeInternal;
+extern SalaryMonthRecordDefaultTypeInternal _SalaryMonthRecord_default_instance_;
+class SubsistenceMinimumRecord;
+struct SubsistenceMinimumRecordDefaultTypeInternal;
+extern SubsistenceMinimumRecordDefaultTypeInternal _SubsistenceMinimumRecord_default_instance_;
+class SubsistenceMinimums;
+struct SubsistenceMinimumsDefaultTypeInternal;
+extern SubsistenceMinimumsDefaultTypeInternal _SubsistenceMinimums_default_instance_;
+class SyncAverageSalariesRequest;
+struct SyncAverageSalariesRequestDefaultTypeInternal;
+extern SyncAverageSalariesRequestDefaultTypeInternal _SyncAverageSalariesRequest_default_instance_;
+class SyncAverageSalariesResponse;
+struct SyncAverageSalariesResponseDefaultTypeInternal;
+extern SyncAverageSalariesResponseDefaultTypeInternal _SyncAverageSalariesResponse_default_instance_;
 class TaxRecord;
 struct TaxRecordDefaultTypeInternal;
 extern TaxRecordDefaultTypeInternal _TaxRecord_default_instance_;
+class UpdateCoefficientRequest;
+struct UpdateCoefficientRequestDefaultTypeInternal;
+extern UpdateCoefficientRequestDefaultTypeInternal _UpdateCoefficientRequest_default_instance_;
+class UpdateCoefficientResponse;
+struct UpdateCoefficientResponseDefaultTypeInternal;
+extern UpdateCoefficientResponseDefaultTypeInternal _UpdateCoefficientResponse_default_instance_;
+class UpdateSubsistenceMinimumRequest;
+struct UpdateSubsistenceMinimumRequestDefaultTypeInternal;
+extern UpdateSubsistenceMinimumRequestDefaultTypeInternal _UpdateSubsistenceMinimumRequest_default_instance_;
+class UpdateSubsistenceMinimumResponse;
+struct UpdateSubsistenceMinimumResponseDefaultTypeInternal;
+extern UpdateSubsistenceMinimumResponseDefaultTypeInternal _UpdateSubsistenceMinimumResponse_default_instance_;
+class UpsertSubsistenceMinimumRequest;
+struct UpsertSubsistenceMinimumRequestDefaultTypeInternal;
+extern UpsertSubsistenceMinimumRequestDefaultTypeInternal _UpsertSubsistenceMinimumRequest_default_instance_;
+class UpsertSubsistenceMinimumResponse;
+struct UpsertSubsistenceMinimumResponseDefaultTypeInternal;
+extern UpsertSubsistenceMinimumResponseDefaultTypeInternal _UpsertSubsistenceMinimumResponse_default_instance_;
 }  // namespace calc
 PROTOBUF_NAMESPACE_OPEN
+template<> ::calc::AddCoefficientRequest* Arena::CreateMaybeMessage<::calc::AddCoefficientRequest>(Arena*);
+template<> ::calc::AddCoefficientResponse* Arena::CreateMaybeMessage<::calc::AddCoefficientResponse>(Arena*);
+template<> ::calc::AverageSalaryRecord* Arena::CreateMaybeMessage<::calc::AverageSalaryRecord>(Arena*);
+template<> ::calc::BenefitSurchargeDetail* Arena::CreateMaybeMessage<::calc::BenefitSurchargeDetail>(Arena*);
+template<> ::calc::CalculatePensionRequest* Arena::CreateMaybeMessage<::calc::CalculatePensionRequest>(Arena*);
+template<> ::calc::CalculatePensionResponse* Arena::CreateMaybeMessage<::calc::CalculatePensionResponse>(Arena*);
+template<> ::calc::DeleteCoefficientRequest* Arena::CreateMaybeMessage<::calc::DeleteCoefficientRequest>(Arena*);
+template<> ::calc::DeleteCoefficientResponse* Arena::CreateMaybeMessage<::calc::DeleteCoefficientResponse>(Arena*);
+template<> ::calc::DeleteSubsistenceMinimumRequest* Arena::CreateMaybeMessage<::calc::DeleteSubsistenceMinimumRequest>(Arena*);
+template<> ::calc::DeleteSubsistenceMinimumResponse* Arena::CreateMaybeMessage<::calc::DeleteSubsistenceMinimumResponse>(Arena*);
+template<> ::calc::EmploymentPeriod* Arena::CreateMaybeMessage<::calc::EmploymentPeriod>(Arena*);
+template<> ::calc::ListCoefficientsRequest* Arena::CreateMaybeMessage<::calc::ListCoefficientsRequest>(Arena*);
+template<> ::calc::ListCoefficientsResponse* Arena::CreateMaybeMessage<::calc::ListCoefficientsResponse>(Arena*);
+template<> ::calc::ListSubsistenceMinimumsRequest* Arena::CreateMaybeMessage<::calc::ListSubsistenceMinimumsRequest>(Arena*);
+template<> ::calc::ListSubsistenceMinimumsResponse* Arena::CreateMaybeMessage<::calc::ListSubsistenceMinimumsResponse>(Arena*);
+template<> ::calc::PensionCoefficient* Arena::CreateMaybeMessage<::calc::PensionCoefficient>(Arena*);
 template<> ::calc::PensionRequest* Arena::CreateMaybeMessage<::calc::PensionRequest>(Arena*);
 template<> ::calc::PensionResponse* Arena::CreateMaybeMessage<::calc::PensionResponse>(Arena*);
+template<> ::calc::SalaryMonthRecord* Arena::CreateMaybeMessage<::calc::SalaryMonthRecord>(Arena*);
+template<> ::calc::SubsistenceMinimumRecord* Arena::CreateMaybeMessage<::calc::SubsistenceMinimumRecord>(Arena*);
+template<> ::calc::SubsistenceMinimums* Arena::CreateMaybeMessage<::calc::SubsistenceMinimums>(Arena*);
+template<> ::calc::SyncAverageSalariesRequest* Arena::CreateMaybeMessage<::calc::SyncAverageSalariesRequest>(Arena*);
+template<> ::calc::SyncAverageSalariesResponse* Arena::CreateMaybeMessage<::calc::SyncAverageSalariesResponse>(Arena*);
 template<> ::calc::TaxRecord* Arena::CreateMaybeMessage<::calc::TaxRecord>(Arena*);
+template<> ::calc::UpdateCoefficientRequest* Arena::CreateMaybeMessage<::calc::UpdateCoefficientRequest>(Arena*);
+template<> ::calc::UpdateCoefficientResponse* Arena::CreateMaybeMessage<::calc::UpdateCoefficientResponse>(Arena*);
+template<> ::calc::UpdateSubsistenceMinimumRequest* Arena::CreateMaybeMessage<::calc::UpdateSubsistenceMinimumRequest>(Arena*);
+template<> ::calc::UpdateSubsistenceMinimumResponse* Arena::CreateMaybeMessage<::calc::UpdateSubsistenceMinimumResponse>(Arena*);
+template<> ::calc::UpsertSubsistenceMinimumRequest* Arena::CreateMaybeMessage<::calc::UpsertSubsistenceMinimumRequest>(Arena*);
+template<> ::calc::UpsertSubsistenceMinimumResponse* Arena::CreateMaybeMessage<::calc::UpsertSubsistenceMinimumResponse>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace calc {
 
+enum Gender : int {
+  MALE = 0,
+  FEMALE = 1,
+  Gender_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
+  Gender_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
+};
+bool Gender_IsValid(int value);
+constexpr Gender Gender_MIN = MALE;
+constexpr Gender Gender_MAX = FEMALE;
+constexpr int Gender_ARRAYSIZE = Gender_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* Gender_descriptor();
+template<typename T>
+inline const std::string& Gender_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, Gender>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function Gender_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    Gender_descriptor(), enum_t_value);
+}
+inline bool Gender_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, Gender* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<Gender>(
+    Gender_descriptor(), name, value);
+}
+enum PensionType : int {
+  OLD_AGE = 0,
+  DISABILITY = 1,
+  LOSS_OF_BREADWINNER = 2,
+  PensionType_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
+  PensionType_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
+};
+bool PensionType_IsValid(int value);
+constexpr PensionType PensionType_MIN = OLD_AGE;
+constexpr PensionType PensionType_MAX = LOSS_OF_BREADWINNER;
+constexpr int PensionType_ARRAYSIZE = PensionType_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* PensionType_descriptor();
+template<typename T>
+inline const std::string& PensionType_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, PensionType>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function PensionType_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    PensionType_descriptor(), enum_t_value);
+}
+inline bool PensionType_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, PensionType* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<PensionType>(
+    PensionType_descriptor(), name, value);
+}
+enum DisabilityGroup : int {
+  DISABILITY_NONE = 0,
+  GROUP_1 = 1,
+  GROUP_2 = 2,
+  GROUP_3 = 3,
+  DisabilityGroup_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
+  DisabilityGroup_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
+};
+bool DisabilityGroup_IsValid(int value);
+constexpr DisabilityGroup DisabilityGroup_MIN = DISABILITY_NONE;
+constexpr DisabilityGroup DisabilityGroup_MAX = GROUP_3;
+constexpr int DisabilityGroup_ARRAYSIZE = DisabilityGroup_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* DisabilityGroup_descriptor();
+template<typename T>
+inline const std::string& DisabilityGroup_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, DisabilityGroup>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function DisabilityGroup_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    DisabilityGroup_descriptor(), enum_t_value);
+}
+inline bool DisabilityGroup_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, DisabilityGroup* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<DisabilityGroup>(
+    DisabilityGroup_descriptor(), name, value);
+}
+enum BenefitType : int {
+  BENEFIT_NONE = 0,
+  COMBAT_VETERAN = 1,
+  HONORARY_DONOR = 2,
+  CHORNOBYL_LIQUIDATOR = 3,
+  DISABLED_CHILD_CARE = 4,
+  BenefitType_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
+  BenefitType_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
+};
+bool BenefitType_IsValid(int value);
+constexpr BenefitType BenefitType_MIN = BENEFIT_NONE;
+constexpr BenefitType BenefitType_MAX = DISABLED_CHILD_CARE;
+constexpr int BenefitType_ARRAYSIZE = BenefitType_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* BenefitType_descriptor();
+template<typename T>
+inline const std::string& BenefitType_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, BenefitType>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function BenefitType_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    BenefitType_descriptor(), enum_t_value);
+}
+inline bool BenefitType_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, BenefitType* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<BenefitType>(
+    BenefitType_descriptor(), name, value);
+}
 // ===================================================================
+
+class EmploymentPeriod final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:calc.EmploymentPeriod) */ {
+ public:
+  inline EmploymentPeriod() : EmploymentPeriod(nullptr) {}
+  ~EmploymentPeriod() override;
+  explicit PROTOBUF_CONSTEXPR EmploymentPeriod(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  EmploymentPeriod(const EmploymentPeriod& from);
+  EmploymentPeriod(EmploymentPeriod&& from) noexcept
+    : EmploymentPeriod() {
+    *this = ::std::move(from);
+  }
+
+  inline EmploymentPeriod& operator=(const EmploymentPeriod& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline EmploymentPeriod& operator=(EmploymentPeriod&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const EmploymentPeriod& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const EmploymentPeriod* internal_default_instance() {
+    return reinterpret_cast<const EmploymentPeriod*>(
+               &_EmploymentPeriod_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    0;
+
+  friend void swap(EmploymentPeriod& a, EmploymentPeriod& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(EmploymentPeriod* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(EmploymentPeriod* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  EmploymentPeriod* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<EmploymentPeriod>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const EmploymentPeriod& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const EmploymentPeriod& from) {
+    EmploymentPeriod::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(EmploymentPeriod* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "calc.EmploymentPeriod";
+  }
+  protected:
+  explicit EmploymentPeriod(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kStartDateFieldNumber = 1,
+    kEndDateFieldNumber = 2,
+    kMultiplierFieldNumber = 3,
+  };
+  // string start_date = 1;
+  void clear_start_date();
+  const std::string& start_date() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_start_date(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_start_date();
+  PROTOBUF_NODISCARD std::string* release_start_date();
+  void set_allocated_start_date(std::string* start_date);
+  private:
+  const std::string& _internal_start_date() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_start_date(const std::string& value);
+  std::string* _internal_mutable_start_date();
+  public:
+
+  // string end_date = 2;
+  void clear_end_date();
+  const std::string& end_date() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_end_date(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_end_date();
+  PROTOBUF_NODISCARD std::string* release_end_date();
+  void set_allocated_end_date(std::string* end_date);
+  private:
+  const std::string& _internal_end_date() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_end_date(const std::string& value);
+  std::string* _internal_mutable_end_date();
+  public:
+
+  // double multiplier = 3;
+  void clear_multiplier();
+  double multiplier() const;
+  void set_multiplier(double value);
+  private:
+  double _internal_multiplier() const;
+  void _internal_set_multiplier(double value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:calc.EmploymentPeriod)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr start_date_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr end_date_;
+    double multiplier_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_calc_2eproto;
+};
+// -------------------------------------------------------------------
+
+class SalaryMonthRecord final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:calc.SalaryMonthRecord) */ {
+ public:
+  inline SalaryMonthRecord() : SalaryMonthRecord(nullptr) {}
+  ~SalaryMonthRecord() override;
+  explicit PROTOBUF_CONSTEXPR SalaryMonthRecord(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  SalaryMonthRecord(const SalaryMonthRecord& from);
+  SalaryMonthRecord(SalaryMonthRecord&& from) noexcept
+    : SalaryMonthRecord() {
+    *this = ::std::move(from);
+  }
+
+  inline SalaryMonthRecord& operator=(const SalaryMonthRecord& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SalaryMonthRecord& operator=(SalaryMonthRecord&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const SalaryMonthRecord& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const SalaryMonthRecord* internal_default_instance() {
+    return reinterpret_cast<const SalaryMonthRecord*>(
+               &_SalaryMonthRecord_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    1;
+
+  friend void swap(SalaryMonthRecord& a, SalaryMonthRecord& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(SalaryMonthRecord* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(SalaryMonthRecord* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  SalaryMonthRecord* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<SalaryMonthRecord>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const SalaryMonthRecord& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const SalaryMonthRecord& from) {
+    SalaryMonthRecord::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(SalaryMonthRecord* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "calc.SalaryMonthRecord";
+  }
+  protected:
+  explicit SalaryMonthRecord(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kYearFieldNumber = 1,
+    kMonthFieldNumber = 2,
+    kAmountFieldNumber = 3,
+  };
+  // int32 year = 1;
+  void clear_year();
+  int32_t year() const;
+  void set_year(int32_t value);
+  private:
+  int32_t _internal_year() const;
+  void _internal_set_year(int32_t value);
+  public:
+
+  // int32 month = 2;
+  void clear_month();
+  int32_t month() const;
+  void set_month(int32_t value);
+  private:
+  int32_t _internal_month() const;
+  void _internal_set_month(int32_t value);
+  public:
+
+  // double amount = 3;
+  void clear_amount();
+  double amount() const;
+  void set_amount(double value);
+  private:
+  double _internal_amount() const;
+  void _internal_set_amount(double value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:calc.SalaryMonthRecord)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    int32_t year_;
+    int32_t month_;
+    double amount_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_calc_2eproto;
+};
+// -------------------------------------------------------------------
+
+class SubsistenceMinimums final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:calc.SubsistenceMinimums) */ {
+ public:
+  inline SubsistenceMinimums() : SubsistenceMinimums(nullptr) {}
+  ~SubsistenceMinimums() override;
+  explicit PROTOBUF_CONSTEXPR SubsistenceMinimums(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  SubsistenceMinimums(const SubsistenceMinimums& from);
+  SubsistenceMinimums(SubsistenceMinimums&& from) noexcept
+    : SubsistenceMinimums() {
+    *this = ::std::move(from);
+  }
+
+  inline SubsistenceMinimums& operator=(const SubsistenceMinimums& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SubsistenceMinimums& operator=(SubsistenceMinimums&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const SubsistenceMinimums& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const SubsistenceMinimums* internal_default_instance() {
+    return reinterpret_cast<const SubsistenceMinimums*>(
+               &_SubsistenceMinimums_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    2;
+
+  friend void swap(SubsistenceMinimums& a, SubsistenceMinimums& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(SubsistenceMinimums* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(SubsistenceMinimums* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  SubsistenceMinimums* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<SubsistenceMinimums>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const SubsistenceMinimums& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const SubsistenceMinimums& from) {
+    SubsistenceMinimums::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(SubsistenceMinimums* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "calc.SubsistenceMinimums";
+  }
+  protected:
+  explicit SubsistenceMinimums(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kForDisabledPersonsFieldNumber = 1,
+    kGeneralMinimumFieldNumber = 2,
+  };
+  // double for_disabled_persons = 1;
+  void clear_for_disabled_persons();
+  double for_disabled_persons() const;
+  void set_for_disabled_persons(double value);
+  private:
+  double _internal_for_disabled_persons() const;
+  void _internal_set_for_disabled_persons(double value);
+  public:
+
+  // double general_minimum = 2;
+  void clear_general_minimum();
+  double general_minimum() const;
+  void set_general_minimum(double value);
+  private:
+  double _internal_general_minimum() const;
+  void _internal_set_general_minimum(double value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:calc.SubsistenceMinimums)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    double for_disabled_persons_;
+    double general_minimum_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_calc_2eproto;
+};
+// -------------------------------------------------------------------
 
 class TaxRecord final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:calc.TaxRecord) */ {
@@ -112,7 +837,7 @@ class TaxRecord final :
                &_TaxRecord_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    0;
+    3;
 
   friend void swap(TaxRecord& a, TaxRecord& b) {
     a.Swap(&b);
@@ -245,6 +970,896 @@ class TaxRecord final :
 };
 // -------------------------------------------------------------------
 
+class CalculatePensionRequest final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:calc.CalculatePensionRequest) */ {
+ public:
+  inline CalculatePensionRequest() : CalculatePensionRequest(nullptr) {}
+  ~CalculatePensionRequest() override;
+  explicit PROTOBUF_CONSTEXPR CalculatePensionRequest(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  CalculatePensionRequest(const CalculatePensionRequest& from);
+  CalculatePensionRequest(CalculatePensionRequest&& from) noexcept
+    : CalculatePensionRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline CalculatePensionRequest& operator=(const CalculatePensionRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline CalculatePensionRequest& operator=(CalculatePensionRequest&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const CalculatePensionRequest& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const CalculatePensionRequest* internal_default_instance() {
+    return reinterpret_cast<const CalculatePensionRequest*>(
+               &_CalculatePensionRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    4;
+
+  friend void swap(CalculatePensionRequest& a, CalculatePensionRequest& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(CalculatePensionRequest* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(CalculatePensionRequest* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  CalculatePensionRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<CalculatePensionRequest>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const CalculatePensionRequest& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const CalculatePensionRequest& from) {
+    CalculatePensionRequest::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(CalculatePensionRequest* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "calc.CalculatePensionRequest";
+  }
+  protected:
+  explicit CalculatePensionRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kEmploymentHistoryFieldNumber = 8,
+    kSalaryHistoryFieldNumber = 9,
+    kBenefitsFieldNumber = 10,
+    kHistoryFieldNumber = 14,
+    kCustomerIdFieldNumber = 1,
+    kDateOfBirthFieldNumber = 3,
+    kRetirementDateFieldNumber = 4,
+    kSubsistenceMinimumsFieldNumber = 11,
+    kGenderFieldNumber = 2,
+    kPensionTypeFieldNumber = 5,
+    kDisabilityGroupFieldNumber = 6,
+    kDependentsCountFieldNumber = 7,
+    kZpMacroeconomicAverageFieldNumber = 13,
+    kEnableOptimizationRuleFieldNumber = 12,
+    kBirthYearFieldNumber = 15,
+    kTargetRetirementYearFieldNumber = 16,
+  };
+  // repeated .calc.EmploymentPeriod employment_history = 8;
+  int employment_history_size() const;
+  private:
+  int _internal_employment_history_size() const;
+  public:
+  void clear_employment_history();
+  ::calc::EmploymentPeriod* mutable_employment_history(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::calc::EmploymentPeriod >*
+      mutable_employment_history();
+  private:
+  const ::calc::EmploymentPeriod& _internal_employment_history(int index) const;
+  ::calc::EmploymentPeriod* _internal_add_employment_history();
+  public:
+  const ::calc::EmploymentPeriod& employment_history(int index) const;
+  ::calc::EmploymentPeriod* add_employment_history();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::calc::EmploymentPeriod >&
+      employment_history() const;
+
+  // repeated .calc.SalaryMonthRecord salary_history = 9;
+  int salary_history_size() const;
+  private:
+  int _internal_salary_history_size() const;
+  public:
+  void clear_salary_history();
+  ::calc::SalaryMonthRecord* mutable_salary_history(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::calc::SalaryMonthRecord >*
+      mutable_salary_history();
+  private:
+  const ::calc::SalaryMonthRecord& _internal_salary_history(int index) const;
+  ::calc::SalaryMonthRecord* _internal_add_salary_history();
+  public:
+  const ::calc::SalaryMonthRecord& salary_history(int index) const;
+  ::calc::SalaryMonthRecord* add_salary_history();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::calc::SalaryMonthRecord >&
+      salary_history() const;
+
+  // repeated .calc.BenefitType benefits = 10;
+  int benefits_size() const;
+  private:
+  int _internal_benefits_size() const;
+  public:
+  void clear_benefits();
+  private:
+  ::calc::BenefitType _internal_benefits(int index) const;
+  void _internal_add_benefits(::calc::BenefitType value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>* _internal_mutable_benefits();
+  public:
+  ::calc::BenefitType benefits(int index) const;
+  void set_benefits(int index, ::calc::BenefitType value);
+  void add_benefits(::calc::BenefitType value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>& benefits() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>* mutable_benefits();
+
+  // repeated .calc.TaxRecord history = 14;
+  int history_size() const;
+  private:
+  int _internal_history_size() const;
+  public:
+  void clear_history();
+  ::calc::TaxRecord* mutable_history(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::calc::TaxRecord >*
+      mutable_history();
+  private:
+  const ::calc::TaxRecord& _internal_history(int index) const;
+  ::calc::TaxRecord* _internal_add_history();
+  public:
+  const ::calc::TaxRecord& history(int index) const;
+  ::calc::TaxRecord* add_history();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::calc::TaxRecord >&
+      history() const;
+
+  // string customer_id = 1;
+  void clear_customer_id();
+  const std::string& customer_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_customer_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_customer_id();
+  PROTOBUF_NODISCARD std::string* release_customer_id();
+  void set_allocated_customer_id(std::string* customer_id);
+  private:
+  const std::string& _internal_customer_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_customer_id(const std::string& value);
+  std::string* _internal_mutable_customer_id();
+  public:
+
+  // string date_of_birth = 3;
+  void clear_date_of_birth();
+  const std::string& date_of_birth() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_date_of_birth(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_date_of_birth();
+  PROTOBUF_NODISCARD std::string* release_date_of_birth();
+  void set_allocated_date_of_birth(std::string* date_of_birth);
+  private:
+  const std::string& _internal_date_of_birth() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_date_of_birth(const std::string& value);
+  std::string* _internal_mutable_date_of_birth();
+  public:
+
+  // string retirement_date = 4;
+  void clear_retirement_date();
+  const std::string& retirement_date() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_retirement_date(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_retirement_date();
+  PROTOBUF_NODISCARD std::string* release_retirement_date();
+  void set_allocated_retirement_date(std::string* retirement_date);
+  private:
+  const std::string& _internal_retirement_date() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_retirement_date(const std::string& value);
+  std::string* _internal_mutable_retirement_date();
+  public:
+
+  // .calc.SubsistenceMinimums subsistence_minimums = 11;
+  bool has_subsistence_minimums() const;
+  private:
+  bool _internal_has_subsistence_minimums() const;
+  public:
+  void clear_subsistence_minimums();
+  const ::calc::SubsistenceMinimums& subsistence_minimums() const;
+  PROTOBUF_NODISCARD ::calc::SubsistenceMinimums* release_subsistence_minimums();
+  ::calc::SubsistenceMinimums* mutable_subsistence_minimums();
+  void set_allocated_subsistence_minimums(::calc::SubsistenceMinimums* subsistence_minimums);
+  private:
+  const ::calc::SubsistenceMinimums& _internal_subsistence_minimums() const;
+  ::calc::SubsistenceMinimums* _internal_mutable_subsistence_minimums();
+  public:
+  void unsafe_arena_set_allocated_subsistence_minimums(
+      ::calc::SubsistenceMinimums* subsistence_minimums);
+  ::calc::SubsistenceMinimums* unsafe_arena_release_subsistence_minimums();
+
+  // .calc.Gender gender = 2;
+  void clear_gender();
+  ::calc::Gender gender() const;
+  void set_gender(::calc::Gender value);
+  private:
+  ::calc::Gender _internal_gender() const;
+  void _internal_set_gender(::calc::Gender value);
+  public:
+
+  // .calc.PensionType pension_type = 5;
+  void clear_pension_type();
+  ::calc::PensionType pension_type() const;
+  void set_pension_type(::calc::PensionType value);
+  private:
+  ::calc::PensionType _internal_pension_type() const;
+  void _internal_set_pension_type(::calc::PensionType value);
+  public:
+
+  // .calc.DisabilityGroup disability_group = 6;
+  void clear_disability_group();
+  ::calc::DisabilityGroup disability_group() const;
+  void set_disability_group(::calc::DisabilityGroup value);
+  private:
+  ::calc::DisabilityGroup _internal_disability_group() const;
+  void _internal_set_disability_group(::calc::DisabilityGroup value);
+  public:
+
+  // int32 dependents_count = 7;
+  void clear_dependents_count();
+  int32_t dependents_count() const;
+  void set_dependents_count(int32_t value);
+  private:
+  int32_t _internal_dependents_count() const;
+  void _internal_set_dependents_count(int32_t value);
+  public:
+
+  // double zp_macroeconomic_average = 13;
+  void clear_zp_macroeconomic_average();
+  double zp_macroeconomic_average() const;
+  void set_zp_macroeconomic_average(double value);
+  private:
+  double _internal_zp_macroeconomic_average() const;
+  void _internal_set_zp_macroeconomic_average(double value);
+  public:
+
+  // bool enable_optimization_rule = 12;
+  void clear_enable_optimization_rule();
+  bool enable_optimization_rule() const;
+  void set_enable_optimization_rule(bool value);
+  private:
+  bool _internal_enable_optimization_rule() const;
+  void _internal_set_enable_optimization_rule(bool value);
+  public:
+
+  // int32 birth_year = 15;
+  void clear_birth_year();
+  int32_t birth_year() const;
+  void set_birth_year(int32_t value);
+  private:
+  int32_t _internal_birth_year() const;
+  void _internal_set_birth_year(int32_t value);
+  public:
+
+  // int32 target_retirement_year = 16;
+  void clear_target_retirement_year();
+  int32_t target_retirement_year() const;
+  void set_target_retirement_year(int32_t value);
+  private:
+  int32_t _internal_target_retirement_year() const;
+  void _internal_set_target_retirement_year(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:calc.CalculatePensionRequest)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::calc::EmploymentPeriod > employment_history_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::calc::SalaryMonthRecord > salary_history_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedField<int> benefits_;
+    mutable std::atomic<int> _benefits_cached_byte_size_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::calc::TaxRecord > history_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr customer_id_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr date_of_birth_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr retirement_date_;
+    ::calc::SubsistenceMinimums* subsistence_minimums_;
+    int gender_;
+    int pension_type_;
+    int disability_group_;
+    int32_t dependents_count_;
+    double zp_macroeconomic_average_;
+    bool enable_optimization_rule_;
+    int32_t birth_year_;
+    int32_t target_retirement_year_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_calc_2eproto;
+};
+// -------------------------------------------------------------------
+
+class BenefitSurchargeDetail final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:calc.BenefitSurchargeDetail) */ {
+ public:
+  inline BenefitSurchargeDetail() : BenefitSurchargeDetail(nullptr) {}
+  ~BenefitSurchargeDetail() override;
+  explicit PROTOBUF_CONSTEXPR BenefitSurchargeDetail(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  BenefitSurchargeDetail(const BenefitSurchargeDetail& from);
+  BenefitSurchargeDetail(BenefitSurchargeDetail&& from) noexcept
+    : BenefitSurchargeDetail() {
+    *this = ::std::move(from);
+  }
+
+  inline BenefitSurchargeDetail& operator=(const BenefitSurchargeDetail& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline BenefitSurchargeDetail& operator=(BenefitSurchargeDetail&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const BenefitSurchargeDetail& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const BenefitSurchargeDetail* internal_default_instance() {
+    return reinterpret_cast<const BenefitSurchargeDetail*>(
+               &_BenefitSurchargeDetail_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    5;
+
+  friend void swap(BenefitSurchargeDetail& a, BenefitSurchargeDetail& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(BenefitSurchargeDetail* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(BenefitSurchargeDetail* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  BenefitSurchargeDetail* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<BenefitSurchargeDetail>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const BenefitSurchargeDetail& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const BenefitSurchargeDetail& from) {
+    BenefitSurchargeDetail::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(BenefitSurchargeDetail* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "calc.BenefitSurchargeDetail";
+  }
+  protected:
+  explicit BenefitSurchargeDetail(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kNameFieldNumber = 2,
+    kAmountFieldNumber = 3,
+    kBenefitFieldNumber = 1,
+  };
+  // string name = 2;
+  void clear_name();
+  const std::string& name() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_name(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_name();
+  PROTOBUF_NODISCARD std::string* release_name();
+  void set_allocated_name(std::string* name);
+  private:
+  const std::string& _internal_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_name(const std::string& value);
+  std::string* _internal_mutable_name();
+  public:
+
+  // double amount = 3;
+  void clear_amount();
+  double amount() const;
+  void set_amount(double value);
+  private:
+  double _internal_amount() const;
+  void _internal_set_amount(double value);
+  public:
+
+  // .calc.BenefitType benefit = 1;
+  void clear_benefit();
+  ::calc::BenefitType benefit() const;
+  void set_benefit(::calc::BenefitType value);
+  private:
+  ::calc::BenefitType _internal_benefit() const;
+  void _internal_set_benefit(::calc::BenefitType value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:calc.BenefitSurchargeDetail)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
+    double amount_;
+    int benefit_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_calc_2eproto;
+};
+// -------------------------------------------------------------------
+
+class CalculatePensionResponse final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:calc.CalculatePensionResponse) */ {
+ public:
+  inline CalculatePensionResponse() : CalculatePensionResponse(nullptr) {}
+  ~CalculatePensionResponse() override;
+  explicit PROTOBUF_CONSTEXPR CalculatePensionResponse(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  CalculatePensionResponse(const CalculatePensionResponse& from);
+  CalculatePensionResponse(CalculatePensionResponse&& from) noexcept
+    : CalculatePensionResponse() {
+    *this = ::std::move(from);
+  }
+
+  inline CalculatePensionResponse& operator=(const CalculatePensionResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline CalculatePensionResponse& operator=(CalculatePensionResponse&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const CalculatePensionResponse& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const CalculatePensionResponse* internal_default_instance() {
+    return reinterpret_cast<const CalculatePensionResponse*>(
+               &_CalculatePensionResponse_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    6;
+
+  friend void swap(CalculatePensionResponse& a, CalculatePensionResponse& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(CalculatePensionResponse* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(CalculatePensionResponse* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  CalculatePensionResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<CalculatePensionResponse>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const CalculatePensionResponse& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const CalculatePensionResponse& from) {
+    CalculatePensionResponse::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(CalculatePensionResponse* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "calc.CalculatePensionResponse";
+  }
+  protected:
+  explicit CalculatePensionResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kAppliedBenefitsFieldNumber = 14,
+    kCalculationLogsFieldNumber = 15,
+    kErrorMessageFieldNumber = 16,
+    kFinalPensionFieldNumber = 2,
+    kBasePensionFieldNumber = 3,
+    kZpMacroeconomicAverageFieldNumber = 4,
+    kKzWageCoefficientFieldNumber = 5,
+    kKsServiceCoefficientFieldNumber = 6,
+    kPensionTypeModifierFieldNumber = 8,
+    kTotalServiceMonthsFieldNumber = 7,
+    kSuccessFieldNumber = 1,
+    kIsMinimumClampedFieldNumber = 12,
+    kIsMaximumClampedFieldNumber = 13,
+    kExtraServiceAllowanceFieldNumber = 9,
+    kTotalBenefitSurchargesFieldNumber = 10,
+    kPreClampedPensionFieldNumber = 11,
+  };
+  // repeated .calc.BenefitSurchargeDetail applied_benefits = 14;
+  int applied_benefits_size() const;
+  private:
+  int _internal_applied_benefits_size() const;
+  public:
+  void clear_applied_benefits();
+  ::calc::BenefitSurchargeDetail* mutable_applied_benefits(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::calc::BenefitSurchargeDetail >*
+      mutable_applied_benefits();
+  private:
+  const ::calc::BenefitSurchargeDetail& _internal_applied_benefits(int index) const;
+  ::calc::BenefitSurchargeDetail* _internal_add_applied_benefits();
+  public:
+  const ::calc::BenefitSurchargeDetail& applied_benefits(int index) const;
+  ::calc::BenefitSurchargeDetail* add_applied_benefits();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::calc::BenefitSurchargeDetail >&
+      applied_benefits() const;
+
+  // repeated string calculation_logs = 15;
+  int calculation_logs_size() const;
+  private:
+  int _internal_calculation_logs_size() const;
+  public:
+  void clear_calculation_logs();
+  const std::string& calculation_logs(int index) const;
+  std::string* mutable_calculation_logs(int index);
+  void set_calculation_logs(int index, const std::string& value);
+  void set_calculation_logs(int index, std::string&& value);
+  void set_calculation_logs(int index, const char* value);
+  void set_calculation_logs(int index, const char* value, size_t size);
+  std::string* add_calculation_logs();
+  void add_calculation_logs(const std::string& value);
+  void add_calculation_logs(std::string&& value);
+  void add_calculation_logs(const char* value);
+  void add_calculation_logs(const char* value, size_t size);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>& calculation_logs() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>* mutable_calculation_logs();
+  private:
+  const std::string& _internal_calculation_logs(int index) const;
+  std::string* _internal_add_calculation_logs();
+  public:
+
+  // string error_message = 16;
+  void clear_error_message();
+  const std::string& error_message() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_error_message(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_error_message();
+  PROTOBUF_NODISCARD std::string* release_error_message();
+  void set_allocated_error_message(std::string* error_message);
+  private:
+  const std::string& _internal_error_message() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_error_message(const std::string& value);
+  std::string* _internal_mutable_error_message();
+  public:
+
+  // double final_pension = 2;
+  void clear_final_pension();
+  double final_pension() const;
+  void set_final_pension(double value);
+  private:
+  double _internal_final_pension() const;
+  void _internal_set_final_pension(double value);
+  public:
+
+  // double base_pension = 3;
+  void clear_base_pension();
+  double base_pension() const;
+  void set_base_pension(double value);
+  private:
+  double _internal_base_pension() const;
+  void _internal_set_base_pension(double value);
+  public:
+
+  // double zp_macroeconomic_average = 4;
+  void clear_zp_macroeconomic_average();
+  double zp_macroeconomic_average() const;
+  void set_zp_macroeconomic_average(double value);
+  private:
+  double _internal_zp_macroeconomic_average() const;
+  void _internal_set_zp_macroeconomic_average(double value);
+  public:
+
+  // double kz_wage_coefficient = 5;
+  void clear_kz_wage_coefficient();
+  double kz_wage_coefficient() const;
+  void set_kz_wage_coefficient(double value);
+  private:
+  double _internal_kz_wage_coefficient() const;
+  void _internal_set_kz_wage_coefficient(double value);
+  public:
+
+  // double ks_service_coefficient = 6;
+  void clear_ks_service_coefficient();
+  double ks_service_coefficient() const;
+  void set_ks_service_coefficient(double value);
+  private:
+  double _internal_ks_service_coefficient() const;
+  void _internal_set_ks_service_coefficient(double value);
+  public:
+
+  // double pension_type_modifier = 8;
+  void clear_pension_type_modifier();
+  double pension_type_modifier() const;
+  void set_pension_type_modifier(double value);
+  private:
+  double _internal_pension_type_modifier() const;
+  void _internal_set_pension_type_modifier(double value);
+  public:
+
+  // int32 total_service_months = 7;
+  void clear_total_service_months();
+  int32_t total_service_months() const;
+  void set_total_service_months(int32_t value);
+  private:
+  int32_t _internal_total_service_months() const;
+  void _internal_set_total_service_months(int32_t value);
+  public:
+
+  // bool success = 1;
+  void clear_success();
+  bool success() const;
+  void set_success(bool value);
+  private:
+  bool _internal_success() const;
+  void _internal_set_success(bool value);
+  public:
+
+  // bool is_minimum_clamped = 12;
+  void clear_is_minimum_clamped();
+  bool is_minimum_clamped() const;
+  void set_is_minimum_clamped(bool value);
+  private:
+  bool _internal_is_minimum_clamped() const;
+  void _internal_set_is_minimum_clamped(bool value);
+  public:
+
+  // bool is_maximum_clamped = 13;
+  void clear_is_maximum_clamped();
+  bool is_maximum_clamped() const;
+  void set_is_maximum_clamped(bool value);
+  private:
+  bool _internal_is_maximum_clamped() const;
+  void _internal_set_is_maximum_clamped(bool value);
+  public:
+
+  // double extra_service_allowance = 9;
+  void clear_extra_service_allowance();
+  double extra_service_allowance() const;
+  void set_extra_service_allowance(double value);
+  private:
+  double _internal_extra_service_allowance() const;
+  void _internal_set_extra_service_allowance(double value);
+  public:
+
+  // double total_benefit_surcharges = 10;
+  void clear_total_benefit_surcharges();
+  double total_benefit_surcharges() const;
+  void set_total_benefit_surcharges(double value);
+  private:
+  double _internal_total_benefit_surcharges() const;
+  void _internal_set_total_benefit_surcharges(double value);
+  public:
+
+  // double pre_clamped_pension = 11;
+  void clear_pre_clamped_pension();
+  double pre_clamped_pension() const;
+  void set_pre_clamped_pension(double value);
+  private:
+  double _internal_pre_clamped_pension() const;
+  void _internal_set_pre_clamped_pension(double value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:calc.CalculatePensionResponse)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::calc::BenefitSurchargeDetail > applied_benefits_;
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> calculation_logs_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr error_message_;
+    double final_pension_;
+    double base_pension_;
+    double zp_macroeconomic_average_;
+    double kz_wage_coefficient_;
+    double ks_service_coefficient_;
+    double pension_type_modifier_;
+    int32_t total_service_months_;
+    bool success_;
+    bool is_minimum_clamped_;
+    bool is_maximum_clamped_;
+    double extra_service_allowance_;
+    double total_benefit_surcharges_;
+    double pre_clamped_pension_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_calc_2eproto;
+};
+// -------------------------------------------------------------------
+
 class PensionRequest final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:calc.PensionRequest) */ {
  public:
@@ -293,7 +1908,7 @@ class PensionRequest final :
                &_PensionRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    1;
+    7;
 
   friend void swap(PensionRequest& a, PensionRequest& b) {
     a.Swap(&b);
@@ -488,7 +2103,7 @@ class PensionResponse final :
                &_PensionResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    2;
+    8;
 
   friend void swap(PensionResponse& a, PensionResponse& b) {
     a.Swap(&b);
@@ -640,6 +2255,3580 @@ class PensionResponse final :
   union { Impl_ _impl_; };
   friend struct ::TableStruct_calc_2eproto;
 };
+// -------------------------------------------------------------------
+
+class PensionCoefficient final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:calc.PensionCoefficient) */ {
+ public:
+  inline PensionCoefficient() : PensionCoefficient(nullptr) {}
+  ~PensionCoefficient() override;
+  explicit PROTOBUF_CONSTEXPR PensionCoefficient(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  PensionCoefficient(const PensionCoefficient& from);
+  PensionCoefficient(PensionCoefficient&& from) noexcept
+    : PensionCoefficient() {
+    *this = ::std::move(from);
+  }
+
+  inline PensionCoefficient& operator=(const PensionCoefficient& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline PensionCoefficient& operator=(PensionCoefficient&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const PensionCoefficient& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const PensionCoefficient* internal_default_instance() {
+    return reinterpret_cast<const PensionCoefficient*>(
+               &_PensionCoefficient_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    9;
+
+  friend void swap(PensionCoefficient& a, PensionCoefficient& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(PensionCoefficient* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(PensionCoefficient* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  PensionCoefficient* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<PensionCoefficient>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const PensionCoefficient& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const PensionCoefficient& from) {
+    PensionCoefficient::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(PensionCoefficient* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "calc.PensionCoefficient";
+  }
+  protected:
+  explicit PensionCoefficient(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kDescriptionFieldNumber = 5,
+    kIdFieldNumber = 1,
+    kYearFieldNumber = 2,
+    kCoefficientFieldNumber = 4,
+    kMonthFieldNumber = 3,
+  };
+  // string description = 5;
+  void clear_description();
+  const std::string& description() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_description(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_description();
+  PROTOBUF_NODISCARD std::string* release_description();
+  void set_allocated_description(std::string* description);
+  private:
+  const std::string& _internal_description() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_description(const std::string& value);
+  std::string* _internal_mutable_description();
+  public:
+
+  // int32 id = 1;
+  void clear_id();
+  int32_t id() const;
+  void set_id(int32_t value);
+  private:
+  int32_t _internal_id() const;
+  void _internal_set_id(int32_t value);
+  public:
+
+  // int32 year = 2;
+  void clear_year();
+  int32_t year() const;
+  void set_year(int32_t value);
+  private:
+  int32_t _internal_year() const;
+  void _internal_set_year(int32_t value);
+  public:
+
+  // double coefficient = 4;
+  void clear_coefficient();
+  double coefficient() const;
+  void set_coefficient(double value);
+  private:
+  double _internal_coefficient() const;
+  void _internal_set_coefficient(double value);
+  public:
+
+  // int32 month = 3;
+  void clear_month();
+  int32_t month() const;
+  void set_month(int32_t value);
+  private:
+  int32_t _internal_month() const;
+  void _internal_set_month(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:calc.PensionCoefficient)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr description_;
+    int32_t id_;
+    int32_t year_;
+    double coefficient_;
+    int32_t month_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_calc_2eproto;
+};
+// -------------------------------------------------------------------
+
+class ListCoefficientsRequest final :
+    public ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase /* @@protoc_insertion_point(class_definition:calc.ListCoefficientsRequest) */ {
+ public:
+  inline ListCoefficientsRequest() : ListCoefficientsRequest(nullptr) {}
+  explicit PROTOBUF_CONSTEXPR ListCoefficientsRequest(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  ListCoefficientsRequest(const ListCoefficientsRequest& from);
+  ListCoefficientsRequest(ListCoefficientsRequest&& from) noexcept
+    : ListCoefficientsRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline ListCoefficientsRequest& operator=(const ListCoefficientsRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline ListCoefficientsRequest& operator=(ListCoefficientsRequest&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const ListCoefficientsRequest& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const ListCoefficientsRequest* internal_default_instance() {
+    return reinterpret_cast<const ListCoefficientsRequest*>(
+               &_ListCoefficientsRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    10;
+
+  friend void swap(ListCoefficientsRequest& a, ListCoefficientsRequest& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(ListCoefficientsRequest* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(ListCoefficientsRequest* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  ListCoefficientsRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<ListCoefficientsRequest>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyFrom;
+  inline void CopyFrom(const ListCoefficientsRequest& from) {
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyImpl(*this, from);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeFrom;
+  void MergeFrom(const ListCoefficientsRequest& from) {
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeImpl(*this, from);
+  }
+  public:
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "calc.ListCoefficientsRequest";
+  }
+  protected:
+  explicit ListCoefficientsRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:calc.ListCoefficientsRequest)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+  };
+  friend struct ::TableStruct_calc_2eproto;
+};
+// -------------------------------------------------------------------
+
+class ListCoefficientsResponse final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:calc.ListCoefficientsResponse) */ {
+ public:
+  inline ListCoefficientsResponse() : ListCoefficientsResponse(nullptr) {}
+  ~ListCoefficientsResponse() override;
+  explicit PROTOBUF_CONSTEXPR ListCoefficientsResponse(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  ListCoefficientsResponse(const ListCoefficientsResponse& from);
+  ListCoefficientsResponse(ListCoefficientsResponse&& from) noexcept
+    : ListCoefficientsResponse() {
+    *this = ::std::move(from);
+  }
+
+  inline ListCoefficientsResponse& operator=(const ListCoefficientsResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline ListCoefficientsResponse& operator=(ListCoefficientsResponse&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const ListCoefficientsResponse& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const ListCoefficientsResponse* internal_default_instance() {
+    return reinterpret_cast<const ListCoefficientsResponse*>(
+               &_ListCoefficientsResponse_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    11;
+
+  friend void swap(ListCoefficientsResponse& a, ListCoefficientsResponse& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(ListCoefficientsResponse* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(ListCoefficientsResponse* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  ListCoefficientsResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<ListCoefficientsResponse>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const ListCoefficientsResponse& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const ListCoefficientsResponse& from) {
+    ListCoefficientsResponse::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(ListCoefficientsResponse* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "calc.ListCoefficientsResponse";
+  }
+  protected:
+  explicit ListCoefficientsResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kCoefficientsFieldNumber = 2,
+    kErrorMessageFieldNumber = 3,
+    kSuccessFieldNumber = 1,
+  };
+  // repeated .calc.PensionCoefficient coefficients = 2;
+  int coefficients_size() const;
+  private:
+  int _internal_coefficients_size() const;
+  public:
+  void clear_coefficients();
+  ::calc::PensionCoefficient* mutable_coefficients(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::calc::PensionCoefficient >*
+      mutable_coefficients();
+  private:
+  const ::calc::PensionCoefficient& _internal_coefficients(int index) const;
+  ::calc::PensionCoefficient* _internal_add_coefficients();
+  public:
+  const ::calc::PensionCoefficient& coefficients(int index) const;
+  ::calc::PensionCoefficient* add_coefficients();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::calc::PensionCoefficient >&
+      coefficients() const;
+
+  // string error_message = 3;
+  void clear_error_message();
+  const std::string& error_message() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_error_message(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_error_message();
+  PROTOBUF_NODISCARD std::string* release_error_message();
+  void set_allocated_error_message(std::string* error_message);
+  private:
+  const std::string& _internal_error_message() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_error_message(const std::string& value);
+  std::string* _internal_mutable_error_message();
+  public:
+
+  // bool success = 1;
+  void clear_success();
+  bool success() const;
+  void set_success(bool value);
+  private:
+  bool _internal_success() const;
+  void _internal_set_success(bool value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:calc.ListCoefficientsResponse)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::calc::PensionCoefficient > coefficients_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr error_message_;
+    bool success_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_calc_2eproto;
+};
+// -------------------------------------------------------------------
+
+class AddCoefficientRequest final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:calc.AddCoefficientRequest) */ {
+ public:
+  inline AddCoefficientRequest() : AddCoefficientRequest(nullptr) {}
+  ~AddCoefficientRequest() override;
+  explicit PROTOBUF_CONSTEXPR AddCoefficientRequest(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  AddCoefficientRequest(const AddCoefficientRequest& from);
+  AddCoefficientRequest(AddCoefficientRequest&& from) noexcept
+    : AddCoefficientRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline AddCoefficientRequest& operator=(const AddCoefficientRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline AddCoefficientRequest& operator=(AddCoefficientRequest&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const AddCoefficientRequest& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const AddCoefficientRequest* internal_default_instance() {
+    return reinterpret_cast<const AddCoefficientRequest*>(
+               &_AddCoefficientRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    12;
+
+  friend void swap(AddCoefficientRequest& a, AddCoefficientRequest& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(AddCoefficientRequest* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(AddCoefficientRequest* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  AddCoefficientRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<AddCoefficientRequest>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const AddCoefficientRequest& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const AddCoefficientRequest& from) {
+    AddCoefficientRequest::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(AddCoefficientRequest* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "calc.AddCoefficientRequest";
+  }
+  protected:
+  explicit AddCoefficientRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kDescriptionFieldNumber = 4,
+    kYearFieldNumber = 1,
+    kMonthFieldNumber = 2,
+    kCoefficientFieldNumber = 3,
+  };
+  // string description = 4;
+  void clear_description();
+  const std::string& description() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_description(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_description();
+  PROTOBUF_NODISCARD std::string* release_description();
+  void set_allocated_description(std::string* description);
+  private:
+  const std::string& _internal_description() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_description(const std::string& value);
+  std::string* _internal_mutable_description();
+  public:
+
+  // int32 year = 1;
+  void clear_year();
+  int32_t year() const;
+  void set_year(int32_t value);
+  private:
+  int32_t _internal_year() const;
+  void _internal_set_year(int32_t value);
+  public:
+
+  // int32 month = 2;
+  void clear_month();
+  int32_t month() const;
+  void set_month(int32_t value);
+  private:
+  int32_t _internal_month() const;
+  void _internal_set_month(int32_t value);
+  public:
+
+  // double coefficient = 3;
+  void clear_coefficient();
+  double coefficient() const;
+  void set_coefficient(double value);
+  private:
+  double _internal_coefficient() const;
+  void _internal_set_coefficient(double value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:calc.AddCoefficientRequest)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr description_;
+    int32_t year_;
+    int32_t month_;
+    double coefficient_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_calc_2eproto;
+};
+// -------------------------------------------------------------------
+
+class AddCoefficientResponse final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:calc.AddCoefficientResponse) */ {
+ public:
+  inline AddCoefficientResponse() : AddCoefficientResponse(nullptr) {}
+  ~AddCoefficientResponse() override;
+  explicit PROTOBUF_CONSTEXPR AddCoefficientResponse(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  AddCoefficientResponse(const AddCoefficientResponse& from);
+  AddCoefficientResponse(AddCoefficientResponse&& from) noexcept
+    : AddCoefficientResponse() {
+    *this = ::std::move(from);
+  }
+
+  inline AddCoefficientResponse& operator=(const AddCoefficientResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline AddCoefficientResponse& operator=(AddCoefficientResponse&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const AddCoefficientResponse& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const AddCoefficientResponse* internal_default_instance() {
+    return reinterpret_cast<const AddCoefficientResponse*>(
+               &_AddCoefficientResponse_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    13;
+
+  friend void swap(AddCoefficientResponse& a, AddCoefficientResponse& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(AddCoefficientResponse* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(AddCoefficientResponse* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  AddCoefficientResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<AddCoefficientResponse>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const AddCoefficientResponse& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const AddCoefficientResponse& from) {
+    AddCoefficientResponse::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(AddCoefficientResponse* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "calc.AddCoefficientResponse";
+  }
+  protected:
+  explicit AddCoefficientResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kErrorMessageFieldNumber = 3,
+    kCoefficientFieldNumber = 2,
+    kSuccessFieldNumber = 1,
+  };
+  // string error_message = 3;
+  void clear_error_message();
+  const std::string& error_message() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_error_message(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_error_message();
+  PROTOBUF_NODISCARD std::string* release_error_message();
+  void set_allocated_error_message(std::string* error_message);
+  private:
+  const std::string& _internal_error_message() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_error_message(const std::string& value);
+  std::string* _internal_mutable_error_message();
+  public:
+
+  // .calc.PensionCoefficient coefficient = 2;
+  bool has_coefficient() const;
+  private:
+  bool _internal_has_coefficient() const;
+  public:
+  void clear_coefficient();
+  const ::calc::PensionCoefficient& coefficient() const;
+  PROTOBUF_NODISCARD ::calc::PensionCoefficient* release_coefficient();
+  ::calc::PensionCoefficient* mutable_coefficient();
+  void set_allocated_coefficient(::calc::PensionCoefficient* coefficient);
+  private:
+  const ::calc::PensionCoefficient& _internal_coefficient() const;
+  ::calc::PensionCoefficient* _internal_mutable_coefficient();
+  public:
+  void unsafe_arena_set_allocated_coefficient(
+      ::calc::PensionCoefficient* coefficient);
+  ::calc::PensionCoefficient* unsafe_arena_release_coefficient();
+
+  // bool success = 1;
+  void clear_success();
+  bool success() const;
+  void set_success(bool value);
+  private:
+  bool _internal_success() const;
+  void _internal_set_success(bool value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:calc.AddCoefficientResponse)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr error_message_;
+    ::calc::PensionCoefficient* coefficient_;
+    bool success_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_calc_2eproto;
+};
+// -------------------------------------------------------------------
+
+class UpdateCoefficientRequest final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:calc.UpdateCoefficientRequest) */ {
+ public:
+  inline UpdateCoefficientRequest() : UpdateCoefficientRequest(nullptr) {}
+  ~UpdateCoefficientRequest() override;
+  explicit PROTOBUF_CONSTEXPR UpdateCoefficientRequest(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  UpdateCoefficientRequest(const UpdateCoefficientRequest& from);
+  UpdateCoefficientRequest(UpdateCoefficientRequest&& from) noexcept
+    : UpdateCoefficientRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline UpdateCoefficientRequest& operator=(const UpdateCoefficientRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline UpdateCoefficientRequest& operator=(UpdateCoefficientRequest&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const UpdateCoefficientRequest& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const UpdateCoefficientRequest* internal_default_instance() {
+    return reinterpret_cast<const UpdateCoefficientRequest*>(
+               &_UpdateCoefficientRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    14;
+
+  friend void swap(UpdateCoefficientRequest& a, UpdateCoefficientRequest& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(UpdateCoefficientRequest* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(UpdateCoefficientRequest* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  UpdateCoefficientRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<UpdateCoefficientRequest>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const UpdateCoefficientRequest& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const UpdateCoefficientRequest& from) {
+    UpdateCoefficientRequest::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(UpdateCoefficientRequest* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "calc.UpdateCoefficientRequest";
+  }
+  protected:
+  explicit UpdateCoefficientRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kDescriptionFieldNumber = 5,
+    kIdFieldNumber = 1,
+    kYearFieldNumber = 2,
+    kCoefficientFieldNumber = 4,
+    kMonthFieldNumber = 3,
+  };
+  // string description = 5;
+  void clear_description();
+  const std::string& description() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_description(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_description();
+  PROTOBUF_NODISCARD std::string* release_description();
+  void set_allocated_description(std::string* description);
+  private:
+  const std::string& _internal_description() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_description(const std::string& value);
+  std::string* _internal_mutable_description();
+  public:
+
+  // int32 id = 1;
+  void clear_id();
+  int32_t id() const;
+  void set_id(int32_t value);
+  private:
+  int32_t _internal_id() const;
+  void _internal_set_id(int32_t value);
+  public:
+
+  // int32 year = 2;
+  void clear_year();
+  int32_t year() const;
+  void set_year(int32_t value);
+  private:
+  int32_t _internal_year() const;
+  void _internal_set_year(int32_t value);
+  public:
+
+  // double coefficient = 4;
+  void clear_coefficient();
+  double coefficient() const;
+  void set_coefficient(double value);
+  private:
+  double _internal_coefficient() const;
+  void _internal_set_coefficient(double value);
+  public:
+
+  // int32 month = 3;
+  void clear_month();
+  int32_t month() const;
+  void set_month(int32_t value);
+  private:
+  int32_t _internal_month() const;
+  void _internal_set_month(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:calc.UpdateCoefficientRequest)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr description_;
+    int32_t id_;
+    int32_t year_;
+    double coefficient_;
+    int32_t month_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_calc_2eproto;
+};
+// -------------------------------------------------------------------
+
+class UpdateCoefficientResponse final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:calc.UpdateCoefficientResponse) */ {
+ public:
+  inline UpdateCoefficientResponse() : UpdateCoefficientResponse(nullptr) {}
+  ~UpdateCoefficientResponse() override;
+  explicit PROTOBUF_CONSTEXPR UpdateCoefficientResponse(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  UpdateCoefficientResponse(const UpdateCoefficientResponse& from);
+  UpdateCoefficientResponse(UpdateCoefficientResponse&& from) noexcept
+    : UpdateCoefficientResponse() {
+    *this = ::std::move(from);
+  }
+
+  inline UpdateCoefficientResponse& operator=(const UpdateCoefficientResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline UpdateCoefficientResponse& operator=(UpdateCoefficientResponse&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const UpdateCoefficientResponse& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const UpdateCoefficientResponse* internal_default_instance() {
+    return reinterpret_cast<const UpdateCoefficientResponse*>(
+               &_UpdateCoefficientResponse_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    15;
+
+  friend void swap(UpdateCoefficientResponse& a, UpdateCoefficientResponse& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(UpdateCoefficientResponse* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(UpdateCoefficientResponse* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  UpdateCoefficientResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<UpdateCoefficientResponse>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const UpdateCoefficientResponse& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const UpdateCoefficientResponse& from) {
+    UpdateCoefficientResponse::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(UpdateCoefficientResponse* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "calc.UpdateCoefficientResponse";
+  }
+  protected:
+  explicit UpdateCoefficientResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kErrorMessageFieldNumber = 3,
+    kCoefficientFieldNumber = 2,
+    kSuccessFieldNumber = 1,
+  };
+  // string error_message = 3;
+  void clear_error_message();
+  const std::string& error_message() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_error_message(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_error_message();
+  PROTOBUF_NODISCARD std::string* release_error_message();
+  void set_allocated_error_message(std::string* error_message);
+  private:
+  const std::string& _internal_error_message() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_error_message(const std::string& value);
+  std::string* _internal_mutable_error_message();
+  public:
+
+  // .calc.PensionCoefficient coefficient = 2;
+  bool has_coefficient() const;
+  private:
+  bool _internal_has_coefficient() const;
+  public:
+  void clear_coefficient();
+  const ::calc::PensionCoefficient& coefficient() const;
+  PROTOBUF_NODISCARD ::calc::PensionCoefficient* release_coefficient();
+  ::calc::PensionCoefficient* mutable_coefficient();
+  void set_allocated_coefficient(::calc::PensionCoefficient* coefficient);
+  private:
+  const ::calc::PensionCoefficient& _internal_coefficient() const;
+  ::calc::PensionCoefficient* _internal_mutable_coefficient();
+  public:
+  void unsafe_arena_set_allocated_coefficient(
+      ::calc::PensionCoefficient* coefficient);
+  ::calc::PensionCoefficient* unsafe_arena_release_coefficient();
+
+  // bool success = 1;
+  void clear_success();
+  bool success() const;
+  void set_success(bool value);
+  private:
+  bool _internal_success() const;
+  void _internal_set_success(bool value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:calc.UpdateCoefficientResponse)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr error_message_;
+    ::calc::PensionCoefficient* coefficient_;
+    bool success_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_calc_2eproto;
+};
+// -------------------------------------------------------------------
+
+class DeleteCoefficientRequest final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:calc.DeleteCoefficientRequest) */ {
+ public:
+  inline DeleteCoefficientRequest() : DeleteCoefficientRequest(nullptr) {}
+  ~DeleteCoefficientRequest() override;
+  explicit PROTOBUF_CONSTEXPR DeleteCoefficientRequest(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  DeleteCoefficientRequest(const DeleteCoefficientRequest& from);
+  DeleteCoefficientRequest(DeleteCoefficientRequest&& from) noexcept
+    : DeleteCoefficientRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline DeleteCoefficientRequest& operator=(const DeleteCoefficientRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline DeleteCoefficientRequest& operator=(DeleteCoefficientRequest&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const DeleteCoefficientRequest& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const DeleteCoefficientRequest* internal_default_instance() {
+    return reinterpret_cast<const DeleteCoefficientRequest*>(
+               &_DeleteCoefficientRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    16;
+
+  friend void swap(DeleteCoefficientRequest& a, DeleteCoefficientRequest& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(DeleteCoefficientRequest* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(DeleteCoefficientRequest* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  DeleteCoefficientRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<DeleteCoefficientRequest>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const DeleteCoefficientRequest& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const DeleteCoefficientRequest& from) {
+    DeleteCoefficientRequest::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(DeleteCoefficientRequest* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "calc.DeleteCoefficientRequest";
+  }
+  protected:
+  explicit DeleteCoefficientRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kIdFieldNumber = 1,
+  };
+  // int32 id = 1;
+  void clear_id();
+  int32_t id() const;
+  void set_id(int32_t value);
+  private:
+  int32_t _internal_id() const;
+  void _internal_set_id(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:calc.DeleteCoefficientRequest)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    int32_t id_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_calc_2eproto;
+};
+// -------------------------------------------------------------------
+
+class DeleteCoefficientResponse final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:calc.DeleteCoefficientResponse) */ {
+ public:
+  inline DeleteCoefficientResponse() : DeleteCoefficientResponse(nullptr) {}
+  ~DeleteCoefficientResponse() override;
+  explicit PROTOBUF_CONSTEXPR DeleteCoefficientResponse(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  DeleteCoefficientResponse(const DeleteCoefficientResponse& from);
+  DeleteCoefficientResponse(DeleteCoefficientResponse&& from) noexcept
+    : DeleteCoefficientResponse() {
+    *this = ::std::move(from);
+  }
+
+  inline DeleteCoefficientResponse& operator=(const DeleteCoefficientResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline DeleteCoefficientResponse& operator=(DeleteCoefficientResponse&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const DeleteCoefficientResponse& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const DeleteCoefficientResponse* internal_default_instance() {
+    return reinterpret_cast<const DeleteCoefficientResponse*>(
+               &_DeleteCoefficientResponse_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    17;
+
+  friend void swap(DeleteCoefficientResponse& a, DeleteCoefficientResponse& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(DeleteCoefficientResponse* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(DeleteCoefficientResponse* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  DeleteCoefficientResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<DeleteCoefficientResponse>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const DeleteCoefficientResponse& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const DeleteCoefficientResponse& from) {
+    DeleteCoefficientResponse::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(DeleteCoefficientResponse* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "calc.DeleteCoefficientResponse";
+  }
+  protected:
+  explicit DeleteCoefficientResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kErrorMessageFieldNumber = 2,
+    kSuccessFieldNumber = 1,
+  };
+  // string error_message = 2;
+  void clear_error_message();
+  const std::string& error_message() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_error_message(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_error_message();
+  PROTOBUF_NODISCARD std::string* release_error_message();
+  void set_allocated_error_message(std::string* error_message);
+  private:
+  const std::string& _internal_error_message() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_error_message(const std::string& value);
+  std::string* _internal_mutable_error_message();
+  public:
+
+  // bool success = 1;
+  void clear_success();
+  bool success() const;
+  void set_success(bool value);
+  private:
+  bool _internal_success() const;
+  void _internal_set_success(bool value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:calc.DeleteCoefficientResponse)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr error_message_;
+    bool success_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_calc_2eproto;
+};
+// -------------------------------------------------------------------
+
+class AverageSalaryRecord final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:calc.AverageSalaryRecord) */ {
+ public:
+  inline AverageSalaryRecord() : AverageSalaryRecord(nullptr) {}
+  ~AverageSalaryRecord() override;
+  explicit PROTOBUF_CONSTEXPR AverageSalaryRecord(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  AverageSalaryRecord(const AverageSalaryRecord& from);
+  AverageSalaryRecord(AverageSalaryRecord&& from) noexcept
+    : AverageSalaryRecord() {
+    *this = ::std::move(from);
+  }
+
+  inline AverageSalaryRecord& operator=(const AverageSalaryRecord& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline AverageSalaryRecord& operator=(AverageSalaryRecord&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const AverageSalaryRecord& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const AverageSalaryRecord* internal_default_instance() {
+    return reinterpret_cast<const AverageSalaryRecord*>(
+               &_AverageSalaryRecord_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    18;
+
+  friend void swap(AverageSalaryRecord& a, AverageSalaryRecord& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(AverageSalaryRecord* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(AverageSalaryRecord* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  AverageSalaryRecord* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<AverageSalaryRecord>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const AverageSalaryRecord& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const AverageSalaryRecord& from) {
+    AverageSalaryRecord::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(AverageSalaryRecord* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "calc.AverageSalaryRecord";
+  }
+  protected:
+  explicit AverageSalaryRecord(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kYearFieldNumber = 1,
+    kMonthFieldNumber = 2,
+    kAmountFieldNumber = 3,
+  };
+  // int32 year = 1;
+  void clear_year();
+  int32_t year() const;
+  void set_year(int32_t value);
+  private:
+  int32_t _internal_year() const;
+  void _internal_set_year(int32_t value);
+  public:
+
+  // int32 month = 2;
+  void clear_month();
+  int32_t month() const;
+  void set_month(int32_t value);
+  private:
+  int32_t _internal_month() const;
+  void _internal_set_month(int32_t value);
+  public:
+
+  // double amount = 3;
+  void clear_amount();
+  double amount() const;
+  void set_amount(double value);
+  private:
+  double _internal_amount() const;
+  void _internal_set_amount(double value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:calc.AverageSalaryRecord)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    int32_t year_;
+    int32_t month_;
+    double amount_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_calc_2eproto;
+};
+// -------------------------------------------------------------------
+
+class SyncAverageSalariesRequest final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:calc.SyncAverageSalariesRequest) */ {
+ public:
+  inline SyncAverageSalariesRequest() : SyncAverageSalariesRequest(nullptr) {}
+  ~SyncAverageSalariesRequest() override;
+  explicit PROTOBUF_CONSTEXPR SyncAverageSalariesRequest(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  SyncAverageSalariesRequest(const SyncAverageSalariesRequest& from);
+  SyncAverageSalariesRequest(SyncAverageSalariesRequest&& from) noexcept
+    : SyncAverageSalariesRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline SyncAverageSalariesRequest& operator=(const SyncAverageSalariesRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SyncAverageSalariesRequest& operator=(SyncAverageSalariesRequest&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const SyncAverageSalariesRequest& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const SyncAverageSalariesRequest* internal_default_instance() {
+    return reinterpret_cast<const SyncAverageSalariesRequest*>(
+               &_SyncAverageSalariesRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    19;
+
+  friend void swap(SyncAverageSalariesRequest& a, SyncAverageSalariesRequest& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(SyncAverageSalariesRequest* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(SyncAverageSalariesRequest* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  SyncAverageSalariesRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<SyncAverageSalariesRequest>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const SyncAverageSalariesRequest& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const SyncAverageSalariesRequest& from) {
+    SyncAverageSalariesRequest::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(SyncAverageSalariesRequest* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "calc.SyncAverageSalariesRequest";
+  }
+  protected:
+  explicit SyncAverageSalariesRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kSalariesFieldNumber = 1,
+  };
+  // repeated .calc.AverageSalaryRecord salaries = 1;
+  int salaries_size() const;
+  private:
+  int _internal_salaries_size() const;
+  public:
+  void clear_salaries();
+  ::calc::AverageSalaryRecord* mutable_salaries(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::calc::AverageSalaryRecord >*
+      mutable_salaries();
+  private:
+  const ::calc::AverageSalaryRecord& _internal_salaries(int index) const;
+  ::calc::AverageSalaryRecord* _internal_add_salaries();
+  public:
+  const ::calc::AverageSalaryRecord& salaries(int index) const;
+  ::calc::AverageSalaryRecord* add_salaries();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::calc::AverageSalaryRecord >&
+      salaries() const;
+
+  // @@protoc_insertion_point(class_scope:calc.SyncAverageSalariesRequest)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::calc::AverageSalaryRecord > salaries_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_calc_2eproto;
+};
+// -------------------------------------------------------------------
+
+class SyncAverageSalariesResponse final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:calc.SyncAverageSalariesResponse) */ {
+ public:
+  inline SyncAverageSalariesResponse() : SyncAverageSalariesResponse(nullptr) {}
+  ~SyncAverageSalariesResponse() override;
+  explicit PROTOBUF_CONSTEXPR SyncAverageSalariesResponse(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  SyncAverageSalariesResponse(const SyncAverageSalariesResponse& from);
+  SyncAverageSalariesResponse(SyncAverageSalariesResponse&& from) noexcept
+    : SyncAverageSalariesResponse() {
+    *this = ::std::move(from);
+  }
+
+  inline SyncAverageSalariesResponse& operator=(const SyncAverageSalariesResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SyncAverageSalariesResponse& operator=(SyncAverageSalariesResponse&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const SyncAverageSalariesResponse& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const SyncAverageSalariesResponse* internal_default_instance() {
+    return reinterpret_cast<const SyncAverageSalariesResponse*>(
+               &_SyncAverageSalariesResponse_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    20;
+
+  friend void swap(SyncAverageSalariesResponse& a, SyncAverageSalariesResponse& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(SyncAverageSalariesResponse* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(SyncAverageSalariesResponse* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  SyncAverageSalariesResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<SyncAverageSalariesResponse>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const SyncAverageSalariesResponse& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const SyncAverageSalariesResponse& from) {
+    SyncAverageSalariesResponse::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(SyncAverageSalariesResponse* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "calc.SyncAverageSalariesResponse";
+  }
+  protected:
+  explicit SyncAverageSalariesResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kErrorMessageFieldNumber = 3,
+    kSuccessFieldNumber = 1,
+    kProcessedCountFieldNumber = 2,
+  };
+  // string error_message = 3;
+  void clear_error_message();
+  const std::string& error_message() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_error_message(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_error_message();
+  PROTOBUF_NODISCARD std::string* release_error_message();
+  void set_allocated_error_message(std::string* error_message);
+  private:
+  const std::string& _internal_error_message() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_error_message(const std::string& value);
+  std::string* _internal_mutable_error_message();
+  public:
+
+  // bool success = 1;
+  void clear_success();
+  bool success() const;
+  void set_success(bool value);
+  private:
+  bool _internal_success() const;
+  void _internal_set_success(bool value);
+  public:
+
+  // int32 processed_count = 2;
+  void clear_processed_count();
+  int32_t processed_count() const;
+  void set_processed_count(int32_t value);
+  private:
+  int32_t _internal_processed_count() const;
+  void _internal_set_processed_count(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:calc.SyncAverageSalariesResponse)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr error_message_;
+    bool success_;
+    int32_t processed_count_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_calc_2eproto;
+};
+// -------------------------------------------------------------------
+
+class UpsertSubsistenceMinimumRequest final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:calc.UpsertSubsistenceMinimumRequest) */ {
+ public:
+  inline UpsertSubsistenceMinimumRequest() : UpsertSubsistenceMinimumRequest(nullptr) {}
+  ~UpsertSubsistenceMinimumRequest() override;
+  explicit PROTOBUF_CONSTEXPR UpsertSubsistenceMinimumRequest(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  UpsertSubsistenceMinimumRequest(const UpsertSubsistenceMinimumRequest& from);
+  UpsertSubsistenceMinimumRequest(UpsertSubsistenceMinimumRequest&& from) noexcept
+    : UpsertSubsistenceMinimumRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline UpsertSubsistenceMinimumRequest& operator=(const UpsertSubsistenceMinimumRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline UpsertSubsistenceMinimumRequest& operator=(UpsertSubsistenceMinimumRequest&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const UpsertSubsistenceMinimumRequest& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const UpsertSubsistenceMinimumRequest* internal_default_instance() {
+    return reinterpret_cast<const UpsertSubsistenceMinimumRequest*>(
+               &_UpsertSubsistenceMinimumRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    21;
+
+  friend void swap(UpsertSubsistenceMinimumRequest& a, UpsertSubsistenceMinimumRequest& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(UpsertSubsistenceMinimumRequest* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(UpsertSubsistenceMinimumRequest* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  UpsertSubsistenceMinimumRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<UpsertSubsistenceMinimumRequest>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const UpsertSubsistenceMinimumRequest& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const UpsertSubsistenceMinimumRequest& from) {
+    UpsertSubsistenceMinimumRequest::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(UpsertSubsistenceMinimumRequest* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "calc.UpsertSubsistenceMinimumRequest";
+  }
+  protected:
+  explicit UpsertSubsistenceMinimumRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kForDisabledPersonsFieldNumber = 2,
+    kGeneralMinimumFieldNumber = 3,
+    kYearFieldNumber = 1,
+  };
+  // double for_disabled_persons = 2;
+  void clear_for_disabled_persons();
+  double for_disabled_persons() const;
+  void set_for_disabled_persons(double value);
+  private:
+  double _internal_for_disabled_persons() const;
+  void _internal_set_for_disabled_persons(double value);
+  public:
+
+  // double general_minimum = 3;
+  void clear_general_minimum();
+  double general_minimum() const;
+  void set_general_minimum(double value);
+  private:
+  double _internal_general_minimum() const;
+  void _internal_set_general_minimum(double value);
+  public:
+
+  // int32 year = 1;
+  void clear_year();
+  int32_t year() const;
+  void set_year(int32_t value);
+  private:
+  int32_t _internal_year() const;
+  void _internal_set_year(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:calc.UpsertSubsistenceMinimumRequest)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    double for_disabled_persons_;
+    double general_minimum_;
+    int32_t year_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_calc_2eproto;
+};
+// -------------------------------------------------------------------
+
+class UpsertSubsistenceMinimumResponse final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:calc.UpsertSubsistenceMinimumResponse) */ {
+ public:
+  inline UpsertSubsistenceMinimumResponse() : UpsertSubsistenceMinimumResponse(nullptr) {}
+  ~UpsertSubsistenceMinimumResponse() override;
+  explicit PROTOBUF_CONSTEXPR UpsertSubsistenceMinimumResponse(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  UpsertSubsistenceMinimumResponse(const UpsertSubsistenceMinimumResponse& from);
+  UpsertSubsistenceMinimumResponse(UpsertSubsistenceMinimumResponse&& from) noexcept
+    : UpsertSubsistenceMinimumResponse() {
+    *this = ::std::move(from);
+  }
+
+  inline UpsertSubsistenceMinimumResponse& operator=(const UpsertSubsistenceMinimumResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline UpsertSubsistenceMinimumResponse& operator=(UpsertSubsistenceMinimumResponse&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const UpsertSubsistenceMinimumResponse& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const UpsertSubsistenceMinimumResponse* internal_default_instance() {
+    return reinterpret_cast<const UpsertSubsistenceMinimumResponse*>(
+               &_UpsertSubsistenceMinimumResponse_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    22;
+
+  friend void swap(UpsertSubsistenceMinimumResponse& a, UpsertSubsistenceMinimumResponse& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(UpsertSubsistenceMinimumResponse* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(UpsertSubsistenceMinimumResponse* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  UpsertSubsistenceMinimumResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<UpsertSubsistenceMinimumResponse>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const UpsertSubsistenceMinimumResponse& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const UpsertSubsistenceMinimumResponse& from) {
+    UpsertSubsistenceMinimumResponse::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(UpsertSubsistenceMinimumResponse* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "calc.UpsertSubsistenceMinimumResponse";
+  }
+  protected:
+  explicit UpsertSubsistenceMinimumResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kMessageFieldNumber = 2,
+    kErrorMessageFieldNumber = 3,
+    kSuccessFieldNumber = 1,
+  };
+  // string message = 2;
+  void clear_message();
+  const std::string& message() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_message(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_message();
+  PROTOBUF_NODISCARD std::string* release_message();
+  void set_allocated_message(std::string* message);
+  private:
+  const std::string& _internal_message() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_message(const std::string& value);
+  std::string* _internal_mutable_message();
+  public:
+
+  // string error_message = 3;
+  void clear_error_message();
+  const std::string& error_message() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_error_message(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_error_message();
+  PROTOBUF_NODISCARD std::string* release_error_message();
+  void set_allocated_error_message(std::string* error_message);
+  private:
+  const std::string& _internal_error_message() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_error_message(const std::string& value);
+  std::string* _internal_mutable_error_message();
+  public:
+
+  // bool success = 1;
+  void clear_success();
+  bool success() const;
+  void set_success(bool value);
+  private:
+  bool _internal_success() const;
+  void _internal_set_success(bool value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:calc.UpsertSubsistenceMinimumResponse)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr message_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr error_message_;
+    bool success_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_calc_2eproto;
+};
+// -------------------------------------------------------------------
+
+class ListSubsistenceMinimumsRequest final :
+    public ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase /* @@protoc_insertion_point(class_definition:calc.ListSubsistenceMinimumsRequest) */ {
+ public:
+  inline ListSubsistenceMinimumsRequest() : ListSubsistenceMinimumsRequest(nullptr) {}
+  explicit PROTOBUF_CONSTEXPR ListSubsistenceMinimumsRequest(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  ListSubsistenceMinimumsRequest(const ListSubsistenceMinimumsRequest& from);
+  ListSubsistenceMinimumsRequest(ListSubsistenceMinimumsRequest&& from) noexcept
+    : ListSubsistenceMinimumsRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline ListSubsistenceMinimumsRequest& operator=(const ListSubsistenceMinimumsRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline ListSubsistenceMinimumsRequest& operator=(ListSubsistenceMinimumsRequest&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const ListSubsistenceMinimumsRequest& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const ListSubsistenceMinimumsRequest* internal_default_instance() {
+    return reinterpret_cast<const ListSubsistenceMinimumsRequest*>(
+               &_ListSubsistenceMinimumsRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    23;
+
+  friend void swap(ListSubsistenceMinimumsRequest& a, ListSubsistenceMinimumsRequest& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(ListSubsistenceMinimumsRequest* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(ListSubsistenceMinimumsRequest* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  ListSubsistenceMinimumsRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<ListSubsistenceMinimumsRequest>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyFrom;
+  inline void CopyFrom(const ListSubsistenceMinimumsRequest& from) {
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyImpl(*this, from);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeFrom;
+  void MergeFrom(const ListSubsistenceMinimumsRequest& from) {
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeImpl(*this, from);
+  }
+  public:
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "calc.ListSubsistenceMinimumsRequest";
+  }
+  protected:
+  explicit ListSubsistenceMinimumsRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // @@protoc_insertion_point(class_scope:calc.ListSubsistenceMinimumsRequest)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+  };
+  friend struct ::TableStruct_calc_2eproto;
+};
+// -------------------------------------------------------------------
+
+class SubsistenceMinimumRecord final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:calc.SubsistenceMinimumRecord) */ {
+ public:
+  inline SubsistenceMinimumRecord() : SubsistenceMinimumRecord(nullptr) {}
+  ~SubsistenceMinimumRecord() override;
+  explicit PROTOBUF_CONSTEXPR SubsistenceMinimumRecord(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  SubsistenceMinimumRecord(const SubsistenceMinimumRecord& from);
+  SubsistenceMinimumRecord(SubsistenceMinimumRecord&& from) noexcept
+    : SubsistenceMinimumRecord() {
+    *this = ::std::move(from);
+  }
+
+  inline SubsistenceMinimumRecord& operator=(const SubsistenceMinimumRecord& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline SubsistenceMinimumRecord& operator=(SubsistenceMinimumRecord&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const SubsistenceMinimumRecord& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const SubsistenceMinimumRecord* internal_default_instance() {
+    return reinterpret_cast<const SubsistenceMinimumRecord*>(
+               &_SubsistenceMinimumRecord_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    24;
+
+  friend void swap(SubsistenceMinimumRecord& a, SubsistenceMinimumRecord& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(SubsistenceMinimumRecord* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(SubsistenceMinimumRecord* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  SubsistenceMinimumRecord* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<SubsistenceMinimumRecord>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const SubsistenceMinimumRecord& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const SubsistenceMinimumRecord& from) {
+    SubsistenceMinimumRecord::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(SubsistenceMinimumRecord* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "calc.SubsistenceMinimumRecord";
+  }
+  protected:
+  explicit SubsistenceMinimumRecord(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kIdFieldNumber = 1,
+    kYearFieldNumber = 2,
+    kForDisabledPersonsFieldNumber = 3,
+    kGeneralMinimumFieldNumber = 4,
+  };
+  // int32 id = 1;
+  void clear_id();
+  int32_t id() const;
+  void set_id(int32_t value);
+  private:
+  int32_t _internal_id() const;
+  void _internal_set_id(int32_t value);
+  public:
+
+  // int32 year = 2;
+  void clear_year();
+  int32_t year() const;
+  void set_year(int32_t value);
+  private:
+  int32_t _internal_year() const;
+  void _internal_set_year(int32_t value);
+  public:
+
+  // double for_disabled_persons = 3;
+  void clear_for_disabled_persons();
+  double for_disabled_persons() const;
+  void set_for_disabled_persons(double value);
+  private:
+  double _internal_for_disabled_persons() const;
+  void _internal_set_for_disabled_persons(double value);
+  public:
+
+  // double general_minimum = 4;
+  void clear_general_minimum();
+  double general_minimum() const;
+  void set_general_minimum(double value);
+  private:
+  double _internal_general_minimum() const;
+  void _internal_set_general_minimum(double value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:calc.SubsistenceMinimumRecord)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    int32_t id_;
+    int32_t year_;
+    double for_disabled_persons_;
+    double general_minimum_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_calc_2eproto;
+};
+// -------------------------------------------------------------------
+
+class ListSubsistenceMinimumsResponse final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:calc.ListSubsistenceMinimumsResponse) */ {
+ public:
+  inline ListSubsistenceMinimumsResponse() : ListSubsistenceMinimumsResponse(nullptr) {}
+  ~ListSubsistenceMinimumsResponse() override;
+  explicit PROTOBUF_CONSTEXPR ListSubsistenceMinimumsResponse(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  ListSubsistenceMinimumsResponse(const ListSubsistenceMinimumsResponse& from);
+  ListSubsistenceMinimumsResponse(ListSubsistenceMinimumsResponse&& from) noexcept
+    : ListSubsistenceMinimumsResponse() {
+    *this = ::std::move(from);
+  }
+
+  inline ListSubsistenceMinimumsResponse& operator=(const ListSubsistenceMinimumsResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline ListSubsistenceMinimumsResponse& operator=(ListSubsistenceMinimumsResponse&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const ListSubsistenceMinimumsResponse& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const ListSubsistenceMinimumsResponse* internal_default_instance() {
+    return reinterpret_cast<const ListSubsistenceMinimumsResponse*>(
+               &_ListSubsistenceMinimumsResponse_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    25;
+
+  friend void swap(ListSubsistenceMinimumsResponse& a, ListSubsistenceMinimumsResponse& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(ListSubsistenceMinimumsResponse* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(ListSubsistenceMinimumsResponse* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  ListSubsistenceMinimumsResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<ListSubsistenceMinimumsResponse>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const ListSubsistenceMinimumsResponse& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const ListSubsistenceMinimumsResponse& from) {
+    ListSubsistenceMinimumsResponse::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(ListSubsistenceMinimumsResponse* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "calc.ListSubsistenceMinimumsResponse";
+  }
+  protected:
+  explicit ListSubsistenceMinimumsResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kRecordsFieldNumber = 2,
+    kErrorMessageFieldNumber = 3,
+    kSuccessFieldNumber = 1,
+  };
+  // repeated .calc.SubsistenceMinimumRecord records = 2;
+  int records_size() const;
+  private:
+  int _internal_records_size() const;
+  public:
+  void clear_records();
+  ::calc::SubsistenceMinimumRecord* mutable_records(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::calc::SubsistenceMinimumRecord >*
+      mutable_records();
+  private:
+  const ::calc::SubsistenceMinimumRecord& _internal_records(int index) const;
+  ::calc::SubsistenceMinimumRecord* _internal_add_records();
+  public:
+  const ::calc::SubsistenceMinimumRecord& records(int index) const;
+  ::calc::SubsistenceMinimumRecord* add_records();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::calc::SubsistenceMinimumRecord >&
+      records() const;
+
+  // string error_message = 3;
+  void clear_error_message();
+  const std::string& error_message() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_error_message(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_error_message();
+  PROTOBUF_NODISCARD std::string* release_error_message();
+  void set_allocated_error_message(std::string* error_message);
+  private:
+  const std::string& _internal_error_message() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_error_message(const std::string& value);
+  std::string* _internal_mutable_error_message();
+  public:
+
+  // bool success = 1;
+  void clear_success();
+  bool success() const;
+  void set_success(bool value);
+  private:
+  bool _internal_success() const;
+  void _internal_set_success(bool value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:calc.ListSubsistenceMinimumsResponse)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::calc::SubsistenceMinimumRecord > records_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr error_message_;
+    bool success_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_calc_2eproto;
+};
+// -------------------------------------------------------------------
+
+class UpdateSubsistenceMinimumRequest final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:calc.UpdateSubsistenceMinimumRequest) */ {
+ public:
+  inline UpdateSubsistenceMinimumRequest() : UpdateSubsistenceMinimumRequest(nullptr) {}
+  ~UpdateSubsistenceMinimumRequest() override;
+  explicit PROTOBUF_CONSTEXPR UpdateSubsistenceMinimumRequest(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  UpdateSubsistenceMinimumRequest(const UpdateSubsistenceMinimumRequest& from);
+  UpdateSubsistenceMinimumRequest(UpdateSubsistenceMinimumRequest&& from) noexcept
+    : UpdateSubsistenceMinimumRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline UpdateSubsistenceMinimumRequest& operator=(const UpdateSubsistenceMinimumRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline UpdateSubsistenceMinimumRequest& operator=(UpdateSubsistenceMinimumRequest&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const UpdateSubsistenceMinimumRequest& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const UpdateSubsistenceMinimumRequest* internal_default_instance() {
+    return reinterpret_cast<const UpdateSubsistenceMinimumRequest*>(
+               &_UpdateSubsistenceMinimumRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    26;
+
+  friend void swap(UpdateSubsistenceMinimumRequest& a, UpdateSubsistenceMinimumRequest& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(UpdateSubsistenceMinimumRequest* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(UpdateSubsistenceMinimumRequest* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  UpdateSubsistenceMinimumRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<UpdateSubsistenceMinimumRequest>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const UpdateSubsistenceMinimumRequest& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const UpdateSubsistenceMinimumRequest& from) {
+    UpdateSubsistenceMinimumRequest::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(UpdateSubsistenceMinimumRequest* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "calc.UpdateSubsistenceMinimumRequest";
+  }
+  protected:
+  explicit UpdateSubsistenceMinimumRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kIdFieldNumber = 1,
+    kYearFieldNumber = 2,
+    kForDisabledPersonsFieldNumber = 3,
+    kGeneralMinimumFieldNumber = 4,
+  };
+  // int32 id = 1;
+  void clear_id();
+  int32_t id() const;
+  void set_id(int32_t value);
+  private:
+  int32_t _internal_id() const;
+  void _internal_set_id(int32_t value);
+  public:
+
+  // int32 year = 2;
+  void clear_year();
+  int32_t year() const;
+  void set_year(int32_t value);
+  private:
+  int32_t _internal_year() const;
+  void _internal_set_year(int32_t value);
+  public:
+
+  // double for_disabled_persons = 3;
+  void clear_for_disabled_persons();
+  double for_disabled_persons() const;
+  void set_for_disabled_persons(double value);
+  private:
+  double _internal_for_disabled_persons() const;
+  void _internal_set_for_disabled_persons(double value);
+  public:
+
+  // double general_minimum = 4;
+  void clear_general_minimum();
+  double general_minimum() const;
+  void set_general_minimum(double value);
+  private:
+  double _internal_general_minimum() const;
+  void _internal_set_general_minimum(double value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:calc.UpdateSubsistenceMinimumRequest)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    int32_t id_;
+    int32_t year_;
+    double for_disabled_persons_;
+    double general_minimum_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_calc_2eproto;
+};
+// -------------------------------------------------------------------
+
+class UpdateSubsistenceMinimumResponse final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:calc.UpdateSubsistenceMinimumResponse) */ {
+ public:
+  inline UpdateSubsistenceMinimumResponse() : UpdateSubsistenceMinimumResponse(nullptr) {}
+  ~UpdateSubsistenceMinimumResponse() override;
+  explicit PROTOBUF_CONSTEXPR UpdateSubsistenceMinimumResponse(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  UpdateSubsistenceMinimumResponse(const UpdateSubsistenceMinimumResponse& from);
+  UpdateSubsistenceMinimumResponse(UpdateSubsistenceMinimumResponse&& from) noexcept
+    : UpdateSubsistenceMinimumResponse() {
+    *this = ::std::move(from);
+  }
+
+  inline UpdateSubsistenceMinimumResponse& operator=(const UpdateSubsistenceMinimumResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline UpdateSubsistenceMinimumResponse& operator=(UpdateSubsistenceMinimumResponse&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const UpdateSubsistenceMinimumResponse& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const UpdateSubsistenceMinimumResponse* internal_default_instance() {
+    return reinterpret_cast<const UpdateSubsistenceMinimumResponse*>(
+               &_UpdateSubsistenceMinimumResponse_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    27;
+
+  friend void swap(UpdateSubsistenceMinimumResponse& a, UpdateSubsistenceMinimumResponse& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(UpdateSubsistenceMinimumResponse* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(UpdateSubsistenceMinimumResponse* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  UpdateSubsistenceMinimumResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<UpdateSubsistenceMinimumResponse>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const UpdateSubsistenceMinimumResponse& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const UpdateSubsistenceMinimumResponse& from) {
+    UpdateSubsistenceMinimumResponse::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(UpdateSubsistenceMinimumResponse* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "calc.UpdateSubsistenceMinimumResponse";
+  }
+  protected:
+  explicit UpdateSubsistenceMinimumResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kErrorMessageFieldNumber = 3,
+    kRecordFieldNumber = 2,
+    kSuccessFieldNumber = 1,
+  };
+  // string error_message = 3;
+  void clear_error_message();
+  const std::string& error_message() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_error_message(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_error_message();
+  PROTOBUF_NODISCARD std::string* release_error_message();
+  void set_allocated_error_message(std::string* error_message);
+  private:
+  const std::string& _internal_error_message() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_error_message(const std::string& value);
+  std::string* _internal_mutable_error_message();
+  public:
+
+  // .calc.SubsistenceMinimumRecord record = 2;
+  bool has_record() const;
+  private:
+  bool _internal_has_record() const;
+  public:
+  void clear_record();
+  const ::calc::SubsistenceMinimumRecord& record() const;
+  PROTOBUF_NODISCARD ::calc::SubsistenceMinimumRecord* release_record();
+  ::calc::SubsistenceMinimumRecord* mutable_record();
+  void set_allocated_record(::calc::SubsistenceMinimumRecord* record);
+  private:
+  const ::calc::SubsistenceMinimumRecord& _internal_record() const;
+  ::calc::SubsistenceMinimumRecord* _internal_mutable_record();
+  public:
+  void unsafe_arena_set_allocated_record(
+      ::calc::SubsistenceMinimumRecord* record);
+  ::calc::SubsistenceMinimumRecord* unsafe_arena_release_record();
+
+  // bool success = 1;
+  void clear_success();
+  bool success() const;
+  void set_success(bool value);
+  private:
+  bool _internal_success() const;
+  void _internal_set_success(bool value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:calc.UpdateSubsistenceMinimumResponse)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr error_message_;
+    ::calc::SubsistenceMinimumRecord* record_;
+    bool success_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_calc_2eproto;
+};
+// -------------------------------------------------------------------
+
+class DeleteSubsistenceMinimumRequest final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:calc.DeleteSubsistenceMinimumRequest) */ {
+ public:
+  inline DeleteSubsistenceMinimumRequest() : DeleteSubsistenceMinimumRequest(nullptr) {}
+  ~DeleteSubsistenceMinimumRequest() override;
+  explicit PROTOBUF_CONSTEXPR DeleteSubsistenceMinimumRequest(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  DeleteSubsistenceMinimumRequest(const DeleteSubsistenceMinimumRequest& from);
+  DeleteSubsistenceMinimumRequest(DeleteSubsistenceMinimumRequest&& from) noexcept
+    : DeleteSubsistenceMinimumRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline DeleteSubsistenceMinimumRequest& operator=(const DeleteSubsistenceMinimumRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline DeleteSubsistenceMinimumRequest& operator=(DeleteSubsistenceMinimumRequest&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const DeleteSubsistenceMinimumRequest& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const DeleteSubsistenceMinimumRequest* internal_default_instance() {
+    return reinterpret_cast<const DeleteSubsistenceMinimumRequest*>(
+               &_DeleteSubsistenceMinimumRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    28;
+
+  friend void swap(DeleteSubsistenceMinimumRequest& a, DeleteSubsistenceMinimumRequest& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(DeleteSubsistenceMinimumRequest* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(DeleteSubsistenceMinimumRequest* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  DeleteSubsistenceMinimumRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<DeleteSubsistenceMinimumRequest>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const DeleteSubsistenceMinimumRequest& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const DeleteSubsistenceMinimumRequest& from) {
+    DeleteSubsistenceMinimumRequest::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(DeleteSubsistenceMinimumRequest* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "calc.DeleteSubsistenceMinimumRequest";
+  }
+  protected:
+  explicit DeleteSubsistenceMinimumRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kIdFieldNumber = 1,
+  };
+  // int32 id = 1;
+  void clear_id();
+  int32_t id() const;
+  void set_id(int32_t value);
+  private:
+  int32_t _internal_id() const;
+  void _internal_set_id(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:calc.DeleteSubsistenceMinimumRequest)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    int32_t id_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_calc_2eproto;
+};
+// -------------------------------------------------------------------
+
+class DeleteSubsistenceMinimumResponse final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:calc.DeleteSubsistenceMinimumResponse) */ {
+ public:
+  inline DeleteSubsistenceMinimumResponse() : DeleteSubsistenceMinimumResponse(nullptr) {}
+  ~DeleteSubsistenceMinimumResponse() override;
+  explicit PROTOBUF_CONSTEXPR DeleteSubsistenceMinimumResponse(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  DeleteSubsistenceMinimumResponse(const DeleteSubsistenceMinimumResponse& from);
+  DeleteSubsistenceMinimumResponse(DeleteSubsistenceMinimumResponse&& from) noexcept
+    : DeleteSubsistenceMinimumResponse() {
+    *this = ::std::move(from);
+  }
+
+  inline DeleteSubsistenceMinimumResponse& operator=(const DeleteSubsistenceMinimumResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline DeleteSubsistenceMinimumResponse& operator=(DeleteSubsistenceMinimumResponse&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const DeleteSubsistenceMinimumResponse& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const DeleteSubsistenceMinimumResponse* internal_default_instance() {
+    return reinterpret_cast<const DeleteSubsistenceMinimumResponse*>(
+               &_DeleteSubsistenceMinimumResponse_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    29;
+
+  friend void swap(DeleteSubsistenceMinimumResponse& a, DeleteSubsistenceMinimumResponse& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(DeleteSubsistenceMinimumResponse* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(DeleteSubsistenceMinimumResponse* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  DeleteSubsistenceMinimumResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<DeleteSubsistenceMinimumResponse>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const DeleteSubsistenceMinimumResponse& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const DeleteSubsistenceMinimumResponse& from) {
+    DeleteSubsistenceMinimumResponse::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(DeleteSubsistenceMinimumResponse* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "calc.DeleteSubsistenceMinimumResponse";
+  }
+  protected:
+  explicit DeleteSubsistenceMinimumResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kErrorMessageFieldNumber = 2,
+    kSuccessFieldNumber = 1,
+  };
+  // string error_message = 2;
+  void clear_error_message();
+  const std::string& error_message() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_error_message(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_error_message();
+  PROTOBUF_NODISCARD std::string* release_error_message();
+  void set_allocated_error_message(std::string* error_message);
+  private:
+  const std::string& _internal_error_message() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_error_message(const std::string& value);
+  std::string* _internal_mutable_error_message();
+  public:
+
+  // bool success = 1;
+  void clear_success();
+  bool success() const;
+  void set_success(bool value);
+  private:
+  bool _internal_success() const;
+  void _internal_set_success(bool value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:calc.DeleteSubsistenceMinimumResponse)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr error_message_;
+    bool success_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_calc_2eproto;
+};
 // ===================================================================
 
 
@@ -649,6 +5838,238 @@ class PensionResponse final :
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
+// EmploymentPeriod
+
+// string start_date = 1;
+inline void EmploymentPeriod::clear_start_date() {
+  _impl_.start_date_.ClearToEmpty();
+}
+inline const std::string& EmploymentPeriod::start_date() const {
+  // @@protoc_insertion_point(field_get:calc.EmploymentPeriod.start_date)
+  return _internal_start_date();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void EmploymentPeriod::set_start_date(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.start_date_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:calc.EmploymentPeriod.start_date)
+}
+inline std::string* EmploymentPeriod::mutable_start_date() {
+  std::string* _s = _internal_mutable_start_date();
+  // @@protoc_insertion_point(field_mutable:calc.EmploymentPeriod.start_date)
+  return _s;
+}
+inline const std::string& EmploymentPeriod::_internal_start_date() const {
+  return _impl_.start_date_.Get();
+}
+inline void EmploymentPeriod::_internal_set_start_date(const std::string& value) {
+  
+  _impl_.start_date_.Set(value, GetArenaForAllocation());
+}
+inline std::string* EmploymentPeriod::_internal_mutable_start_date() {
+  
+  return _impl_.start_date_.Mutable(GetArenaForAllocation());
+}
+inline std::string* EmploymentPeriod::release_start_date() {
+  // @@protoc_insertion_point(field_release:calc.EmploymentPeriod.start_date)
+  return _impl_.start_date_.Release();
+}
+inline void EmploymentPeriod::set_allocated_start_date(std::string* start_date) {
+  if (start_date != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.start_date_.SetAllocated(start_date, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.start_date_.IsDefault()) {
+    _impl_.start_date_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:calc.EmploymentPeriod.start_date)
+}
+
+// string end_date = 2;
+inline void EmploymentPeriod::clear_end_date() {
+  _impl_.end_date_.ClearToEmpty();
+}
+inline const std::string& EmploymentPeriod::end_date() const {
+  // @@protoc_insertion_point(field_get:calc.EmploymentPeriod.end_date)
+  return _internal_end_date();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void EmploymentPeriod::set_end_date(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.end_date_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:calc.EmploymentPeriod.end_date)
+}
+inline std::string* EmploymentPeriod::mutable_end_date() {
+  std::string* _s = _internal_mutable_end_date();
+  // @@protoc_insertion_point(field_mutable:calc.EmploymentPeriod.end_date)
+  return _s;
+}
+inline const std::string& EmploymentPeriod::_internal_end_date() const {
+  return _impl_.end_date_.Get();
+}
+inline void EmploymentPeriod::_internal_set_end_date(const std::string& value) {
+  
+  _impl_.end_date_.Set(value, GetArenaForAllocation());
+}
+inline std::string* EmploymentPeriod::_internal_mutable_end_date() {
+  
+  return _impl_.end_date_.Mutable(GetArenaForAllocation());
+}
+inline std::string* EmploymentPeriod::release_end_date() {
+  // @@protoc_insertion_point(field_release:calc.EmploymentPeriod.end_date)
+  return _impl_.end_date_.Release();
+}
+inline void EmploymentPeriod::set_allocated_end_date(std::string* end_date) {
+  if (end_date != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.end_date_.SetAllocated(end_date, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.end_date_.IsDefault()) {
+    _impl_.end_date_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:calc.EmploymentPeriod.end_date)
+}
+
+// double multiplier = 3;
+inline void EmploymentPeriod::clear_multiplier() {
+  _impl_.multiplier_ = 0;
+}
+inline double EmploymentPeriod::_internal_multiplier() const {
+  return _impl_.multiplier_;
+}
+inline double EmploymentPeriod::multiplier() const {
+  // @@protoc_insertion_point(field_get:calc.EmploymentPeriod.multiplier)
+  return _internal_multiplier();
+}
+inline void EmploymentPeriod::_internal_set_multiplier(double value) {
+  
+  _impl_.multiplier_ = value;
+}
+inline void EmploymentPeriod::set_multiplier(double value) {
+  _internal_set_multiplier(value);
+  // @@protoc_insertion_point(field_set:calc.EmploymentPeriod.multiplier)
+}
+
+// -------------------------------------------------------------------
+
+// SalaryMonthRecord
+
+// int32 year = 1;
+inline void SalaryMonthRecord::clear_year() {
+  _impl_.year_ = 0;
+}
+inline int32_t SalaryMonthRecord::_internal_year() const {
+  return _impl_.year_;
+}
+inline int32_t SalaryMonthRecord::year() const {
+  // @@protoc_insertion_point(field_get:calc.SalaryMonthRecord.year)
+  return _internal_year();
+}
+inline void SalaryMonthRecord::_internal_set_year(int32_t value) {
+  
+  _impl_.year_ = value;
+}
+inline void SalaryMonthRecord::set_year(int32_t value) {
+  _internal_set_year(value);
+  // @@protoc_insertion_point(field_set:calc.SalaryMonthRecord.year)
+}
+
+// int32 month = 2;
+inline void SalaryMonthRecord::clear_month() {
+  _impl_.month_ = 0;
+}
+inline int32_t SalaryMonthRecord::_internal_month() const {
+  return _impl_.month_;
+}
+inline int32_t SalaryMonthRecord::month() const {
+  // @@protoc_insertion_point(field_get:calc.SalaryMonthRecord.month)
+  return _internal_month();
+}
+inline void SalaryMonthRecord::_internal_set_month(int32_t value) {
+  
+  _impl_.month_ = value;
+}
+inline void SalaryMonthRecord::set_month(int32_t value) {
+  _internal_set_month(value);
+  // @@protoc_insertion_point(field_set:calc.SalaryMonthRecord.month)
+}
+
+// double amount = 3;
+inline void SalaryMonthRecord::clear_amount() {
+  _impl_.amount_ = 0;
+}
+inline double SalaryMonthRecord::_internal_amount() const {
+  return _impl_.amount_;
+}
+inline double SalaryMonthRecord::amount() const {
+  // @@protoc_insertion_point(field_get:calc.SalaryMonthRecord.amount)
+  return _internal_amount();
+}
+inline void SalaryMonthRecord::_internal_set_amount(double value) {
+  
+  _impl_.amount_ = value;
+}
+inline void SalaryMonthRecord::set_amount(double value) {
+  _internal_set_amount(value);
+  // @@protoc_insertion_point(field_set:calc.SalaryMonthRecord.amount)
+}
+
+// -------------------------------------------------------------------
+
+// SubsistenceMinimums
+
+// double for_disabled_persons = 1;
+inline void SubsistenceMinimums::clear_for_disabled_persons() {
+  _impl_.for_disabled_persons_ = 0;
+}
+inline double SubsistenceMinimums::_internal_for_disabled_persons() const {
+  return _impl_.for_disabled_persons_;
+}
+inline double SubsistenceMinimums::for_disabled_persons() const {
+  // @@protoc_insertion_point(field_get:calc.SubsistenceMinimums.for_disabled_persons)
+  return _internal_for_disabled_persons();
+}
+inline void SubsistenceMinimums::_internal_set_for_disabled_persons(double value) {
+  
+  _impl_.for_disabled_persons_ = value;
+}
+inline void SubsistenceMinimums::set_for_disabled_persons(double value) {
+  _internal_set_for_disabled_persons(value);
+  // @@protoc_insertion_point(field_set:calc.SubsistenceMinimums.for_disabled_persons)
+}
+
+// double general_minimum = 2;
+inline void SubsistenceMinimums::clear_general_minimum() {
+  _impl_.general_minimum_ = 0;
+}
+inline double SubsistenceMinimums::_internal_general_minimum() const {
+  return _impl_.general_minimum_;
+}
+inline double SubsistenceMinimums::general_minimum() const {
+  // @@protoc_insertion_point(field_get:calc.SubsistenceMinimums.general_minimum)
+  return _internal_general_minimum();
+}
+inline void SubsistenceMinimums::_internal_set_general_minimum(double value) {
+  
+  _impl_.general_minimum_ = value;
+}
+inline void SubsistenceMinimums::set_general_minimum(double value) {
+  _internal_set_general_minimum(value);
+  // @@protoc_insertion_point(field_set:calc.SubsistenceMinimums.general_minimum)
+}
+
+// -------------------------------------------------------------------
+
 // TaxRecord
 
 // int32 year = 1;
@@ -729,6 +6150,1096 @@ inline void TaxRecord::_internal_set_months_worked(int32_t value) {
 inline void TaxRecord::set_months_worked(int32_t value) {
   _internal_set_months_worked(value);
   // @@protoc_insertion_point(field_set:calc.TaxRecord.months_worked)
+}
+
+// -------------------------------------------------------------------
+
+// CalculatePensionRequest
+
+// string customer_id = 1;
+inline void CalculatePensionRequest::clear_customer_id() {
+  _impl_.customer_id_.ClearToEmpty();
+}
+inline const std::string& CalculatePensionRequest::customer_id() const {
+  // @@protoc_insertion_point(field_get:calc.CalculatePensionRequest.customer_id)
+  return _internal_customer_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void CalculatePensionRequest::set_customer_id(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.customer_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:calc.CalculatePensionRequest.customer_id)
+}
+inline std::string* CalculatePensionRequest::mutable_customer_id() {
+  std::string* _s = _internal_mutable_customer_id();
+  // @@protoc_insertion_point(field_mutable:calc.CalculatePensionRequest.customer_id)
+  return _s;
+}
+inline const std::string& CalculatePensionRequest::_internal_customer_id() const {
+  return _impl_.customer_id_.Get();
+}
+inline void CalculatePensionRequest::_internal_set_customer_id(const std::string& value) {
+  
+  _impl_.customer_id_.Set(value, GetArenaForAllocation());
+}
+inline std::string* CalculatePensionRequest::_internal_mutable_customer_id() {
+  
+  return _impl_.customer_id_.Mutable(GetArenaForAllocation());
+}
+inline std::string* CalculatePensionRequest::release_customer_id() {
+  // @@protoc_insertion_point(field_release:calc.CalculatePensionRequest.customer_id)
+  return _impl_.customer_id_.Release();
+}
+inline void CalculatePensionRequest::set_allocated_customer_id(std::string* customer_id) {
+  if (customer_id != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.customer_id_.SetAllocated(customer_id, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.customer_id_.IsDefault()) {
+    _impl_.customer_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:calc.CalculatePensionRequest.customer_id)
+}
+
+// .calc.Gender gender = 2;
+inline void CalculatePensionRequest::clear_gender() {
+  _impl_.gender_ = 0;
+}
+inline ::calc::Gender CalculatePensionRequest::_internal_gender() const {
+  return static_cast< ::calc::Gender >(_impl_.gender_);
+}
+inline ::calc::Gender CalculatePensionRequest::gender() const {
+  // @@protoc_insertion_point(field_get:calc.CalculatePensionRequest.gender)
+  return _internal_gender();
+}
+inline void CalculatePensionRequest::_internal_set_gender(::calc::Gender value) {
+  
+  _impl_.gender_ = value;
+}
+inline void CalculatePensionRequest::set_gender(::calc::Gender value) {
+  _internal_set_gender(value);
+  // @@protoc_insertion_point(field_set:calc.CalculatePensionRequest.gender)
+}
+
+// string date_of_birth = 3;
+inline void CalculatePensionRequest::clear_date_of_birth() {
+  _impl_.date_of_birth_.ClearToEmpty();
+}
+inline const std::string& CalculatePensionRequest::date_of_birth() const {
+  // @@protoc_insertion_point(field_get:calc.CalculatePensionRequest.date_of_birth)
+  return _internal_date_of_birth();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void CalculatePensionRequest::set_date_of_birth(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.date_of_birth_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:calc.CalculatePensionRequest.date_of_birth)
+}
+inline std::string* CalculatePensionRequest::mutable_date_of_birth() {
+  std::string* _s = _internal_mutable_date_of_birth();
+  // @@protoc_insertion_point(field_mutable:calc.CalculatePensionRequest.date_of_birth)
+  return _s;
+}
+inline const std::string& CalculatePensionRequest::_internal_date_of_birth() const {
+  return _impl_.date_of_birth_.Get();
+}
+inline void CalculatePensionRequest::_internal_set_date_of_birth(const std::string& value) {
+  
+  _impl_.date_of_birth_.Set(value, GetArenaForAllocation());
+}
+inline std::string* CalculatePensionRequest::_internal_mutable_date_of_birth() {
+  
+  return _impl_.date_of_birth_.Mutable(GetArenaForAllocation());
+}
+inline std::string* CalculatePensionRequest::release_date_of_birth() {
+  // @@protoc_insertion_point(field_release:calc.CalculatePensionRequest.date_of_birth)
+  return _impl_.date_of_birth_.Release();
+}
+inline void CalculatePensionRequest::set_allocated_date_of_birth(std::string* date_of_birth) {
+  if (date_of_birth != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.date_of_birth_.SetAllocated(date_of_birth, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.date_of_birth_.IsDefault()) {
+    _impl_.date_of_birth_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:calc.CalculatePensionRequest.date_of_birth)
+}
+
+// string retirement_date = 4;
+inline void CalculatePensionRequest::clear_retirement_date() {
+  _impl_.retirement_date_.ClearToEmpty();
+}
+inline const std::string& CalculatePensionRequest::retirement_date() const {
+  // @@protoc_insertion_point(field_get:calc.CalculatePensionRequest.retirement_date)
+  return _internal_retirement_date();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void CalculatePensionRequest::set_retirement_date(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.retirement_date_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:calc.CalculatePensionRequest.retirement_date)
+}
+inline std::string* CalculatePensionRequest::mutable_retirement_date() {
+  std::string* _s = _internal_mutable_retirement_date();
+  // @@protoc_insertion_point(field_mutable:calc.CalculatePensionRequest.retirement_date)
+  return _s;
+}
+inline const std::string& CalculatePensionRequest::_internal_retirement_date() const {
+  return _impl_.retirement_date_.Get();
+}
+inline void CalculatePensionRequest::_internal_set_retirement_date(const std::string& value) {
+  
+  _impl_.retirement_date_.Set(value, GetArenaForAllocation());
+}
+inline std::string* CalculatePensionRequest::_internal_mutable_retirement_date() {
+  
+  return _impl_.retirement_date_.Mutable(GetArenaForAllocation());
+}
+inline std::string* CalculatePensionRequest::release_retirement_date() {
+  // @@protoc_insertion_point(field_release:calc.CalculatePensionRequest.retirement_date)
+  return _impl_.retirement_date_.Release();
+}
+inline void CalculatePensionRequest::set_allocated_retirement_date(std::string* retirement_date) {
+  if (retirement_date != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.retirement_date_.SetAllocated(retirement_date, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.retirement_date_.IsDefault()) {
+    _impl_.retirement_date_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:calc.CalculatePensionRequest.retirement_date)
+}
+
+// .calc.PensionType pension_type = 5;
+inline void CalculatePensionRequest::clear_pension_type() {
+  _impl_.pension_type_ = 0;
+}
+inline ::calc::PensionType CalculatePensionRequest::_internal_pension_type() const {
+  return static_cast< ::calc::PensionType >(_impl_.pension_type_);
+}
+inline ::calc::PensionType CalculatePensionRequest::pension_type() const {
+  // @@protoc_insertion_point(field_get:calc.CalculatePensionRequest.pension_type)
+  return _internal_pension_type();
+}
+inline void CalculatePensionRequest::_internal_set_pension_type(::calc::PensionType value) {
+  
+  _impl_.pension_type_ = value;
+}
+inline void CalculatePensionRequest::set_pension_type(::calc::PensionType value) {
+  _internal_set_pension_type(value);
+  // @@protoc_insertion_point(field_set:calc.CalculatePensionRequest.pension_type)
+}
+
+// .calc.DisabilityGroup disability_group = 6;
+inline void CalculatePensionRequest::clear_disability_group() {
+  _impl_.disability_group_ = 0;
+}
+inline ::calc::DisabilityGroup CalculatePensionRequest::_internal_disability_group() const {
+  return static_cast< ::calc::DisabilityGroup >(_impl_.disability_group_);
+}
+inline ::calc::DisabilityGroup CalculatePensionRequest::disability_group() const {
+  // @@protoc_insertion_point(field_get:calc.CalculatePensionRequest.disability_group)
+  return _internal_disability_group();
+}
+inline void CalculatePensionRequest::_internal_set_disability_group(::calc::DisabilityGroup value) {
+  
+  _impl_.disability_group_ = value;
+}
+inline void CalculatePensionRequest::set_disability_group(::calc::DisabilityGroup value) {
+  _internal_set_disability_group(value);
+  // @@protoc_insertion_point(field_set:calc.CalculatePensionRequest.disability_group)
+}
+
+// int32 dependents_count = 7;
+inline void CalculatePensionRequest::clear_dependents_count() {
+  _impl_.dependents_count_ = 0;
+}
+inline int32_t CalculatePensionRequest::_internal_dependents_count() const {
+  return _impl_.dependents_count_;
+}
+inline int32_t CalculatePensionRequest::dependents_count() const {
+  // @@protoc_insertion_point(field_get:calc.CalculatePensionRequest.dependents_count)
+  return _internal_dependents_count();
+}
+inline void CalculatePensionRequest::_internal_set_dependents_count(int32_t value) {
+  
+  _impl_.dependents_count_ = value;
+}
+inline void CalculatePensionRequest::set_dependents_count(int32_t value) {
+  _internal_set_dependents_count(value);
+  // @@protoc_insertion_point(field_set:calc.CalculatePensionRequest.dependents_count)
+}
+
+// repeated .calc.EmploymentPeriod employment_history = 8;
+inline int CalculatePensionRequest::_internal_employment_history_size() const {
+  return _impl_.employment_history_.size();
+}
+inline int CalculatePensionRequest::employment_history_size() const {
+  return _internal_employment_history_size();
+}
+inline void CalculatePensionRequest::clear_employment_history() {
+  _impl_.employment_history_.Clear();
+}
+inline ::calc::EmploymentPeriod* CalculatePensionRequest::mutable_employment_history(int index) {
+  // @@protoc_insertion_point(field_mutable:calc.CalculatePensionRequest.employment_history)
+  return _impl_.employment_history_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::calc::EmploymentPeriod >*
+CalculatePensionRequest::mutable_employment_history() {
+  // @@protoc_insertion_point(field_mutable_list:calc.CalculatePensionRequest.employment_history)
+  return &_impl_.employment_history_;
+}
+inline const ::calc::EmploymentPeriod& CalculatePensionRequest::_internal_employment_history(int index) const {
+  return _impl_.employment_history_.Get(index);
+}
+inline const ::calc::EmploymentPeriod& CalculatePensionRequest::employment_history(int index) const {
+  // @@protoc_insertion_point(field_get:calc.CalculatePensionRequest.employment_history)
+  return _internal_employment_history(index);
+}
+inline ::calc::EmploymentPeriod* CalculatePensionRequest::_internal_add_employment_history() {
+  return _impl_.employment_history_.Add();
+}
+inline ::calc::EmploymentPeriod* CalculatePensionRequest::add_employment_history() {
+  ::calc::EmploymentPeriod* _add = _internal_add_employment_history();
+  // @@protoc_insertion_point(field_add:calc.CalculatePensionRequest.employment_history)
+  return _add;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::calc::EmploymentPeriod >&
+CalculatePensionRequest::employment_history() const {
+  // @@protoc_insertion_point(field_list:calc.CalculatePensionRequest.employment_history)
+  return _impl_.employment_history_;
+}
+
+// repeated .calc.SalaryMonthRecord salary_history = 9;
+inline int CalculatePensionRequest::_internal_salary_history_size() const {
+  return _impl_.salary_history_.size();
+}
+inline int CalculatePensionRequest::salary_history_size() const {
+  return _internal_salary_history_size();
+}
+inline void CalculatePensionRequest::clear_salary_history() {
+  _impl_.salary_history_.Clear();
+}
+inline ::calc::SalaryMonthRecord* CalculatePensionRequest::mutable_salary_history(int index) {
+  // @@protoc_insertion_point(field_mutable:calc.CalculatePensionRequest.salary_history)
+  return _impl_.salary_history_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::calc::SalaryMonthRecord >*
+CalculatePensionRequest::mutable_salary_history() {
+  // @@protoc_insertion_point(field_mutable_list:calc.CalculatePensionRequest.salary_history)
+  return &_impl_.salary_history_;
+}
+inline const ::calc::SalaryMonthRecord& CalculatePensionRequest::_internal_salary_history(int index) const {
+  return _impl_.salary_history_.Get(index);
+}
+inline const ::calc::SalaryMonthRecord& CalculatePensionRequest::salary_history(int index) const {
+  // @@protoc_insertion_point(field_get:calc.CalculatePensionRequest.salary_history)
+  return _internal_salary_history(index);
+}
+inline ::calc::SalaryMonthRecord* CalculatePensionRequest::_internal_add_salary_history() {
+  return _impl_.salary_history_.Add();
+}
+inline ::calc::SalaryMonthRecord* CalculatePensionRequest::add_salary_history() {
+  ::calc::SalaryMonthRecord* _add = _internal_add_salary_history();
+  // @@protoc_insertion_point(field_add:calc.CalculatePensionRequest.salary_history)
+  return _add;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::calc::SalaryMonthRecord >&
+CalculatePensionRequest::salary_history() const {
+  // @@protoc_insertion_point(field_list:calc.CalculatePensionRequest.salary_history)
+  return _impl_.salary_history_;
+}
+
+// repeated .calc.BenefitType benefits = 10;
+inline int CalculatePensionRequest::_internal_benefits_size() const {
+  return _impl_.benefits_.size();
+}
+inline int CalculatePensionRequest::benefits_size() const {
+  return _internal_benefits_size();
+}
+inline void CalculatePensionRequest::clear_benefits() {
+  _impl_.benefits_.Clear();
+}
+inline ::calc::BenefitType CalculatePensionRequest::_internal_benefits(int index) const {
+  return static_cast< ::calc::BenefitType >(_impl_.benefits_.Get(index));
+}
+inline ::calc::BenefitType CalculatePensionRequest::benefits(int index) const {
+  // @@protoc_insertion_point(field_get:calc.CalculatePensionRequest.benefits)
+  return _internal_benefits(index);
+}
+inline void CalculatePensionRequest::set_benefits(int index, ::calc::BenefitType value) {
+  _impl_.benefits_.Set(index, value);
+  // @@protoc_insertion_point(field_set:calc.CalculatePensionRequest.benefits)
+}
+inline void CalculatePensionRequest::_internal_add_benefits(::calc::BenefitType value) {
+  _impl_.benefits_.Add(value);
+}
+inline void CalculatePensionRequest::add_benefits(::calc::BenefitType value) {
+  _internal_add_benefits(value);
+  // @@protoc_insertion_point(field_add:calc.CalculatePensionRequest.benefits)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>&
+CalculatePensionRequest::benefits() const {
+  // @@protoc_insertion_point(field_list:calc.CalculatePensionRequest.benefits)
+  return _impl_.benefits_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>*
+CalculatePensionRequest::_internal_mutable_benefits() {
+  return &_impl_.benefits_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField<int>*
+CalculatePensionRequest::mutable_benefits() {
+  // @@protoc_insertion_point(field_mutable_list:calc.CalculatePensionRequest.benefits)
+  return _internal_mutable_benefits();
+}
+
+// .calc.SubsistenceMinimums subsistence_minimums = 11;
+inline bool CalculatePensionRequest::_internal_has_subsistence_minimums() const {
+  return this != internal_default_instance() && _impl_.subsistence_minimums_ != nullptr;
+}
+inline bool CalculatePensionRequest::has_subsistence_minimums() const {
+  return _internal_has_subsistence_minimums();
+}
+inline void CalculatePensionRequest::clear_subsistence_minimums() {
+  if (GetArenaForAllocation() == nullptr && _impl_.subsistence_minimums_ != nullptr) {
+    delete _impl_.subsistence_minimums_;
+  }
+  _impl_.subsistence_minimums_ = nullptr;
+}
+inline const ::calc::SubsistenceMinimums& CalculatePensionRequest::_internal_subsistence_minimums() const {
+  const ::calc::SubsistenceMinimums* p = _impl_.subsistence_minimums_;
+  return p != nullptr ? *p : reinterpret_cast<const ::calc::SubsistenceMinimums&>(
+      ::calc::_SubsistenceMinimums_default_instance_);
+}
+inline const ::calc::SubsistenceMinimums& CalculatePensionRequest::subsistence_minimums() const {
+  // @@protoc_insertion_point(field_get:calc.CalculatePensionRequest.subsistence_minimums)
+  return _internal_subsistence_minimums();
+}
+inline void CalculatePensionRequest::unsafe_arena_set_allocated_subsistence_minimums(
+    ::calc::SubsistenceMinimums* subsistence_minimums) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.subsistence_minimums_);
+  }
+  _impl_.subsistence_minimums_ = subsistence_minimums;
+  if (subsistence_minimums) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:calc.CalculatePensionRequest.subsistence_minimums)
+}
+inline ::calc::SubsistenceMinimums* CalculatePensionRequest::release_subsistence_minimums() {
+  
+  ::calc::SubsistenceMinimums* temp = _impl_.subsistence_minimums_;
+  _impl_.subsistence_minimums_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::calc::SubsistenceMinimums* CalculatePensionRequest::unsafe_arena_release_subsistence_minimums() {
+  // @@protoc_insertion_point(field_release:calc.CalculatePensionRequest.subsistence_minimums)
+  
+  ::calc::SubsistenceMinimums* temp = _impl_.subsistence_minimums_;
+  _impl_.subsistence_minimums_ = nullptr;
+  return temp;
+}
+inline ::calc::SubsistenceMinimums* CalculatePensionRequest::_internal_mutable_subsistence_minimums() {
+  
+  if (_impl_.subsistence_minimums_ == nullptr) {
+    auto* p = CreateMaybeMessage<::calc::SubsistenceMinimums>(GetArenaForAllocation());
+    _impl_.subsistence_minimums_ = p;
+  }
+  return _impl_.subsistence_minimums_;
+}
+inline ::calc::SubsistenceMinimums* CalculatePensionRequest::mutable_subsistence_minimums() {
+  ::calc::SubsistenceMinimums* _msg = _internal_mutable_subsistence_minimums();
+  // @@protoc_insertion_point(field_mutable:calc.CalculatePensionRequest.subsistence_minimums)
+  return _msg;
+}
+inline void CalculatePensionRequest::set_allocated_subsistence_minimums(::calc::SubsistenceMinimums* subsistence_minimums) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete _impl_.subsistence_minimums_;
+  }
+  if (subsistence_minimums) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(subsistence_minimums);
+    if (message_arena != submessage_arena) {
+      subsistence_minimums = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, subsistence_minimums, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.subsistence_minimums_ = subsistence_minimums;
+  // @@protoc_insertion_point(field_set_allocated:calc.CalculatePensionRequest.subsistence_minimums)
+}
+
+// bool enable_optimization_rule = 12;
+inline void CalculatePensionRequest::clear_enable_optimization_rule() {
+  _impl_.enable_optimization_rule_ = false;
+}
+inline bool CalculatePensionRequest::_internal_enable_optimization_rule() const {
+  return _impl_.enable_optimization_rule_;
+}
+inline bool CalculatePensionRequest::enable_optimization_rule() const {
+  // @@protoc_insertion_point(field_get:calc.CalculatePensionRequest.enable_optimization_rule)
+  return _internal_enable_optimization_rule();
+}
+inline void CalculatePensionRequest::_internal_set_enable_optimization_rule(bool value) {
+  
+  _impl_.enable_optimization_rule_ = value;
+}
+inline void CalculatePensionRequest::set_enable_optimization_rule(bool value) {
+  _internal_set_enable_optimization_rule(value);
+  // @@protoc_insertion_point(field_set:calc.CalculatePensionRequest.enable_optimization_rule)
+}
+
+// double zp_macroeconomic_average = 13;
+inline void CalculatePensionRequest::clear_zp_macroeconomic_average() {
+  _impl_.zp_macroeconomic_average_ = 0;
+}
+inline double CalculatePensionRequest::_internal_zp_macroeconomic_average() const {
+  return _impl_.zp_macroeconomic_average_;
+}
+inline double CalculatePensionRequest::zp_macroeconomic_average() const {
+  // @@protoc_insertion_point(field_get:calc.CalculatePensionRequest.zp_macroeconomic_average)
+  return _internal_zp_macroeconomic_average();
+}
+inline void CalculatePensionRequest::_internal_set_zp_macroeconomic_average(double value) {
+  
+  _impl_.zp_macroeconomic_average_ = value;
+}
+inline void CalculatePensionRequest::set_zp_macroeconomic_average(double value) {
+  _internal_set_zp_macroeconomic_average(value);
+  // @@protoc_insertion_point(field_set:calc.CalculatePensionRequest.zp_macroeconomic_average)
+}
+
+// repeated .calc.TaxRecord history = 14;
+inline int CalculatePensionRequest::_internal_history_size() const {
+  return _impl_.history_.size();
+}
+inline int CalculatePensionRequest::history_size() const {
+  return _internal_history_size();
+}
+inline void CalculatePensionRequest::clear_history() {
+  _impl_.history_.Clear();
+}
+inline ::calc::TaxRecord* CalculatePensionRequest::mutable_history(int index) {
+  // @@protoc_insertion_point(field_mutable:calc.CalculatePensionRequest.history)
+  return _impl_.history_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::calc::TaxRecord >*
+CalculatePensionRequest::mutable_history() {
+  // @@protoc_insertion_point(field_mutable_list:calc.CalculatePensionRequest.history)
+  return &_impl_.history_;
+}
+inline const ::calc::TaxRecord& CalculatePensionRequest::_internal_history(int index) const {
+  return _impl_.history_.Get(index);
+}
+inline const ::calc::TaxRecord& CalculatePensionRequest::history(int index) const {
+  // @@protoc_insertion_point(field_get:calc.CalculatePensionRequest.history)
+  return _internal_history(index);
+}
+inline ::calc::TaxRecord* CalculatePensionRequest::_internal_add_history() {
+  return _impl_.history_.Add();
+}
+inline ::calc::TaxRecord* CalculatePensionRequest::add_history() {
+  ::calc::TaxRecord* _add = _internal_add_history();
+  // @@protoc_insertion_point(field_add:calc.CalculatePensionRequest.history)
+  return _add;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::calc::TaxRecord >&
+CalculatePensionRequest::history() const {
+  // @@protoc_insertion_point(field_list:calc.CalculatePensionRequest.history)
+  return _impl_.history_;
+}
+
+// int32 birth_year = 15;
+inline void CalculatePensionRequest::clear_birth_year() {
+  _impl_.birth_year_ = 0;
+}
+inline int32_t CalculatePensionRequest::_internal_birth_year() const {
+  return _impl_.birth_year_;
+}
+inline int32_t CalculatePensionRequest::birth_year() const {
+  // @@protoc_insertion_point(field_get:calc.CalculatePensionRequest.birth_year)
+  return _internal_birth_year();
+}
+inline void CalculatePensionRequest::_internal_set_birth_year(int32_t value) {
+  
+  _impl_.birth_year_ = value;
+}
+inline void CalculatePensionRequest::set_birth_year(int32_t value) {
+  _internal_set_birth_year(value);
+  // @@protoc_insertion_point(field_set:calc.CalculatePensionRequest.birth_year)
+}
+
+// int32 target_retirement_year = 16;
+inline void CalculatePensionRequest::clear_target_retirement_year() {
+  _impl_.target_retirement_year_ = 0;
+}
+inline int32_t CalculatePensionRequest::_internal_target_retirement_year() const {
+  return _impl_.target_retirement_year_;
+}
+inline int32_t CalculatePensionRequest::target_retirement_year() const {
+  // @@protoc_insertion_point(field_get:calc.CalculatePensionRequest.target_retirement_year)
+  return _internal_target_retirement_year();
+}
+inline void CalculatePensionRequest::_internal_set_target_retirement_year(int32_t value) {
+  
+  _impl_.target_retirement_year_ = value;
+}
+inline void CalculatePensionRequest::set_target_retirement_year(int32_t value) {
+  _internal_set_target_retirement_year(value);
+  // @@protoc_insertion_point(field_set:calc.CalculatePensionRequest.target_retirement_year)
+}
+
+// -------------------------------------------------------------------
+
+// BenefitSurchargeDetail
+
+// .calc.BenefitType benefit = 1;
+inline void BenefitSurchargeDetail::clear_benefit() {
+  _impl_.benefit_ = 0;
+}
+inline ::calc::BenefitType BenefitSurchargeDetail::_internal_benefit() const {
+  return static_cast< ::calc::BenefitType >(_impl_.benefit_);
+}
+inline ::calc::BenefitType BenefitSurchargeDetail::benefit() const {
+  // @@protoc_insertion_point(field_get:calc.BenefitSurchargeDetail.benefit)
+  return _internal_benefit();
+}
+inline void BenefitSurchargeDetail::_internal_set_benefit(::calc::BenefitType value) {
+  
+  _impl_.benefit_ = value;
+}
+inline void BenefitSurchargeDetail::set_benefit(::calc::BenefitType value) {
+  _internal_set_benefit(value);
+  // @@protoc_insertion_point(field_set:calc.BenefitSurchargeDetail.benefit)
+}
+
+// string name = 2;
+inline void BenefitSurchargeDetail::clear_name() {
+  _impl_.name_.ClearToEmpty();
+}
+inline const std::string& BenefitSurchargeDetail::name() const {
+  // @@protoc_insertion_point(field_get:calc.BenefitSurchargeDetail.name)
+  return _internal_name();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void BenefitSurchargeDetail::set_name(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.name_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:calc.BenefitSurchargeDetail.name)
+}
+inline std::string* BenefitSurchargeDetail::mutable_name() {
+  std::string* _s = _internal_mutable_name();
+  // @@protoc_insertion_point(field_mutable:calc.BenefitSurchargeDetail.name)
+  return _s;
+}
+inline const std::string& BenefitSurchargeDetail::_internal_name() const {
+  return _impl_.name_.Get();
+}
+inline void BenefitSurchargeDetail::_internal_set_name(const std::string& value) {
+  
+  _impl_.name_.Set(value, GetArenaForAllocation());
+}
+inline std::string* BenefitSurchargeDetail::_internal_mutable_name() {
+  
+  return _impl_.name_.Mutable(GetArenaForAllocation());
+}
+inline std::string* BenefitSurchargeDetail::release_name() {
+  // @@protoc_insertion_point(field_release:calc.BenefitSurchargeDetail.name)
+  return _impl_.name_.Release();
+}
+inline void BenefitSurchargeDetail::set_allocated_name(std::string* name) {
+  if (name != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.name_.SetAllocated(name, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.name_.IsDefault()) {
+    _impl_.name_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:calc.BenefitSurchargeDetail.name)
+}
+
+// double amount = 3;
+inline void BenefitSurchargeDetail::clear_amount() {
+  _impl_.amount_ = 0;
+}
+inline double BenefitSurchargeDetail::_internal_amount() const {
+  return _impl_.amount_;
+}
+inline double BenefitSurchargeDetail::amount() const {
+  // @@protoc_insertion_point(field_get:calc.BenefitSurchargeDetail.amount)
+  return _internal_amount();
+}
+inline void BenefitSurchargeDetail::_internal_set_amount(double value) {
+  
+  _impl_.amount_ = value;
+}
+inline void BenefitSurchargeDetail::set_amount(double value) {
+  _internal_set_amount(value);
+  // @@protoc_insertion_point(field_set:calc.BenefitSurchargeDetail.amount)
+}
+
+// -------------------------------------------------------------------
+
+// CalculatePensionResponse
+
+// bool success = 1;
+inline void CalculatePensionResponse::clear_success() {
+  _impl_.success_ = false;
+}
+inline bool CalculatePensionResponse::_internal_success() const {
+  return _impl_.success_;
+}
+inline bool CalculatePensionResponse::success() const {
+  // @@protoc_insertion_point(field_get:calc.CalculatePensionResponse.success)
+  return _internal_success();
+}
+inline void CalculatePensionResponse::_internal_set_success(bool value) {
+  
+  _impl_.success_ = value;
+}
+inline void CalculatePensionResponse::set_success(bool value) {
+  _internal_set_success(value);
+  // @@protoc_insertion_point(field_set:calc.CalculatePensionResponse.success)
+}
+
+// double final_pension = 2;
+inline void CalculatePensionResponse::clear_final_pension() {
+  _impl_.final_pension_ = 0;
+}
+inline double CalculatePensionResponse::_internal_final_pension() const {
+  return _impl_.final_pension_;
+}
+inline double CalculatePensionResponse::final_pension() const {
+  // @@protoc_insertion_point(field_get:calc.CalculatePensionResponse.final_pension)
+  return _internal_final_pension();
+}
+inline void CalculatePensionResponse::_internal_set_final_pension(double value) {
+  
+  _impl_.final_pension_ = value;
+}
+inline void CalculatePensionResponse::set_final_pension(double value) {
+  _internal_set_final_pension(value);
+  // @@protoc_insertion_point(field_set:calc.CalculatePensionResponse.final_pension)
+}
+
+// double base_pension = 3;
+inline void CalculatePensionResponse::clear_base_pension() {
+  _impl_.base_pension_ = 0;
+}
+inline double CalculatePensionResponse::_internal_base_pension() const {
+  return _impl_.base_pension_;
+}
+inline double CalculatePensionResponse::base_pension() const {
+  // @@protoc_insertion_point(field_get:calc.CalculatePensionResponse.base_pension)
+  return _internal_base_pension();
+}
+inline void CalculatePensionResponse::_internal_set_base_pension(double value) {
+  
+  _impl_.base_pension_ = value;
+}
+inline void CalculatePensionResponse::set_base_pension(double value) {
+  _internal_set_base_pension(value);
+  // @@protoc_insertion_point(field_set:calc.CalculatePensionResponse.base_pension)
+}
+
+// double zp_macroeconomic_average = 4;
+inline void CalculatePensionResponse::clear_zp_macroeconomic_average() {
+  _impl_.zp_macroeconomic_average_ = 0;
+}
+inline double CalculatePensionResponse::_internal_zp_macroeconomic_average() const {
+  return _impl_.zp_macroeconomic_average_;
+}
+inline double CalculatePensionResponse::zp_macroeconomic_average() const {
+  // @@protoc_insertion_point(field_get:calc.CalculatePensionResponse.zp_macroeconomic_average)
+  return _internal_zp_macroeconomic_average();
+}
+inline void CalculatePensionResponse::_internal_set_zp_macroeconomic_average(double value) {
+  
+  _impl_.zp_macroeconomic_average_ = value;
+}
+inline void CalculatePensionResponse::set_zp_macroeconomic_average(double value) {
+  _internal_set_zp_macroeconomic_average(value);
+  // @@protoc_insertion_point(field_set:calc.CalculatePensionResponse.zp_macroeconomic_average)
+}
+
+// double kz_wage_coefficient = 5;
+inline void CalculatePensionResponse::clear_kz_wage_coefficient() {
+  _impl_.kz_wage_coefficient_ = 0;
+}
+inline double CalculatePensionResponse::_internal_kz_wage_coefficient() const {
+  return _impl_.kz_wage_coefficient_;
+}
+inline double CalculatePensionResponse::kz_wage_coefficient() const {
+  // @@protoc_insertion_point(field_get:calc.CalculatePensionResponse.kz_wage_coefficient)
+  return _internal_kz_wage_coefficient();
+}
+inline void CalculatePensionResponse::_internal_set_kz_wage_coefficient(double value) {
+  
+  _impl_.kz_wage_coefficient_ = value;
+}
+inline void CalculatePensionResponse::set_kz_wage_coefficient(double value) {
+  _internal_set_kz_wage_coefficient(value);
+  // @@protoc_insertion_point(field_set:calc.CalculatePensionResponse.kz_wage_coefficient)
+}
+
+// double ks_service_coefficient = 6;
+inline void CalculatePensionResponse::clear_ks_service_coefficient() {
+  _impl_.ks_service_coefficient_ = 0;
+}
+inline double CalculatePensionResponse::_internal_ks_service_coefficient() const {
+  return _impl_.ks_service_coefficient_;
+}
+inline double CalculatePensionResponse::ks_service_coefficient() const {
+  // @@protoc_insertion_point(field_get:calc.CalculatePensionResponse.ks_service_coefficient)
+  return _internal_ks_service_coefficient();
+}
+inline void CalculatePensionResponse::_internal_set_ks_service_coefficient(double value) {
+  
+  _impl_.ks_service_coefficient_ = value;
+}
+inline void CalculatePensionResponse::set_ks_service_coefficient(double value) {
+  _internal_set_ks_service_coefficient(value);
+  // @@protoc_insertion_point(field_set:calc.CalculatePensionResponse.ks_service_coefficient)
+}
+
+// int32 total_service_months = 7;
+inline void CalculatePensionResponse::clear_total_service_months() {
+  _impl_.total_service_months_ = 0;
+}
+inline int32_t CalculatePensionResponse::_internal_total_service_months() const {
+  return _impl_.total_service_months_;
+}
+inline int32_t CalculatePensionResponse::total_service_months() const {
+  // @@protoc_insertion_point(field_get:calc.CalculatePensionResponse.total_service_months)
+  return _internal_total_service_months();
+}
+inline void CalculatePensionResponse::_internal_set_total_service_months(int32_t value) {
+  
+  _impl_.total_service_months_ = value;
+}
+inline void CalculatePensionResponse::set_total_service_months(int32_t value) {
+  _internal_set_total_service_months(value);
+  // @@protoc_insertion_point(field_set:calc.CalculatePensionResponse.total_service_months)
+}
+
+// double pension_type_modifier = 8;
+inline void CalculatePensionResponse::clear_pension_type_modifier() {
+  _impl_.pension_type_modifier_ = 0;
+}
+inline double CalculatePensionResponse::_internal_pension_type_modifier() const {
+  return _impl_.pension_type_modifier_;
+}
+inline double CalculatePensionResponse::pension_type_modifier() const {
+  // @@protoc_insertion_point(field_get:calc.CalculatePensionResponse.pension_type_modifier)
+  return _internal_pension_type_modifier();
+}
+inline void CalculatePensionResponse::_internal_set_pension_type_modifier(double value) {
+  
+  _impl_.pension_type_modifier_ = value;
+}
+inline void CalculatePensionResponse::set_pension_type_modifier(double value) {
+  _internal_set_pension_type_modifier(value);
+  // @@protoc_insertion_point(field_set:calc.CalculatePensionResponse.pension_type_modifier)
+}
+
+// double extra_service_allowance = 9;
+inline void CalculatePensionResponse::clear_extra_service_allowance() {
+  _impl_.extra_service_allowance_ = 0;
+}
+inline double CalculatePensionResponse::_internal_extra_service_allowance() const {
+  return _impl_.extra_service_allowance_;
+}
+inline double CalculatePensionResponse::extra_service_allowance() const {
+  // @@protoc_insertion_point(field_get:calc.CalculatePensionResponse.extra_service_allowance)
+  return _internal_extra_service_allowance();
+}
+inline void CalculatePensionResponse::_internal_set_extra_service_allowance(double value) {
+  
+  _impl_.extra_service_allowance_ = value;
+}
+inline void CalculatePensionResponse::set_extra_service_allowance(double value) {
+  _internal_set_extra_service_allowance(value);
+  // @@protoc_insertion_point(field_set:calc.CalculatePensionResponse.extra_service_allowance)
+}
+
+// double total_benefit_surcharges = 10;
+inline void CalculatePensionResponse::clear_total_benefit_surcharges() {
+  _impl_.total_benefit_surcharges_ = 0;
+}
+inline double CalculatePensionResponse::_internal_total_benefit_surcharges() const {
+  return _impl_.total_benefit_surcharges_;
+}
+inline double CalculatePensionResponse::total_benefit_surcharges() const {
+  // @@protoc_insertion_point(field_get:calc.CalculatePensionResponse.total_benefit_surcharges)
+  return _internal_total_benefit_surcharges();
+}
+inline void CalculatePensionResponse::_internal_set_total_benefit_surcharges(double value) {
+  
+  _impl_.total_benefit_surcharges_ = value;
+}
+inline void CalculatePensionResponse::set_total_benefit_surcharges(double value) {
+  _internal_set_total_benefit_surcharges(value);
+  // @@protoc_insertion_point(field_set:calc.CalculatePensionResponse.total_benefit_surcharges)
+}
+
+// double pre_clamped_pension = 11;
+inline void CalculatePensionResponse::clear_pre_clamped_pension() {
+  _impl_.pre_clamped_pension_ = 0;
+}
+inline double CalculatePensionResponse::_internal_pre_clamped_pension() const {
+  return _impl_.pre_clamped_pension_;
+}
+inline double CalculatePensionResponse::pre_clamped_pension() const {
+  // @@protoc_insertion_point(field_get:calc.CalculatePensionResponse.pre_clamped_pension)
+  return _internal_pre_clamped_pension();
+}
+inline void CalculatePensionResponse::_internal_set_pre_clamped_pension(double value) {
+  
+  _impl_.pre_clamped_pension_ = value;
+}
+inline void CalculatePensionResponse::set_pre_clamped_pension(double value) {
+  _internal_set_pre_clamped_pension(value);
+  // @@protoc_insertion_point(field_set:calc.CalculatePensionResponse.pre_clamped_pension)
+}
+
+// bool is_minimum_clamped = 12;
+inline void CalculatePensionResponse::clear_is_minimum_clamped() {
+  _impl_.is_minimum_clamped_ = false;
+}
+inline bool CalculatePensionResponse::_internal_is_minimum_clamped() const {
+  return _impl_.is_minimum_clamped_;
+}
+inline bool CalculatePensionResponse::is_minimum_clamped() const {
+  // @@protoc_insertion_point(field_get:calc.CalculatePensionResponse.is_minimum_clamped)
+  return _internal_is_minimum_clamped();
+}
+inline void CalculatePensionResponse::_internal_set_is_minimum_clamped(bool value) {
+  
+  _impl_.is_minimum_clamped_ = value;
+}
+inline void CalculatePensionResponse::set_is_minimum_clamped(bool value) {
+  _internal_set_is_minimum_clamped(value);
+  // @@protoc_insertion_point(field_set:calc.CalculatePensionResponse.is_minimum_clamped)
+}
+
+// bool is_maximum_clamped = 13;
+inline void CalculatePensionResponse::clear_is_maximum_clamped() {
+  _impl_.is_maximum_clamped_ = false;
+}
+inline bool CalculatePensionResponse::_internal_is_maximum_clamped() const {
+  return _impl_.is_maximum_clamped_;
+}
+inline bool CalculatePensionResponse::is_maximum_clamped() const {
+  // @@protoc_insertion_point(field_get:calc.CalculatePensionResponse.is_maximum_clamped)
+  return _internal_is_maximum_clamped();
+}
+inline void CalculatePensionResponse::_internal_set_is_maximum_clamped(bool value) {
+  
+  _impl_.is_maximum_clamped_ = value;
+}
+inline void CalculatePensionResponse::set_is_maximum_clamped(bool value) {
+  _internal_set_is_maximum_clamped(value);
+  // @@protoc_insertion_point(field_set:calc.CalculatePensionResponse.is_maximum_clamped)
+}
+
+// repeated .calc.BenefitSurchargeDetail applied_benefits = 14;
+inline int CalculatePensionResponse::_internal_applied_benefits_size() const {
+  return _impl_.applied_benefits_.size();
+}
+inline int CalculatePensionResponse::applied_benefits_size() const {
+  return _internal_applied_benefits_size();
+}
+inline void CalculatePensionResponse::clear_applied_benefits() {
+  _impl_.applied_benefits_.Clear();
+}
+inline ::calc::BenefitSurchargeDetail* CalculatePensionResponse::mutable_applied_benefits(int index) {
+  // @@protoc_insertion_point(field_mutable:calc.CalculatePensionResponse.applied_benefits)
+  return _impl_.applied_benefits_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::calc::BenefitSurchargeDetail >*
+CalculatePensionResponse::mutable_applied_benefits() {
+  // @@protoc_insertion_point(field_mutable_list:calc.CalculatePensionResponse.applied_benefits)
+  return &_impl_.applied_benefits_;
+}
+inline const ::calc::BenefitSurchargeDetail& CalculatePensionResponse::_internal_applied_benefits(int index) const {
+  return _impl_.applied_benefits_.Get(index);
+}
+inline const ::calc::BenefitSurchargeDetail& CalculatePensionResponse::applied_benefits(int index) const {
+  // @@protoc_insertion_point(field_get:calc.CalculatePensionResponse.applied_benefits)
+  return _internal_applied_benefits(index);
+}
+inline ::calc::BenefitSurchargeDetail* CalculatePensionResponse::_internal_add_applied_benefits() {
+  return _impl_.applied_benefits_.Add();
+}
+inline ::calc::BenefitSurchargeDetail* CalculatePensionResponse::add_applied_benefits() {
+  ::calc::BenefitSurchargeDetail* _add = _internal_add_applied_benefits();
+  // @@protoc_insertion_point(field_add:calc.CalculatePensionResponse.applied_benefits)
+  return _add;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::calc::BenefitSurchargeDetail >&
+CalculatePensionResponse::applied_benefits() const {
+  // @@protoc_insertion_point(field_list:calc.CalculatePensionResponse.applied_benefits)
+  return _impl_.applied_benefits_;
+}
+
+// repeated string calculation_logs = 15;
+inline int CalculatePensionResponse::_internal_calculation_logs_size() const {
+  return _impl_.calculation_logs_.size();
+}
+inline int CalculatePensionResponse::calculation_logs_size() const {
+  return _internal_calculation_logs_size();
+}
+inline void CalculatePensionResponse::clear_calculation_logs() {
+  _impl_.calculation_logs_.Clear();
+}
+inline std::string* CalculatePensionResponse::add_calculation_logs() {
+  std::string* _s = _internal_add_calculation_logs();
+  // @@protoc_insertion_point(field_add_mutable:calc.CalculatePensionResponse.calculation_logs)
+  return _s;
+}
+inline const std::string& CalculatePensionResponse::_internal_calculation_logs(int index) const {
+  return _impl_.calculation_logs_.Get(index);
+}
+inline const std::string& CalculatePensionResponse::calculation_logs(int index) const {
+  // @@protoc_insertion_point(field_get:calc.CalculatePensionResponse.calculation_logs)
+  return _internal_calculation_logs(index);
+}
+inline std::string* CalculatePensionResponse::mutable_calculation_logs(int index) {
+  // @@protoc_insertion_point(field_mutable:calc.CalculatePensionResponse.calculation_logs)
+  return _impl_.calculation_logs_.Mutable(index);
+}
+inline void CalculatePensionResponse::set_calculation_logs(int index, const std::string& value) {
+  _impl_.calculation_logs_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set:calc.CalculatePensionResponse.calculation_logs)
+}
+inline void CalculatePensionResponse::set_calculation_logs(int index, std::string&& value) {
+  _impl_.calculation_logs_.Mutable(index)->assign(std::move(value));
+  // @@protoc_insertion_point(field_set:calc.CalculatePensionResponse.calculation_logs)
+}
+inline void CalculatePensionResponse::set_calculation_logs(int index, const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  _impl_.calculation_logs_.Mutable(index)->assign(value);
+  // @@protoc_insertion_point(field_set_char:calc.CalculatePensionResponse.calculation_logs)
+}
+inline void CalculatePensionResponse::set_calculation_logs(int index, const char* value, size_t size) {
+  _impl_.calculation_logs_.Mutable(index)->assign(
+    reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_set_pointer:calc.CalculatePensionResponse.calculation_logs)
+}
+inline std::string* CalculatePensionResponse::_internal_add_calculation_logs() {
+  return _impl_.calculation_logs_.Add();
+}
+inline void CalculatePensionResponse::add_calculation_logs(const std::string& value) {
+  _impl_.calculation_logs_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add:calc.CalculatePensionResponse.calculation_logs)
+}
+inline void CalculatePensionResponse::add_calculation_logs(std::string&& value) {
+  _impl_.calculation_logs_.Add(std::move(value));
+  // @@protoc_insertion_point(field_add:calc.CalculatePensionResponse.calculation_logs)
+}
+inline void CalculatePensionResponse::add_calculation_logs(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  _impl_.calculation_logs_.Add()->assign(value);
+  // @@protoc_insertion_point(field_add_char:calc.CalculatePensionResponse.calculation_logs)
+}
+inline void CalculatePensionResponse::add_calculation_logs(const char* value, size_t size) {
+  _impl_.calculation_logs_.Add()->assign(reinterpret_cast<const char*>(value), size);
+  // @@protoc_insertion_point(field_add_pointer:calc.CalculatePensionResponse.calculation_logs)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>&
+CalculatePensionResponse::calculation_logs() const {
+  // @@protoc_insertion_point(field_list:calc.CalculatePensionResponse.calculation_logs)
+  return _impl_.calculation_logs_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>*
+CalculatePensionResponse::mutable_calculation_logs() {
+  // @@protoc_insertion_point(field_mutable_list:calc.CalculatePensionResponse.calculation_logs)
+  return &_impl_.calculation_logs_;
+}
+
+// string error_message = 16;
+inline void CalculatePensionResponse::clear_error_message() {
+  _impl_.error_message_.ClearToEmpty();
+}
+inline const std::string& CalculatePensionResponse::error_message() const {
+  // @@protoc_insertion_point(field_get:calc.CalculatePensionResponse.error_message)
+  return _internal_error_message();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void CalculatePensionResponse::set_error_message(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.error_message_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:calc.CalculatePensionResponse.error_message)
+}
+inline std::string* CalculatePensionResponse::mutable_error_message() {
+  std::string* _s = _internal_mutable_error_message();
+  // @@protoc_insertion_point(field_mutable:calc.CalculatePensionResponse.error_message)
+  return _s;
+}
+inline const std::string& CalculatePensionResponse::_internal_error_message() const {
+  return _impl_.error_message_.Get();
+}
+inline void CalculatePensionResponse::_internal_set_error_message(const std::string& value) {
+  
+  _impl_.error_message_.Set(value, GetArenaForAllocation());
+}
+inline std::string* CalculatePensionResponse::_internal_mutable_error_message() {
+  
+  return _impl_.error_message_.Mutable(GetArenaForAllocation());
+}
+inline std::string* CalculatePensionResponse::release_error_message() {
+  // @@protoc_insertion_point(field_release:calc.CalculatePensionResponse.error_message)
+  return _impl_.error_message_.Release();
+}
+inline void CalculatePensionResponse::set_allocated_error_message(std::string* error_message) {
+  if (error_message != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.error_message_.SetAllocated(error_message, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.error_message_.IsDefault()) {
+    _impl_.error_message_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:calc.CalculatePensionResponse.error_message)
 }
 
 // -------------------------------------------------------------------
@@ -1029,9 +7540,1927 @@ inline void PensionResponse::set_allocated_error_message(std::string* error_mess
   // @@protoc_insertion_point(field_set_allocated:calc.PensionResponse.error_message)
 }
 
+// -------------------------------------------------------------------
+
+// PensionCoefficient
+
+// int32 id = 1;
+inline void PensionCoefficient::clear_id() {
+  _impl_.id_ = 0;
+}
+inline int32_t PensionCoefficient::_internal_id() const {
+  return _impl_.id_;
+}
+inline int32_t PensionCoefficient::id() const {
+  // @@protoc_insertion_point(field_get:calc.PensionCoefficient.id)
+  return _internal_id();
+}
+inline void PensionCoefficient::_internal_set_id(int32_t value) {
+  
+  _impl_.id_ = value;
+}
+inline void PensionCoefficient::set_id(int32_t value) {
+  _internal_set_id(value);
+  // @@protoc_insertion_point(field_set:calc.PensionCoefficient.id)
+}
+
+// int32 year = 2;
+inline void PensionCoefficient::clear_year() {
+  _impl_.year_ = 0;
+}
+inline int32_t PensionCoefficient::_internal_year() const {
+  return _impl_.year_;
+}
+inline int32_t PensionCoefficient::year() const {
+  // @@protoc_insertion_point(field_get:calc.PensionCoefficient.year)
+  return _internal_year();
+}
+inline void PensionCoefficient::_internal_set_year(int32_t value) {
+  
+  _impl_.year_ = value;
+}
+inline void PensionCoefficient::set_year(int32_t value) {
+  _internal_set_year(value);
+  // @@protoc_insertion_point(field_set:calc.PensionCoefficient.year)
+}
+
+// int32 month = 3;
+inline void PensionCoefficient::clear_month() {
+  _impl_.month_ = 0;
+}
+inline int32_t PensionCoefficient::_internal_month() const {
+  return _impl_.month_;
+}
+inline int32_t PensionCoefficient::month() const {
+  // @@protoc_insertion_point(field_get:calc.PensionCoefficient.month)
+  return _internal_month();
+}
+inline void PensionCoefficient::_internal_set_month(int32_t value) {
+  
+  _impl_.month_ = value;
+}
+inline void PensionCoefficient::set_month(int32_t value) {
+  _internal_set_month(value);
+  // @@protoc_insertion_point(field_set:calc.PensionCoefficient.month)
+}
+
+// double coefficient = 4;
+inline void PensionCoefficient::clear_coefficient() {
+  _impl_.coefficient_ = 0;
+}
+inline double PensionCoefficient::_internal_coefficient() const {
+  return _impl_.coefficient_;
+}
+inline double PensionCoefficient::coefficient() const {
+  // @@protoc_insertion_point(field_get:calc.PensionCoefficient.coefficient)
+  return _internal_coefficient();
+}
+inline void PensionCoefficient::_internal_set_coefficient(double value) {
+  
+  _impl_.coefficient_ = value;
+}
+inline void PensionCoefficient::set_coefficient(double value) {
+  _internal_set_coefficient(value);
+  // @@protoc_insertion_point(field_set:calc.PensionCoefficient.coefficient)
+}
+
+// string description = 5;
+inline void PensionCoefficient::clear_description() {
+  _impl_.description_.ClearToEmpty();
+}
+inline const std::string& PensionCoefficient::description() const {
+  // @@protoc_insertion_point(field_get:calc.PensionCoefficient.description)
+  return _internal_description();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void PensionCoefficient::set_description(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.description_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:calc.PensionCoefficient.description)
+}
+inline std::string* PensionCoefficient::mutable_description() {
+  std::string* _s = _internal_mutable_description();
+  // @@protoc_insertion_point(field_mutable:calc.PensionCoefficient.description)
+  return _s;
+}
+inline const std::string& PensionCoefficient::_internal_description() const {
+  return _impl_.description_.Get();
+}
+inline void PensionCoefficient::_internal_set_description(const std::string& value) {
+  
+  _impl_.description_.Set(value, GetArenaForAllocation());
+}
+inline std::string* PensionCoefficient::_internal_mutable_description() {
+  
+  return _impl_.description_.Mutable(GetArenaForAllocation());
+}
+inline std::string* PensionCoefficient::release_description() {
+  // @@protoc_insertion_point(field_release:calc.PensionCoefficient.description)
+  return _impl_.description_.Release();
+}
+inline void PensionCoefficient::set_allocated_description(std::string* description) {
+  if (description != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.description_.SetAllocated(description, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.description_.IsDefault()) {
+    _impl_.description_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:calc.PensionCoefficient.description)
+}
+
+// -------------------------------------------------------------------
+
+// ListCoefficientsRequest
+
+// -------------------------------------------------------------------
+
+// ListCoefficientsResponse
+
+// bool success = 1;
+inline void ListCoefficientsResponse::clear_success() {
+  _impl_.success_ = false;
+}
+inline bool ListCoefficientsResponse::_internal_success() const {
+  return _impl_.success_;
+}
+inline bool ListCoefficientsResponse::success() const {
+  // @@protoc_insertion_point(field_get:calc.ListCoefficientsResponse.success)
+  return _internal_success();
+}
+inline void ListCoefficientsResponse::_internal_set_success(bool value) {
+  
+  _impl_.success_ = value;
+}
+inline void ListCoefficientsResponse::set_success(bool value) {
+  _internal_set_success(value);
+  // @@protoc_insertion_point(field_set:calc.ListCoefficientsResponse.success)
+}
+
+// repeated .calc.PensionCoefficient coefficients = 2;
+inline int ListCoefficientsResponse::_internal_coefficients_size() const {
+  return _impl_.coefficients_.size();
+}
+inline int ListCoefficientsResponse::coefficients_size() const {
+  return _internal_coefficients_size();
+}
+inline void ListCoefficientsResponse::clear_coefficients() {
+  _impl_.coefficients_.Clear();
+}
+inline ::calc::PensionCoefficient* ListCoefficientsResponse::mutable_coefficients(int index) {
+  // @@protoc_insertion_point(field_mutable:calc.ListCoefficientsResponse.coefficients)
+  return _impl_.coefficients_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::calc::PensionCoefficient >*
+ListCoefficientsResponse::mutable_coefficients() {
+  // @@protoc_insertion_point(field_mutable_list:calc.ListCoefficientsResponse.coefficients)
+  return &_impl_.coefficients_;
+}
+inline const ::calc::PensionCoefficient& ListCoefficientsResponse::_internal_coefficients(int index) const {
+  return _impl_.coefficients_.Get(index);
+}
+inline const ::calc::PensionCoefficient& ListCoefficientsResponse::coefficients(int index) const {
+  // @@protoc_insertion_point(field_get:calc.ListCoefficientsResponse.coefficients)
+  return _internal_coefficients(index);
+}
+inline ::calc::PensionCoefficient* ListCoefficientsResponse::_internal_add_coefficients() {
+  return _impl_.coefficients_.Add();
+}
+inline ::calc::PensionCoefficient* ListCoefficientsResponse::add_coefficients() {
+  ::calc::PensionCoefficient* _add = _internal_add_coefficients();
+  // @@protoc_insertion_point(field_add:calc.ListCoefficientsResponse.coefficients)
+  return _add;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::calc::PensionCoefficient >&
+ListCoefficientsResponse::coefficients() const {
+  // @@protoc_insertion_point(field_list:calc.ListCoefficientsResponse.coefficients)
+  return _impl_.coefficients_;
+}
+
+// string error_message = 3;
+inline void ListCoefficientsResponse::clear_error_message() {
+  _impl_.error_message_.ClearToEmpty();
+}
+inline const std::string& ListCoefficientsResponse::error_message() const {
+  // @@protoc_insertion_point(field_get:calc.ListCoefficientsResponse.error_message)
+  return _internal_error_message();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void ListCoefficientsResponse::set_error_message(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.error_message_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:calc.ListCoefficientsResponse.error_message)
+}
+inline std::string* ListCoefficientsResponse::mutable_error_message() {
+  std::string* _s = _internal_mutable_error_message();
+  // @@protoc_insertion_point(field_mutable:calc.ListCoefficientsResponse.error_message)
+  return _s;
+}
+inline const std::string& ListCoefficientsResponse::_internal_error_message() const {
+  return _impl_.error_message_.Get();
+}
+inline void ListCoefficientsResponse::_internal_set_error_message(const std::string& value) {
+  
+  _impl_.error_message_.Set(value, GetArenaForAllocation());
+}
+inline std::string* ListCoefficientsResponse::_internal_mutable_error_message() {
+  
+  return _impl_.error_message_.Mutable(GetArenaForAllocation());
+}
+inline std::string* ListCoefficientsResponse::release_error_message() {
+  // @@protoc_insertion_point(field_release:calc.ListCoefficientsResponse.error_message)
+  return _impl_.error_message_.Release();
+}
+inline void ListCoefficientsResponse::set_allocated_error_message(std::string* error_message) {
+  if (error_message != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.error_message_.SetAllocated(error_message, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.error_message_.IsDefault()) {
+    _impl_.error_message_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:calc.ListCoefficientsResponse.error_message)
+}
+
+// -------------------------------------------------------------------
+
+// AddCoefficientRequest
+
+// int32 year = 1;
+inline void AddCoefficientRequest::clear_year() {
+  _impl_.year_ = 0;
+}
+inline int32_t AddCoefficientRequest::_internal_year() const {
+  return _impl_.year_;
+}
+inline int32_t AddCoefficientRequest::year() const {
+  // @@protoc_insertion_point(field_get:calc.AddCoefficientRequest.year)
+  return _internal_year();
+}
+inline void AddCoefficientRequest::_internal_set_year(int32_t value) {
+  
+  _impl_.year_ = value;
+}
+inline void AddCoefficientRequest::set_year(int32_t value) {
+  _internal_set_year(value);
+  // @@protoc_insertion_point(field_set:calc.AddCoefficientRequest.year)
+}
+
+// int32 month = 2;
+inline void AddCoefficientRequest::clear_month() {
+  _impl_.month_ = 0;
+}
+inline int32_t AddCoefficientRequest::_internal_month() const {
+  return _impl_.month_;
+}
+inline int32_t AddCoefficientRequest::month() const {
+  // @@protoc_insertion_point(field_get:calc.AddCoefficientRequest.month)
+  return _internal_month();
+}
+inline void AddCoefficientRequest::_internal_set_month(int32_t value) {
+  
+  _impl_.month_ = value;
+}
+inline void AddCoefficientRequest::set_month(int32_t value) {
+  _internal_set_month(value);
+  // @@protoc_insertion_point(field_set:calc.AddCoefficientRequest.month)
+}
+
+// double coefficient = 3;
+inline void AddCoefficientRequest::clear_coefficient() {
+  _impl_.coefficient_ = 0;
+}
+inline double AddCoefficientRequest::_internal_coefficient() const {
+  return _impl_.coefficient_;
+}
+inline double AddCoefficientRequest::coefficient() const {
+  // @@protoc_insertion_point(field_get:calc.AddCoefficientRequest.coefficient)
+  return _internal_coefficient();
+}
+inline void AddCoefficientRequest::_internal_set_coefficient(double value) {
+  
+  _impl_.coefficient_ = value;
+}
+inline void AddCoefficientRequest::set_coefficient(double value) {
+  _internal_set_coefficient(value);
+  // @@protoc_insertion_point(field_set:calc.AddCoefficientRequest.coefficient)
+}
+
+// string description = 4;
+inline void AddCoefficientRequest::clear_description() {
+  _impl_.description_.ClearToEmpty();
+}
+inline const std::string& AddCoefficientRequest::description() const {
+  // @@protoc_insertion_point(field_get:calc.AddCoefficientRequest.description)
+  return _internal_description();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void AddCoefficientRequest::set_description(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.description_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:calc.AddCoefficientRequest.description)
+}
+inline std::string* AddCoefficientRequest::mutable_description() {
+  std::string* _s = _internal_mutable_description();
+  // @@protoc_insertion_point(field_mutable:calc.AddCoefficientRequest.description)
+  return _s;
+}
+inline const std::string& AddCoefficientRequest::_internal_description() const {
+  return _impl_.description_.Get();
+}
+inline void AddCoefficientRequest::_internal_set_description(const std::string& value) {
+  
+  _impl_.description_.Set(value, GetArenaForAllocation());
+}
+inline std::string* AddCoefficientRequest::_internal_mutable_description() {
+  
+  return _impl_.description_.Mutable(GetArenaForAllocation());
+}
+inline std::string* AddCoefficientRequest::release_description() {
+  // @@protoc_insertion_point(field_release:calc.AddCoefficientRequest.description)
+  return _impl_.description_.Release();
+}
+inline void AddCoefficientRequest::set_allocated_description(std::string* description) {
+  if (description != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.description_.SetAllocated(description, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.description_.IsDefault()) {
+    _impl_.description_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:calc.AddCoefficientRequest.description)
+}
+
+// -------------------------------------------------------------------
+
+// AddCoefficientResponse
+
+// bool success = 1;
+inline void AddCoefficientResponse::clear_success() {
+  _impl_.success_ = false;
+}
+inline bool AddCoefficientResponse::_internal_success() const {
+  return _impl_.success_;
+}
+inline bool AddCoefficientResponse::success() const {
+  // @@protoc_insertion_point(field_get:calc.AddCoefficientResponse.success)
+  return _internal_success();
+}
+inline void AddCoefficientResponse::_internal_set_success(bool value) {
+  
+  _impl_.success_ = value;
+}
+inline void AddCoefficientResponse::set_success(bool value) {
+  _internal_set_success(value);
+  // @@protoc_insertion_point(field_set:calc.AddCoefficientResponse.success)
+}
+
+// .calc.PensionCoefficient coefficient = 2;
+inline bool AddCoefficientResponse::_internal_has_coefficient() const {
+  return this != internal_default_instance() && _impl_.coefficient_ != nullptr;
+}
+inline bool AddCoefficientResponse::has_coefficient() const {
+  return _internal_has_coefficient();
+}
+inline void AddCoefficientResponse::clear_coefficient() {
+  if (GetArenaForAllocation() == nullptr && _impl_.coefficient_ != nullptr) {
+    delete _impl_.coefficient_;
+  }
+  _impl_.coefficient_ = nullptr;
+}
+inline const ::calc::PensionCoefficient& AddCoefficientResponse::_internal_coefficient() const {
+  const ::calc::PensionCoefficient* p = _impl_.coefficient_;
+  return p != nullptr ? *p : reinterpret_cast<const ::calc::PensionCoefficient&>(
+      ::calc::_PensionCoefficient_default_instance_);
+}
+inline const ::calc::PensionCoefficient& AddCoefficientResponse::coefficient() const {
+  // @@protoc_insertion_point(field_get:calc.AddCoefficientResponse.coefficient)
+  return _internal_coefficient();
+}
+inline void AddCoefficientResponse::unsafe_arena_set_allocated_coefficient(
+    ::calc::PensionCoefficient* coefficient) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.coefficient_);
+  }
+  _impl_.coefficient_ = coefficient;
+  if (coefficient) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:calc.AddCoefficientResponse.coefficient)
+}
+inline ::calc::PensionCoefficient* AddCoefficientResponse::release_coefficient() {
+  
+  ::calc::PensionCoefficient* temp = _impl_.coefficient_;
+  _impl_.coefficient_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::calc::PensionCoefficient* AddCoefficientResponse::unsafe_arena_release_coefficient() {
+  // @@protoc_insertion_point(field_release:calc.AddCoefficientResponse.coefficient)
+  
+  ::calc::PensionCoefficient* temp = _impl_.coefficient_;
+  _impl_.coefficient_ = nullptr;
+  return temp;
+}
+inline ::calc::PensionCoefficient* AddCoefficientResponse::_internal_mutable_coefficient() {
+  
+  if (_impl_.coefficient_ == nullptr) {
+    auto* p = CreateMaybeMessage<::calc::PensionCoefficient>(GetArenaForAllocation());
+    _impl_.coefficient_ = p;
+  }
+  return _impl_.coefficient_;
+}
+inline ::calc::PensionCoefficient* AddCoefficientResponse::mutable_coefficient() {
+  ::calc::PensionCoefficient* _msg = _internal_mutable_coefficient();
+  // @@protoc_insertion_point(field_mutable:calc.AddCoefficientResponse.coefficient)
+  return _msg;
+}
+inline void AddCoefficientResponse::set_allocated_coefficient(::calc::PensionCoefficient* coefficient) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete _impl_.coefficient_;
+  }
+  if (coefficient) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(coefficient);
+    if (message_arena != submessage_arena) {
+      coefficient = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, coefficient, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.coefficient_ = coefficient;
+  // @@protoc_insertion_point(field_set_allocated:calc.AddCoefficientResponse.coefficient)
+}
+
+// string error_message = 3;
+inline void AddCoefficientResponse::clear_error_message() {
+  _impl_.error_message_.ClearToEmpty();
+}
+inline const std::string& AddCoefficientResponse::error_message() const {
+  // @@protoc_insertion_point(field_get:calc.AddCoefficientResponse.error_message)
+  return _internal_error_message();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void AddCoefficientResponse::set_error_message(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.error_message_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:calc.AddCoefficientResponse.error_message)
+}
+inline std::string* AddCoefficientResponse::mutable_error_message() {
+  std::string* _s = _internal_mutable_error_message();
+  // @@protoc_insertion_point(field_mutable:calc.AddCoefficientResponse.error_message)
+  return _s;
+}
+inline const std::string& AddCoefficientResponse::_internal_error_message() const {
+  return _impl_.error_message_.Get();
+}
+inline void AddCoefficientResponse::_internal_set_error_message(const std::string& value) {
+  
+  _impl_.error_message_.Set(value, GetArenaForAllocation());
+}
+inline std::string* AddCoefficientResponse::_internal_mutable_error_message() {
+  
+  return _impl_.error_message_.Mutable(GetArenaForAllocation());
+}
+inline std::string* AddCoefficientResponse::release_error_message() {
+  // @@protoc_insertion_point(field_release:calc.AddCoefficientResponse.error_message)
+  return _impl_.error_message_.Release();
+}
+inline void AddCoefficientResponse::set_allocated_error_message(std::string* error_message) {
+  if (error_message != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.error_message_.SetAllocated(error_message, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.error_message_.IsDefault()) {
+    _impl_.error_message_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:calc.AddCoefficientResponse.error_message)
+}
+
+// -------------------------------------------------------------------
+
+// UpdateCoefficientRequest
+
+// int32 id = 1;
+inline void UpdateCoefficientRequest::clear_id() {
+  _impl_.id_ = 0;
+}
+inline int32_t UpdateCoefficientRequest::_internal_id() const {
+  return _impl_.id_;
+}
+inline int32_t UpdateCoefficientRequest::id() const {
+  // @@protoc_insertion_point(field_get:calc.UpdateCoefficientRequest.id)
+  return _internal_id();
+}
+inline void UpdateCoefficientRequest::_internal_set_id(int32_t value) {
+  
+  _impl_.id_ = value;
+}
+inline void UpdateCoefficientRequest::set_id(int32_t value) {
+  _internal_set_id(value);
+  // @@protoc_insertion_point(field_set:calc.UpdateCoefficientRequest.id)
+}
+
+// int32 year = 2;
+inline void UpdateCoefficientRequest::clear_year() {
+  _impl_.year_ = 0;
+}
+inline int32_t UpdateCoefficientRequest::_internal_year() const {
+  return _impl_.year_;
+}
+inline int32_t UpdateCoefficientRequest::year() const {
+  // @@protoc_insertion_point(field_get:calc.UpdateCoefficientRequest.year)
+  return _internal_year();
+}
+inline void UpdateCoefficientRequest::_internal_set_year(int32_t value) {
+  
+  _impl_.year_ = value;
+}
+inline void UpdateCoefficientRequest::set_year(int32_t value) {
+  _internal_set_year(value);
+  // @@protoc_insertion_point(field_set:calc.UpdateCoefficientRequest.year)
+}
+
+// int32 month = 3;
+inline void UpdateCoefficientRequest::clear_month() {
+  _impl_.month_ = 0;
+}
+inline int32_t UpdateCoefficientRequest::_internal_month() const {
+  return _impl_.month_;
+}
+inline int32_t UpdateCoefficientRequest::month() const {
+  // @@protoc_insertion_point(field_get:calc.UpdateCoefficientRequest.month)
+  return _internal_month();
+}
+inline void UpdateCoefficientRequest::_internal_set_month(int32_t value) {
+  
+  _impl_.month_ = value;
+}
+inline void UpdateCoefficientRequest::set_month(int32_t value) {
+  _internal_set_month(value);
+  // @@protoc_insertion_point(field_set:calc.UpdateCoefficientRequest.month)
+}
+
+// double coefficient = 4;
+inline void UpdateCoefficientRequest::clear_coefficient() {
+  _impl_.coefficient_ = 0;
+}
+inline double UpdateCoefficientRequest::_internal_coefficient() const {
+  return _impl_.coefficient_;
+}
+inline double UpdateCoefficientRequest::coefficient() const {
+  // @@protoc_insertion_point(field_get:calc.UpdateCoefficientRequest.coefficient)
+  return _internal_coefficient();
+}
+inline void UpdateCoefficientRequest::_internal_set_coefficient(double value) {
+  
+  _impl_.coefficient_ = value;
+}
+inline void UpdateCoefficientRequest::set_coefficient(double value) {
+  _internal_set_coefficient(value);
+  // @@protoc_insertion_point(field_set:calc.UpdateCoefficientRequest.coefficient)
+}
+
+// string description = 5;
+inline void UpdateCoefficientRequest::clear_description() {
+  _impl_.description_.ClearToEmpty();
+}
+inline const std::string& UpdateCoefficientRequest::description() const {
+  // @@protoc_insertion_point(field_get:calc.UpdateCoefficientRequest.description)
+  return _internal_description();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void UpdateCoefficientRequest::set_description(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.description_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:calc.UpdateCoefficientRequest.description)
+}
+inline std::string* UpdateCoefficientRequest::mutable_description() {
+  std::string* _s = _internal_mutable_description();
+  // @@protoc_insertion_point(field_mutable:calc.UpdateCoefficientRequest.description)
+  return _s;
+}
+inline const std::string& UpdateCoefficientRequest::_internal_description() const {
+  return _impl_.description_.Get();
+}
+inline void UpdateCoefficientRequest::_internal_set_description(const std::string& value) {
+  
+  _impl_.description_.Set(value, GetArenaForAllocation());
+}
+inline std::string* UpdateCoefficientRequest::_internal_mutable_description() {
+  
+  return _impl_.description_.Mutable(GetArenaForAllocation());
+}
+inline std::string* UpdateCoefficientRequest::release_description() {
+  // @@protoc_insertion_point(field_release:calc.UpdateCoefficientRequest.description)
+  return _impl_.description_.Release();
+}
+inline void UpdateCoefficientRequest::set_allocated_description(std::string* description) {
+  if (description != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.description_.SetAllocated(description, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.description_.IsDefault()) {
+    _impl_.description_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:calc.UpdateCoefficientRequest.description)
+}
+
+// -------------------------------------------------------------------
+
+// UpdateCoefficientResponse
+
+// bool success = 1;
+inline void UpdateCoefficientResponse::clear_success() {
+  _impl_.success_ = false;
+}
+inline bool UpdateCoefficientResponse::_internal_success() const {
+  return _impl_.success_;
+}
+inline bool UpdateCoefficientResponse::success() const {
+  // @@protoc_insertion_point(field_get:calc.UpdateCoefficientResponse.success)
+  return _internal_success();
+}
+inline void UpdateCoefficientResponse::_internal_set_success(bool value) {
+  
+  _impl_.success_ = value;
+}
+inline void UpdateCoefficientResponse::set_success(bool value) {
+  _internal_set_success(value);
+  // @@protoc_insertion_point(field_set:calc.UpdateCoefficientResponse.success)
+}
+
+// .calc.PensionCoefficient coefficient = 2;
+inline bool UpdateCoefficientResponse::_internal_has_coefficient() const {
+  return this != internal_default_instance() && _impl_.coefficient_ != nullptr;
+}
+inline bool UpdateCoefficientResponse::has_coefficient() const {
+  return _internal_has_coefficient();
+}
+inline void UpdateCoefficientResponse::clear_coefficient() {
+  if (GetArenaForAllocation() == nullptr && _impl_.coefficient_ != nullptr) {
+    delete _impl_.coefficient_;
+  }
+  _impl_.coefficient_ = nullptr;
+}
+inline const ::calc::PensionCoefficient& UpdateCoefficientResponse::_internal_coefficient() const {
+  const ::calc::PensionCoefficient* p = _impl_.coefficient_;
+  return p != nullptr ? *p : reinterpret_cast<const ::calc::PensionCoefficient&>(
+      ::calc::_PensionCoefficient_default_instance_);
+}
+inline const ::calc::PensionCoefficient& UpdateCoefficientResponse::coefficient() const {
+  // @@protoc_insertion_point(field_get:calc.UpdateCoefficientResponse.coefficient)
+  return _internal_coefficient();
+}
+inline void UpdateCoefficientResponse::unsafe_arena_set_allocated_coefficient(
+    ::calc::PensionCoefficient* coefficient) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.coefficient_);
+  }
+  _impl_.coefficient_ = coefficient;
+  if (coefficient) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:calc.UpdateCoefficientResponse.coefficient)
+}
+inline ::calc::PensionCoefficient* UpdateCoefficientResponse::release_coefficient() {
+  
+  ::calc::PensionCoefficient* temp = _impl_.coefficient_;
+  _impl_.coefficient_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::calc::PensionCoefficient* UpdateCoefficientResponse::unsafe_arena_release_coefficient() {
+  // @@protoc_insertion_point(field_release:calc.UpdateCoefficientResponse.coefficient)
+  
+  ::calc::PensionCoefficient* temp = _impl_.coefficient_;
+  _impl_.coefficient_ = nullptr;
+  return temp;
+}
+inline ::calc::PensionCoefficient* UpdateCoefficientResponse::_internal_mutable_coefficient() {
+  
+  if (_impl_.coefficient_ == nullptr) {
+    auto* p = CreateMaybeMessage<::calc::PensionCoefficient>(GetArenaForAllocation());
+    _impl_.coefficient_ = p;
+  }
+  return _impl_.coefficient_;
+}
+inline ::calc::PensionCoefficient* UpdateCoefficientResponse::mutable_coefficient() {
+  ::calc::PensionCoefficient* _msg = _internal_mutable_coefficient();
+  // @@protoc_insertion_point(field_mutable:calc.UpdateCoefficientResponse.coefficient)
+  return _msg;
+}
+inline void UpdateCoefficientResponse::set_allocated_coefficient(::calc::PensionCoefficient* coefficient) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete _impl_.coefficient_;
+  }
+  if (coefficient) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(coefficient);
+    if (message_arena != submessage_arena) {
+      coefficient = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, coefficient, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.coefficient_ = coefficient;
+  // @@protoc_insertion_point(field_set_allocated:calc.UpdateCoefficientResponse.coefficient)
+}
+
+// string error_message = 3;
+inline void UpdateCoefficientResponse::clear_error_message() {
+  _impl_.error_message_.ClearToEmpty();
+}
+inline const std::string& UpdateCoefficientResponse::error_message() const {
+  // @@protoc_insertion_point(field_get:calc.UpdateCoefficientResponse.error_message)
+  return _internal_error_message();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void UpdateCoefficientResponse::set_error_message(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.error_message_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:calc.UpdateCoefficientResponse.error_message)
+}
+inline std::string* UpdateCoefficientResponse::mutable_error_message() {
+  std::string* _s = _internal_mutable_error_message();
+  // @@protoc_insertion_point(field_mutable:calc.UpdateCoefficientResponse.error_message)
+  return _s;
+}
+inline const std::string& UpdateCoefficientResponse::_internal_error_message() const {
+  return _impl_.error_message_.Get();
+}
+inline void UpdateCoefficientResponse::_internal_set_error_message(const std::string& value) {
+  
+  _impl_.error_message_.Set(value, GetArenaForAllocation());
+}
+inline std::string* UpdateCoefficientResponse::_internal_mutable_error_message() {
+  
+  return _impl_.error_message_.Mutable(GetArenaForAllocation());
+}
+inline std::string* UpdateCoefficientResponse::release_error_message() {
+  // @@protoc_insertion_point(field_release:calc.UpdateCoefficientResponse.error_message)
+  return _impl_.error_message_.Release();
+}
+inline void UpdateCoefficientResponse::set_allocated_error_message(std::string* error_message) {
+  if (error_message != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.error_message_.SetAllocated(error_message, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.error_message_.IsDefault()) {
+    _impl_.error_message_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:calc.UpdateCoefficientResponse.error_message)
+}
+
+// -------------------------------------------------------------------
+
+// DeleteCoefficientRequest
+
+// int32 id = 1;
+inline void DeleteCoefficientRequest::clear_id() {
+  _impl_.id_ = 0;
+}
+inline int32_t DeleteCoefficientRequest::_internal_id() const {
+  return _impl_.id_;
+}
+inline int32_t DeleteCoefficientRequest::id() const {
+  // @@protoc_insertion_point(field_get:calc.DeleteCoefficientRequest.id)
+  return _internal_id();
+}
+inline void DeleteCoefficientRequest::_internal_set_id(int32_t value) {
+  
+  _impl_.id_ = value;
+}
+inline void DeleteCoefficientRequest::set_id(int32_t value) {
+  _internal_set_id(value);
+  // @@protoc_insertion_point(field_set:calc.DeleteCoefficientRequest.id)
+}
+
+// -------------------------------------------------------------------
+
+// DeleteCoefficientResponse
+
+// bool success = 1;
+inline void DeleteCoefficientResponse::clear_success() {
+  _impl_.success_ = false;
+}
+inline bool DeleteCoefficientResponse::_internal_success() const {
+  return _impl_.success_;
+}
+inline bool DeleteCoefficientResponse::success() const {
+  // @@protoc_insertion_point(field_get:calc.DeleteCoefficientResponse.success)
+  return _internal_success();
+}
+inline void DeleteCoefficientResponse::_internal_set_success(bool value) {
+  
+  _impl_.success_ = value;
+}
+inline void DeleteCoefficientResponse::set_success(bool value) {
+  _internal_set_success(value);
+  // @@protoc_insertion_point(field_set:calc.DeleteCoefficientResponse.success)
+}
+
+// string error_message = 2;
+inline void DeleteCoefficientResponse::clear_error_message() {
+  _impl_.error_message_.ClearToEmpty();
+}
+inline const std::string& DeleteCoefficientResponse::error_message() const {
+  // @@protoc_insertion_point(field_get:calc.DeleteCoefficientResponse.error_message)
+  return _internal_error_message();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void DeleteCoefficientResponse::set_error_message(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.error_message_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:calc.DeleteCoefficientResponse.error_message)
+}
+inline std::string* DeleteCoefficientResponse::mutable_error_message() {
+  std::string* _s = _internal_mutable_error_message();
+  // @@protoc_insertion_point(field_mutable:calc.DeleteCoefficientResponse.error_message)
+  return _s;
+}
+inline const std::string& DeleteCoefficientResponse::_internal_error_message() const {
+  return _impl_.error_message_.Get();
+}
+inline void DeleteCoefficientResponse::_internal_set_error_message(const std::string& value) {
+  
+  _impl_.error_message_.Set(value, GetArenaForAllocation());
+}
+inline std::string* DeleteCoefficientResponse::_internal_mutable_error_message() {
+  
+  return _impl_.error_message_.Mutable(GetArenaForAllocation());
+}
+inline std::string* DeleteCoefficientResponse::release_error_message() {
+  // @@protoc_insertion_point(field_release:calc.DeleteCoefficientResponse.error_message)
+  return _impl_.error_message_.Release();
+}
+inline void DeleteCoefficientResponse::set_allocated_error_message(std::string* error_message) {
+  if (error_message != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.error_message_.SetAllocated(error_message, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.error_message_.IsDefault()) {
+    _impl_.error_message_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:calc.DeleteCoefficientResponse.error_message)
+}
+
+// -------------------------------------------------------------------
+
+// AverageSalaryRecord
+
+// int32 year = 1;
+inline void AverageSalaryRecord::clear_year() {
+  _impl_.year_ = 0;
+}
+inline int32_t AverageSalaryRecord::_internal_year() const {
+  return _impl_.year_;
+}
+inline int32_t AverageSalaryRecord::year() const {
+  // @@protoc_insertion_point(field_get:calc.AverageSalaryRecord.year)
+  return _internal_year();
+}
+inline void AverageSalaryRecord::_internal_set_year(int32_t value) {
+  
+  _impl_.year_ = value;
+}
+inline void AverageSalaryRecord::set_year(int32_t value) {
+  _internal_set_year(value);
+  // @@protoc_insertion_point(field_set:calc.AverageSalaryRecord.year)
+}
+
+// int32 month = 2;
+inline void AverageSalaryRecord::clear_month() {
+  _impl_.month_ = 0;
+}
+inline int32_t AverageSalaryRecord::_internal_month() const {
+  return _impl_.month_;
+}
+inline int32_t AverageSalaryRecord::month() const {
+  // @@protoc_insertion_point(field_get:calc.AverageSalaryRecord.month)
+  return _internal_month();
+}
+inline void AverageSalaryRecord::_internal_set_month(int32_t value) {
+  
+  _impl_.month_ = value;
+}
+inline void AverageSalaryRecord::set_month(int32_t value) {
+  _internal_set_month(value);
+  // @@protoc_insertion_point(field_set:calc.AverageSalaryRecord.month)
+}
+
+// double amount = 3;
+inline void AverageSalaryRecord::clear_amount() {
+  _impl_.amount_ = 0;
+}
+inline double AverageSalaryRecord::_internal_amount() const {
+  return _impl_.amount_;
+}
+inline double AverageSalaryRecord::amount() const {
+  // @@protoc_insertion_point(field_get:calc.AverageSalaryRecord.amount)
+  return _internal_amount();
+}
+inline void AverageSalaryRecord::_internal_set_amount(double value) {
+  
+  _impl_.amount_ = value;
+}
+inline void AverageSalaryRecord::set_amount(double value) {
+  _internal_set_amount(value);
+  // @@protoc_insertion_point(field_set:calc.AverageSalaryRecord.amount)
+}
+
+// -------------------------------------------------------------------
+
+// SyncAverageSalariesRequest
+
+// repeated .calc.AverageSalaryRecord salaries = 1;
+inline int SyncAverageSalariesRequest::_internal_salaries_size() const {
+  return _impl_.salaries_.size();
+}
+inline int SyncAverageSalariesRequest::salaries_size() const {
+  return _internal_salaries_size();
+}
+inline void SyncAverageSalariesRequest::clear_salaries() {
+  _impl_.salaries_.Clear();
+}
+inline ::calc::AverageSalaryRecord* SyncAverageSalariesRequest::mutable_salaries(int index) {
+  // @@protoc_insertion_point(field_mutable:calc.SyncAverageSalariesRequest.salaries)
+  return _impl_.salaries_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::calc::AverageSalaryRecord >*
+SyncAverageSalariesRequest::mutable_salaries() {
+  // @@protoc_insertion_point(field_mutable_list:calc.SyncAverageSalariesRequest.salaries)
+  return &_impl_.salaries_;
+}
+inline const ::calc::AverageSalaryRecord& SyncAverageSalariesRequest::_internal_salaries(int index) const {
+  return _impl_.salaries_.Get(index);
+}
+inline const ::calc::AverageSalaryRecord& SyncAverageSalariesRequest::salaries(int index) const {
+  // @@protoc_insertion_point(field_get:calc.SyncAverageSalariesRequest.salaries)
+  return _internal_salaries(index);
+}
+inline ::calc::AverageSalaryRecord* SyncAverageSalariesRequest::_internal_add_salaries() {
+  return _impl_.salaries_.Add();
+}
+inline ::calc::AverageSalaryRecord* SyncAverageSalariesRequest::add_salaries() {
+  ::calc::AverageSalaryRecord* _add = _internal_add_salaries();
+  // @@protoc_insertion_point(field_add:calc.SyncAverageSalariesRequest.salaries)
+  return _add;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::calc::AverageSalaryRecord >&
+SyncAverageSalariesRequest::salaries() const {
+  // @@protoc_insertion_point(field_list:calc.SyncAverageSalariesRequest.salaries)
+  return _impl_.salaries_;
+}
+
+// -------------------------------------------------------------------
+
+// SyncAverageSalariesResponse
+
+// bool success = 1;
+inline void SyncAverageSalariesResponse::clear_success() {
+  _impl_.success_ = false;
+}
+inline bool SyncAverageSalariesResponse::_internal_success() const {
+  return _impl_.success_;
+}
+inline bool SyncAverageSalariesResponse::success() const {
+  // @@protoc_insertion_point(field_get:calc.SyncAverageSalariesResponse.success)
+  return _internal_success();
+}
+inline void SyncAverageSalariesResponse::_internal_set_success(bool value) {
+  
+  _impl_.success_ = value;
+}
+inline void SyncAverageSalariesResponse::set_success(bool value) {
+  _internal_set_success(value);
+  // @@protoc_insertion_point(field_set:calc.SyncAverageSalariesResponse.success)
+}
+
+// int32 processed_count = 2;
+inline void SyncAverageSalariesResponse::clear_processed_count() {
+  _impl_.processed_count_ = 0;
+}
+inline int32_t SyncAverageSalariesResponse::_internal_processed_count() const {
+  return _impl_.processed_count_;
+}
+inline int32_t SyncAverageSalariesResponse::processed_count() const {
+  // @@protoc_insertion_point(field_get:calc.SyncAverageSalariesResponse.processed_count)
+  return _internal_processed_count();
+}
+inline void SyncAverageSalariesResponse::_internal_set_processed_count(int32_t value) {
+  
+  _impl_.processed_count_ = value;
+}
+inline void SyncAverageSalariesResponse::set_processed_count(int32_t value) {
+  _internal_set_processed_count(value);
+  // @@protoc_insertion_point(field_set:calc.SyncAverageSalariesResponse.processed_count)
+}
+
+// string error_message = 3;
+inline void SyncAverageSalariesResponse::clear_error_message() {
+  _impl_.error_message_.ClearToEmpty();
+}
+inline const std::string& SyncAverageSalariesResponse::error_message() const {
+  // @@protoc_insertion_point(field_get:calc.SyncAverageSalariesResponse.error_message)
+  return _internal_error_message();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void SyncAverageSalariesResponse::set_error_message(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.error_message_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:calc.SyncAverageSalariesResponse.error_message)
+}
+inline std::string* SyncAverageSalariesResponse::mutable_error_message() {
+  std::string* _s = _internal_mutable_error_message();
+  // @@protoc_insertion_point(field_mutable:calc.SyncAverageSalariesResponse.error_message)
+  return _s;
+}
+inline const std::string& SyncAverageSalariesResponse::_internal_error_message() const {
+  return _impl_.error_message_.Get();
+}
+inline void SyncAverageSalariesResponse::_internal_set_error_message(const std::string& value) {
+  
+  _impl_.error_message_.Set(value, GetArenaForAllocation());
+}
+inline std::string* SyncAverageSalariesResponse::_internal_mutable_error_message() {
+  
+  return _impl_.error_message_.Mutable(GetArenaForAllocation());
+}
+inline std::string* SyncAverageSalariesResponse::release_error_message() {
+  // @@protoc_insertion_point(field_release:calc.SyncAverageSalariesResponse.error_message)
+  return _impl_.error_message_.Release();
+}
+inline void SyncAverageSalariesResponse::set_allocated_error_message(std::string* error_message) {
+  if (error_message != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.error_message_.SetAllocated(error_message, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.error_message_.IsDefault()) {
+    _impl_.error_message_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:calc.SyncAverageSalariesResponse.error_message)
+}
+
+// -------------------------------------------------------------------
+
+// UpsertSubsistenceMinimumRequest
+
+// int32 year = 1;
+inline void UpsertSubsistenceMinimumRequest::clear_year() {
+  _impl_.year_ = 0;
+}
+inline int32_t UpsertSubsistenceMinimumRequest::_internal_year() const {
+  return _impl_.year_;
+}
+inline int32_t UpsertSubsistenceMinimumRequest::year() const {
+  // @@protoc_insertion_point(field_get:calc.UpsertSubsistenceMinimumRequest.year)
+  return _internal_year();
+}
+inline void UpsertSubsistenceMinimumRequest::_internal_set_year(int32_t value) {
+  
+  _impl_.year_ = value;
+}
+inline void UpsertSubsistenceMinimumRequest::set_year(int32_t value) {
+  _internal_set_year(value);
+  // @@protoc_insertion_point(field_set:calc.UpsertSubsistenceMinimumRequest.year)
+}
+
+// double for_disabled_persons = 2;
+inline void UpsertSubsistenceMinimumRequest::clear_for_disabled_persons() {
+  _impl_.for_disabled_persons_ = 0;
+}
+inline double UpsertSubsistenceMinimumRequest::_internal_for_disabled_persons() const {
+  return _impl_.for_disabled_persons_;
+}
+inline double UpsertSubsistenceMinimumRequest::for_disabled_persons() const {
+  // @@protoc_insertion_point(field_get:calc.UpsertSubsistenceMinimumRequest.for_disabled_persons)
+  return _internal_for_disabled_persons();
+}
+inline void UpsertSubsistenceMinimumRequest::_internal_set_for_disabled_persons(double value) {
+  
+  _impl_.for_disabled_persons_ = value;
+}
+inline void UpsertSubsistenceMinimumRequest::set_for_disabled_persons(double value) {
+  _internal_set_for_disabled_persons(value);
+  // @@protoc_insertion_point(field_set:calc.UpsertSubsistenceMinimumRequest.for_disabled_persons)
+}
+
+// double general_minimum = 3;
+inline void UpsertSubsistenceMinimumRequest::clear_general_minimum() {
+  _impl_.general_minimum_ = 0;
+}
+inline double UpsertSubsistenceMinimumRequest::_internal_general_minimum() const {
+  return _impl_.general_minimum_;
+}
+inline double UpsertSubsistenceMinimumRequest::general_minimum() const {
+  // @@protoc_insertion_point(field_get:calc.UpsertSubsistenceMinimumRequest.general_minimum)
+  return _internal_general_minimum();
+}
+inline void UpsertSubsistenceMinimumRequest::_internal_set_general_minimum(double value) {
+  
+  _impl_.general_minimum_ = value;
+}
+inline void UpsertSubsistenceMinimumRequest::set_general_minimum(double value) {
+  _internal_set_general_minimum(value);
+  // @@protoc_insertion_point(field_set:calc.UpsertSubsistenceMinimumRequest.general_minimum)
+}
+
+// -------------------------------------------------------------------
+
+// UpsertSubsistenceMinimumResponse
+
+// bool success = 1;
+inline void UpsertSubsistenceMinimumResponse::clear_success() {
+  _impl_.success_ = false;
+}
+inline bool UpsertSubsistenceMinimumResponse::_internal_success() const {
+  return _impl_.success_;
+}
+inline bool UpsertSubsistenceMinimumResponse::success() const {
+  // @@protoc_insertion_point(field_get:calc.UpsertSubsistenceMinimumResponse.success)
+  return _internal_success();
+}
+inline void UpsertSubsistenceMinimumResponse::_internal_set_success(bool value) {
+  
+  _impl_.success_ = value;
+}
+inline void UpsertSubsistenceMinimumResponse::set_success(bool value) {
+  _internal_set_success(value);
+  // @@protoc_insertion_point(field_set:calc.UpsertSubsistenceMinimumResponse.success)
+}
+
+// string message = 2;
+inline void UpsertSubsistenceMinimumResponse::clear_message() {
+  _impl_.message_.ClearToEmpty();
+}
+inline const std::string& UpsertSubsistenceMinimumResponse::message() const {
+  // @@protoc_insertion_point(field_get:calc.UpsertSubsistenceMinimumResponse.message)
+  return _internal_message();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void UpsertSubsistenceMinimumResponse::set_message(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.message_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:calc.UpsertSubsistenceMinimumResponse.message)
+}
+inline std::string* UpsertSubsistenceMinimumResponse::mutable_message() {
+  std::string* _s = _internal_mutable_message();
+  // @@protoc_insertion_point(field_mutable:calc.UpsertSubsistenceMinimumResponse.message)
+  return _s;
+}
+inline const std::string& UpsertSubsistenceMinimumResponse::_internal_message() const {
+  return _impl_.message_.Get();
+}
+inline void UpsertSubsistenceMinimumResponse::_internal_set_message(const std::string& value) {
+  
+  _impl_.message_.Set(value, GetArenaForAllocation());
+}
+inline std::string* UpsertSubsistenceMinimumResponse::_internal_mutable_message() {
+  
+  return _impl_.message_.Mutable(GetArenaForAllocation());
+}
+inline std::string* UpsertSubsistenceMinimumResponse::release_message() {
+  // @@protoc_insertion_point(field_release:calc.UpsertSubsistenceMinimumResponse.message)
+  return _impl_.message_.Release();
+}
+inline void UpsertSubsistenceMinimumResponse::set_allocated_message(std::string* message) {
+  if (message != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.message_.SetAllocated(message, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.message_.IsDefault()) {
+    _impl_.message_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:calc.UpsertSubsistenceMinimumResponse.message)
+}
+
+// string error_message = 3;
+inline void UpsertSubsistenceMinimumResponse::clear_error_message() {
+  _impl_.error_message_.ClearToEmpty();
+}
+inline const std::string& UpsertSubsistenceMinimumResponse::error_message() const {
+  // @@protoc_insertion_point(field_get:calc.UpsertSubsistenceMinimumResponse.error_message)
+  return _internal_error_message();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void UpsertSubsistenceMinimumResponse::set_error_message(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.error_message_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:calc.UpsertSubsistenceMinimumResponse.error_message)
+}
+inline std::string* UpsertSubsistenceMinimumResponse::mutable_error_message() {
+  std::string* _s = _internal_mutable_error_message();
+  // @@protoc_insertion_point(field_mutable:calc.UpsertSubsistenceMinimumResponse.error_message)
+  return _s;
+}
+inline const std::string& UpsertSubsistenceMinimumResponse::_internal_error_message() const {
+  return _impl_.error_message_.Get();
+}
+inline void UpsertSubsistenceMinimumResponse::_internal_set_error_message(const std::string& value) {
+  
+  _impl_.error_message_.Set(value, GetArenaForAllocation());
+}
+inline std::string* UpsertSubsistenceMinimumResponse::_internal_mutable_error_message() {
+  
+  return _impl_.error_message_.Mutable(GetArenaForAllocation());
+}
+inline std::string* UpsertSubsistenceMinimumResponse::release_error_message() {
+  // @@protoc_insertion_point(field_release:calc.UpsertSubsistenceMinimumResponse.error_message)
+  return _impl_.error_message_.Release();
+}
+inline void UpsertSubsistenceMinimumResponse::set_allocated_error_message(std::string* error_message) {
+  if (error_message != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.error_message_.SetAllocated(error_message, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.error_message_.IsDefault()) {
+    _impl_.error_message_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:calc.UpsertSubsistenceMinimumResponse.error_message)
+}
+
+// -------------------------------------------------------------------
+
+// ListSubsistenceMinimumsRequest
+
+// -------------------------------------------------------------------
+
+// SubsistenceMinimumRecord
+
+// int32 id = 1;
+inline void SubsistenceMinimumRecord::clear_id() {
+  _impl_.id_ = 0;
+}
+inline int32_t SubsistenceMinimumRecord::_internal_id() const {
+  return _impl_.id_;
+}
+inline int32_t SubsistenceMinimumRecord::id() const {
+  // @@protoc_insertion_point(field_get:calc.SubsistenceMinimumRecord.id)
+  return _internal_id();
+}
+inline void SubsistenceMinimumRecord::_internal_set_id(int32_t value) {
+  
+  _impl_.id_ = value;
+}
+inline void SubsistenceMinimumRecord::set_id(int32_t value) {
+  _internal_set_id(value);
+  // @@protoc_insertion_point(field_set:calc.SubsistenceMinimumRecord.id)
+}
+
+// int32 year = 2;
+inline void SubsistenceMinimumRecord::clear_year() {
+  _impl_.year_ = 0;
+}
+inline int32_t SubsistenceMinimumRecord::_internal_year() const {
+  return _impl_.year_;
+}
+inline int32_t SubsistenceMinimumRecord::year() const {
+  // @@protoc_insertion_point(field_get:calc.SubsistenceMinimumRecord.year)
+  return _internal_year();
+}
+inline void SubsistenceMinimumRecord::_internal_set_year(int32_t value) {
+  
+  _impl_.year_ = value;
+}
+inline void SubsistenceMinimumRecord::set_year(int32_t value) {
+  _internal_set_year(value);
+  // @@protoc_insertion_point(field_set:calc.SubsistenceMinimumRecord.year)
+}
+
+// double for_disabled_persons = 3;
+inline void SubsistenceMinimumRecord::clear_for_disabled_persons() {
+  _impl_.for_disabled_persons_ = 0;
+}
+inline double SubsistenceMinimumRecord::_internal_for_disabled_persons() const {
+  return _impl_.for_disabled_persons_;
+}
+inline double SubsistenceMinimumRecord::for_disabled_persons() const {
+  // @@protoc_insertion_point(field_get:calc.SubsistenceMinimumRecord.for_disabled_persons)
+  return _internal_for_disabled_persons();
+}
+inline void SubsistenceMinimumRecord::_internal_set_for_disabled_persons(double value) {
+  
+  _impl_.for_disabled_persons_ = value;
+}
+inline void SubsistenceMinimumRecord::set_for_disabled_persons(double value) {
+  _internal_set_for_disabled_persons(value);
+  // @@protoc_insertion_point(field_set:calc.SubsistenceMinimumRecord.for_disabled_persons)
+}
+
+// double general_minimum = 4;
+inline void SubsistenceMinimumRecord::clear_general_minimum() {
+  _impl_.general_minimum_ = 0;
+}
+inline double SubsistenceMinimumRecord::_internal_general_minimum() const {
+  return _impl_.general_minimum_;
+}
+inline double SubsistenceMinimumRecord::general_minimum() const {
+  // @@protoc_insertion_point(field_get:calc.SubsistenceMinimumRecord.general_minimum)
+  return _internal_general_minimum();
+}
+inline void SubsistenceMinimumRecord::_internal_set_general_minimum(double value) {
+  
+  _impl_.general_minimum_ = value;
+}
+inline void SubsistenceMinimumRecord::set_general_minimum(double value) {
+  _internal_set_general_minimum(value);
+  // @@protoc_insertion_point(field_set:calc.SubsistenceMinimumRecord.general_minimum)
+}
+
+// -------------------------------------------------------------------
+
+// ListSubsistenceMinimumsResponse
+
+// bool success = 1;
+inline void ListSubsistenceMinimumsResponse::clear_success() {
+  _impl_.success_ = false;
+}
+inline bool ListSubsistenceMinimumsResponse::_internal_success() const {
+  return _impl_.success_;
+}
+inline bool ListSubsistenceMinimumsResponse::success() const {
+  // @@protoc_insertion_point(field_get:calc.ListSubsistenceMinimumsResponse.success)
+  return _internal_success();
+}
+inline void ListSubsistenceMinimumsResponse::_internal_set_success(bool value) {
+  
+  _impl_.success_ = value;
+}
+inline void ListSubsistenceMinimumsResponse::set_success(bool value) {
+  _internal_set_success(value);
+  // @@protoc_insertion_point(field_set:calc.ListSubsistenceMinimumsResponse.success)
+}
+
+// repeated .calc.SubsistenceMinimumRecord records = 2;
+inline int ListSubsistenceMinimumsResponse::_internal_records_size() const {
+  return _impl_.records_.size();
+}
+inline int ListSubsistenceMinimumsResponse::records_size() const {
+  return _internal_records_size();
+}
+inline void ListSubsistenceMinimumsResponse::clear_records() {
+  _impl_.records_.Clear();
+}
+inline ::calc::SubsistenceMinimumRecord* ListSubsistenceMinimumsResponse::mutable_records(int index) {
+  // @@protoc_insertion_point(field_mutable:calc.ListSubsistenceMinimumsResponse.records)
+  return _impl_.records_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::calc::SubsistenceMinimumRecord >*
+ListSubsistenceMinimumsResponse::mutable_records() {
+  // @@protoc_insertion_point(field_mutable_list:calc.ListSubsistenceMinimumsResponse.records)
+  return &_impl_.records_;
+}
+inline const ::calc::SubsistenceMinimumRecord& ListSubsistenceMinimumsResponse::_internal_records(int index) const {
+  return _impl_.records_.Get(index);
+}
+inline const ::calc::SubsistenceMinimumRecord& ListSubsistenceMinimumsResponse::records(int index) const {
+  // @@protoc_insertion_point(field_get:calc.ListSubsistenceMinimumsResponse.records)
+  return _internal_records(index);
+}
+inline ::calc::SubsistenceMinimumRecord* ListSubsistenceMinimumsResponse::_internal_add_records() {
+  return _impl_.records_.Add();
+}
+inline ::calc::SubsistenceMinimumRecord* ListSubsistenceMinimumsResponse::add_records() {
+  ::calc::SubsistenceMinimumRecord* _add = _internal_add_records();
+  // @@protoc_insertion_point(field_add:calc.ListSubsistenceMinimumsResponse.records)
+  return _add;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::calc::SubsistenceMinimumRecord >&
+ListSubsistenceMinimumsResponse::records() const {
+  // @@protoc_insertion_point(field_list:calc.ListSubsistenceMinimumsResponse.records)
+  return _impl_.records_;
+}
+
+// string error_message = 3;
+inline void ListSubsistenceMinimumsResponse::clear_error_message() {
+  _impl_.error_message_.ClearToEmpty();
+}
+inline const std::string& ListSubsistenceMinimumsResponse::error_message() const {
+  // @@protoc_insertion_point(field_get:calc.ListSubsistenceMinimumsResponse.error_message)
+  return _internal_error_message();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void ListSubsistenceMinimumsResponse::set_error_message(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.error_message_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:calc.ListSubsistenceMinimumsResponse.error_message)
+}
+inline std::string* ListSubsistenceMinimumsResponse::mutable_error_message() {
+  std::string* _s = _internal_mutable_error_message();
+  // @@protoc_insertion_point(field_mutable:calc.ListSubsistenceMinimumsResponse.error_message)
+  return _s;
+}
+inline const std::string& ListSubsistenceMinimumsResponse::_internal_error_message() const {
+  return _impl_.error_message_.Get();
+}
+inline void ListSubsistenceMinimumsResponse::_internal_set_error_message(const std::string& value) {
+  
+  _impl_.error_message_.Set(value, GetArenaForAllocation());
+}
+inline std::string* ListSubsistenceMinimumsResponse::_internal_mutable_error_message() {
+  
+  return _impl_.error_message_.Mutable(GetArenaForAllocation());
+}
+inline std::string* ListSubsistenceMinimumsResponse::release_error_message() {
+  // @@protoc_insertion_point(field_release:calc.ListSubsistenceMinimumsResponse.error_message)
+  return _impl_.error_message_.Release();
+}
+inline void ListSubsistenceMinimumsResponse::set_allocated_error_message(std::string* error_message) {
+  if (error_message != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.error_message_.SetAllocated(error_message, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.error_message_.IsDefault()) {
+    _impl_.error_message_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:calc.ListSubsistenceMinimumsResponse.error_message)
+}
+
+// -------------------------------------------------------------------
+
+// UpdateSubsistenceMinimumRequest
+
+// int32 id = 1;
+inline void UpdateSubsistenceMinimumRequest::clear_id() {
+  _impl_.id_ = 0;
+}
+inline int32_t UpdateSubsistenceMinimumRequest::_internal_id() const {
+  return _impl_.id_;
+}
+inline int32_t UpdateSubsistenceMinimumRequest::id() const {
+  // @@protoc_insertion_point(field_get:calc.UpdateSubsistenceMinimumRequest.id)
+  return _internal_id();
+}
+inline void UpdateSubsistenceMinimumRequest::_internal_set_id(int32_t value) {
+  
+  _impl_.id_ = value;
+}
+inline void UpdateSubsistenceMinimumRequest::set_id(int32_t value) {
+  _internal_set_id(value);
+  // @@protoc_insertion_point(field_set:calc.UpdateSubsistenceMinimumRequest.id)
+}
+
+// int32 year = 2;
+inline void UpdateSubsistenceMinimumRequest::clear_year() {
+  _impl_.year_ = 0;
+}
+inline int32_t UpdateSubsistenceMinimumRequest::_internal_year() const {
+  return _impl_.year_;
+}
+inline int32_t UpdateSubsistenceMinimumRequest::year() const {
+  // @@protoc_insertion_point(field_get:calc.UpdateSubsistenceMinimumRequest.year)
+  return _internal_year();
+}
+inline void UpdateSubsistenceMinimumRequest::_internal_set_year(int32_t value) {
+  
+  _impl_.year_ = value;
+}
+inline void UpdateSubsistenceMinimumRequest::set_year(int32_t value) {
+  _internal_set_year(value);
+  // @@protoc_insertion_point(field_set:calc.UpdateSubsistenceMinimumRequest.year)
+}
+
+// double for_disabled_persons = 3;
+inline void UpdateSubsistenceMinimumRequest::clear_for_disabled_persons() {
+  _impl_.for_disabled_persons_ = 0;
+}
+inline double UpdateSubsistenceMinimumRequest::_internal_for_disabled_persons() const {
+  return _impl_.for_disabled_persons_;
+}
+inline double UpdateSubsistenceMinimumRequest::for_disabled_persons() const {
+  // @@protoc_insertion_point(field_get:calc.UpdateSubsistenceMinimumRequest.for_disabled_persons)
+  return _internal_for_disabled_persons();
+}
+inline void UpdateSubsistenceMinimumRequest::_internal_set_for_disabled_persons(double value) {
+  
+  _impl_.for_disabled_persons_ = value;
+}
+inline void UpdateSubsistenceMinimumRequest::set_for_disabled_persons(double value) {
+  _internal_set_for_disabled_persons(value);
+  // @@protoc_insertion_point(field_set:calc.UpdateSubsistenceMinimumRequest.for_disabled_persons)
+}
+
+// double general_minimum = 4;
+inline void UpdateSubsistenceMinimumRequest::clear_general_minimum() {
+  _impl_.general_minimum_ = 0;
+}
+inline double UpdateSubsistenceMinimumRequest::_internal_general_minimum() const {
+  return _impl_.general_minimum_;
+}
+inline double UpdateSubsistenceMinimumRequest::general_minimum() const {
+  // @@protoc_insertion_point(field_get:calc.UpdateSubsistenceMinimumRequest.general_minimum)
+  return _internal_general_minimum();
+}
+inline void UpdateSubsistenceMinimumRequest::_internal_set_general_minimum(double value) {
+  
+  _impl_.general_minimum_ = value;
+}
+inline void UpdateSubsistenceMinimumRequest::set_general_minimum(double value) {
+  _internal_set_general_minimum(value);
+  // @@protoc_insertion_point(field_set:calc.UpdateSubsistenceMinimumRequest.general_minimum)
+}
+
+// -------------------------------------------------------------------
+
+// UpdateSubsistenceMinimumResponse
+
+// bool success = 1;
+inline void UpdateSubsistenceMinimumResponse::clear_success() {
+  _impl_.success_ = false;
+}
+inline bool UpdateSubsistenceMinimumResponse::_internal_success() const {
+  return _impl_.success_;
+}
+inline bool UpdateSubsistenceMinimumResponse::success() const {
+  // @@protoc_insertion_point(field_get:calc.UpdateSubsistenceMinimumResponse.success)
+  return _internal_success();
+}
+inline void UpdateSubsistenceMinimumResponse::_internal_set_success(bool value) {
+  
+  _impl_.success_ = value;
+}
+inline void UpdateSubsistenceMinimumResponse::set_success(bool value) {
+  _internal_set_success(value);
+  // @@protoc_insertion_point(field_set:calc.UpdateSubsistenceMinimumResponse.success)
+}
+
+// .calc.SubsistenceMinimumRecord record = 2;
+inline bool UpdateSubsistenceMinimumResponse::_internal_has_record() const {
+  return this != internal_default_instance() && _impl_.record_ != nullptr;
+}
+inline bool UpdateSubsistenceMinimumResponse::has_record() const {
+  return _internal_has_record();
+}
+inline void UpdateSubsistenceMinimumResponse::clear_record() {
+  if (GetArenaForAllocation() == nullptr && _impl_.record_ != nullptr) {
+    delete _impl_.record_;
+  }
+  _impl_.record_ = nullptr;
+}
+inline const ::calc::SubsistenceMinimumRecord& UpdateSubsistenceMinimumResponse::_internal_record() const {
+  const ::calc::SubsistenceMinimumRecord* p = _impl_.record_;
+  return p != nullptr ? *p : reinterpret_cast<const ::calc::SubsistenceMinimumRecord&>(
+      ::calc::_SubsistenceMinimumRecord_default_instance_);
+}
+inline const ::calc::SubsistenceMinimumRecord& UpdateSubsistenceMinimumResponse::record() const {
+  // @@protoc_insertion_point(field_get:calc.UpdateSubsistenceMinimumResponse.record)
+  return _internal_record();
+}
+inline void UpdateSubsistenceMinimumResponse::unsafe_arena_set_allocated_record(
+    ::calc::SubsistenceMinimumRecord* record) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.record_);
+  }
+  _impl_.record_ = record;
+  if (record) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:calc.UpdateSubsistenceMinimumResponse.record)
+}
+inline ::calc::SubsistenceMinimumRecord* UpdateSubsistenceMinimumResponse::release_record() {
+  
+  ::calc::SubsistenceMinimumRecord* temp = _impl_.record_;
+  _impl_.record_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::calc::SubsistenceMinimumRecord* UpdateSubsistenceMinimumResponse::unsafe_arena_release_record() {
+  // @@protoc_insertion_point(field_release:calc.UpdateSubsistenceMinimumResponse.record)
+  
+  ::calc::SubsistenceMinimumRecord* temp = _impl_.record_;
+  _impl_.record_ = nullptr;
+  return temp;
+}
+inline ::calc::SubsistenceMinimumRecord* UpdateSubsistenceMinimumResponse::_internal_mutable_record() {
+  
+  if (_impl_.record_ == nullptr) {
+    auto* p = CreateMaybeMessage<::calc::SubsistenceMinimumRecord>(GetArenaForAllocation());
+    _impl_.record_ = p;
+  }
+  return _impl_.record_;
+}
+inline ::calc::SubsistenceMinimumRecord* UpdateSubsistenceMinimumResponse::mutable_record() {
+  ::calc::SubsistenceMinimumRecord* _msg = _internal_mutable_record();
+  // @@protoc_insertion_point(field_mutable:calc.UpdateSubsistenceMinimumResponse.record)
+  return _msg;
+}
+inline void UpdateSubsistenceMinimumResponse::set_allocated_record(::calc::SubsistenceMinimumRecord* record) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete _impl_.record_;
+  }
+  if (record) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(record);
+    if (message_arena != submessage_arena) {
+      record = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, record, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.record_ = record;
+  // @@protoc_insertion_point(field_set_allocated:calc.UpdateSubsistenceMinimumResponse.record)
+}
+
+// string error_message = 3;
+inline void UpdateSubsistenceMinimumResponse::clear_error_message() {
+  _impl_.error_message_.ClearToEmpty();
+}
+inline const std::string& UpdateSubsistenceMinimumResponse::error_message() const {
+  // @@protoc_insertion_point(field_get:calc.UpdateSubsistenceMinimumResponse.error_message)
+  return _internal_error_message();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void UpdateSubsistenceMinimumResponse::set_error_message(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.error_message_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:calc.UpdateSubsistenceMinimumResponse.error_message)
+}
+inline std::string* UpdateSubsistenceMinimumResponse::mutable_error_message() {
+  std::string* _s = _internal_mutable_error_message();
+  // @@protoc_insertion_point(field_mutable:calc.UpdateSubsistenceMinimumResponse.error_message)
+  return _s;
+}
+inline const std::string& UpdateSubsistenceMinimumResponse::_internal_error_message() const {
+  return _impl_.error_message_.Get();
+}
+inline void UpdateSubsistenceMinimumResponse::_internal_set_error_message(const std::string& value) {
+  
+  _impl_.error_message_.Set(value, GetArenaForAllocation());
+}
+inline std::string* UpdateSubsistenceMinimumResponse::_internal_mutable_error_message() {
+  
+  return _impl_.error_message_.Mutable(GetArenaForAllocation());
+}
+inline std::string* UpdateSubsistenceMinimumResponse::release_error_message() {
+  // @@protoc_insertion_point(field_release:calc.UpdateSubsistenceMinimumResponse.error_message)
+  return _impl_.error_message_.Release();
+}
+inline void UpdateSubsistenceMinimumResponse::set_allocated_error_message(std::string* error_message) {
+  if (error_message != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.error_message_.SetAllocated(error_message, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.error_message_.IsDefault()) {
+    _impl_.error_message_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:calc.UpdateSubsistenceMinimumResponse.error_message)
+}
+
+// -------------------------------------------------------------------
+
+// DeleteSubsistenceMinimumRequest
+
+// int32 id = 1;
+inline void DeleteSubsistenceMinimumRequest::clear_id() {
+  _impl_.id_ = 0;
+}
+inline int32_t DeleteSubsistenceMinimumRequest::_internal_id() const {
+  return _impl_.id_;
+}
+inline int32_t DeleteSubsistenceMinimumRequest::id() const {
+  // @@protoc_insertion_point(field_get:calc.DeleteSubsistenceMinimumRequest.id)
+  return _internal_id();
+}
+inline void DeleteSubsistenceMinimumRequest::_internal_set_id(int32_t value) {
+  
+  _impl_.id_ = value;
+}
+inline void DeleteSubsistenceMinimumRequest::set_id(int32_t value) {
+  _internal_set_id(value);
+  // @@protoc_insertion_point(field_set:calc.DeleteSubsistenceMinimumRequest.id)
+}
+
+// -------------------------------------------------------------------
+
+// DeleteSubsistenceMinimumResponse
+
+// bool success = 1;
+inline void DeleteSubsistenceMinimumResponse::clear_success() {
+  _impl_.success_ = false;
+}
+inline bool DeleteSubsistenceMinimumResponse::_internal_success() const {
+  return _impl_.success_;
+}
+inline bool DeleteSubsistenceMinimumResponse::success() const {
+  // @@protoc_insertion_point(field_get:calc.DeleteSubsistenceMinimumResponse.success)
+  return _internal_success();
+}
+inline void DeleteSubsistenceMinimumResponse::_internal_set_success(bool value) {
+  
+  _impl_.success_ = value;
+}
+inline void DeleteSubsistenceMinimumResponse::set_success(bool value) {
+  _internal_set_success(value);
+  // @@protoc_insertion_point(field_set:calc.DeleteSubsistenceMinimumResponse.success)
+}
+
+// string error_message = 2;
+inline void DeleteSubsistenceMinimumResponse::clear_error_message() {
+  _impl_.error_message_.ClearToEmpty();
+}
+inline const std::string& DeleteSubsistenceMinimumResponse::error_message() const {
+  // @@protoc_insertion_point(field_get:calc.DeleteSubsistenceMinimumResponse.error_message)
+  return _internal_error_message();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void DeleteSubsistenceMinimumResponse::set_error_message(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.error_message_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:calc.DeleteSubsistenceMinimumResponse.error_message)
+}
+inline std::string* DeleteSubsistenceMinimumResponse::mutable_error_message() {
+  std::string* _s = _internal_mutable_error_message();
+  // @@protoc_insertion_point(field_mutable:calc.DeleteSubsistenceMinimumResponse.error_message)
+  return _s;
+}
+inline const std::string& DeleteSubsistenceMinimumResponse::_internal_error_message() const {
+  return _impl_.error_message_.Get();
+}
+inline void DeleteSubsistenceMinimumResponse::_internal_set_error_message(const std::string& value) {
+  
+  _impl_.error_message_.Set(value, GetArenaForAllocation());
+}
+inline std::string* DeleteSubsistenceMinimumResponse::_internal_mutable_error_message() {
+  
+  return _impl_.error_message_.Mutable(GetArenaForAllocation());
+}
+inline std::string* DeleteSubsistenceMinimumResponse::release_error_message() {
+  // @@protoc_insertion_point(field_release:calc.DeleteSubsistenceMinimumResponse.error_message)
+  return _impl_.error_message_.Release();
+}
+inline void DeleteSubsistenceMinimumResponse::set_allocated_error_message(std::string* error_message) {
+  if (error_message != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.error_message_.SetAllocated(error_message, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.error_message_.IsDefault()) {
+    _impl_.error_message_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:calc.DeleteSubsistenceMinimumResponse.error_message)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
@@ -1040,6 +9469,31 @@ inline void PensionResponse::set_allocated_error_message(std::string* error_mess
 // @@protoc_insertion_point(namespace_scope)
 
 }  // namespace calc
+
+PROTOBUF_NAMESPACE_OPEN
+
+template <> struct is_proto_enum< ::calc::Gender> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::calc::Gender>() {
+  return ::calc::Gender_descriptor();
+}
+template <> struct is_proto_enum< ::calc::PensionType> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::calc::PensionType>() {
+  return ::calc::PensionType_descriptor();
+}
+template <> struct is_proto_enum< ::calc::DisabilityGroup> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::calc::DisabilityGroup>() {
+  return ::calc::DisabilityGroup_descriptor();
+}
+template <> struct is_proto_enum< ::calc::BenefitType> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::calc::BenefitType>() {
+  return ::calc::BenefitType_descriptor();
+}
+
+PROTOBUF_NAMESPACE_CLOSE
 
 // @@protoc_insertion_point(global_scope)
 

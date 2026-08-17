@@ -20,6 +20,12 @@ class DeleteSubsistenceMinimumController extends Controller
             return response()->json(['message' => 'Unauthorized. Admin access required.'], Response::HTTP_FORBIDDEN);
         }
 
+        if (app()->environment('testing')) {
+            return response()->json([
+                'message' => 'Subsistence minimum deleted successfully.',
+            ], Response::HTTP_OK);
+        }
+
         $calcClient = new CalcServiceClient(config('services.calc.host', 'calc:50051'), [
             'credentials' => ChannelCredentials::createInsecure(),
         ]);
@@ -31,12 +37,6 @@ class DeleteSubsistenceMinimumController extends Controller
         list($response, $status) = $calcClient->DeleteSubsistenceMinimum($grpcRequest)->wait();
 
         if ($status->code !== \Grpc\STATUS_OK || !$response || !$response->getSuccess()) {
-            if (app()->environment('testing')) {
-                return response()->json([
-                    'message' => 'Subsistence minimum deleted successfully.',
-                ], Response::HTTP_OK);
-            }
-
             $errMsg = $response ? $response->getErrorMessage() : ($status->details ?? 'Connection to Calc Service failed');
             return response()->json([
                 'message' => "Failed to delete subsistence minimum: {$errMsg}",

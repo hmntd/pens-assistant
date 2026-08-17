@@ -10,6 +10,16 @@ namespace calc
 
         double CoefficientRepository::getCoefficient(int year, int month)
         {
+            if (mock_mode_)
+            {
+                auto it = mock_coefficients_.find({year, month});
+                if (it != mock_coefficients_.end())
+                {
+                    return it->second;
+                }
+                return 1.0;
+            }
+
             try
             {
                 pqxx::connection conn(db::DbConfig::getConnectionString());
@@ -146,6 +156,16 @@ namespace calc
 
         double CoefficientRepository::getAverageSalary(int year, int month) const
         {
+            if (mock_mode_)
+            {
+                auto it = mock_salaries_.find({year, month});
+                if (it != mock_salaries_.end())
+                {
+                    return it->second;
+                }
+                return 18000.0;
+            }
+
             try
             {
                 pqxx::connection conn(db::DbConfig::getConnectionString());
@@ -172,6 +192,12 @@ namespace calc
 
         bool CoefficientRepository::upsertAverageSalary(int year, int month, double amount)
         {
+            mock_salaries_[{year, month}] = amount;
+            if (mock_mode_)
+            {
+                return true;
+            }
+
             try
             {
                 pqxx::connection conn(db::DbConfig::getConnectionString());
@@ -197,6 +223,31 @@ namespace calc
 
         service::SubsistenceLimits CoefficientRepository::getSubsistenceLimits(int year) const
         {
+            if (mock_mode_)
+            {
+                if (!mock_limits_.empty())
+                {
+                    auto it = mock_limits_.find(year);
+                    if (it != mock_limits_.end())
+                    {
+                        return it->second;
+                    }
+                    double min_diff = 1e9;
+                    service::SubsistenceLimits best_limits{2361.0, 2920.0};
+                    for (const auto &pair : mock_limits_)
+                    {
+                        double diff = std::abs(pair.first - year);
+                        if (diff < min_diff)
+                        {
+                            min_diff = diff;
+                            best_limits = pair.second;
+                        }
+                    }
+                    return best_limits;
+                }
+                return service::SubsistenceLimits{2361.0, 2920.0};
+            }
+
             service::SubsistenceLimits limits{0.0, 0.0};
             try
             {
@@ -227,6 +278,12 @@ namespace calc
 
         bool CoefficientRepository::upsertSubsistenceLimits(int year, double for_disabled, double general)
         {
+            mock_limits_[year] = service::SubsistenceLimits{for_disabled, general};
+            if (mock_mode_)
+            {
+                return true;
+            }
+
             try
             {
                 pqxx::connection conn(db::DbConfig::getConnectionString());

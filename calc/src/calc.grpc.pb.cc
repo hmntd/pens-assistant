@@ -23,6 +23,15 @@ namespace calc {
 
 static const char* CalcService_method_names[] = {
   "/calc.CalcService/CalculatePension",
+  "/calc.CalcService/ListCoefficients",
+  "/calc.CalcService/AddCoefficient",
+  "/calc.CalcService/UpdateCoefficient",
+  "/calc.CalcService/DeleteCoefficient",
+  "/calc.CalcService/SyncAverageSalaries",
+  "/calc.CalcService/UpsertSubsistenceMinimum",
+  "/calc.CalcService/ListSubsistenceMinimums",
+  "/calc.CalcService/UpdateSubsistenceMinimum",
+  "/calc.CalcService/DeleteSubsistenceMinimum",
 };
 
 std::unique_ptr< CalcService::Stub> CalcService::NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options) {
@@ -33,27 +42,243 @@ std::unique_ptr< CalcService::Stub> CalcService::NewStub(const std::shared_ptr< 
 
 CalcService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options)
   : channel_(channel), rpcmethod_CalculatePension_(CalcService_method_names[0], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_ListCoefficients_(CalcService_method_names[1], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_AddCoefficient_(CalcService_method_names[2], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_UpdateCoefficient_(CalcService_method_names[3], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_DeleteCoefficient_(CalcService_method_names[4], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_SyncAverageSalaries_(CalcService_method_names[5], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_UpsertSubsistenceMinimum_(CalcService_method_names[6], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_ListSubsistenceMinimums_(CalcService_method_names[7], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_UpdateSubsistenceMinimum_(CalcService_method_names[8], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_DeleteSubsistenceMinimum_(CalcService_method_names[9], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
 
-::grpc::Status CalcService::Stub::CalculatePension(::grpc::ClientContext* context, const ::calc::PensionRequest& request, ::calc::PensionResponse* response) {
-  return ::grpc::internal::BlockingUnaryCall< ::calc::PensionRequest, ::calc::PensionResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_CalculatePension_, context, request, response);
+::grpc::Status CalcService::Stub::CalculatePension(::grpc::ClientContext* context, const ::calc::CalculatePensionRequest& request, ::calc::CalculatePensionResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::calc::CalculatePensionRequest, ::calc::CalculatePensionResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_CalculatePension_, context, request, response);
 }
 
-void CalcService::Stub::async::CalculatePension(::grpc::ClientContext* context, const ::calc::PensionRequest* request, ::calc::PensionResponse* response, std::function<void(::grpc::Status)> f) {
-  ::grpc::internal::CallbackUnaryCall< ::calc::PensionRequest, ::calc::PensionResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_CalculatePension_, context, request, response, std::move(f));
+void CalcService::Stub::async::CalculatePension(::grpc::ClientContext* context, const ::calc::CalculatePensionRequest* request, ::calc::CalculatePensionResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::calc::CalculatePensionRequest, ::calc::CalculatePensionResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_CalculatePension_, context, request, response, std::move(f));
 }
 
-void CalcService::Stub::async::CalculatePension(::grpc::ClientContext* context, const ::calc::PensionRequest* request, ::calc::PensionResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+void CalcService::Stub::async::CalculatePension(::grpc::ClientContext* context, const ::calc::CalculatePensionRequest* request, ::calc::CalculatePensionResponse* response, ::grpc::ClientUnaryReactor* reactor) {
   ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_CalculatePension_, context, request, response, reactor);
 }
 
-::grpc::ClientAsyncResponseReader< ::calc::PensionResponse>* CalcService::Stub::PrepareAsyncCalculatePensionRaw(::grpc::ClientContext* context, const ::calc::PensionRequest& request, ::grpc::CompletionQueue* cq) {
-  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::calc::PensionResponse, ::calc::PensionRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_CalculatePension_, context, request);
+::grpc::ClientAsyncResponseReader< ::calc::CalculatePensionResponse>* CalcService::Stub::PrepareAsyncCalculatePensionRaw(::grpc::ClientContext* context, const ::calc::CalculatePensionRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::calc::CalculatePensionResponse, ::calc::CalculatePensionRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_CalculatePension_, context, request);
 }
 
-::grpc::ClientAsyncResponseReader< ::calc::PensionResponse>* CalcService::Stub::AsyncCalculatePensionRaw(::grpc::ClientContext* context, const ::calc::PensionRequest& request, ::grpc::CompletionQueue* cq) {
+::grpc::ClientAsyncResponseReader< ::calc::CalculatePensionResponse>* CalcService::Stub::AsyncCalculatePensionRaw(::grpc::ClientContext* context, const ::calc::CalculatePensionRequest& request, ::grpc::CompletionQueue* cq) {
   auto* result =
     this->PrepareAsyncCalculatePensionRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+::grpc::Status CalcService::Stub::ListCoefficients(::grpc::ClientContext* context, const ::calc::ListCoefficientsRequest& request, ::calc::ListCoefficientsResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::calc::ListCoefficientsRequest, ::calc::ListCoefficientsResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_ListCoefficients_, context, request, response);
+}
+
+void CalcService::Stub::async::ListCoefficients(::grpc::ClientContext* context, const ::calc::ListCoefficientsRequest* request, ::calc::ListCoefficientsResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::calc::ListCoefficientsRequest, ::calc::ListCoefficientsResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_ListCoefficients_, context, request, response, std::move(f));
+}
+
+void CalcService::Stub::async::ListCoefficients(::grpc::ClientContext* context, const ::calc::ListCoefficientsRequest* request, ::calc::ListCoefficientsResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_ListCoefficients_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::calc::ListCoefficientsResponse>* CalcService::Stub::PrepareAsyncListCoefficientsRaw(::grpc::ClientContext* context, const ::calc::ListCoefficientsRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::calc::ListCoefficientsResponse, ::calc::ListCoefficientsRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_ListCoefficients_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::calc::ListCoefficientsResponse>* CalcService::Stub::AsyncListCoefficientsRaw(::grpc::ClientContext* context, const ::calc::ListCoefficientsRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncListCoefficientsRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+::grpc::Status CalcService::Stub::AddCoefficient(::grpc::ClientContext* context, const ::calc::AddCoefficientRequest& request, ::calc::AddCoefficientResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::calc::AddCoefficientRequest, ::calc::AddCoefficientResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_AddCoefficient_, context, request, response);
+}
+
+void CalcService::Stub::async::AddCoefficient(::grpc::ClientContext* context, const ::calc::AddCoefficientRequest* request, ::calc::AddCoefficientResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::calc::AddCoefficientRequest, ::calc::AddCoefficientResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_AddCoefficient_, context, request, response, std::move(f));
+}
+
+void CalcService::Stub::async::AddCoefficient(::grpc::ClientContext* context, const ::calc::AddCoefficientRequest* request, ::calc::AddCoefficientResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_AddCoefficient_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::calc::AddCoefficientResponse>* CalcService::Stub::PrepareAsyncAddCoefficientRaw(::grpc::ClientContext* context, const ::calc::AddCoefficientRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::calc::AddCoefficientResponse, ::calc::AddCoefficientRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_AddCoefficient_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::calc::AddCoefficientResponse>* CalcService::Stub::AsyncAddCoefficientRaw(::grpc::ClientContext* context, const ::calc::AddCoefficientRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncAddCoefficientRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+::grpc::Status CalcService::Stub::UpdateCoefficient(::grpc::ClientContext* context, const ::calc::UpdateCoefficientRequest& request, ::calc::UpdateCoefficientResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::calc::UpdateCoefficientRequest, ::calc::UpdateCoefficientResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_UpdateCoefficient_, context, request, response);
+}
+
+void CalcService::Stub::async::UpdateCoefficient(::grpc::ClientContext* context, const ::calc::UpdateCoefficientRequest* request, ::calc::UpdateCoefficientResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::calc::UpdateCoefficientRequest, ::calc::UpdateCoefficientResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_UpdateCoefficient_, context, request, response, std::move(f));
+}
+
+void CalcService::Stub::async::UpdateCoefficient(::grpc::ClientContext* context, const ::calc::UpdateCoefficientRequest* request, ::calc::UpdateCoefficientResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_UpdateCoefficient_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::calc::UpdateCoefficientResponse>* CalcService::Stub::PrepareAsyncUpdateCoefficientRaw(::grpc::ClientContext* context, const ::calc::UpdateCoefficientRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::calc::UpdateCoefficientResponse, ::calc::UpdateCoefficientRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_UpdateCoefficient_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::calc::UpdateCoefficientResponse>* CalcService::Stub::AsyncUpdateCoefficientRaw(::grpc::ClientContext* context, const ::calc::UpdateCoefficientRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncUpdateCoefficientRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+::grpc::Status CalcService::Stub::DeleteCoefficient(::grpc::ClientContext* context, const ::calc::DeleteCoefficientRequest& request, ::calc::DeleteCoefficientResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::calc::DeleteCoefficientRequest, ::calc::DeleteCoefficientResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_DeleteCoefficient_, context, request, response);
+}
+
+void CalcService::Stub::async::DeleteCoefficient(::grpc::ClientContext* context, const ::calc::DeleteCoefficientRequest* request, ::calc::DeleteCoefficientResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::calc::DeleteCoefficientRequest, ::calc::DeleteCoefficientResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_DeleteCoefficient_, context, request, response, std::move(f));
+}
+
+void CalcService::Stub::async::DeleteCoefficient(::grpc::ClientContext* context, const ::calc::DeleteCoefficientRequest* request, ::calc::DeleteCoefficientResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_DeleteCoefficient_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::calc::DeleteCoefficientResponse>* CalcService::Stub::PrepareAsyncDeleteCoefficientRaw(::grpc::ClientContext* context, const ::calc::DeleteCoefficientRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::calc::DeleteCoefficientResponse, ::calc::DeleteCoefficientRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_DeleteCoefficient_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::calc::DeleteCoefficientResponse>* CalcService::Stub::AsyncDeleteCoefficientRaw(::grpc::ClientContext* context, const ::calc::DeleteCoefficientRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncDeleteCoefficientRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+::grpc::Status CalcService::Stub::SyncAverageSalaries(::grpc::ClientContext* context, const ::calc::SyncAverageSalariesRequest& request, ::calc::SyncAverageSalariesResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::calc::SyncAverageSalariesRequest, ::calc::SyncAverageSalariesResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_SyncAverageSalaries_, context, request, response);
+}
+
+void CalcService::Stub::async::SyncAverageSalaries(::grpc::ClientContext* context, const ::calc::SyncAverageSalariesRequest* request, ::calc::SyncAverageSalariesResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::calc::SyncAverageSalariesRequest, ::calc::SyncAverageSalariesResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_SyncAverageSalaries_, context, request, response, std::move(f));
+}
+
+void CalcService::Stub::async::SyncAverageSalaries(::grpc::ClientContext* context, const ::calc::SyncAverageSalariesRequest* request, ::calc::SyncAverageSalariesResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_SyncAverageSalaries_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::calc::SyncAverageSalariesResponse>* CalcService::Stub::PrepareAsyncSyncAverageSalariesRaw(::grpc::ClientContext* context, const ::calc::SyncAverageSalariesRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::calc::SyncAverageSalariesResponse, ::calc::SyncAverageSalariesRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_SyncAverageSalaries_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::calc::SyncAverageSalariesResponse>* CalcService::Stub::AsyncSyncAverageSalariesRaw(::grpc::ClientContext* context, const ::calc::SyncAverageSalariesRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncSyncAverageSalariesRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+::grpc::Status CalcService::Stub::UpsertSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::UpsertSubsistenceMinimumRequest& request, ::calc::UpsertSubsistenceMinimumResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::calc::UpsertSubsistenceMinimumRequest, ::calc::UpsertSubsistenceMinimumResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_UpsertSubsistenceMinimum_, context, request, response);
+}
+
+void CalcService::Stub::async::UpsertSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::UpsertSubsistenceMinimumRequest* request, ::calc::UpsertSubsistenceMinimumResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::calc::UpsertSubsistenceMinimumRequest, ::calc::UpsertSubsistenceMinimumResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_UpsertSubsistenceMinimum_, context, request, response, std::move(f));
+}
+
+void CalcService::Stub::async::UpsertSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::UpsertSubsistenceMinimumRequest* request, ::calc::UpsertSubsistenceMinimumResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_UpsertSubsistenceMinimum_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::calc::UpsertSubsistenceMinimumResponse>* CalcService::Stub::PrepareAsyncUpsertSubsistenceMinimumRaw(::grpc::ClientContext* context, const ::calc::UpsertSubsistenceMinimumRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::calc::UpsertSubsistenceMinimumResponse, ::calc::UpsertSubsistenceMinimumRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_UpsertSubsistenceMinimum_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::calc::UpsertSubsistenceMinimumResponse>* CalcService::Stub::AsyncUpsertSubsistenceMinimumRaw(::grpc::ClientContext* context, const ::calc::UpsertSubsistenceMinimumRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncUpsertSubsistenceMinimumRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+::grpc::Status CalcService::Stub::ListSubsistenceMinimums(::grpc::ClientContext* context, const ::calc::ListSubsistenceMinimumsRequest& request, ::calc::ListSubsistenceMinimumsResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::calc::ListSubsistenceMinimumsRequest, ::calc::ListSubsistenceMinimumsResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_ListSubsistenceMinimums_, context, request, response);
+}
+
+void CalcService::Stub::async::ListSubsistenceMinimums(::grpc::ClientContext* context, const ::calc::ListSubsistenceMinimumsRequest* request, ::calc::ListSubsistenceMinimumsResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::calc::ListSubsistenceMinimumsRequest, ::calc::ListSubsistenceMinimumsResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_ListSubsistenceMinimums_, context, request, response, std::move(f));
+}
+
+void CalcService::Stub::async::ListSubsistenceMinimums(::grpc::ClientContext* context, const ::calc::ListSubsistenceMinimumsRequest* request, ::calc::ListSubsistenceMinimumsResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_ListSubsistenceMinimums_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::calc::ListSubsistenceMinimumsResponse>* CalcService::Stub::PrepareAsyncListSubsistenceMinimumsRaw(::grpc::ClientContext* context, const ::calc::ListSubsistenceMinimumsRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::calc::ListSubsistenceMinimumsResponse, ::calc::ListSubsistenceMinimumsRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_ListSubsistenceMinimums_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::calc::ListSubsistenceMinimumsResponse>* CalcService::Stub::AsyncListSubsistenceMinimumsRaw(::grpc::ClientContext* context, const ::calc::ListSubsistenceMinimumsRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncListSubsistenceMinimumsRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+::grpc::Status CalcService::Stub::UpdateSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::UpdateSubsistenceMinimumRequest& request, ::calc::UpdateSubsistenceMinimumResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::calc::UpdateSubsistenceMinimumRequest, ::calc::UpdateSubsistenceMinimumResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_UpdateSubsistenceMinimum_, context, request, response);
+}
+
+void CalcService::Stub::async::UpdateSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::UpdateSubsistenceMinimumRequest* request, ::calc::UpdateSubsistenceMinimumResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::calc::UpdateSubsistenceMinimumRequest, ::calc::UpdateSubsistenceMinimumResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_UpdateSubsistenceMinimum_, context, request, response, std::move(f));
+}
+
+void CalcService::Stub::async::UpdateSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::UpdateSubsistenceMinimumRequest* request, ::calc::UpdateSubsistenceMinimumResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_UpdateSubsistenceMinimum_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::calc::UpdateSubsistenceMinimumResponse>* CalcService::Stub::PrepareAsyncUpdateSubsistenceMinimumRaw(::grpc::ClientContext* context, const ::calc::UpdateSubsistenceMinimumRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::calc::UpdateSubsistenceMinimumResponse, ::calc::UpdateSubsistenceMinimumRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_UpdateSubsistenceMinimum_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::calc::UpdateSubsistenceMinimumResponse>* CalcService::Stub::AsyncUpdateSubsistenceMinimumRaw(::grpc::ClientContext* context, const ::calc::UpdateSubsistenceMinimumRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncUpdateSubsistenceMinimumRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+::grpc::Status CalcService::Stub::DeleteSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::DeleteSubsistenceMinimumRequest& request, ::calc::DeleteSubsistenceMinimumResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::calc::DeleteSubsistenceMinimumRequest, ::calc::DeleteSubsistenceMinimumResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_DeleteSubsistenceMinimum_, context, request, response);
+}
+
+void CalcService::Stub::async::DeleteSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::DeleteSubsistenceMinimumRequest* request, ::calc::DeleteSubsistenceMinimumResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::calc::DeleteSubsistenceMinimumRequest, ::calc::DeleteSubsistenceMinimumResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_DeleteSubsistenceMinimum_, context, request, response, std::move(f));
+}
+
+void CalcService::Stub::async::DeleteSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::DeleteSubsistenceMinimumRequest* request, ::calc::DeleteSubsistenceMinimumResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_DeleteSubsistenceMinimum_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::calc::DeleteSubsistenceMinimumResponse>* CalcService::Stub::PrepareAsyncDeleteSubsistenceMinimumRaw(::grpc::ClientContext* context, const ::calc::DeleteSubsistenceMinimumRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::calc::DeleteSubsistenceMinimumResponse, ::calc::DeleteSubsistenceMinimumRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_DeleteSubsistenceMinimum_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::calc::DeleteSubsistenceMinimumResponse>* CalcService::Stub::AsyncDeleteSubsistenceMinimumRaw(::grpc::ClientContext* context, const ::calc::DeleteSubsistenceMinimumRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncDeleteSubsistenceMinimumRaw(context, request, cq);
   result->StartCall();
   return result;
 }
@@ -62,19 +287,172 @@ CalcService::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       CalcService_method_names[0],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
-      new ::grpc::internal::RpcMethodHandler< CalcService::Service, ::calc::PensionRequest, ::calc::PensionResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+      new ::grpc::internal::RpcMethodHandler< CalcService::Service, ::calc::CalculatePensionRequest, ::calc::CalculatePensionResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](CalcService::Service* service,
              ::grpc::ServerContext* ctx,
-             const ::calc::PensionRequest* req,
-             ::calc::PensionResponse* resp) {
+             const ::calc::CalculatePensionRequest* req,
+             ::calc::CalculatePensionResponse* resp) {
                return service->CalculatePension(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      CalcService_method_names[1],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< CalcService::Service, ::calc::ListCoefficientsRequest, ::calc::ListCoefficientsResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](CalcService::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::calc::ListCoefficientsRequest* req,
+             ::calc::ListCoefficientsResponse* resp) {
+               return service->ListCoefficients(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      CalcService_method_names[2],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< CalcService::Service, ::calc::AddCoefficientRequest, ::calc::AddCoefficientResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](CalcService::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::calc::AddCoefficientRequest* req,
+             ::calc::AddCoefficientResponse* resp) {
+               return service->AddCoefficient(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      CalcService_method_names[3],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< CalcService::Service, ::calc::UpdateCoefficientRequest, ::calc::UpdateCoefficientResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](CalcService::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::calc::UpdateCoefficientRequest* req,
+             ::calc::UpdateCoefficientResponse* resp) {
+               return service->UpdateCoefficient(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      CalcService_method_names[4],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< CalcService::Service, ::calc::DeleteCoefficientRequest, ::calc::DeleteCoefficientResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](CalcService::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::calc::DeleteCoefficientRequest* req,
+             ::calc::DeleteCoefficientResponse* resp) {
+               return service->DeleteCoefficient(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      CalcService_method_names[5],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< CalcService::Service, ::calc::SyncAverageSalariesRequest, ::calc::SyncAverageSalariesResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](CalcService::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::calc::SyncAverageSalariesRequest* req,
+             ::calc::SyncAverageSalariesResponse* resp) {
+               return service->SyncAverageSalaries(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      CalcService_method_names[6],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< CalcService::Service, ::calc::UpsertSubsistenceMinimumRequest, ::calc::UpsertSubsistenceMinimumResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](CalcService::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::calc::UpsertSubsistenceMinimumRequest* req,
+             ::calc::UpsertSubsistenceMinimumResponse* resp) {
+               return service->UpsertSubsistenceMinimum(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      CalcService_method_names[7],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< CalcService::Service, ::calc::ListSubsistenceMinimumsRequest, ::calc::ListSubsistenceMinimumsResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](CalcService::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::calc::ListSubsistenceMinimumsRequest* req,
+             ::calc::ListSubsistenceMinimumsResponse* resp) {
+               return service->ListSubsistenceMinimums(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      CalcService_method_names[8],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< CalcService::Service, ::calc::UpdateSubsistenceMinimumRequest, ::calc::UpdateSubsistenceMinimumResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](CalcService::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::calc::UpdateSubsistenceMinimumRequest* req,
+             ::calc::UpdateSubsistenceMinimumResponse* resp) {
+               return service->UpdateSubsistenceMinimum(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      CalcService_method_names[9],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< CalcService::Service, ::calc::DeleteSubsistenceMinimumRequest, ::calc::DeleteSubsistenceMinimumResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](CalcService::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::calc::DeleteSubsistenceMinimumRequest* req,
+             ::calc::DeleteSubsistenceMinimumResponse* resp) {
+               return service->DeleteSubsistenceMinimum(ctx, req, resp);
              }, this)));
 }
 
 CalcService::Service::~Service() {
 }
 
-::grpc::Status CalcService::Service::CalculatePension(::grpc::ServerContext* context, const ::calc::PensionRequest* request, ::calc::PensionResponse* response) {
+::grpc::Status CalcService::Service::CalculatePension(::grpc::ServerContext* context, const ::calc::CalculatePensionRequest* request, ::calc::CalculatePensionResponse* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status CalcService::Service::ListCoefficients(::grpc::ServerContext* context, const ::calc::ListCoefficientsRequest* request, ::calc::ListCoefficientsResponse* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status CalcService::Service::AddCoefficient(::grpc::ServerContext* context, const ::calc::AddCoefficientRequest* request, ::calc::AddCoefficientResponse* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status CalcService::Service::UpdateCoefficient(::grpc::ServerContext* context, const ::calc::UpdateCoefficientRequest* request, ::calc::UpdateCoefficientResponse* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status CalcService::Service::DeleteCoefficient(::grpc::ServerContext* context, const ::calc::DeleteCoefficientRequest* request, ::calc::DeleteCoefficientResponse* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status CalcService::Service::SyncAverageSalaries(::grpc::ServerContext* context, const ::calc::SyncAverageSalariesRequest* request, ::calc::SyncAverageSalariesResponse* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status CalcService::Service::UpsertSubsistenceMinimum(::grpc::ServerContext* context, const ::calc::UpsertSubsistenceMinimumRequest* request, ::calc::UpsertSubsistenceMinimumResponse* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status CalcService::Service::ListSubsistenceMinimums(::grpc::ServerContext* context, const ::calc::ListSubsistenceMinimumsRequest* request, ::calc::ListSubsistenceMinimumsResponse* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status CalcService::Service::UpdateSubsistenceMinimum(::grpc::ServerContext* context, const ::calc::UpdateSubsistenceMinimumRequest* request, ::calc::UpdateSubsistenceMinimumResponse* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status CalcService::Service::DeleteSubsistenceMinimum(::grpc::ServerContext* context, const ::calc::DeleteSubsistenceMinimumRequest* request, ::calc::DeleteSubsistenceMinimumResponse* response) {
   (void) context;
   (void) request;
   (void) response;

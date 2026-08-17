@@ -6,7 +6,8 @@
 void test_solidarity_pension_pipeline_stage1_to_5()
 {
     std::cout << "[Unit Test] Running test_solidarity_pension_pipeline_stage1_to_5..." << std::endl;
-    calc::service::PensionCalculator calculator;
+    calc::repository::CoefficientRepository repo(true);
+    calc::service::PensionCalculator calculator(repo);
 
     calc::CalculatePensionRequest request;
     request.set_customer_id("ua-citizen-1001");
@@ -22,8 +23,6 @@ void test_solidarity_pension_pipeline_stage1_to_5()
     period->set_start_date("1984-01-01");
     period->set_end_date("2023-12-31");
     period->set_multiplier(1.0);
-
-    calc::repository::CoefficientRepository repo;
 
     // Salary history: 12 months with 25000 UAH, average national salary 18000 UAH
     for (int m = 1; m <= 12; ++m)
@@ -61,10 +60,9 @@ void test_solidarity_pension_pipeline_stage1_to_5()
 void test_disability_pension_modifiers()
 {
     std::cout << "[Unit Test] Running test_disability_pension_modifiers..." << std::endl;
-    calc::service::PensionCalculator calculator;
-
-    calc::repository::CoefficientRepository repo;
+    calc::repository::CoefficientRepository repo(true);
     repo.upsertSubsistenceLimits(2024, 2361.0, 2920.0);
+    calc::service::PensionCalculator calculator(repo);
 
     calc::CalculatePensionRequest request;
     request.set_customer_id("disability-group-2-user");
@@ -74,7 +72,21 @@ void test_disability_pension_modifiers()
     request.set_disability_group(calc::DisabilityGroup::GROUP_2);
     request.set_zp_macroeconomic_average(13559.41);
 
+    auto *period = request.add_employment_history();
+    period->set_start_date("2000-01-01");
+    period->set_end_date("2020-12-31");
+    period->set_multiplier(1.0);
+
+    auto *s = request.add_salary_history();
+    s->set_year(2020);
+    s->set_month(1);
+    s->set_amount(15000.0);
+
     auto res = calculator.calculate(&request);
+    if (!res.success)
+    {
+        std::cout << "[ERROR] calculation failed: " << res.error_message << std::endl;
+    }
 
     assert(res.success == true);
     assert(res.pension_type_modifier == 0.90); // 90% for Group 2

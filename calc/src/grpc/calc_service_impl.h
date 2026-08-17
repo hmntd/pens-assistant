@@ -16,6 +16,7 @@ private:
 
 public:
     CalcServiceImpl();
+    explicit CalcServiceImpl(bool mock_mode);
 
     ::grpc::Status CalculatePension(::grpc::ServerContext* context, const ::calc::CalculatePensionRequest* request, ::calc::CalculatePensionResponse* reply) override;
     ::grpc::Status ListCoefficients(::grpc::ServerContext* context, const ::calc::ListCoefficientsRequest* request, ::calc::ListCoefficientsResponse* reply) override;

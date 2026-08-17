@@ -21,6 +21,50 @@ namespace _pb = ::PROTOBUF_NAMESPACE_ID;
 namespace _pbi = _pb::internal;
 
 namespace calc {
+PROTOBUF_CONSTEXPR EmploymentPeriod::EmploymentPeriod(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.start_date_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.end_date_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.multiplier_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct EmploymentPeriodDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR EmploymentPeriodDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~EmploymentPeriodDefaultTypeInternal() {}
+  union {
+    EmploymentPeriod _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 EmploymentPeriodDefaultTypeInternal _EmploymentPeriod_default_instance_;
+PROTOBUF_CONSTEXPR SalaryMonthRecord::SalaryMonthRecord(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.year_)*/0
+  , /*decltype(_impl_.month_)*/0
+  , /*decltype(_impl_.amount_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct SalaryMonthRecordDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR SalaryMonthRecordDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~SalaryMonthRecordDefaultTypeInternal() {}
+  union {
+    SalaryMonthRecord _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SalaryMonthRecordDefaultTypeInternal _SalaryMonthRecord_default_instance_;
+PROTOBUF_CONSTEXPR SubsistenceMinimums::SubsistenceMinimums(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.for_disabled_persons_)*/0
+  , /*decltype(_impl_.general_minimum_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct SubsistenceMinimumsDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR SubsistenceMinimumsDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~SubsistenceMinimumsDefaultTypeInternal() {}
+  union {
+    SubsistenceMinimums _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SubsistenceMinimumsDefaultTypeInternal _SubsistenceMinimums_default_instance_;
 PROTOBUF_CONSTEXPR TaxRecord::TaxRecord(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.annual_income_)*/0
@@ -37,6 +81,78 @@ struct TaxRecordDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 TaxRecordDefaultTypeInternal _TaxRecord_default_instance_;
+PROTOBUF_CONSTEXPR CalculatePensionRequest::CalculatePensionRequest(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.employment_history_)*/{}
+  , /*decltype(_impl_.salary_history_)*/{}
+  , /*decltype(_impl_.benefits_)*/{}
+  , /*decltype(_impl_._benefits_cached_byte_size_)*/{0}
+  , /*decltype(_impl_.history_)*/{}
+  , /*decltype(_impl_.customer_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.date_of_birth_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.retirement_date_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.subsistence_minimums_)*/nullptr
+  , /*decltype(_impl_.gender_)*/0
+  , /*decltype(_impl_.pension_type_)*/0
+  , /*decltype(_impl_.disability_group_)*/0
+  , /*decltype(_impl_.dependents_count_)*/0
+  , /*decltype(_impl_.zp_macroeconomic_average_)*/0
+  , /*decltype(_impl_.enable_optimization_rule_)*/false
+  , /*decltype(_impl_.birth_year_)*/0
+  , /*decltype(_impl_.target_retirement_year_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct CalculatePensionRequestDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR CalculatePensionRequestDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~CalculatePensionRequestDefaultTypeInternal() {}
+  union {
+    CalculatePensionRequest _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CalculatePensionRequestDefaultTypeInternal _CalculatePensionRequest_default_instance_;
+PROTOBUF_CONSTEXPR BenefitSurchargeDetail::BenefitSurchargeDetail(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.amount_)*/0
+  , /*decltype(_impl_.benefit_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct BenefitSurchargeDetailDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR BenefitSurchargeDetailDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~BenefitSurchargeDetailDefaultTypeInternal() {}
+  union {
+    BenefitSurchargeDetail _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 BenefitSurchargeDetailDefaultTypeInternal _BenefitSurchargeDetail_default_instance_;
+PROTOBUF_CONSTEXPR CalculatePensionResponse::CalculatePensionResponse(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.applied_benefits_)*/{}
+  , /*decltype(_impl_.calculation_logs_)*/{}
+  , /*decltype(_impl_.error_message_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.final_pension_)*/0
+  , /*decltype(_impl_.base_pension_)*/0
+  , /*decltype(_impl_.zp_macroeconomic_average_)*/0
+  , /*decltype(_impl_.kz_wage_coefficient_)*/0
+  , /*decltype(_impl_.ks_service_coefficient_)*/0
+  , /*decltype(_impl_.pension_type_modifier_)*/0
+  , /*decltype(_impl_.total_service_months_)*/0
+  , /*decltype(_impl_.success_)*/false
+  , /*decltype(_impl_.is_minimum_clamped_)*/false
+  , /*decltype(_impl_.is_maximum_clamped_)*/false
+  , /*decltype(_impl_.extra_service_allowance_)*/0
+  , /*decltype(_impl_.total_benefit_surcharges_)*/0
+  , /*decltype(_impl_.pre_clamped_pension_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct CalculatePensionResponseDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR CalculatePensionResponseDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~CalculatePensionResponseDefaultTypeInternal() {}
+  union {
+    CalculatePensionResponse _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 CalculatePensionResponseDefaultTypeInternal _CalculatePensionResponse_default_instance_;
 PROTOBUF_CONSTEXPR PensionRequest::PensionRequest(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.history_)*/{}
@@ -70,12 +186,344 @@ struct PensionResponseDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PensionResponseDefaultTypeInternal _PensionResponse_default_instance_;
+PROTOBUF_CONSTEXPR PensionCoefficient::PensionCoefficient(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.description_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.id_)*/0
+  , /*decltype(_impl_.year_)*/0
+  , /*decltype(_impl_.coefficient_)*/0
+  , /*decltype(_impl_.month_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct PensionCoefficientDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR PensionCoefficientDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~PensionCoefficientDefaultTypeInternal() {}
+  union {
+    PensionCoefficient _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 PensionCoefficientDefaultTypeInternal _PensionCoefficient_default_instance_;
+PROTOBUF_CONSTEXPR ListCoefficientsRequest::ListCoefficientsRequest(
+    ::_pbi::ConstantInitialized) {}
+struct ListCoefficientsRequestDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR ListCoefficientsRequestDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~ListCoefficientsRequestDefaultTypeInternal() {}
+  union {
+    ListCoefficientsRequest _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ListCoefficientsRequestDefaultTypeInternal _ListCoefficientsRequest_default_instance_;
+PROTOBUF_CONSTEXPR ListCoefficientsResponse::ListCoefficientsResponse(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.coefficients_)*/{}
+  , /*decltype(_impl_.error_message_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.success_)*/false
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct ListCoefficientsResponseDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR ListCoefficientsResponseDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~ListCoefficientsResponseDefaultTypeInternal() {}
+  union {
+    ListCoefficientsResponse _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ListCoefficientsResponseDefaultTypeInternal _ListCoefficientsResponse_default_instance_;
+PROTOBUF_CONSTEXPR AddCoefficientRequest::AddCoefficientRequest(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.description_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.year_)*/0
+  , /*decltype(_impl_.month_)*/0
+  , /*decltype(_impl_.coefficient_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct AddCoefficientRequestDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR AddCoefficientRequestDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~AddCoefficientRequestDefaultTypeInternal() {}
+  union {
+    AddCoefficientRequest _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 AddCoefficientRequestDefaultTypeInternal _AddCoefficientRequest_default_instance_;
+PROTOBUF_CONSTEXPR AddCoefficientResponse::AddCoefficientResponse(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.error_message_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.coefficient_)*/nullptr
+  , /*decltype(_impl_.success_)*/false
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct AddCoefficientResponseDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR AddCoefficientResponseDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~AddCoefficientResponseDefaultTypeInternal() {}
+  union {
+    AddCoefficientResponse _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 AddCoefficientResponseDefaultTypeInternal _AddCoefficientResponse_default_instance_;
+PROTOBUF_CONSTEXPR UpdateCoefficientRequest::UpdateCoefficientRequest(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.description_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.id_)*/0
+  , /*decltype(_impl_.year_)*/0
+  , /*decltype(_impl_.coefficient_)*/0
+  , /*decltype(_impl_.month_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct UpdateCoefficientRequestDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR UpdateCoefficientRequestDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~UpdateCoefficientRequestDefaultTypeInternal() {}
+  union {
+    UpdateCoefficientRequest _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 UpdateCoefficientRequestDefaultTypeInternal _UpdateCoefficientRequest_default_instance_;
+PROTOBUF_CONSTEXPR UpdateCoefficientResponse::UpdateCoefficientResponse(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.error_message_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.coefficient_)*/nullptr
+  , /*decltype(_impl_.success_)*/false
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct UpdateCoefficientResponseDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR UpdateCoefficientResponseDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~UpdateCoefficientResponseDefaultTypeInternal() {}
+  union {
+    UpdateCoefficientResponse _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 UpdateCoefficientResponseDefaultTypeInternal _UpdateCoefficientResponse_default_instance_;
+PROTOBUF_CONSTEXPR DeleteCoefficientRequest::DeleteCoefficientRequest(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.id_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct DeleteCoefficientRequestDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR DeleteCoefficientRequestDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~DeleteCoefficientRequestDefaultTypeInternal() {}
+  union {
+    DeleteCoefficientRequest _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 DeleteCoefficientRequestDefaultTypeInternal _DeleteCoefficientRequest_default_instance_;
+PROTOBUF_CONSTEXPR DeleteCoefficientResponse::DeleteCoefficientResponse(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.error_message_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.success_)*/false
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct DeleteCoefficientResponseDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR DeleteCoefficientResponseDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~DeleteCoefficientResponseDefaultTypeInternal() {}
+  union {
+    DeleteCoefficientResponse _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 DeleteCoefficientResponseDefaultTypeInternal _DeleteCoefficientResponse_default_instance_;
+PROTOBUF_CONSTEXPR AverageSalaryRecord::AverageSalaryRecord(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.year_)*/0
+  , /*decltype(_impl_.month_)*/0
+  , /*decltype(_impl_.amount_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct AverageSalaryRecordDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR AverageSalaryRecordDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~AverageSalaryRecordDefaultTypeInternal() {}
+  union {
+    AverageSalaryRecord _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 AverageSalaryRecordDefaultTypeInternal _AverageSalaryRecord_default_instance_;
+PROTOBUF_CONSTEXPR SyncAverageSalariesRequest::SyncAverageSalariesRequest(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.salaries_)*/{}
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct SyncAverageSalariesRequestDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR SyncAverageSalariesRequestDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~SyncAverageSalariesRequestDefaultTypeInternal() {}
+  union {
+    SyncAverageSalariesRequest _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SyncAverageSalariesRequestDefaultTypeInternal _SyncAverageSalariesRequest_default_instance_;
+PROTOBUF_CONSTEXPR SyncAverageSalariesResponse::SyncAverageSalariesResponse(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.error_message_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.success_)*/false
+  , /*decltype(_impl_.processed_count_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct SyncAverageSalariesResponseDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR SyncAverageSalariesResponseDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~SyncAverageSalariesResponseDefaultTypeInternal() {}
+  union {
+    SyncAverageSalariesResponse _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SyncAverageSalariesResponseDefaultTypeInternal _SyncAverageSalariesResponse_default_instance_;
+PROTOBUF_CONSTEXPR UpsertSubsistenceMinimumRequest::UpsertSubsistenceMinimumRequest(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.for_disabled_persons_)*/0
+  , /*decltype(_impl_.general_minimum_)*/0
+  , /*decltype(_impl_.year_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct UpsertSubsistenceMinimumRequestDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR UpsertSubsistenceMinimumRequestDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~UpsertSubsistenceMinimumRequestDefaultTypeInternal() {}
+  union {
+    UpsertSubsistenceMinimumRequest _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 UpsertSubsistenceMinimumRequestDefaultTypeInternal _UpsertSubsistenceMinimumRequest_default_instance_;
+PROTOBUF_CONSTEXPR UpsertSubsistenceMinimumResponse::UpsertSubsistenceMinimumResponse(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.message_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.error_message_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.success_)*/false
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct UpsertSubsistenceMinimumResponseDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR UpsertSubsistenceMinimumResponseDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~UpsertSubsistenceMinimumResponseDefaultTypeInternal() {}
+  union {
+    UpsertSubsistenceMinimumResponse _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 UpsertSubsistenceMinimumResponseDefaultTypeInternal _UpsertSubsistenceMinimumResponse_default_instance_;
+PROTOBUF_CONSTEXPR ListSubsistenceMinimumsRequest::ListSubsistenceMinimumsRequest(
+    ::_pbi::ConstantInitialized) {}
+struct ListSubsistenceMinimumsRequestDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR ListSubsistenceMinimumsRequestDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~ListSubsistenceMinimumsRequestDefaultTypeInternal() {}
+  union {
+    ListSubsistenceMinimumsRequest _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ListSubsistenceMinimumsRequestDefaultTypeInternal _ListSubsistenceMinimumsRequest_default_instance_;
+PROTOBUF_CONSTEXPR SubsistenceMinimumRecord::SubsistenceMinimumRecord(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.id_)*/0
+  , /*decltype(_impl_.year_)*/0
+  , /*decltype(_impl_.for_disabled_persons_)*/0
+  , /*decltype(_impl_.general_minimum_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct SubsistenceMinimumRecordDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR SubsistenceMinimumRecordDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~SubsistenceMinimumRecordDefaultTypeInternal() {}
+  union {
+    SubsistenceMinimumRecord _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SubsistenceMinimumRecordDefaultTypeInternal _SubsistenceMinimumRecord_default_instance_;
+PROTOBUF_CONSTEXPR ListSubsistenceMinimumsResponse::ListSubsistenceMinimumsResponse(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.records_)*/{}
+  , /*decltype(_impl_.error_message_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.success_)*/false
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct ListSubsistenceMinimumsResponseDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR ListSubsistenceMinimumsResponseDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~ListSubsistenceMinimumsResponseDefaultTypeInternal() {}
+  union {
+    ListSubsistenceMinimumsResponse _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ListSubsistenceMinimumsResponseDefaultTypeInternal _ListSubsistenceMinimumsResponse_default_instance_;
+PROTOBUF_CONSTEXPR UpdateSubsistenceMinimumRequest::UpdateSubsistenceMinimumRequest(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.id_)*/0
+  , /*decltype(_impl_.year_)*/0
+  , /*decltype(_impl_.for_disabled_persons_)*/0
+  , /*decltype(_impl_.general_minimum_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct UpdateSubsistenceMinimumRequestDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR UpdateSubsistenceMinimumRequestDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~UpdateSubsistenceMinimumRequestDefaultTypeInternal() {}
+  union {
+    UpdateSubsistenceMinimumRequest _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 UpdateSubsistenceMinimumRequestDefaultTypeInternal _UpdateSubsistenceMinimumRequest_default_instance_;
+PROTOBUF_CONSTEXPR UpdateSubsistenceMinimumResponse::UpdateSubsistenceMinimumResponse(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.error_message_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.record_)*/nullptr
+  , /*decltype(_impl_.success_)*/false
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct UpdateSubsistenceMinimumResponseDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR UpdateSubsistenceMinimumResponseDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~UpdateSubsistenceMinimumResponseDefaultTypeInternal() {}
+  union {
+    UpdateSubsistenceMinimumResponse _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 UpdateSubsistenceMinimumResponseDefaultTypeInternal _UpdateSubsistenceMinimumResponse_default_instance_;
+PROTOBUF_CONSTEXPR DeleteSubsistenceMinimumRequest::DeleteSubsistenceMinimumRequest(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.id_)*/0
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct DeleteSubsistenceMinimumRequestDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR DeleteSubsistenceMinimumRequestDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~DeleteSubsistenceMinimumRequestDefaultTypeInternal() {}
+  union {
+    DeleteSubsistenceMinimumRequest _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 DeleteSubsistenceMinimumRequestDefaultTypeInternal _DeleteSubsistenceMinimumRequest_default_instance_;
+PROTOBUF_CONSTEXPR DeleteSubsistenceMinimumResponse::DeleteSubsistenceMinimumResponse(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.error_message_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.success_)*/false
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct DeleteSubsistenceMinimumResponseDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR DeleteSubsistenceMinimumResponseDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~DeleteSubsistenceMinimumResponseDefaultTypeInternal() {}
+  union {
+    DeleteSubsistenceMinimumResponse _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 DeleteSubsistenceMinimumResponseDefaultTypeInternal _DeleteSubsistenceMinimumResponse_default_instance_;
 }  // namespace calc
-static ::_pb::Metadata file_level_metadata_calc_2eproto[3];
-static constexpr ::_pb::EnumDescriptor const** file_level_enum_descriptors_calc_2eproto = nullptr;
+static ::_pb::Metadata file_level_metadata_calc_2eproto[30];
+static const ::_pb::EnumDescriptor* file_level_enum_descriptors_calc_2eproto[4];
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_calc_2eproto = nullptr;
 
 const uint32_t TableStruct_calc_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::calc::EmploymentPeriod, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::calc::EmploymentPeriod, _impl_.start_date_),
+  PROTOBUF_FIELD_OFFSET(::calc::EmploymentPeriod, _impl_.end_date_),
+  PROTOBUF_FIELD_OFFSET(::calc::EmploymentPeriod, _impl_.multiplier_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::calc::SalaryMonthRecord, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::calc::SalaryMonthRecord, _impl_.year_),
+  PROTOBUF_FIELD_OFFSET(::calc::SalaryMonthRecord, _impl_.month_),
+  PROTOBUF_FIELD_OFFSET(::calc::SalaryMonthRecord, _impl_.amount_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::calc::SubsistenceMinimums, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::calc::SubsistenceMinimums, _impl_.for_disabled_persons_),
+  PROTOBUF_FIELD_OFFSET(::calc::SubsistenceMinimums, _impl_.general_minimum_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::calc::TaxRecord, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -86,6 +534,59 @@ const uint32_t TableStruct_calc_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(pro
   PROTOBUF_FIELD_OFFSET(::calc::TaxRecord, _impl_.annual_income_),
   PROTOBUF_FIELD_OFFSET(::calc::TaxRecord, _impl_.tax_paid_),
   PROTOBUF_FIELD_OFFSET(::calc::TaxRecord, _impl_.months_worked_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::calc::CalculatePensionRequest, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::calc::CalculatePensionRequest, _impl_.customer_id_),
+  PROTOBUF_FIELD_OFFSET(::calc::CalculatePensionRequest, _impl_.gender_),
+  PROTOBUF_FIELD_OFFSET(::calc::CalculatePensionRequest, _impl_.date_of_birth_),
+  PROTOBUF_FIELD_OFFSET(::calc::CalculatePensionRequest, _impl_.retirement_date_),
+  PROTOBUF_FIELD_OFFSET(::calc::CalculatePensionRequest, _impl_.pension_type_),
+  PROTOBUF_FIELD_OFFSET(::calc::CalculatePensionRequest, _impl_.disability_group_),
+  PROTOBUF_FIELD_OFFSET(::calc::CalculatePensionRequest, _impl_.dependents_count_),
+  PROTOBUF_FIELD_OFFSET(::calc::CalculatePensionRequest, _impl_.employment_history_),
+  PROTOBUF_FIELD_OFFSET(::calc::CalculatePensionRequest, _impl_.salary_history_),
+  PROTOBUF_FIELD_OFFSET(::calc::CalculatePensionRequest, _impl_.benefits_),
+  PROTOBUF_FIELD_OFFSET(::calc::CalculatePensionRequest, _impl_.subsistence_minimums_),
+  PROTOBUF_FIELD_OFFSET(::calc::CalculatePensionRequest, _impl_.enable_optimization_rule_),
+  PROTOBUF_FIELD_OFFSET(::calc::CalculatePensionRequest, _impl_.zp_macroeconomic_average_),
+  PROTOBUF_FIELD_OFFSET(::calc::CalculatePensionRequest, _impl_.history_),
+  PROTOBUF_FIELD_OFFSET(::calc::CalculatePensionRequest, _impl_.birth_year_),
+  PROTOBUF_FIELD_OFFSET(::calc::CalculatePensionRequest, _impl_.target_retirement_year_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::calc::BenefitSurchargeDetail, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::calc::BenefitSurchargeDetail, _impl_.benefit_),
+  PROTOBUF_FIELD_OFFSET(::calc::BenefitSurchargeDetail, _impl_.name_),
+  PROTOBUF_FIELD_OFFSET(::calc::BenefitSurchargeDetail, _impl_.amount_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::calc::CalculatePensionResponse, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::calc::CalculatePensionResponse, _impl_.success_),
+  PROTOBUF_FIELD_OFFSET(::calc::CalculatePensionResponse, _impl_.final_pension_),
+  PROTOBUF_FIELD_OFFSET(::calc::CalculatePensionResponse, _impl_.base_pension_),
+  PROTOBUF_FIELD_OFFSET(::calc::CalculatePensionResponse, _impl_.zp_macroeconomic_average_),
+  PROTOBUF_FIELD_OFFSET(::calc::CalculatePensionResponse, _impl_.kz_wage_coefficient_),
+  PROTOBUF_FIELD_OFFSET(::calc::CalculatePensionResponse, _impl_.ks_service_coefficient_),
+  PROTOBUF_FIELD_OFFSET(::calc::CalculatePensionResponse, _impl_.total_service_months_),
+  PROTOBUF_FIELD_OFFSET(::calc::CalculatePensionResponse, _impl_.pension_type_modifier_),
+  PROTOBUF_FIELD_OFFSET(::calc::CalculatePensionResponse, _impl_.extra_service_allowance_),
+  PROTOBUF_FIELD_OFFSET(::calc::CalculatePensionResponse, _impl_.total_benefit_surcharges_),
+  PROTOBUF_FIELD_OFFSET(::calc::CalculatePensionResponse, _impl_.pre_clamped_pension_),
+  PROTOBUF_FIELD_OFFSET(::calc::CalculatePensionResponse, _impl_.is_minimum_clamped_),
+  PROTOBUF_FIELD_OFFSET(::calc::CalculatePensionResponse, _impl_.is_maximum_clamped_),
+  PROTOBUF_FIELD_OFFSET(::calc::CalculatePensionResponse, _impl_.applied_benefits_),
+  PROTOBUF_FIELD_OFFSET(::calc::CalculatePensionResponse, _impl_.calculation_logs_),
+  PROTOBUF_FIELD_OFFSET(::calc::CalculatePensionResponse, _impl_.error_message_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::calc::PensionRequest, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -107,39 +608,386 @@ const uint32_t TableStruct_calc_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(pro
   PROTOBUF_FIELD_OFFSET(::calc::PensionResponse, _impl_.total_accumulated_capital_),
   PROTOBUF_FIELD_OFFSET(::calc::PensionResponse, _impl_.calculation_breakdown_),
   PROTOBUF_FIELD_OFFSET(::calc::PensionResponse, _impl_.error_message_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::calc::PensionCoefficient, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::calc::PensionCoefficient, _impl_.id_),
+  PROTOBUF_FIELD_OFFSET(::calc::PensionCoefficient, _impl_.year_),
+  PROTOBUF_FIELD_OFFSET(::calc::PensionCoefficient, _impl_.month_),
+  PROTOBUF_FIELD_OFFSET(::calc::PensionCoefficient, _impl_.coefficient_),
+  PROTOBUF_FIELD_OFFSET(::calc::PensionCoefficient, _impl_.description_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::calc::ListCoefficientsRequest, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::calc::ListCoefficientsResponse, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::calc::ListCoefficientsResponse, _impl_.success_),
+  PROTOBUF_FIELD_OFFSET(::calc::ListCoefficientsResponse, _impl_.coefficients_),
+  PROTOBUF_FIELD_OFFSET(::calc::ListCoefficientsResponse, _impl_.error_message_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::calc::AddCoefficientRequest, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::calc::AddCoefficientRequest, _impl_.year_),
+  PROTOBUF_FIELD_OFFSET(::calc::AddCoefficientRequest, _impl_.month_),
+  PROTOBUF_FIELD_OFFSET(::calc::AddCoefficientRequest, _impl_.coefficient_),
+  PROTOBUF_FIELD_OFFSET(::calc::AddCoefficientRequest, _impl_.description_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::calc::AddCoefficientResponse, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::calc::AddCoefficientResponse, _impl_.success_),
+  PROTOBUF_FIELD_OFFSET(::calc::AddCoefficientResponse, _impl_.coefficient_),
+  PROTOBUF_FIELD_OFFSET(::calc::AddCoefficientResponse, _impl_.error_message_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::calc::UpdateCoefficientRequest, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::calc::UpdateCoefficientRequest, _impl_.id_),
+  PROTOBUF_FIELD_OFFSET(::calc::UpdateCoefficientRequest, _impl_.year_),
+  PROTOBUF_FIELD_OFFSET(::calc::UpdateCoefficientRequest, _impl_.month_),
+  PROTOBUF_FIELD_OFFSET(::calc::UpdateCoefficientRequest, _impl_.coefficient_),
+  PROTOBUF_FIELD_OFFSET(::calc::UpdateCoefficientRequest, _impl_.description_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::calc::UpdateCoefficientResponse, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::calc::UpdateCoefficientResponse, _impl_.success_),
+  PROTOBUF_FIELD_OFFSET(::calc::UpdateCoefficientResponse, _impl_.coefficient_),
+  PROTOBUF_FIELD_OFFSET(::calc::UpdateCoefficientResponse, _impl_.error_message_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::calc::DeleteCoefficientRequest, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::calc::DeleteCoefficientRequest, _impl_.id_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::calc::DeleteCoefficientResponse, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::calc::DeleteCoefficientResponse, _impl_.success_),
+  PROTOBUF_FIELD_OFFSET(::calc::DeleteCoefficientResponse, _impl_.error_message_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::calc::AverageSalaryRecord, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::calc::AverageSalaryRecord, _impl_.year_),
+  PROTOBUF_FIELD_OFFSET(::calc::AverageSalaryRecord, _impl_.month_),
+  PROTOBUF_FIELD_OFFSET(::calc::AverageSalaryRecord, _impl_.amount_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::calc::SyncAverageSalariesRequest, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::calc::SyncAverageSalariesRequest, _impl_.salaries_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::calc::SyncAverageSalariesResponse, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::calc::SyncAverageSalariesResponse, _impl_.success_),
+  PROTOBUF_FIELD_OFFSET(::calc::SyncAverageSalariesResponse, _impl_.processed_count_),
+  PROTOBUF_FIELD_OFFSET(::calc::SyncAverageSalariesResponse, _impl_.error_message_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::calc::UpsertSubsistenceMinimumRequest, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::calc::UpsertSubsistenceMinimumRequest, _impl_.year_),
+  PROTOBUF_FIELD_OFFSET(::calc::UpsertSubsistenceMinimumRequest, _impl_.for_disabled_persons_),
+  PROTOBUF_FIELD_OFFSET(::calc::UpsertSubsistenceMinimumRequest, _impl_.general_minimum_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::calc::UpsertSubsistenceMinimumResponse, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::calc::UpsertSubsistenceMinimumResponse, _impl_.success_),
+  PROTOBUF_FIELD_OFFSET(::calc::UpsertSubsistenceMinimumResponse, _impl_.message_),
+  PROTOBUF_FIELD_OFFSET(::calc::UpsertSubsistenceMinimumResponse, _impl_.error_message_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::calc::ListSubsistenceMinimumsRequest, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::calc::SubsistenceMinimumRecord, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::calc::SubsistenceMinimumRecord, _impl_.id_),
+  PROTOBUF_FIELD_OFFSET(::calc::SubsistenceMinimumRecord, _impl_.year_),
+  PROTOBUF_FIELD_OFFSET(::calc::SubsistenceMinimumRecord, _impl_.for_disabled_persons_),
+  PROTOBUF_FIELD_OFFSET(::calc::SubsistenceMinimumRecord, _impl_.general_minimum_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::calc::ListSubsistenceMinimumsResponse, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::calc::ListSubsistenceMinimumsResponse, _impl_.success_),
+  PROTOBUF_FIELD_OFFSET(::calc::ListSubsistenceMinimumsResponse, _impl_.records_),
+  PROTOBUF_FIELD_OFFSET(::calc::ListSubsistenceMinimumsResponse, _impl_.error_message_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::calc::UpdateSubsistenceMinimumRequest, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::calc::UpdateSubsistenceMinimumRequest, _impl_.id_),
+  PROTOBUF_FIELD_OFFSET(::calc::UpdateSubsistenceMinimumRequest, _impl_.year_),
+  PROTOBUF_FIELD_OFFSET(::calc::UpdateSubsistenceMinimumRequest, _impl_.for_disabled_persons_),
+  PROTOBUF_FIELD_OFFSET(::calc::UpdateSubsistenceMinimumRequest, _impl_.general_minimum_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::calc::UpdateSubsistenceMinimumResponse, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::calc::UpdateSubsistenceMinimumResponse, _impl_.success_),
+  PROTOBUF_FIELD_OFFSET(::calc::UpdateSubsistenceMinimumResponse, _impl_.record_),
+  PROTOBUF_FIELD_OFFSET(::calc::UpdateSubsistenceMinimumResponse, _impl_.error_message_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::calc::DeleteSubsistenceMinimumRequest, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::calc::DeleteSubsistenceMinimumRequest, _impl_.id_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::calc::DeleteSubsistenceMinimumResponse, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::calc::DeleteSubsistenceMinimumResponse, _impl_.success_),
+  PROTOBUF_FIELD_OFFSET(::calc::DeleteSubsistenceMinimumResponse, _impl_.error_message_),
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, -1, sizeof(::calc::TaxRecord)},
-  { 10, -1, -1, sizeof(::calc::PensionRequest)},
-  { 20, -1, -1, sizeof(::calc::PensionResponse)},
+  { 0, -1, -1, sizeof(::calc::EmploymentPeriod)},
+  { 9, -1, -1, sizeof(::calc::SalaryMonthRecord)},
+  { 18, -1, -1, sizeof(::calc::SubsistenceMinimums)},
+  { 26, -1, -1, sizeof(::calc::TaxRecord)},
+  { 36, -1, -1, sizeof(::calc::CalculatePensionRequest)},
+  { 58, -1, -1, sizeof(::calc::BenefitSurchargeDetail)},
+  { 67, -1, -1, sizeof(::calc::CalculatePensionResponse)},
+  { 89, -1, -1, sizeof(::calc::PensionRequest)},
+  { 99, -1, -1, sizeof(::calc::PensionResponse)},
+  { 110, -1, -1, sizeof(::calc::PensionCoefficient)},
+  { 121, -1, -1, sizeof(::calc::ListCoefficientsRequest)},
+  { 127, -1, -1, sizeof(::calc::ListCoefficientsResponse)},
+  { 136, -1, -1, sizeof(::calc::AddCoefficientRequest)},
+  { 146, -1, -1, sizeof(::calc::AddCoefficientResponse)},
+  { 155, -1, -1, sizeof(::calc::UpdateCoefficientRequest)},
+  { 166, -1, -1, sizeof(::calc::UpdateCoefficientResponse)},
+  { 175, -1, -1, sizeof(::calc::DeleteCoefficientRequest)},
+  { 182, -1, -1, sizeof(::calc::DeleteCoefficientResponse)},
+  { 190, -1, -1, sizeof(::calc::AverageSalaryRecord)},
+  { 199, -1, -1, sizeof(::calc::SyncAverageSalariesRequest)},
+  { 206, -1, -1, sizeof(::calc::SyncAverageSalariesResponse)},
+  { 215, -1, -1, sizeof(::calc::UpsertSubsistenceMinimumRequest)},
+  { 224, -1, -1, sizeof(::calc::UpsertSubsistenceMinimumResponse)},
+  { 233, -1, -1, sizeof(::calc::ListSubsistenceMinimumsRequest)},
+  { 239, -1, -1, sizeof(::calc::SubsistenceMinimumRecord)},
+  { 249, -1, -1, sizeof(::calc::ListSubsistenceMinimumsResponse)},
+  { 258, -1, -1, sizeof(::calc::UpdateSubsistenceMinimumRequest)},
+  { 268, -1, -1, sizeof(::calc::UpdateSubsistenceMinimumResponse)},
+  { 277, -1, -1, sizeof(::calc::DeleteSubsistenceMinimumRequest)},
+  { 284, -1, -1, sizeof(::calc::DeleteSubsistenceMinimumResponse)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
+  &::calc::_EmploymentPeriod_default_instance_._instance,
+  &::calc::_SalaryMonthRecord_default_instance_._instance,
+  &::calc::_SubsistenceMinimums_default_instance_._instance,
   &::calc::_TaxRecord_default_instance_._instance,
+  &::calc::_CalculatePensionRequest_default_instance_._instance,
+  &::calc::_BenefitSurchargeDetail_default_instance_._instance,
+  &::calc::_CalculatePensionResponse_default_instance_._instance,
   &::calc::_PensionRequest_default_instance_._instance,
   &::calc::_PensionResponse_default_instance_._instance,
+  &::calc::_PensionCoefficient_default_instance_._instance,
+  &::calc::_ListCoefficientsRequest_default_instance_._instance,
+  &::calc::_ListCoefficientsResponse_default_instance_._instance,
+  &::calc::_AddCoefficientRequest_default_instance_._instance,
+  &::calc::_AddCoefficientResponse_default_instance_._instance,
+  &::calc::_UpdateCoefficientRequest_default_instance_._instance,
+  &::calc::_UpdateCoefficientResponse_default_instance_._instance,
+  &::calc::_DeleteCoefficientRequest_default_instance_._instance,
+  &::calc::_DeleteCoefficientResponse_default_instance_._instance,
+  &::calc::_AverageSalaryRecord_default_instance_._instance,
+  &::calc::_SyncAverageSalariesRequest_default_instance_._instance,
+  &::calc::_SyncAverageSalariesResponse_default_instance_._instance,
+  &::calc::_UpsertSubsistenceMinimumRequest_default_instance_._instance,
+  &::calc::_UpsertSubsistenceMinimumResponse_default_instance_._instance,
+  &::calc::_ListSubsistenceMinimumsRequest_default_instance_._instance,
+  &::calc::_SubsistenceMinimumRecord_default_instance_._instance,
+  &::calc::_ListSubsistenceMinimumsResponse_default_instance_._instance,
+  &::calc::_UpdateSubsistenceMinimumRequest_default_instance_._instance,
+  &::calc::_UpdateSubsistenceMinimumResponse_default_instance_._instance,
+  &::calc::_DeleteSubsistenceMinimumRequest_default_instance_._instance,
+  &::calc::_DeleteSubsistenceMinimumResponse_default_instance_._instance,
 };
 
 const char descriptor_table_protodef_calc_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\ncalc.proto\022\004calc\"Y\n\tTaxRecord\022\014\n\004year\030"
-  "\001 \001(\005\022\025\n\rannual_income\030\002 \001(\001\022\020\n\010tax_paid"
-  "\030\003 \001(\001\022\025\n\rmonths_worked\030\004 \001(\005\"{\n\016Pension"
-  "Request\022\023\n\013customer_id\030\001 \001(\t\022\022\n\nbirth_ye"
-  "ar\030\002 \001(\005\022\036\n\026target_retirement_year\030\003 \001(\005"
-  "\022 \n\007history\030\004 \003(\0132\017.calc.TaxRecord\"\236\001\n\017P"
-  "ensionResponse\022\017\n\007success\030\001 \001(\010\022!\n\031estim"
-  "ated_monthly_pension\030\002 \001(\001\022!\n\031total_accu"
-  "mulated_capital\030\003 \001(\001\022\035\n\025calculation_bre"
-  "akdown\030\004 \001(\t\022\025\n\rerror_message\030\005 \001(\t2N\n\013C"
-  "alcService\022\?\n\020CalculatePension\022\024.calc.Pe"
-  "nsionRequest\032\025.calc.PensionResponseb\006pro"
-  "to3"
+  "\n\ncalc.proto\022\004calc\"L\n\020EmploymentPeriod\022\022"
+  "\n\nstart_date\030\001 \001(\t\022\020\n\010end_date\030\002 \001(\t\022\022\n\n"
+  "multiplier\030\003 \001(\001\"@\n\021SalaryMonthRecord\022\014\n"
+  "\004year\030\001 \001(\005\022\r\n\005month\030\002 \001(\005\022\016\n\006amount\030\003 \001"
+  "(\001\"L\n\023SubsistenceMinimums\022\034\n\024for_disable"
+  "d_persons\030\001 \001(\001\022\027\n\017general_minimum\030\002 \001(\001"
+  "\"Y\n\tTaxRecord\022\014\n\004year\030\001 \001(\005\022\025\n\rannual_in"
+  "come\030\002 \001(\001\022\020\n\010tax_paid\030\003 \001(\001\022\025\n\rmonths_w"
+  "orked\030\004 \001(\005\"\315\004\n\027CalculatePensionRequest\022"
+  "\023\n\013customer_id\030\001 \001(\t\022\034\n\006gender\030\002 \001(\0162\014.c"
+  "alc.Gender\022\025\n\rdate_of_birth\030\003 \001(\t\022\027\n\017ret"
+  "irement_date\030\004 \001(\t\022\'\n\014pension_type\030\005 \001(\016"
+  "2\021.calc.PensionType\022/\n\020disability_group\030"
+  "\006 \001(\0162\025.calc.DisabilityGroup\022\030\n\020dependen"
+  "ts_count\030\007 \001(\005\0222\n\022employment_history\030\010 \003"
+  "(\0132\026.calc.EmploymentPeriod\022/\n\016salary_his"
+  "tory\030\t \003(\0132\027.calc.SalaryMonthRecord\022#\n\010b"
+  "enefits\030\n \003(\0162\021.calc.BenefitType\0227\n\024subs"
+  "istence_minimums\030\013 \001(\0132\031.calc.Subsistenc"
+  "eMinimums\022 \n\030enable_optimization_rule\030\014 "
+  "\001(\010\022 \n\030zp_macroeconomic_average\030\r \001(\001\022 \n"
+  "\007history\030\016 \003(\0132\017.calc.TaxRecord\022\022\n\nbirth"
+  "_year\030\017 \001(\005\022\036\n\026target_retirement_year\030\020 "
+  "\001(\005\"Z\n\026BenefitSurchargeDetail\022\"\n\007benefit"
+  "\030\001 \001(\0162\021.calc.BenefitType\022\014\n\004name\030\002 \001(\t\022"
+  "\016\n\006amount\030\003 \001(\001\"\365\003\n\030CalculatePensionResp"
+  "onse\022\017\n\007success\030\001 \001(\010\022\025\n\rfinal_pension\030\002"
+  " \001(\001\022\024\n\014base_pension\030\003 \001(\001\022 \n\030zp_macroec"
+  "onomic_average\030\004 \001(\001\022\033\n\023kz_wage_coeffici"
+  "ent\030\005 \001(\001\022\036\n\026ks_service_coefficient\030\006 \001("
+  "\001\022\034\n\024total_service_months\030\007 \001(\005\022\035\n\025pensi"
+  "on_type_modifier\030\010 \001(\001\022\037\n\027extra_service_"
+  "allowance\030\t \001(\001\022 \n\030total_benefit_surchar"
+  "ges\030\n \001(\001\022\033\n\023pre_clamped_pension\030\013 \001(\001\022\032"
+  "\n\022is_minimum_clamped\030\014 \001(\010\022\032\n\022is_maximum"
+  "_clamped\030\r \001(\010\0226\n\020applied_benefits\030\016 \003(\013"
+  "2\034.calc.BenefitSurchargeDetail\022\030\n\020calcul"
+  "ation_logs\030\017 \003(\t\022\025\n\rerror_message\030\020 \001(\t\""
+  "{\n\016PensionRequest\022\023\n\013customer_id\030\001 \001(\t\022\022"
+  "\n\nbirth_year\030\002 \001(\005\022\036\n\026target_retirement_"
+  "year\030\003 \001(\005\022 \n\007history\030\004 \003(\0132\017.calc.TaxRe"
+  "cord\"\236\001\n\017PensionResponse\022\017\n\007success\030\001 \001("
+  "\010\022!\n\031estimated_monthly_pension\030\002 \001(\001\022!\n\031"
+  "total_accumulated_capital\030\003 \001(\001\022\035\n\025calcu"
+  "lation_breakdown\030\004 \001(\t\022\025\n\rerror_message\030"
+  "\005 \001(\t\"g\n\022PensionCoefficient\022\n\n\002id\030\001 \001(\005\022"
+  "\014\n\004year\030\002 \001(\005\022\r\n\005month\030\003 \001(\005\022\023\n\013coeffici"
+  "ent\030\004 \001(\001\022\023\n\013description\030\005 \001(\t\"\031\n\027ListCo"
+  "efficientsRequest\"r\n\030ListCoefficientsRes"
+  "ponse\022\017\n\007success\030\001 \001(\010\022.\n\014coefficients\030\002"
+  " \003(\0132\030.calc.PensionCoefficient\022\025\n\rerror_"
+  "message\030\003 \001(\t\"^\n\025AddCoefficientRequest\022\014"
+  "\n\004year\030\001 \001(\005\022\r\n\005month\030\002 \001(\005\022\023\n\013coefficie"
+  "nt\030\003 \001(\001\022\023\n\013description\030\004 \001(\t\"o\n\026AddCoef"
+  "ficientResponse\022\017\n\007success\030\001 \001(\010\022-\n\013coef"
+  "ficient\030\002 \001(\0132\030.calc.PensionCoefficient\022"
+  "\025\n\rerror_message\030\003 \001(\t\"m\n\030UpdateCoeffici"
+  "entRequest\022\n\n\002id\030\001 \001(\005\022\014\n\004year\030\002 \001(\005\022\r\n\005"
+  "month\030\003 \001(\005\022\023\n\013coefficient\030\004 \001(\001\022\023\n\013desc"
+  "ription\030\005 \001(\t\"r\n\031UpdateCoefficientRespon"
+  "se\022\017\n\007success\030\001 \001(\010\022-\n\013coefficient\030\002 \001(\013"
+  "2\030.calc.PensionCoefficient\022\025\n\rerror_mess"
+  "age\030\003 \001(\t\"&\n\030DeleteCoefficientRequest\022\n\n"
+  "\002id\030\001 \001(\005\"C\n\031DeleteCoefficientResponse\022\017"
+  "\n\007success\030\001 \001(\010\022\025\n\rerror_message\030\002 \001(\t\"B"
+  "\n\023AverageSalaryRecord\022\014\n\004year\030\001 \001(\005\022\r\n\005m"
+  "onth\030\002 \001(\005\022\016\n\006amount\030\003 \001(\001\"I\n\032SyncAverag"
+  "eSalariesRequest\022+\n\010salaries\030\001 \003(\0132\031.cal"
+  "c.AverageSalaryRecord\"^\n\033SyncAverageSala"
+  "riesResponse\022\017\n\007success\030\001 \001(\010\022\027\n\017process"
+  "ed_count\030\002 \001(\005\022\025\n\rerror_message\030\003 \001(\t\"f\n"
+  "\037UpsertSubsistenceMinimumRequest\022\014\n\004year"
+  "\030\001 \001(\005\022\034\n\024for_disabled_persons\030\002 \001(\001\022\027\n\017"
+  "general_minimum\030\003 \001(\001\"[\n UpsertSubsisten"
+  "ceMinimumResponse\022\017\n\007success\030\001 \001(\010\022\017\n\007me"
+  "ssage\030\002 \001(\t\022\025\n\rerror_message\030\003 \001(\t\" \n\036Li"
+  "stSubsistenceMinimumsRequest\"k\n\030Subsiste"
+  "nceMinimumRecord\022\n\n\002id\030\001 \001(\005\022\014\n\004year\030\002 \001"
+  "(\005\022\034\n\024for_disabled_persons\030\003 \001(\001\022\027\n\017gene"
+  "ral_minimum\030\004 \001(\001\"z\n\037ListSubsistenceMini"
+  "mumsResponse\022\017\n\007success\030\001 \001(\010\022/\n\007records"
+  "\030\002 \003(\0132\036.calc.SubsistenceMinimumRecord\022\025"
+  "\n\rerror_message\030\003 \001(\t\"r\n\037UpdateSubsisten"
+  "ceMinimumRequest\022\n\n\002id\030\001 \001(\005\022\014\n\004year\030\002 \001"
+  "(\005\022\034\n\024for_disabled_persons\030\003 \001(\001\022\027\n\017gene"
+  "ral_minimum\030\004 \001(\001\"z\n UpdateSubsistenceMi"
+  "nimumResponse\022\017\n\007success\030\001 \001(\010\022.\n\006record"
+  "\030\002 \001(\0132\036.calc.SubsistenceMinimumRecord\022\025"
+  "\n\rerror_message\030\003 \001(\t\"-\n\037DeleteSubsisten"
+  "ceMinimumRequest\022\n\n\002id\030\001 \001(\005\"J\n DeleteSu"
+  "bsistenceMinimumResponse\022\017\n\007success\030\001 \001("
+  "\010\022\025\n\rerror_message\030\002 \001(\t*\036\n\006Gender\022\010\n\004MA"
+  "LE\020\000\022\n\n\006FEMALE\020\001*C\n\013PensionType\022\013\n\007OLD_A"
+  "GE\020\000\022\016\n\nDISABILITY\020\001\022\027\n\023LOSS_OF_BREADWIN"
+  "NER\020\002*M\n\017DisabilityGroup\022\023\n\017DISABILITY_N"
+  "ONE\020\000\022\013\n\007GROUP_1\020\001\022\013\n\007GROUP_2\020\002\022\013\n\007GROUP"
+  "_3\020\003*z\n\013BenefitType\022\020\n\014BENEFIT_NONE\020\000\022\022\n"
+  "\016COMBAT_VETERAN\020\001\022\022\n\016HONORARY_DONOR\020\002\022\030\n"
+  "\024CHORNOBYL_LIQUIDATOR\020\003\022\027\n\023DISABLED_CHIL"
+  "D_CARE\020\0042\261\007\n\013CalcService\022Q\n\020CalculatePen"
+  "sion\022\035.calc.CalculatePensionRequest\032\036.ca"
+  "lc.CalculatePensionResponse\022Q\n\020ListCoeff"
+  "icients\022\035.calc.ListCoefficientsRequest\032\036"
+  ".calc.ListCoefficientsResponse\022K\n\016AddCoe"
+  "fficient\022\033.calc.AddCoefficientRequest\032\034."
+  "calc.AddCoefficientResponse\022T\n\021UpdateCoe"
+  "fficient\022\036.calc.UpdateCoefficientRequest"
+  "\032\037.calc.UpdateCoefficientResponse\022T\n\021Del"
+  "eteCoefficient\022\036.calc.DeleteCoefficientR"
+  "equest\032\037.calc.DeleteCoefficientResponse\022"
+  "Z\n\023SyncAverageSalaries\022 .calc.SyncAverag"
+  "eSalariesRequest\032!.calc.SyncAverageSalar"
+  "iesResponse\022i\n\030UpsertSubsistenceMinimum\022"
+  "%.calc.UpsertSubsistenceMinimumRequest\032&"
+  ".calc.UpsertSubsistenceMinimumResponse\022f"
+  "\n\027ListSubsistenceMinimums\022$.calc.ListSub"
+  "sistenceMinimumsRequest\032%.calc.ListSubsi"
+  "stenceMinimumsResponse\022i\n\030UpdateSubsiste"
+  "nceMinimum\022%.calc.UpdateSubsistenceMinim"
+  "umRequest\032&.calc.UpdateSubsistenceMinimu"
+  "mResponse\022i\n\030DeleteSubsistenceMinimum\022%."
+  "calc.DeleteSubsistenceMinimumRequest\032&.c"
+  "alc.DeleteSubsistenceMinimumResponseb\006pr"
+  "oto3"
   ;
 static ::_pbi::once_flag descriptor_table_calc_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_calc_2eproto = {
-    false, false, 483, descriptor_table_protodef_calc_2eproto,
+    false, false, 4924, descriptor_table_protodef_calc_2eproto,
     "calc.proto",
-    &descriptor_table_calc_2eproto_once, nullptr, 0, 3,
+    &descriptor_table_calc_2eproto_once, nullptr, 0, 30,
     schemas, file_default_instances, TableStruct_calc_2eproto::offsets,
     file_level_metadata_calc_2eproto, file_level_enum_descriptors_calc_2eproto,
     file_level_service_descriptors_calc_2eproto,
@@ -151,6 +999,842 @@ PROTOBUF_ATTRIBUTE_WEAK const ::_pbi::DescriptorTable* descriptor_table_calc_2ep
 // Force running AddDescriptors() at dynamic initialization time.
 PROTOBUF_ATTRIBUTE_INIT_PRIORITY2 static ::_pbi::AddDescriptorsRunner dynamic_init_dummy_calc_2eproto(&descriptor_table_calc_2eproto);
 namespace calc {
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* Gender_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_calc_2eproto);
+  return file_level_enum_descriptors_calc_2eproto[0];
+}
+bool Gender_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* PensionType_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_calc_2eproto);
+  return file_level_enum_descriptors_calc_2eproto[1];
+}
+bool PensionType_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* DisabilityGroup_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_calc_2eproto);
+  return file_level_enum_descriptors_calc_2eproto[2];
+}
+bool DisabilityGroup_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* BenefitType_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_calc_2eproto);
+  return file_level_enum_descriptors_calc_2eproto[3];
+}
+bool BenefitType_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+      return true;
+    default:
+      return false;
+  }
+}
+
+
+// ===================================================================
+
+class EmploymentPeriod::_Internal {
+ public:
+};
+
+EmploymentPeriod::EmploymentPeriod(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:calc.EmploymentPeriod)
+}
+EmploymentPeriod::EmploymentPeriod(const EmploymentPeriod& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  EmploymentPeriod* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.start_date_){}
+    , decltype(_impl_.end_date_){}
+    , decltype(_impl_.multiplier_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.start_date_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.start_date_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_start_date().empty()) {
+    _this->_impl_.start_date_.Set(from._internal_start_date(), 
+      _this->GetArenaForAllocation());
+  }
+  _impl_.end_date_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.end_date_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_end_date().empty()) {
+    _this->_impl_.end_date_.Set(from._internal_end_date(), 
+      _this->GetArenaForAllocation());
+  }
+  _this->_impl_.multiplier_ = from._impl_.multiplier_;
+  // @@protoc_insertion_point(copy_constructor:calc.EmploymentPeriod)
+}
+
+inline void EmploymentPeriod::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.start_date_){}
+    , decltype(_impl_.end_date_){}
+    , decltype(_impl_.multiplier_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.start_date_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.start_date_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.end_date_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.end_date_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+EmploymentPeriod::~EmploymentPeriod() {
+  // @@protoc_insertion_point(destructor:calc.EmploymentPeriod)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void EmploymentPeriod::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.start_date_.Destroy();
+  _impl_.end_date_.Destroy();
+}
+
+void EmploymentPeriod::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void EmploymentPeriod::Clear() {
+// @@protoc_insertion_point(message_clear_start:calc.EmploymentPeriod)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.start_date_.ClearToEmpty();
+  _impl_.end_date_.ClearToEmpty();
+  _impl_.multiplier_ = 0;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* EmploymentPeriod::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // string start_date = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          auto str = _internal_mutable_start_date();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "calc.EmploymentPeriod.start_date"));
+        } else
+          goto handle_unusual;
+        continue;
+      // string end_date = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          auto str = _internal_mutable_end_date();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "calc.EmploymentPeriod.end_date"));
+        } else
+          goto handle_unusual;
+        continue;
+      // double multiplier = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 25)) {
+          _impl_.multiplier_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* EmploymentPeriod::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:calc.EmploymentPeriod)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string start_date = 1;
+  if (!this->_internal_start_date().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_start_date().data(), static_cast<int>(this->_internal_start_date().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "calc.EmploymentPeriod.start_date");
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_start_date(), target);
+  }
+
+  // string end_date = 2;
+  if (!this->_internal_end_date().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_end_date().data(), static_cast<int>(this->_internal_end_date().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "calc.EmploymentPeriod.end_date");
+    target = stream->WriteStringMaybeAliased(
+        2, this->_internal_end_date(), target);
+  }
+
+  // double multiplier = 3;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_multiplier = this->_internal_multiplier();
+  uint64_t raw_multiplier;
+  memcpy(&raw_multiplier, &tmp_multiplier, sizeof(tmp_multiplier));
+  if (raw_multiplier != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(3, this->_internal_multiplier(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:calc.EmploymentPeriod)
+  return target;
+}
+
+size_t EmploymentPeriod::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:calc.EmploymentPeriod)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string start_date = 1;
+  if (!this->_internal_start_date().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_start_date());
+  }
+
+  // string end_date = 2;
+  if (!this->_internal_end_date().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_end_date());
+  }
+
+  // double multiplier = 3;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_multiplier = this->_internal_multiplier();
+  uint64_t raw_multiplier;
+  memcpy(&raw_multiplier, &tmp_multiplier, sizeof(tmp_multiplier));
+  if (raw_multiplier != 0) {
+    total_size += 1 + 8;
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData EmploymentPeriod::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    EmploymentPeriod::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*EmploymentPeriod::GetClassData() const { return &_class_data_; }
+
+
+void EmploymentPeriod::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<EmploymentPeriod*>(&to_msg);
+  auto& from = static_cast<const EmploymentPeriod&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:calc.EmploymentPeriod)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_start_date().empty()) {
+    _this->_internal_set_start_date(from._internal_start_date());
+  }
+  if (!from._internal_end_date().empty()) {
+    _this->_internal_set_end_date(from._internal_end_date());
+  }
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_multiplier = from._internal_multiplier();
+  uint64_t raw_multiplier;
+  memcpy(&raw_multiplier, &tmp_multiplier, sizeof(tmp_multiplier));
+  if (raw_multiplier != 0) {
+    _this->_internal_set_multiplier(from._internal_multiplier());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void EmploymentPeriod::CopyFrom(const EmploymentPeriod& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:calc.EmploymentPeriod)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool EmploymentPeriod::IsInitialized() const {
+  return true;
+}
+
+void EmploymentPeriod::InternalSwap(EmploymentPeriod* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.start_date_, lhs_arena,
+      &other->_impl_.start_date_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.end_date_, lhs_arena,
+      &other->_impl_.end_date_, rhs_arena
+  );
+  swap(_impl_.multiplier_, other->_impl_.multiplier_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata EmploymentPeriod::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_calc_2eproto_getter, &descriptor_table_calc_2eproto_once,
+      file_level_metadata_calc_2eproto[0]);
+}
+
+// ===================================================================
+
+class SalaryMonthRecord::_Internal {
+ public:
+};
+
+SalaryMonthRecord::SalaryMonthRecord(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:calc.SalaryMonthRecord)
+}
+SalaryMonthRecord::SalaryMonthRecord(const SalaryMonthRecord& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  SalaryMonthRecord* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.year_){}
+    , decltype(_impl_.month_){}
+    , decltype(_impl_.amount_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::memcpy(&_impl_.year_, &from._impl_.year_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.amount_) -
+    reinterpret_cast<char*>(&_impl_.year_)) + sizeof(_impl_.amount_));
+  // @@protoc_insertion_point(copy_constructor:calc.SalaryMonthRecord)
+}
+
+inline void SalaryMonthRecord::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.year_){0}
+    , decltype(_impl_.month_){0}
+    , decltype(_impl_.amount_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
+
+SalaryMonthRecord::~SalaryMonthRecord() {
+  // @@protoc_insertion_point(destructor:calc.SalaryMonthRecord)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void SalaryMonthRecord::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+}
+
+void SalaryMonthRecord::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void SalaryMonthRecord::Clear() {
+// @@protoc_insertion_point(message_clear_start:calc.SalaryMonthRecord)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&_impl_.year_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.amount_) -
+      reinterpret_cast<char*>(&_impl_.year_)) + sizeof(_impl_.amount_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* SalaryMonthRecord::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // int32 year = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.year_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 month = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          _impl_.month_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // double amount = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 25)) {
+          _impl_.amount_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* SalaryMonthRecord::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:calc.SalaryMonthRecord)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int32 year = 1;
+  if (this->_internal_year() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_year(), target);
+  }
+
+  // int32 month = 2;
+  if (this->_internal_month() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_month(), target);
+  }
+
+  // double amount = 3;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_amount = this->_internal_amount();
+  uint64_t raw_amount;
+  memcpy(&raw_amount, &tmp_amount, sizeof(tmp_amount));
+  if (raw_amount != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(3, this->_internal_amount(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:calc.SalaryMonthRecord)
+  return target;
+}
+
+size_t SalaryMonthRecord::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:calc.SalaryMonthRecord)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // int32 year = 1;
+  if (this->_internal_year() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_year());
+  }
+
+  // int32 month = 2;
+  if (this->_internal_month() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_month());
+  }
+
+  // double amount = 3;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_amount = this->_internal_amount();
+  uint64_t raw_amount;
+  memcpy(&raw_amount, &tmp_amount, sizeof(tmp_amount));
+  if (raw_amount != 0) {
+    total_size += 1 + 8;
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData SalaryMonthRecord::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    SalaryMonthRecord::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*SalaryMonthRecord::GetClassData() const { return &_class_data_; }
+
+
+void SalaryMonthRecord::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<SalaryMonthRecord*>(&to_msg);
+  auto& from = static_cast<const SalaryMonthRecord&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:calc.SalaryMonthRecord)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_year() != 0) {
+    _this->_internal_set_year(from._internal_year());
+  }
+  if (from._internal_month() != 0) {
+    _this->_internal_set_month(from._internal_month());
+  }
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_amount = from._internal_amount();
+  uint64_t raw_amount;
+  memcpy(&raw_amount, &tmp_amount, sizeof(tmp_amount));
+  if (raw_amount != 0) {
+    _this->_internal_set_amount(from._internal_amount());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void SalaryMonthRecord::CopyFrom(const SalaryMonthRecord& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:calc.SalaryMonthRecord)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool SalaryMonthRecord::IsInitialized() const {
+  return true;
+}
+
+void SalaryMonthRecord::InternalSwap(SalaryMonthRecord* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(SalaryMonthRecord, _impl_.amount_)
+      + sizeof(SalaryMonthRecord::_impl_.amount_)
+      - PROTOBUF_FIELD_OFFSET(SalaryMonthRecord, _impl_.year_)>(
+          reinterpret_cast<char*>(&_impl_.year_),
+          reinterpret_cast<char*>(&other->_impl_.year_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata SalaryMonthRecord::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_calc_2eproto_getter, &descriptor_table_calc_2eproto_once,
+      file_level_metadata_calc_2eproto[1]);
+}
+
+// ===================================================================
+
+class SubsistenceMinimums::_Internal {
+ public:
+};
+
+SubsistenceMinimums::SubsistenceMinimums(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:calc.SubsistenceMinimums)
+}
+SubsistenceMinimums::SubsistenceMinimums(const SubsistenceMinimums& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  SubsistenceMinimums* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.for_disabled_persons_){}
+    , decltype(_impl_.general_minimum_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::memcpy(&_impl_.for_disabled_persons_, &from._impl_.for_disabled_persons_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.general_minimum_) -
+    reinterpret_cast<char*>(&_impl_.for_disabled_persons_)) + sizeof(_impl_.general_minimum_));
+  // @@protoc_insertion_point(copy_constructor:calc.SubsistenceMinimums)
+}
+
+inline void SubsistenceMinimums::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.for_disabled_persons_){0}
+    , decltype(_impl_.general_minimum_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
+
+SubsistenceMinimums::~SubsistenceMinimums() {
+  // @@protoc_insertion_point(destructor:calc.SubsistenceMinimums)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void SubsistenceMinimums::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+}
+
+void SubsistenceMinimums::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void SubsistenceMinimums::Clear() {
+// @@protoc_insertion_point(message_clear_start:calc.SubsistenceMinimums)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&_impl_.for_disabled_persons_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.general_minimum_) -
+      reinterpret_cast<char*>(&_impl_.for_disabled_persons_)) + sizeof(_impl_.general_minimum_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* SubsistenceMinimums::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // double for_disabled_persons = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 9)) {
+          _impl_.for_disabled_persons_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
+          goto handle_unusual;
+        continue;
+      // double general_minimum = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 17)) {
+          _impl_.general_minimum_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* SubsistenceMinimums::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:calc.SubsistenceMinimums)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // double for_disabled_persons = 1;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_for_disabled_persons = this->_internal_for_disabled_persons();
+  uint64_t raw_for_disabled_persons;
+  memcpy(&raw_for_disabled_persons, &tmp_for_disabled_persons, sizeof(tmp_for_disabled_persons));
+  if (raw_for_disabled_persons != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(1, this->_internal_for_disabled_persons(), target);
+  }
+
+  // double general_minimum = 2;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_general_minimum = this->_internal_general_minimum();
+  uint64_t raw_general_minimum;
+  memcpy(&raw_general_minimum, &tmp_general_minimum, sizeof(tmp_general_minimum));
+  if (raw_general_minimum != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(2, this->_internal_general_minimum(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:calc.SubsistenceMinimums)
+  return target;
+}
+
+size_t SubsistenceMinimums::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:calc.SubsistenceMinimums)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // double for_disabled_persons = 1;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_for_disabled_persons = this->_internal_for_disabled_persons();
+  uint64_t raw_for_disabled_persons;
+  memcpy(&raw_for_disabled_persons, &tmp_for_disabled_persons, sizeof(tmp_for_disabled_persons));
+  if (raw_for_disabled_persons != 0) {
+    total_size += 1 + 8;
+  }
+
+  // double general_minimum = 2;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_general_minimum = this->_internal_general_minimum();
+  uint64_t raw_general_minimum;
+  memcpy(&raw_general_minimum, &tmp_general_minimum, sizeof(tmp_general_minimum));
+  if (raw_general_minimum != 0) {
+    total_size += 1 + 8;
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData SubsistenceMinimums::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    SubsistenceMinimums::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*SubsistenceMinimums::GetClassData() const { return &_class_data_; }
+
+
+void SubsistenceMinimums::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<SubsistenceMinimums*>(&to_msg);
+  auto& from = static_cast<const SubsistenceMinimums&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:calc.SubsistenceMinimums)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_for_disabled_persons = from._internal_for_disabled_persons();
+  uint64_t raw_for_disabled_persons;
+  memcpy(&raw_for_disabled_persons, &tmp_for_disabled_persons, sizeof(tmp_for_disabled_persons));
+  if (raw_for_disabled_persons != 0) {
+    _this->_internal_set_for_disabled_persons(from._internal_for_disabled_persons());
+  }
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_general_minimum = from._internal_general_minimum();
+  uint64_t raw_general_minimum;
+  memcpy(&raw_general_minimum, &tmp_general_minimum, sizeof(tmp_general_minimum));
+  if (raw_general_minimum != 0) {
+    _this->_internal_set_general_minimum(from._internal_general_minimum());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void SubsistenceMinimums::CopyFrom(const SubsistenceMinimums& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:calc.SubsistenceMinimums)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool SubsistenceMinimums::IsInitialized() const {
+  return true;
+}
+
+void SubsistenceMinimums::InternalSwap(SubsistenceMinimums* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(SubsistenceMinimums, _impl_.general_minimum_)
+      + sizeof(SubsistenceMinimums::_impl_.general_minimum_)
+      - PROTOBUF_FIELD_OFFSET(SubsistenceMinimums, _impl_.for_disabled_persons_)>(
+          reinterpret_cast<char*>(&_impl_.for_disabled_persons_),
+          reinterpret_cast<char*>(&other->_impl_.for_disabled_persons_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata SubsistenceMinimums::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_calc_2eproto_getter, &descriptor_table_calc_2eproto_once,
+      file_level_metadata_calc_2eproto[2]);
+}
 
 // ===================================================================
 
@@ -432,7 +2116,1712 @@ void TaxRecord::InternalSwap(TaxRecord* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata TaxRecord::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_calc_2eproto_getter, &descriptor_table_calc_2eproto_once,
-      file_level_metadata_calc_2eproto[0]);
+      file_level_metadata_calc_2eproto[3]);
+}
+
+// ===================================================================
+
+class CalculatePensionRequest::_Internal {
+ public:
+  static const ::calc::SubsistenceMinimums& subsistence_minimums(const CalculatePensionRequest* msg);
+};
+
+const ::calc::SubsistenceMinimums&
+CalculatePensionRequest::_Internal::subsistence_minimums(const CalculatePensionRequest* msg) {
+  return *msg->_impl_.subsistence_minimums_;
+}
+CalculatePensionRequest::CalculatePensionRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:calc.CalculatePensionRequest)
+}
+CalculatePensionRequest::CalculatePensionRequest(const CalculatePensionRequest& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  CalculatePensionRequest* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.employment_history_){from._impl_.employment_history_}
+    , decltype(_impl_.salary_history_){from._impl_.salary_history_}
+    , decltype(_impl_.benefits_){from._impl_.benefits_}
+    , /*decltype(_impl_._benefits_cached_byte_size_)*/{0}
+    , decltype(_impl_.history_){from._impl_.history_}
+    , decltype(_impl_.customer_id_){}
+    , decltype(_impl_.date_of_birth_){}
+    , decltype(_impl_.retirement_date_){}
+    , decltype(_impl_.subsistence_minimums_){nullptr}
+    , decltype(_impl_.gender_){}
+    , decltype(_impl_.pension_type_){}
+    , decltype(_impl_.disability_group_){}
+    , decltype(_impl_.dependents_count_){}
+    , decltype(_impl_.zp_macroeconomic_average_){}
+    , decltype(_impl_.enable_optimization_rule_){}
+    , decltype(_impl_.birth_year_){}
+    , decltype(_impl_.target_retirement_year_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.customer_id_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.customer_id_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_customer_id().empty()) {
+    _this->_impl_.customer_id_.Set(from._internal_customer_id(), 
+      _this->GetArenaForAllocation());
+  }
+  _impl_.date_of_birth_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.date_of_birth_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_date_of_birth().empty()) {
+    _this->_impl_.date_of_birth_.Set(from._internal_date_of_birth(), 
+      _this->GetArenaForAllocation());
+  }
+  _impl_.retirement_date_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.retirement_date_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_retirement_date().empty()) {
+    _this->_impl_.retirement_date_.Set(from._internal_retirement_date(), 
+      _this->GetArenaForAllocation());
+  }
+  if (from._internal_has_subsistence_minimums()) {
+    _this->_impl_.subsistence_minimums_ = new ::calc::SubsistenceMinimums(*from._impl_.subsistence_minimums_);
+  }
+  ::memcpy(&_impl_.gender_, &from._impl_.gender_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.target_retirement_year_) -
+    reinterpret_cast<char*>(&_impl_.gender_)) + sizeof(_impl_.target_retirement_year_));
+  // @@protoc_insertion_point(copy_constructor:calc.CalculatePensionRequest)
+}
+
+inline void CalculatePensionRequest::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.employment_history_){arena}
+    , decltype(_impl_.salary_history_){arena}
+    , decltype(_impl_.benefits_){arena}
+    , /*decltype(_impl_._benefits_cached_byte_size_)*/{0}
+    , decltype(_impl_.history_){arena}
+    , decltype(_impl_.customer_id_){}
+    , decltype(_impl_.date_of_birth_){}
+    , decltype(_impl_.retirement_date_){}
+    , decltype(_impl_.subsistence_minimums_){nullptr}
+    , decltype(_impl_.gender_){0}
+    , decltype(_impl_.pension_type_){0}
+    , decltype(_impl_.disability_group_){0}
+    , decltype(_impl_.dependents_count_){0}
+    , decltype(_impl_.zp_macroeconomic_average_){0}
+    , decltype(_impl_.enable_optimization_rule_){false}
+    , decltype(_impl_.birth_year_){0}
+    , decltype(_impl_.target_retirement_year_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.customer_id_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.customer_id_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.date_of_birth_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.date_of_birth_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.retirement_date_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.retirement_date_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+CalculatePensionRequest::~CalculatePensionRequest() {
+  // @@protoc_insertion_point(destructor:calc.CalculatePensionRequest)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void CalculatePensionRequest::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.employment_history_.~RepeatedPtrField();
+  _impl_.salary_history_.~RepeatedPtrField();
+  _impl_.benefits_.~RepeatedField();
+  _impl_.history_.~RepeatedPtrField();
+  _impl_.customer_id_.Destroy();
+  _impl_.date_of_birth_.Destroy();
+  _impl_.retirement_date_.Destroy();
+  if (this != internal_default_instance()) delete _impl_.subsistence_minimums_;
+}
+
+void CalculatePensionRequest::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void CalculatePensionRequest::Clear() {
+// @@protoc_insertion_point(message_clear_start:calc.CalculatePensionRequest)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.employment_history_.Clear();
+  _impl_.salary_history_.Clear();
+  _impl_.benefits_.Clear();
+  _impl_.history_.Clear();
+  _impl_.customer_id_.ClearToEmpty();
+  _impl_.date_of_birth_.ClearToEmpty();
+  _impl_.retirement_date_.ClearToEmpty();
+  if (GetArenaForAllocation() == nullptr && _impl_.subsistence_minimums_ != nullptr) {
+    delete _impl_.subsistence_minimums_;
+  }
+  _impl_.subsistence_minimums_ = nullptr;
+  ::memset(&_impl_.gender_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.target_retirement_year_) -
+      reinterpret_cast<char*>(&_impl_.gender_)) + sizeof(_impl_.target_retirement_year_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* CalculatePensionRequest::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // string customer_id = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          auto str = _internal_mutable_customer_id();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "calc.CalculatePensionRequest.customer_id"));
+        } else
+          goto handle_unusual;
+        continue;
+      // .calc.Gender gender = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_gender(static_cast<::calc::Gender>(val));
+        } else
+          goto handle_unusual;
+        continue;
+      // string date_of_birth = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          auto str = _internal_mutable_date_of_birth();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "calc.CalculatePensionRequest.date_of_birth"));
+        } else
+          goto handle_unusual;
+        continue;
+      // string retirement_date = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
+          auto str = _internal_mutable_retirement_date();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "calc.CalculatePensionRequest.retirement_date"));
+        } else
+          goto handle_unusual;
+        continue;
+      // .calc.PensionType pension_type = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 40)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_pension_type(static_cast<::calc::PensionType>(val));
+        } else
+          goto handle_unusual;
+        continue;
+      // .calc.DisabilityGroup disability_group = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 48)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_disability_group(static_cast<::calc::DisabilityGroup>(val));
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 dependents_count = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 56)) {
+          _impl_.dependents_count_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // repeated .calc.EmploymentPeriod employment_history = 8;
+      case 8:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 66)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_employment_history(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<66>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
+      // repeated .calc.SalaryMonthRecord salary_history = 9;
+      case 9:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 74)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_salary_history(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<74>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
+      // repeated .calc.BenefitType benefits = 10;
+      case 10:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 82)) {
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedEnumParser(_internal_mutable_benefits(), ptr, ctx);
+          CHK_(ptr);
+        } else if (static_cast<uint8_t>(tag) == 80) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_add_benefits(static_cast<::calc::BenefitType>(val));
+        } else
+          goto handle_unusual;
+        continue;
+      // .calc.SubsistenceMinimums subsistence_minimums = 11;
+      case 11:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 90)) {
+          ptr = ctx->ParseMessage(_internal_mutable_subsistence_minimums(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // bool enable_optimization_rule = 12;
+      case 12:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 96)) {
+          _impl_.enable_optimization_rule_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // double zp_macroeconomic_average = 13;
+      case 13:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 105)) {
+          _impl_.zp_macroeconomic_average_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
+          goto handle_unusual;
+        continue;
+      // repeated .calc.TaxRecord history = 14;
+      case 14:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 114)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_history(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<114>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 birth_year = 15;
+      case 15:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 120)) {
+          _impl_.birth_year_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 target_retirement_year = 16;
+      case 16:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 128)) {
+          _impl_.target_retirement_year_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* CalculatePensionRequest::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:calc.CalculatePensionRequest)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // string customer_id = 1;
+  if (!this->_internal_customer_id().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_customer_id().data(), static_cast<int>(this->_internal_customer_id().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "calc.CalculatePensionRequest.customer_id");
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_customer_id(), target);
+  }
+
+  // .calc.Gender gender = 2;
+  if (this->_internal_gender() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteEnumToArray(
+      2, this->_internal_gender(), target);
+  }
+
+  // string date_of_birth = 3;
+  if (!this->_internal_date_of_birth().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_date_of_birth().data(), static_cast<int>(this->_internal_date_of_birth().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "calc.CalculatePensionRequest.date_of_birth");
+    target = stream->WriteStringMaybeAliased(
+        3, this->_internal_date_of_birth(), target);
+  }
+
+  // string retirement_date = 4;
+  if (!this->_internal_retirement_date().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_retirement_date().data(), static_cast<int>(this->_internal_retirement_date().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "calc.CalculatePensionRequest.retirement_date");
+    target = stream->WriteStringMaybeAliased(
+        4, this->_internal_retirement_date(), target);
+  }
+
+  // .calc.PensionType pension_type = 5;
+  if (this->_internal_pension_type() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteEnumToArray(
+      5, this->_internal_pension_type(), target);
+  }
+
+  // .calc.DisabilityGroup disability_group = 6;
+  if (this->_internal_disability_group() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteEnumToArray(
+      6, this->_internal_disability_group(), target);
+  }
+
+  // int32 dependents_count = 7;
+  if (this->_internal_dependents_count() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(7, this->_internal_dependents_count(), target);
+  }
+
+  // repeated .calc.EmploymentPeriod employment_history = 8;
+  for (unsigned i = 0,
+      n = static_cast<unsigned>(this->_internal_employment_history_size()); i < n; i++) {
+    const auto& repfield = this->_internal_employment_history(i);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+        InternalWriteMessage(8, repfield, repfield.GetCachedSize(), target, stream);
+  }
+
+  // repeated .calc.SalaryMonthRecord salary_history = 9;
+  for (unsigned i = 0,
+      n = static_cast<unsigned>(this->_internal_salary_history_size()); i < n; i++) {
+    const auto& repfield = this->_internal_salary_history(i);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+        InternalWriteMessage(9, repfield, repfield.GetCachedSize(), target, stream);
+  }
+
+  // repeated .calc.BenefitType benefits = 10;
+  {
+    int byte_size = _impl_._benefits_cached_byte_size_.load(std::memory_order_relaxed);
+    if (byte_size > 0) {
+      target = stream->WriteEnumPacked(
+          10, _impl_.benefits_, byte_size, target);
+    }
+  }
+
+  // .calc.SubsistenceMinimums subsistence_minimums = 11;
+  if (this->_internal_has_subsistence_minimums()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(11, _Internal::subsistence_minimums(this),
+        _Internal::subsistence_minimums(this).GetCachedSize(), target, stream);
+  }
+
+  // bool enable_optimization_rule = 12;
+  if (this->_internal_enable_optimization_rule() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(12, this->_internal_enable_optimization_rule(), target);
+  }
+
+  // double zp_macroeconomic_average = 13;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_zp_macroeconomic_average = this->_internal_zp_macroeconomic_average();
+  uint64_t raw_zp_macroeconomic_average;
+  memcpy(&raw_zp_macroeconomic_average, &tmp_zp_macroeconomic_average, sizeof(tmp_zp_macroeconomic_average));
+  if (raw_zp_macroeconomic_average != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(13, this->_internal_zp_macroeconomic_average(), target);
+  }
+
+  // repeated .calc.TaxRecord history = 14;
+  for (unsigned i = 0,
+      n = static_cast<unsigned>(this->_internal_history_size()); i < n; i++) {
+    const auto& repfield = this->_internal_history(i);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+        InternalWriteMessage(14, repfield, repfield.GetCachedSize(), target, stream);
+  }
+
+  // int32 birth_year = 15;
+  if (this->_internal_birth_year() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(15, this->_internal_birth_year(), target);
+  }
+
+  // int32 target_retirement_year = 16;
+  if (this->_internal_target_retirement_year() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(16, this->_internal_target_retirement_year(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:calc.CalculatePensionRequest)
+  return target;
+}
+
+size_t CalculatePensionRequest::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:calc.CalculatePensionRequest)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated .calc.EmploymentPeriod employment_history = 8;
+  total_size += 1UL * this->_internal_employment_history_size();
+  for (const auto& msg : this->_impl_.employment_history_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
+  // repeated .calc.SalaryMonthRecord salary_history = 9;
+  total_size += 1UL * this->_internal_salary_history_size();
+  for (const auto& msg : this->_impl_.salary_history_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
+  // repeated .calc.BenefitType benefits = 10;
+  {
+    size_t data_size = 0;
+    unsigned int count = static_cast<unsigned int>(this->_internal_benefits_size());for (unsigned int i = 0; i < count; i++) {
+      data_size += ::_pbi::WireFormatLite::EnumSize(
+        this->_internal_benefits(static_cast<int>(i)));
+    }
+    if (data_size > 0) {
+      total_size += 1 +
+        ::_pbi::WireFormatLite::Int32Size(static_cast<int32_t>(data_size));
+    }
+    int cached_size = ::_pbi::ToCachedSize(data_size);
+    _impl_._benefits_cached_byte_size_.store(cached_size,
+                                    std::memory_order_relaxed);
+    total_size += data_size;
+  }
+
+  // repeated .calc.TaxRecord history = 14;
+  total_size += 1UL * this->_internal_history_size();
+  for (const auto& msg : this->_impl_.history_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
+  // string customer_id = 1;
+  if (!this->_internal_customer_id().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_customer_id());
+  }
+
+  // string date_of_birth = 3;
+  if (!this->_internal_date_of_birth().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_date_of_birth());
+  }
+
+  // string retirement_date = 4;
+  if (!this->_internal_retirement_date().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_retirement_date());
+  }
+
+  // .calc.SubsistenceMinimums subsistence_minimums = 11;
+  if (this->_internal_has_subsistence_minimums()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.subsistence_minimums_);
+  }
+
+  // .calc.Gender gender = 2;
+  if (this->_internal_gender() != 0) {
+    total_size += 1 +
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_gender());
+  }
+
+  // .calc.PensionType pension_type = 5;
+  if (this->_internal_pension_type() != 0) {
+    total_size += 1 +
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_pension_type());
+  }
+
+  // .calc.DisabilityGroup disability_group = 6;
+  if (this->_internal_disability_group() != 0) {
+    total_size += 1 +
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_disability_group());
+  }
+
+  // int32 dependents_count = 7;
+  if (this->_internal_dependents_count() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_dependents_count());
+  }
+
+  // double zp_macroeconomic_average = 13;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_zp_macroeconomic_average = this->_internal_zp_macroeconomic_average();
+  uint64_t raw_zp_macroeconomic_average;
+  memcpy(&raw_zp_macroeconomic_average, &tmp_zp_macroeconomic_average, sizeof(tmp_zp_macroeconomic_average));
+  if (raw_zp_macroeconomic_average != 0) {
+    total_size += 1 + 8;
+  }
+
+  // bool enable_optimization_rule = 12;
+  if (this->_internal_enable_optimization_rule() != 0) {
+    total_size += 1 + 1;
+  }
+
+  // int32 birth_year = 15;
+  if (this->_internal_birth_year() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_birth_year());
+  }
+
+  // int32 target_retirement_year = 16;
+  if (this->_internal_target_retirement_year() != 0) {
+    total_size += 2 +
+      ::_pbi::WireFormatLite::Int32Size(
+        this->_internal_target_retirement_year());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData CalculatePensionRequest::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    CalculatePensionRequest::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*CalculatePensionRequest::GetClassData() const { return &_class_data_; }
+
+
+void CalculatePensionRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<CalculatePensionRequest*>(&to_msg);
+  auto& from = static_cast<const CalculatePensionRequest&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:calc.CalculatePensionRequest)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  _this->_impl_.employment_history_.MergeFrom(from._impl_.employment_history_);
+  _this->_impl_.salary_history_.MergeFrom(from._impl_.salary_history_);
+  _this->_impl_.benefits_.MergeFrom(from._impl_.benefits_);
+  _this->_impl_.history_.MergeFrom(from._impl_.history_);
+  if (!from._internal_customer_id().empty()) {
+    _this->_internal_set_customer_id(from._internal_customer_id());
+  }
+  if (!from._internal_date_of_birth().empty()) {
+    _this->_internal_set_date_of_birth(from._internal_date_of_birth());
+  }
+  if (!from._internal_retirement_date().empty()) {
+    _this->_internal_set_retirement_date(from._internal_retirement_date());
+  }
+  if (from._internal_has_subsistence_minimums()) {
+    _this->_internal_mutable_subsistence_minimums()->::calc::SubsistenceMinimums::MergeFrom(
+        from._internal_subsistence_minimums());
+  }
+  if (from._internal_gender() != 0) {
+    _this->_internal_set_gender(from._internal_gender());
+  }
+  if (from._internal_pension_type() != 0) {
+    _this->_internal_set_pension_type(from._internal_pension_type());
+  }
+  if (from._internal_disability_group() != 0) {
+    _this->_internal_set_disability_group(from._internal_disability_group());
+  }
+  if (from._internal_dependents_count() != 0) {
+    _this->_internal_set_dependents_count(from._internal_dependents_count());
+  }
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_zp_macroeconomic_average = from._internal_zp_macroeconomic_average();
+  uint64_t raw_zp_macroeconomic_average;
+  memcpy(&raw_zp_macroeconomic_average, &tmp_zp_macroeconomic_average, sizeof(tmp_zp_macroeconomic_average));
+  if (raw_zp_macroeconomic_average != 0) {
+    _this->_internal_set_zp_macroeconomic_average(from._internal_zp_macroeconomic_average());
+  }
+  if (from._internal_enable_optimization_rule() != 0) {
+    _this->_internal_set_enable_optimization_rule(from._internal_enable_optimization_rule());
+  }
+  if (from._internal_birth_year() != 0) {
+    _this->_internal_set_birth_year(from._internal_birth_year());
+  }
+  if (from._internal_target_retirement_year() != 0) {
+    _this->_internal_set_target_retirement_year(from._internal_target_retirement_year());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void CalculatePensionRequest::CopyFrom(const CalculatePensionRequest& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:calc.CalculatePensionRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool CalculatePensionRequest::IsInitialized() const {
+  return true;
+}
+
+void CalculatePensionRequest::InternalSwap(CalculatePensionRequest* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  _impl_.employment_history_.InternalSwap(&other->_impl_.employment_history_);
+  _impl_.salary_history_.InternalSwap(&other->_impl_.salary_history_);
+  _impl_.benefits_.InternalSwap(&other->_impl_.benefits_);
+  _impl_.history_.InternalSwap(&other->_impl_.history_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.customer_id_, lhs_arena,
+      &other->_impl_.customer_id_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.date_of_birth_, lhs_arena,
+      &other->_impl_.date_of_birth_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.retirement_date_, lhs_arena,
+      &other->_impl_.retirement_date_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(CalculatePensionRequest, _impl_.target_retirement_year_)
+      + sizeof(CalculatePensionRequest::_impl_.target_retirement_year_)
+      - PROTOBUF_FIELD_OFFSET(CalculatePensionRequest, _impl_.subsistence_minimums_)>(
+          reinterpret_cast<char*>(&_impl_.subsistence_minimums_),
+          reinterpret_cast<char*>(&other->_impl_.subsistence_minimums_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata CalculatePensionRequest::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_calc_2eproto_getter, &descriptor_table_calc_2eproto_once,
+      file_level_metadata_calc_2eproto[4]);
+}
+
+// ===================================================================
+
+class BenefitSurchargeDetail::_Internal {
+ public:
+};
+
+BenefitSurchargeDetail::BenefitSurchargeDetail(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:calc.BenefitSurchargeDetail)
+}
+BenefitSurchargeDetail::BenefitSurchargeDetail(const BenefitSurchargeDetail& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  BenefitSurchargeDetail* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.name_){}
+    , decltype(_impl_.amount_){}
+    , decltype(_impl_.benefit_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_name().empty()) {
+    _this->_impl_.name_.Set(from._internal_name(), 
+      _this->GetArenaForAllocation());
+  }
+  ::memcpy(&_impl_.amount_, &from._impl_.amount_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.benefit_) -
+    reinterpret_cast<char*>(&_impl_.amount_)) + sizeof(_impl_.benefit_));
+  // @@protoc_insertion_point(copy_constructor:calc.BenefitSurchargeDetail)
+}
+
+inline void BenefitSurchargeDetail::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.name_){}
+    , decltype(_impl_.amount_){0}
+    , decltype(_impl_.benefit_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.name_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.name_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+BenefitSurchargeDetail::~BenefitSurchargeDetail() {
+  // @@protoc_insertion_point(destructor:calc.BenefitSurchargeDetail)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void BenefitSurchargeDetail::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.name_.Destroy();
+}
+
+void BenefitSurchargeDetail::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void BenefitSurchargeDetail::Clear() {
+// @@protoc_insertion_point(message_clear_start:calc.BenefitSurchargeDetail)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.name_.ClearToEmpty();
+  ::memset(&_impl_.amount_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.benefit_) -
+      reinterpret_cast<char*>(&_impl_.amount_)) + sizeof(_impl_.benefit_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* BenefitSurchargeDetail::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // .calc.BenefitType benefit = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          _internal_set_benefit(static_cast<::calc::BenefitType>(val));
+        } else
+          goto handle_unusual;
+        continue;
+      // string name = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          auto str = _internal_mutable_name();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "calc.BenefitSurchargeDetail.name"));
+        } else
+          goto handle_unusual;
+        continue;
+      // double amount = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 25)) {
+          _impl_.amount_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* BenefitSurchargeDetail::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:calc.BenefitSurchargeDetail)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // .calc.BenefitType benefit = 1;
+  if (this->_internal_benefit() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteEnumToArray(
+      1, this->_internal_benefit(), target);
+  }
+
+  // string name = 2;
+  if (!this->_internal_name().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_name().data(), static_cast<int>(this->_internal_name().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "calc.BenefitSurchargeDetail.name");
+    target = stream->WriteStringMaybeAliased(
+        2, this->_internal_name(), target);
+  }
+
+  // double amount = 3;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_amount = this->_internal_amount();
+  uint64_t raw_amount;
+  memcpy(&raw_amount, &tmp_amount, sizeof(tmp_amount));
+  if (raw_amount != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(3, this->_internal_amount(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:calc.BenefitSurchargeDetail)
+  return target;
+}
+
+size_t BenefitSurchargeDetail::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:calc.BenefitSurchargeDetail)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string name = 2;
+  if (!this->_internal_name().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_name());
+  }
+
+  // double amount = 3;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_amount = this->_internal_amount();
+  uint64_t raw_amount;
+  memcpy(&raw_amount, &tmp_amount, sizeof(tmp_amount));
+  if (raw_amount != 0) {
+    total_size += 1 + 8;
+  }
+
+  // .calc.BenefitType benefit = 1;
+  if (this->_internal_benefit() != 0) {
+    total_size += 1 +
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_benefit());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData BenefitSurchargeDetail::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    BenefitSurchargeDetail::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*BenefitSurchargeDetail::GetClassData() const { return &_class_data_; }
+
+
+void BenefitSurchargeDetail::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<BenefitSurchargeDetail*>(&to_msg);
+  auto& from = static_cast<const BenefitSurchargeDetail&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:calc.BenefitSurchargeDetail)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_name().empty()) {
+    _this->_internal_set_name(from._internal_name());
+  }
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_amount = from._internal_amount();
+  uint64_t raw_amount;
+  memcpy(&raw_amount, &tmp_amount, sizeof(tmp_amount));
+  if (raw_amount != 0) {
+    _this->_internal_set_amount(from._internal_amount());
+  }
+  if (from._internal_benefit() != 0) {
+    _this->_internal_set_benefit(from._internal_benefit());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void BenefitSurchargeDetail::CopyFrom(const BenefitSurchargeDetail& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:calc.BenefitSurchargeDetail)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool BenefitSurchargeDetail::IsInitialized() const {
+  return true;
+}
+
+void BenefitSurchargeDetail::InternalSwap(BenefitSurchargeDetail* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.name_, lhs_arena,
+      &other->_impl_.name_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(BenefitSurchargeDetail, _impl_.benefit_)
+      + sizeof(BenefitSurchargeDetail::_impl_.benefit_)
+      - PROTOBUF_FIELD_OFFSET(BenefitSurchargeDetail, _impl_.amount_)>(
+          reinterpret_cast<char*>(&_impl_.amount_),
+          reinterpret_cast<char*>(&other->_impl_.amount_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata BenefitSurchargeDetail::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_calc_2eproto_getter, &descriptor_table_calc_2eproto_once,
+      file_level_metadata_calc_2eproto[5]);
+}
+
+// ===================================================================
+
+class CalculatePensionResponse::_Internal {
+ public:
+};
+
+CalculatePensionResponse::CalculatePensionResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:calc.CalculatePensionResponse)
+}
+CalculatePensionResponse::CalculatePensionResponse(const CalculatePensionResponse& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  CalculatePensionResponse* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.applied_benefits_){from._impl_.applied_benefits_}
+    , decltype(_impl_.calculation_logs_){from._impl_.calculation_logs_}
+    , decltype(_impl_.error_message_){}
+    , decltype(_impl_.final_pension_){}
+    , decltype(_impl_.base_pension_){}
+    , decltype(_impl_.zp_macroeconomic_average_){}
+    , decltype(_impl_.kz_wage_coefficient_){}
+    , decltype(_impl_.ks_service_coefficient_){}
+    , decltype(_impl_.pension_type_modifier_){}
+    , decltype(_impl_.total_service_months_){}
+    , decltype(_impl_.success_){}
+    , decltype(_impl_.is_minimum_clamped_){}
+    , decltype(_impl_.is_maximum_clamped_){}
+    , decltype(_impl_.extra_service_allowance_){}
+    , decltype(_impl_.total_benefit_surcharges_){}
+    , decltype(_impl_.pre_clamped_pension_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.error_message_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.error_message_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_error_message().empty()) {
+    _this->_impl_.error_message_.Set(from._internal_error_message(), 
+      _this->GetArenaForAllocation());
+  }
+  ::memcpy(&_impl_.final_pension_, &from._impl_.final_pension_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.pre_clamped_pension_) -
+    reinterpret_cast<char*>(&_impl_.final_pension_)) + sizeof(_impl_.pre_clamped_pension_));
+  // @@protoc_insertion_point(copy_constructor:calc.CalculatePensionResponse)
+}
+
+inline void CalculatePensionResponse::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.applied_benefits_){arena}
+    , decltype(_impl_.calculation_logs_){arena}
+    , decltype(_impl_.error_message_){}
+    , decltype(_impl_.final_pension_){0}
+    , decltype(_impl_.base_pension_){0}
+    , decltype(_impl_.zp_macroeconomic_average_){0}
+    , decltype(_impl_.kz_wage_coefficient_){0}
+    , decltype(_impl_.ks_service_coefficient_){0}
+    , decltype(_impl_.pension_type_modifier_){0}
+    , decltype(_impl_.total_service_months_){0}
+    , decltype(_impl_.success_){false}
+    , decltype(_impl_.is_minimum_clamped_){false}
+    , decltype(_impl_.is_maximum_clamped_){false}
+    , decltype(_impl_.extra_service_allowance_){0}
+    , decltype(_impl_.total_benefit_surcharges_){0}
+    , decltype(_impl_.pre_clamped_pension_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.error_message_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.error_message_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+CalculatePensionResponse::~CalculatePensionResponse() {
+  // @@protoc_insertion_point(destructor:calc.CalculatePensionResponse)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void CalculatePensionResponse::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.applied_benefits_.~RepeatedPtrField();
+  _impl_.calculation_logs_.~RepeatedPtrField();
+  _impl_.error_message_.Destroy();
+}
+
+void CalculatePensionResponse::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void CalculatePensionResponse::Clear() {
+// @@protoc_insertion_point(message_clear_start:calc.CalculatePensionResponse)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.applied_benefits_.Clear();
+  _impl_.calculation_logs_.Clear();
+  _impl_.error_message_.ClearToEmpty();
+  ::memset(&_impl_.final_pension_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.pre_clamped_pension_) -
+      reinterpret_cast<char*>(&_impl_.final_pension_)) + sizeof(_impl_.pre_clamped_pension_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* CalculatePensionResponse::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // bool success = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.success_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // double final_pension = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 17)) {
+          _impl_.final_pension_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
+          goto handle_unusual;
+        continue;
+      // double base_pension = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 25)) {
+          _impl_.base_pension_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
+          goto handle_unusual;
+        continue;
+      // double zp_macroeconomic_average = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 33)) {
+          _impl_.zp_macroeconomic_average_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
+          goto handle_unusual;
+        continue;
+      // double kz_wage_coefficient = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 41)) {
+          _impl_.kz_wage_coefficient_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
+          goto handle_unusual;
+        continue;
+      // double ks_service_coefficient = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 49)) {
+          _impl_.ks_service_coefficient_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 total_service_months = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 56)) {
+          _impl_.total_service_months_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // double pension_type_modifier = 8;
+      case 8:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 65)) {
+          _impl_.pension_type_modifier_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
+          goto handle_unusual;
+        continue;
+      // double extra_service_allowance = 9;
+      case 9:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 73)) {
+          _impl_.extra_service_allowance_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
+          goto handle_unusual;
+        continue;
+      // double total_benefit_surcharges = 10;
+      case 10:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 81)) {
+          _impl_.total_benefit_surcharges_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
+          goto handle_unusual;
+        continue;
+      // double pre_clamped_pension = 11;
+      case 11:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 89)) {
+          _impl_.pre_clamped_pension_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
+          goto handle_unusual;
+        continue;
+      // bool is_minimum_clamped = 12;
+      case 12:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 96)) {
+          _impl_.is_minimum_clamped_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // bool is_maximum_clamped = 13;
+      case 13:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 104)) {
+          _impl_.is_maximum_clamped_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // repeated .calc.BenefitSurchargeDetail applied_benefits = 14;
+      case 14:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 114)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_applied_benefits(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<114>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
+      // repeated string calculation_logs = 15;
+      case 15:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 122)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            auto str = _internal_add_calculation_logs();
+            ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+            CHK_(ptr);
+            CHK_(::_pbi::VerifyUTF8(str, "calc.CalculatePensionResponse.calculation_logs"));
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<122>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
+      // string error_message = 16;
+      case 16:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 130)) {
+          auto str = _internal_mutable_error_message();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "calc.CalculatePensionResponse.error_message"));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* CalculatePensionResponse::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:calc.CalculatePensionResponse)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // bool success = 1;
+  if (this->_internal_success() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(1, this->_internal_success(), target);
+  }
+
+  // double final_pension = 2;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_final_pension = this->_internal_final_pension();
+  uint64_t raw_final_pension;
+  memcpy(&raw_final_pension, &tmp_final_pension, sizeof(tmp_final_pension));
+  if (raw_final_pension != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(2, this->_internal_final_pension(), target);
+  }
+
+  // double base_pension = 3;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_base_pension = this->_internal_base_pension();
+  uint64_t raw_base_pension;
+  memcpy(&raw_base_pension, &tmp_base_pension, sizeof(tmp_base_pension));
+  if (raw_base_pension != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(3, this->_internal_base_pension(), target);
+  }
+
+  // double zp_macroeconomic_average = 4;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_zp_macroeconomic_average = this->_internal_zp_macroeconomic_average();
+  uint64_t raw_zp_macroeconomic_average;
+  memcpy(&raw_zp_macroeconomic_average, &tmp_zp_macroeconomic_average, sizeof(tmp_zp_macroeconomic_average));
+  if (raw_zp_macroeconomic_average != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(4, this->_internal_zp_macroeconomic_average(), target);
+  }
+
+  // double kz_wage_coefficient = 5;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_kz_wage_coefficient = this->_internal_kz_wage_coefficient();
+  uint64_t raw_kz_wage_coefficient;
+  memcpy(&raw_kz_wage_coefficient, &tmp_kz_wage_coefficient, sizeof(tmp_kz_wage_coefficient));
+  if (raw_kz_wage_coefficient != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(5, this->_internal_kz_wage_coefficient(), target);
+  }
+
+  // double ks_service_coefficient = 6;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_ks_service_coefficient = this->_internal_ks_service_coefficient();
+  uint64_t raw_ks_service_coefficient;
+  memcpy(&raw_ks_service_coefficient, &tmp_ks_service_coefficient, sizeof(tmp_ks_service_coefficient));
+  if (raw_ks_service_coefficient != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(6, this->_internal_ks_service_coefficient(), target);
+  }
+
+  // int32 total_service_months = 7;
+  if (this->_internal_total_service_months() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(7, this->_internal_total_service_months(), target);
+  }
+
+  // double pension_type_modifier = 8;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_pension_type_modifier = this->_internal_pension_type_modifier();
+  uint64_t raw_pension_type_modifier;
+  memcpy(&raw_pension_type_modifier, &tmp_pension_type_modifier, sizeof(tmp_pension_type_modifier));
+  if (raw_pension_type_modifier != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(8, this->_internal_pension_type_modifier(), target);
+  }
+
+  // double extra_service_allowance = 9;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_extra_service_allowance = this->_internal_extra_service_allowance();
+  uint64_t raw_extra_service_allowance;
+  memcpy(&raw_extra_service_allowance, &tmp_extra_service_allowance, sizeof(tmp_extra_service_allowance));
+  if (raw_extra_service_allowance != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(9, this->_internal_extra_service_allowance(), target);
+  }
+
+  // double total_benefit_surcharges = 10;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_total_benefit_surcharges = this->_internal_total_benefit_surcharges();
+  uint64_t raw_total_benefit_surcharges;
+  memcpy(&raw_total_benefit_surcharges, &tmp_total_benefit_surcharges, sizeof(tmp_total_benefit_surcharges));
+  if (raw_total_benefit_surcharges != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(10, this->_internal_total_benefit_surcharges(), target);
+  }
+
+  // double pre_clamped_pension = 11;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_pre_clamped_pension = this->_internal_pre_clamped_pension();
+  uint64_t raw_pre_clamped_pension;
+  memcpy(&raw_pre_clamped_pension, &tmp_pre_clamped_pension, sizeof(tmp_pre_clamped_pension));
+  if (raw_pre_clamped_pension != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(11, this->_internal_pre_clamped_pension(), target);
+  }
+
+  // bool is_minimum_clamped = 12;
+  if (this->_internal_is_minimum_clamped() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(12, this->_internal_is_minimum_clamped(), target);
+  }
+
+  // bool is_maximum_clamped = 13;
+  if (this->_internal_is_maximum_clamped() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(13, this->_internal_is_maximum_clamped(), target);
+  }
+
+  // repeated .calc.BenefitSurchargeDetail applied_benefits = 14;
+  for (unsigned i = 0,
+      n = static_cast<unsigned>(this->_internal_applied_benefits_size()); i < n; i++) {
+    const auto& repfield = this->_internal_applied_benefits(i);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+        InternalWriteMessage(14, repfield, repfield.GetCachedSize(), target, stream);
+  }
+
+  // repeated string calculation_logs = 15;
+  for (int i = 0, n = this->_internal_calculation_logs_size(); i < n; i++) {
+    const auto& s = this->_internal_calculation_logs(i);
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      s.data(), static_cast<int>(s.length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "calc.CalculatePensionResponse.calculation_logs");
+    target = stream->WriteString(15, s, target);
+  }
+
+  // string error_message = 16;
+  if (!this->_internal_error_message().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_error_message().data(), static_cast<int>(this->_internal_error_message().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "calc.CalculatePensionResponse.error_message");
+    target = stream->WriteStringMaybeAliased(
+        16, this->_internal_error_message(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:calc.CalculatePensionResponse)
+  return target;
+}
+
+size_t CalculatePensionResponse::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:calc.CalculatePensionResponse)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated .calc.BenefitSurchargeDetail applied_benefits = 14;
+  total_size += 1UL * this->_internal_applied_benefits_size();
+  for (const auto& msg : this->_impl_.applied_benefits_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
+  // repeated string calculation_logs = 15;
+  total_size += 1 *
+      ::PROTOBUF_NAMESPACE_ID::internal::FromIntSize(_impl_.calculation_logs_.size());
+  for (int i = 0, n = _impl_.calculation_logs_.size(); i < n; i++) {
+    total_size += ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+      _impl_.calculation_logs_.Get(i));
+  }
+
+  // string error_message = 16;
+  if (!this->_internal_error_message().empty()) {
+    total_size += 2 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_error_message());
+  }
+
+  // double final_pension = 2;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_final_pension = this->_internal_final_pension();
+  uint64_t raw_final_pension;
+  memcpy(&raw_final_pension, &tmp_final_pension, sizeof(tmp_final_pension));
+  if (raw_final_pension != 0) {
+    total_size += 1 + 8;
+  }
+
+  // double base_pension = 3;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_base_pension = this->_internal_base_pension();
+  uint64_t raw_base_pension;
+  memcpy(&raw_base_pension, &tmp_base_pension, sizeof(tmp_base_pension));
+  if (raw_base_pension != 0) {
+    total_size += 1 + 8;
+  }
+
+  // double zp_macroeconomic_average = 4;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_zp_macroeconomic_average = this->_internal_zp_macroeconomic_average();
+  uint64_t raw_zp_macroeconomic_average;
+  memcpy(&raw_zp_macroeconomic_average, &tmp_zp_macroeconomic_average, sizeof(tmp_zp_macroeconomic_average));
+  if (raw_zp_macroeconomic_average != 0) {
+    total_size += 1 + 8;
+  }
+
+  // double kz_wage_coefficient = 5;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_kz_wage_coefficient = this->_internal_kz_wage_coefficient();
+  uint64_t raw_kz_wage_coefficient;
+  memcpy(&raw_kz_wage_coefficient, &tmp_kz_wage_coefficient, sizeof(tmp_kz_wage_coefficient));
+  if (raw_kz_wage_coefficient != 0) {
+    total_size += 1 + 8;
+  }
+
+  // double ks_service_coefficient = 6;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_ks_service_coefficient = this->_internal_ks_service_coefficient();
+  uint64_t raw_ks_service_coefficient;
+  memcpy(&raw_ks_service_coefficient, &tmp_ks_service_coefficient, sizeof(tmp_ks_service_coefficient));
+  if (raw_ks_service_coefficient != 0) {
+    total_size += 1 + 8;
+  }
+
+  // double pension_type_modifier = 8;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_pension_type_modifier = this->_internal_pension_type_modifier();
+  uint64_t raw_pension_type_modifier;
+  memcpy(&raw_pension_type_modifier, &tmp_pension_type_modifier, sizeof(tmp_pension_type_modifier));
+  if (raw_pension_type_modifier != 0) {
+    total_size += 1 + 8;
+  }
+
+  // int32 total_service_months = 7;
+  if (this->_internal_total_service_months() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_total_service_months());
+  }
+
+  // bool success = 1;
+  if (this->_internal_success() != 0) {
+    total_size += 1 + 1;
+  }
+
+  // bool is_minimum_clamped = 12;
+  if (this->_internal_is_minimum_clamped() != 0) {
+    total_size += 1 + 1;
+  }
+
+  // bool is_maximum_clamped = 13;
+  if (this->_internal_is_maximum_clamped() != 0) {
+    total_size += 1 + 1;
+  }
+
+  // double extra_service_allowance = 9;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_extra_service_allowance = this->_internal_extra_service_allowance();
+  uint64_t raw_extra_service_allowance;
+  memcpy(&raw_extra_service_allowance, &tmp_extra_service_allowance, sizeof(tmp_extra_service_allowance));
+  if (raw_extra_service_allowance != 0) {
+    total_size += 1 + 8;
+  }
+
+  // double total_benefit_surcharges = 10;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_total_benefit_surcharges = this->_internal_total_benefit_surcharges();
+  uint64_t raw_total_benefit_surcharges;
+  memcpy(&raw_total_benefit_surcharges, &tmp_total_benefit_surcharges, sizeof(tmp_total_benefit_surcharges));
+  if (raw_total_benefit_surcharges != 0) {
+    total_size += 1 + 8;
+  }
+
+  // double pre_clamped_pension = 11;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_pre_clamped_pension = this->_internal_pre_clamped_pension();
+  uint64_t raw_pre_clamped_pension;
+  memcpy(&raw_pre_clamped_pension, &tmp_pre_clamped_pension, sizeof(tmp_pre_clamped_pension));
+  if (raw_pre_clamped_pension != 0) {
+    total_size += 1 + 8;
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData CalculatePensionResponse::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    CalculatePensionResponse::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*CalculatePensionResponse::GetClassData() const { return &_class_data_; }
+
+
+void CalculatePensionResponse::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<CalculatePensionResponse*>(&to_msg);
+  auto& from = static_cast<const CalculatePensionResponse&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:calc.CalculatePensionResponse)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  _this->_impl_.applied_benefits_.MergeFrom(from._impl_.applied_benefits_);
+  _this->_impl_.calculation_logs_.MergeFrom(from._impl_.calculation_logs_);
+  if (!from._internal_error_message().empty()) {
+    _this->_internal_set_error_message(from._internal_error_message());
+  }
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_final_pension = from._internal_final_pension();
+  uint64_t raw_final_pension;
+  memcpy(&raw_final_pension, &tmp_final_pension, sizeof(tmp_final_pension));
+  if (raw_final_pension != 0) {
+    _this->_internal_set_final_pension(from._internal_final_pension());
+  }
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_base_pension = from._internal_base_pension();
+  uint64_t raw_base_pension;
+  memcpy(&raw_base_pension, &tmp_base_pension, sizeof(tmp_base_pension));
+  if (raw_base_pension != 0) {
+    _this->_internal_set_base_pension(from._internal_base_pension());
+  }
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_zp_macroeconomic_average = from._internal_zp_macroeconomic_average();
+  uint64_t raw_zp_macroeconomic_average;
+  memcpy(&raw_zp_macroeconomic_average, &tmp_zp_macroeconomic_average, sizeof(tmp_zp_macroeconomic_average));
+  if (raw_zp_macroeconomic_average != 0) {
+    _this->_internal_set_zp_macroeconomic_average(from._internal_zp_macroeconomic_average());
+  }
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_kz_wage_coefficient = from._internal_kz_wage_coefficient();
+  uint64_t raw_kz_wage_coefficient;
+  memcpy(&raw_kz_wage_coefficient, &tmp_kz_wage_coefficient, sizeof(tmp_kz_wage_coefficient));
+  if (raw_kz_wage_coefficient != 0) {
+    _this->_internal_set_kz_wage_coefficient(from._internal_kz_wage_coefficient());
+  }
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_ks_service_coefficient = from._internal_ks_service_coefficient();
+  uint64_t raw_ks_service_coefficient;
+  memcpy(&raw_ks_service_coefficient, &tmp_ks_service_coefficient, sizeof(tmp_ks_service_coefficient));
+  if (raw_ks_service_coefficient != 0) {
+    _this->_internal_set_ks_service_coefficient(from._internal_ks_service_coefficient());
+  }
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_pension_type_modifier = from._internal_pension_type_modifier();
+  uint64_t raw_pension_type_modifier;
+  memcpy(&raw_pension_type_modifier, &tmp_pension_type_modifier, sizeof(tmp_pension_type_modifier));
+  if (raw_pension_type_modifier != 0) {
+    _this->_internal_set_pension_type_modifier(from._internal_pension_type_modifier());
+  }
+  if (from._internal_total_service_months() != 0) {
+    _this->_internal_set_total_service_months(from._internal_total_service_months());
+  }
+  if (from._internal_success() != 0) {
+    _this->_internal_set_success(from._internal_success());
+  }
+  if (from._internal_is_minimum_clamped() != 0) {
+    _this->_internal_set_is_minimum_clamped(from._internal_is_minimum_clamped());
+  }
+  if (from._internal_is_maximum_clamped() != 0) {
+    _this->_internal_set_is_maximum_clamped(from._internal_is_maximum_clamped());
+  }
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_extra_service_allowance = from._internal_extra_service_allowance();
+  uint64_t raw_extra_service_allowance;
+  memcpy(&raw_extra_service_allowance, &tmp_extra_service_allowance, sizeof(tmp_extra_service_allowance));
+  if (raw_extra_service_allowance != 0) {
+    _this->_internal_set_extra_service_allowance(from._internal_extra_service_allowance());
+  }
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_total_benefit_surcharges = from._internal_total_benefit_surcharges();
+  uint64_t raw_total_benefit_surcharges;
+  memcpy(&raw_total_benefit_surcharges, &tmp_total_benefit_surcharges, sizeof(tmp_total_benefit_surcharges));
+  if (raw_total_benefit_surcharges != 0) {
+    _this->_internal_set_total_benefit_surcharges(from._internal_total_benefit_surcharges());
+  }
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_pre_clamped_pension = from._internal_pre_clamped_pension();
+  uint64_t raw_pre_clamped_pension;
+  memcpy(&raw_pre_clamped_pension, &tmp_pre_clamped_pension, sizeof(tmp_pre_clamped_pension));
+  if (raw_pre_clamped_pension != 0) {
+    _this->_internal_set_pre_clamped_pension(from._internal_pre_clamped_pension());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void CalculatePensionResponse::CopyFrom(const CalculatePensionResponse& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:calc.CalculatePensionResponse)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool CalculatePensionResponse::IsInitialized() const {
+  return true;
+}
+
+void CalculatePensionResponse::InternalSwap(CalculatePensionResponse* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  _impl_.applied_benefits_.InternalSwap(&other->_impl_.applied_benefits_);
+  _impl_.calculation_logs_.InternalSwap(&other->_impl_.calculation_logs_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.error_message_, lhs_arena,
+      &other->_impl_.error_message_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(CalculatePensionResponse, _impl_.pre_clamped_pension_)
+      + sizeof(CalculatePensionResponse::_impl_.pre_clamped_pension_)
+      - PROTOBUF_FIELD_OFFSET(CalculatePensionResponse, _impl_.final_pension_)>(
+          reinterpret_cast<char*>(&_impl_.final_pension_),
+          reinterpret_cast<char*>(&other->_impl_.final_pension_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata CalculatePensionResponse::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_calc_2eproto_getter, &descriptor_table_calc_2eproto_once,
+      file_level_metadata_calc_2eproto[6]);
 }
 
 // ===================================================================
@@ -729,7 +4118,7 @@ void PensionRequest::InternalSwap(PensionRequest* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata PensionRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_calc_2eproto_getter, &descriptor_table_calc_2eproto_once,
-      file_level_metadata_calc_2eproto[1]);
+      file_level_metadata_calc_2eproto[7]);
 }
 
 // ===================================================================
@@ -1090,15 +4479,5036 @@ void PensionResponse::InternalSwap(PensionResponse* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata PensionResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_calc_2eproto_getter, &descriptor_table_calc_2eproto_once,
-      file_level_metadata_calc_2eproto[2]);
+      file_level_metadata_calc_2eproto[8]);
+}
+
+// ===================================================================
+
+class PensionCoefficient::_Internal {
+ public:
+};
+
+PensionCoefficient::PensionCoefficient(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:calc.PensionCoefficient)
+}
+PensionCoefficient::PensionCoefficient(const PensionCoefficient& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  PensionCoefficient* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.description_){}
+    , decltype(_impl_.id_){}
+    , decltype(_impl_.year_){}
+    , decltype(_impl_.coefficient_){}
+    , decltype(_impl_.month_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.description_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.description_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_description().empty()) {
+    _this->_impl_.description_.Set(from._internal_description(), 
+      _this->GetArenaForAllocation());
+  }
+  ::memcpy(&_impl_.id_, &from._impl_.id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.month_) -
+    reinterpret_cast<char*>(&_impl_.id_)) + sizeof(_impl_.month_));
+  // @@protoc_insertion_point(copy_constructor:calc.PensionCoefficient)
+}
+
+inline void PensionCoefficient::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.description_){}
+    , decltype(_impl_.id_){0}
+    , decltype(_impl_.year_){0}
+    , decltype(_impl_.coefficient_){0}
+    , decltype(_impl_.month_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.description_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.description_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+PensionCoefficient::~PensionCoefficient() {
+  // @@protoc_insertion_point(destructor:calc.PensionCoefficient)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void PensionCoefficient::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.description_.Destroy();
+}
+
+void PensionCoefficient::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void PensionCoefficient::Clear() {
+// @@protoc_insertion_point(message_clear_start:calc.PensionCoefficient)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.description_.ClearToEmpty();
+  ::memset(&_impl_.id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.month_) -
+      reinterpret_cast<char*>(&_impl_.id_)) + sizeof(_impl_.month_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* PensionCoefficient::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // int32 id = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 year = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          _impl_.year_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 month = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
+          _impl_.month_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // double coefficient = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 33)) {
+          _impl_.coefficient_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
+          goto handle_unusual;
+        continue;
+      // string description = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
+          auto str = _internal_mutable_description();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "calc.PensionCoefficient.description"));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* PensionCoefficient::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:calc.PensionCoefficient)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int32 id = 1;
+  if (this->_internal_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_id(), target);
+  }
+
+  // int32 year = 2;
+  if (this->_internal_year() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_year(), target);
+  }
+
+  // int32 month = 3;
+  if (this->_internal_month() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_month(), target);
+  }
+
+  // double coefficient = 4;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_coefficient = this->_internal_coefficient();
+  uint64_t raw_coefficient;
+  memcpy(&raw_coefficient, &tmp_coefficient, sizeof(tmp_coefficient));
+  if (raw_coefficient != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(4, this->_internal_coefficient(), target);
+  }
+
+  // string description = 5;
+  if (!this->_internal_description().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_description().data(), static_cast<int>(this->_internal_description().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "calc.PensionCoefficient.description");
+    target = stream->WriteStringMaybeAliased(
+        5, this->_internal_description(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:calc.PensionCoefficient)
+  return target;
+}
+
+size_t PensionCoefficient::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:calc.PensionCoefficient)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string description = 5;
+  if (!this->_internal_description().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_description());
+  }
+
+  // int32 id = 1;
+  if (this->_internal_id() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_id());
+  }
+
+  // int32 year = 2;
+  if (this->_internal_year() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_year());
+  }
+
+  // double coefficient = 4;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_coefficient = this->_internal_coefficient();
+  uint64_t raw_coefficient;
+  memcpy(&raw_coefficient, &tmp_coefficient, sizeof(tmp_coefficient));
+  if (raw_coefficient != 0) {
+    total_size += 1 + 8;
+  }
+
+  // int32 month = 3;
+  if (this->_internal_month() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_month());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData PensionCoefficient::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    PensionCoefficient::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*PensionCoefficient::GetClassData() const { return &_class_data_; }
+
+
+void PensionCoefficient::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<PensionCoefficient*>(&to_msg);
+  auto& from = static_cast<const PensionCoefficient&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:calc.PensionCoefficient)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_description().empty()) {
+    _this->_internal_set_description(from._internal_description());
+  }
+  if (from._internal_id() != 0) {
+    _this->_internal_set_id(from._internal_id());
+  }
+  if (from._internal_year() != 0) {
+    _this->_internal_set_year(from._internal_year());
+  }
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_coefficient = from._internal_coefficient();
+  uint64_t raw_coefficient;
+  memcpy(&raw_coefficient, &tmp_coefficient, sizeof(tmp_coefficient));
+  if (raw_coefficient != 0) {
+    _this->_internal_set_coefficient(from._internal_coefficient());
+  }
+  if (from._internal_month() != 0) {
+    _this->_internal_set_month(from._internal_month());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void PensionCoefficient::CopyFrom(const PensionCoefficient& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:calc.PensionCoefficient)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool PensionCoefficient::IsInitialized() const {
+  return true;
+}
+
+void PensionCoefficient::InternalSwap(PensionCoefficient* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.description_, lhs_arena,
+      &other->_impl_.description_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(PensionCoefficient, _impl_.month_)
+      + sizeof(PensionCoefficient::_impl_.month_)
+      - PROTOBUF_FIELD_OFFSET(PensionCoefficient, _impl_.id_)>(
+          reinterpret_cast<char*>(&_impl_.id_),
+          reinterpret_cast<char*>(&other->_impl_.id_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata PensionCoefficient::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_calc_2eproto_getter, &descriptor_table_calc_2eproto_once,
+      file_level_metadata_calc_2eproto[9]);
+}
+
+// ===================================================================
+
+class ListCoefficientsRequest::_Internal {
+ public:
+};
+
+ListCoefficientsRequest::ListCoefficientsRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase(arena, is_message_owned) {
+  // @@protoc_insertion_point(arena_constructor:calc.ListCoefficientsRequest)
+}
+ListCoefficientsRequest::ListCoefficientsRequest(const ListCoefficientsRequest& from)
+  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase() {
+  ListCoefficientsRequest* const _this = this; (void)_this;
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:calc.ListCoefficientsRequest)
+}
+
+
+
+
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData ListCoefficientsRequest::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyImpl,
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeImpl,
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*ListCoefficientsRequest::GetClassData() const { return &_class_data_; }
+
+
+
+
+
+
+
+::PROTOBUF_NAMESPACE_ID::Metadata ListCoefficientsRequest::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_calc_2eproto_getter, &descriptor_table_calc_2eproto_once,
+      file_level_metadata_calc_2eproto[10]);
+}
+
+// ===================================================================
+
+class ListCoefficientsResponse::_Internal {
+ public:
+};
+
+ListCoefficientsResponse::ListCoefficientsResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:calc.ListCoefficientsResponse)
+}
+ListCoefficientsResponse::ListCoefficientsResponse(const ListCoefficientsResponse& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  ListCoefficientsResponse* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.coefficients_){from._impl_.coefficients_}
+    , decltype(_impl_.error_message_){}
+    , decltype(_impl_.success_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.error_message_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.error_message_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_error_message().empty()) {
+    _this->_impl_.error_message_.Set(from._internal_error_message(), 
+      _this->GetArenaForAllocation());
+  }
+  _this->_impl_.success_ = from._impl_.success_;
+  // @@protoc_insertion_point(copy_constructor:calc.ListCoefficientsResponse)
+}
+
+inline void ListCoefficientsResponse::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.coefficients_){arena}
+    , decltype(_impl_.error_message_){}
+    , decltype(_impl_.success_){false}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.error_message_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.error_message_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+ListCoefficientsResponse::~ListCoefficientsResponse() {
+  // @@protoc_insertion_point(destructor:calc.ListCoefficientsResponse)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void ListCoefficientsResponse::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.coefficients_.~RepeatedPtrField();
+  _impl_.error_message_.Destroy();
+}
+
+void ListCoefficientsResponse::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void ListCoefficientsResponse::Clear() {
+// @@protoc_insertion_point(message_clear_start:calc.ListCoefficientsResponse)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.coefficients_.Clear();
+  _impl_.error_message_.ClearToEmpty();
+  _impl_.success_ = false;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* ListCoefficientsResponse::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // bool success = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.success_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // repeated .calc.PensionCoefficient coefficients = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_coefficients(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<18>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
+      // string error_message = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          auto str = _internal_mutable_error_message();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "calc.ListCoefficientsResponse.error_message"));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* ListCoefficientsResponse::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:calc.ListCoefficientsResponse)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // bool success = 1;
+  if (this->_internal_success() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(1, this->_internal_success(), target);
+  }
+
+  // repeated .calc.PensionCoefficient coefficients = 2;
+  for (unsigned i = 0,
+      n = static_cast<unsigned>(this->_internal_coefficients_size()); i < n; i++) {
+    const auto& repfield = this->_internal_coefficients(i);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+        InternalWriteMessage(2, repfield, repfield.GetCachedSize(), target, stream);
+  }
+
+  // string error_message = 3;
+  if (!this->_internal_error_message().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_error_message().data(), static_cast<int>(this->_internal_error_message().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "calc.ListCoefficientsResponse.error_message");
+    target = stream->WriteStringMaybeAliased(
+        3, this->_internal_error_message(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:calc.ListCoefficientsResponse)
+  return target;
+}
+
+size_t ListCoefficientsResponse::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:calc.ListCoefficientsResponse)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated .calc.PensionCoefficient coefficients = 2;
+  total_size += 1UL * this->_internal_coefficients_size();
+  for (const auto& msg : this->_impl_.coefficients_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
+  // string error_message = 3;
+  if (!this->_internal_error_message().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_error_message());
+  }
+
+  // bool success = 1;
+  if (this->_internal_success() != 0) {
+    total_size += 1 + 1;
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData ListCoefficientsResponse::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    ListCoefficientsResponse::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*ListCoefficientsResponse::GetClassData() const { return &_class_data_; }
+
+
+void ListCoefficientsResponse::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<ListCoefficientsResponse*>(&to_msg);
+  auto& from = static_cast<const ListCoefficientsResponse&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:calc.ListCoefficientsResponse)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  _this->_impl_.coefficients_.MergeFrom(from._impl_.coefficients_);
+  if (!from._internal_error_message().empty()) {
+    _this->_internal_set_error_message(from._internal_error_message());
+  }
+  if (from._internal_success() != 0) {
+    _this->_internal_set_success(from._internal_success());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void ListCoefficientsResponse::CopyFrom(const ListCoefficientsResponse& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:calc.ListCoefficientsResponse)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool ListCoefficientsResponse::IsInitialized() const {
+  return true;
+}
+
+void ListCoefficientsResponse::InternalSwap(ListCoefficientsResponse* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  _impl_.coefficients_.InternalSwap(&other->_impl_.coefficients_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.error_message_, lhs_arena,
+      &other->_impl_.error_message_, rhs_arena
+  );
+  swap(_impl_.success_, other->_impl_.success_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata ListCoefficientsResponse::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_calc_2eproto_getter, &descriptor_table_calc_2eproto_once,
+      file_level_metadata_calc_2eproto[11]);
+}
+
+// ===================================================================
+
+class AddCoefficientRequest::_Internal {
+ public:
+};
+
+AddCoefficientRequest::AddCoefficientRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:calc.AddCoefficientRequest)
+}
+AddCoefficientRequest::AddCoefficientRequest(const AddCoefficientRequest& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  AddCoefficientRequest* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.description_){}
+    , decltype(_impl_.year_){}
+    , decltype(_impl_.month_){}
+    , decltype(_impl_.coefficient_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.description_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.description_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_description().empty()) {
+    _this->_impl_.description_.Set(from._internal_description(), 
+      _this->GetArenaForAllocation());
+  }
+  ::memcpy(&_impl_.year_, &from._impl_.year_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.coefficient_) -
+    reinterpret_cast<char*>(&_impl_.year_)) + sizeof(_impl_.coefficient_));
+  // @@protoc_insertion_point(copy_constructor:calc.AddCoefficientRequest)
+}
+
+inline void AddCoefficientRequest::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.description_){}
+    , decltype(_impl_.year_){0}
+    , decltype(_impl_.month_){0}
+    , decltype(_impl_.coefficient_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.description_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.description_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+AddCoefficientRequest::~AddCoefficientRequest() {
+  // @@protoc_insertion_point(destructor:calc.AddCoefficientRequest)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void AddCoefficientRequest::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.description_.Destroy();
+}
+
+void AddCoefficientRequest::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void AddCoefficientRequest::Clear() {
+// @@protoc_insertion_point(message_clear_start:calc.AddCoefficientRequest)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.description_.ClearToEmpty();
+  ::memset(&_impl_.year_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.coefficient_) -
+      reinterpret_cast<char*>(&_impl_.year_)) + sizeof(_impl_.coefficient_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* AddCoefficientRequest::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // int32 year = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.year_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 month = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          _impl_.month_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // double coefficient = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 25)) {
+          _impl_.coefficient_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
+          goto handle_unusual;
+        continue;
+      // string description = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
+          auto str = _internal_mutable_description();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "calc.AddCoefficientRequest.description"));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* AddCoefficientRequest::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:calc.AddCoefficientRequest)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int32 year = 1;
+  if (this->_internal_year() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_year(), target);
+  }
+
+  // int32 month = 2;
+  if (this->_internal_month() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_month(), target);
+  }
+
+  // double coefficient = 3;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_coefficient = this->_internal_coefficient();
+  uint64_t raw_coefficient;
+  memcpy(&raw_coefficient, &tmp_coefficient, sizeof(tmp_coefficient));
+  if (raw_coefficient != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(3, this->_internal_coefficient(), target);
+  }
+
+  // string description = 4;
+  if (!this->_internal_description().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_description().data(), static_cast<int>(this->_internal_description().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "calc.AddCoefficientRequest.description");
+    target = stream->WriteStringMaybeAliased(
+        4, this->_internal_description(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:calc.AddCoefficientRequest)
+  return target;
+}
+
+size_t AddCoefficientRequest::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:calc.AddCoefficientRequest)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string description = 4;
+  if (!this->_internal_description().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_description());
+  }
+
+  // int32 year = 1;
+  if (this->_internal_year() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_year());
+  }
+
+  // int32 month = 2;
+  if (this->_internal_month() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_month());
+  }
+
+  // double coefficient = 3;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_coefficient = this->_internal_coefficient();
+  uint64_t raw_coefficient;
+  memcpy(&raw_coefficient, &tmp_coefficient, sizeof(tmp_coefficient));
+  if (raw_coefficient != 0) {
+    total_size += 1 + 8;
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData AddCoefficientRequest::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    AddCoefficientRequest::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*AddCoefficientRequest::GetClassData() const { return &_class_data_; }
+
+
+void AddCoefficientRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<AddCoefficientRequest*>(&to_msg);
+  auto& from = static_cast<const AddCoefficientRequest&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:calc.AddCoefficientRequest)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_description().empty()) {
+    _this->_internal_set_description(from._internal_description());
+  }
+  if (from._internal_year() != 0) {
+    _this->_internal_set_year(from._internal_year());
+  }
+  if (from._internal_month() != 0) {
+    _this->_internal_set_month(from._internal_month());
+  }
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_coefficient = from._internal_coefficient();
+  uint64_t raw_coefficient;
+  memcpy(&raw_coefficient, &tmp_coefficient, sizeof(tmp_coefficient));
+  if (raw_coefficient != 0) {
+    _this->_internal_set_coefficient(from._internal_coefficient());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void AddCoefficientRequest::CopyFrom(const AddCoefficientRequest& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:calc.AddCoefficientRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool AddCoefficientRequest::IsInitialized() const {
+  return true;
+}
+
+void AddCoefficientRequest::InternalSwap(AddCoefficientRequest* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.description_, lhs_arena,
+      &other->_impl_.description_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(AddCoefficientRequest, _impl_.coefficient_)
+      + sizeof(AddCoefficientRequest::_impl_.coefficient_)
+      - PROTOBUF_FIELD_OFFSET(AddCoefficientRequest, _impl_.year_)>(
+          reinterpret_cast<char*>(&_impl_.year_),
+          reinterpret_cast<char*>(&other->_impl_.year_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata AddCoefficientRequest::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_calc_2eproto_getter, &descriptor_table_calc_2eproto_once,
+      file_level_metadata_calc_2eproto[12]);
+}
+
+// ===================================================================
+
+class AddCoefficientResponse::_Internal {
+ public:
+  static const ::calc::PensionCoefficient& coefficient(const AddCoefficientResponse* msg);
+};
+
+const ::calc::PensionCoefficient&
+AddCoefficientResponse::_Internal::coefficient(const AddCoefficientResponse* msg) {
+  return *msg->_impl_.coefficient_;
+}
+AddCoefficientResponse::AddCoefficientResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:calc.AddCoefficientResponse)
+}
+AddCoefficientResponse::AddCoefficientResponse(const AddCoefficientResponse& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  AddCoefficientResponse* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.error_message_){}
+    , decltype(_impl_.coefficient_){nullptr}
+    , decltype(_impl_.success_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.error_message_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.error_message_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_error_message().empty()) {
+    _this->_impl_.error_message_.Set(from._internal_error_message(), 
+      _this->GetArenaForAllocation());
+  }
+  if (from._internal_has_coefficient()) {
+    _this->_impl_.coefficient_ = new ::calc::PensionCoefficient(*from._impl_.coefficient_);
+  }
+  _this->_impl_.success_ = from._impl_.success_;
+  // @@protoc_insertion_point(copy_constructor:calc.AddCoefficientResponse)
+}
+
+inline void AddCoefficientResponse::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.error_message_){}
+    , decltype(_impl_.coefficient_){nullptr}
+    , decltype(_impl_.success_){false}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.error_message_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.error_message_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+AddCoefficientResponse::~AddCoefficientResponse() {
+  // @@protoc_insertion_point(destructor:calc.AddCoefficientResponse)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void AddCoefficientResponse::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.error_message_.Destroy();
+  if (this != internal_default_instance()) delete _impl_.coefficient_;
+}
+
+void AddCoefficientResponse::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void AddCoefficientResponse::Clear() {
+// @@protoc_insertion_point(message_clear_start:calc.AddCoefficientResponse)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.error_message_.ClearToEmpty();
+  if (GetArenaForAllocation() == nullptr && _impl_.coefficient_ != nullptr) {
+    delete _impl_.coefficient_;
+  }
+  _impl_.coefficient_ = nullptr;
+  _impl_.success_ = false;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* AddCoefficientResponse::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // bool success = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.success_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .calc.PensionCoefficient coefficient = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          ptr = ctx->ParseMessage(_internal_mutable_coefficient(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // string error_message = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          auto str = _internal_mutable_error_message();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "calc.AddCoefficientResponse.error_message"));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* AddCoefficientResponse::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:calc.AddCoefficientResponse)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // bool success = 1;
+  if (this->_internal_success() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(1, this->_internal_success(), target);
+  }
+
+  // .calc.PensionCoefficient coefficient = 2;
+  if (this->_internal_has_coefficient()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(2, _Internal::coefficient(this),
+        _Internal::coefficient(this).GetCachedSize(), target, stream);
+  }
+
+  // string error_message = 3;
+  if (!this->_internal_error_message().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_error_message().data(), static_cast<int>(this->_internal_error_message().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "calc.AddCoefficientResponse.error_message");
+    target = stream->WriteStringMaybeAliased(
+        3, this->_internal_error_message(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:calc.AddCoefficientResponse)
+  return target;
+}
+
+size_t AddCoefficientResponse::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:calc.AddCoefficientResponse)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string error_message = 3;
+  if (!this->_internal_error_message().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_error_message());
+  }
+
+  // .calc.PensionCoefficient coefficient = 2;
+  if (this->_internal_has_coefficient()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.coefficient_);
+  }
+
+  // bool success = 1;
+  if (this->_internal_success() != 0) {
+    total_size += 1 + 1;
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData AddCoefficientResponse::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    AddCoefficientResponse::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*AddCoefficientResponse::GetClassData() const { return &_class_data_; }
+
+
+void AddCoefficientResponse::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<AddCoefficientResponse*>(&to_msg);
+  auto& from = static_cast<const AddCoefficientResponse&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:calc.AddCoefficientResponse)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_error_message().empty()) {
+    _this->_internal_set_error_message(from._internal_error_message());
+  }
+  if (from._internal_has_coefficient()) {
+    _this->_internal_mutable_coefficient()->::calc::PensionCoefficient::MergeFrom(
+        from._internal_coefficient());
+  }
+  if (from._internal_success() != 0) {
+    _this->_internal_set_success(from._internal_success());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void AddCoefficientResponse::CopyFrom(const AddCoefficientResponse& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:calc.AddCoefficientResponse)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool AddCoefficientResponse::IsInitialized() const {
+  return true;
+}
+
+void AddCoefficientResponse::InternalSwap(AddCoefficientResponse* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.error_message_, lhs_arena,
+      &other->_impl_.error_message_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(AddCoefficientResponse, _impl_.success_)
+      + sizeof(AddCoefficientResponse::_impl_.success_)
+      - PROTOBUF_FIELD_OFFSET(AddCoefficientResponse, _impl_.coefficient_)>(
+          reinterpret_cast<char*>(&_impl_.coefficient_),
+          reinterpret_cast<char*>(&other->_impl_.coefficient_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata AddCoefficientResponse::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_calc_2eproto_getter, &descriptor_table_calc_2eproto_once,
+      file_level_metadata_calc_2eproto[13]);
+}
+
+// ===================================================================
+
+class UpdateCoefficientRequest::_Internal {
+ public:
+};
+
+UpdateCoefficientRequest::UpdateCoefficientRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:calc.UpdateCoefficientRequest)
+}
+UpdateCoefficientRequest::UpdateCoefficientRequest(const UpdateCoefficientRequest& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  UpdateCoefficientRequest* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.description_){}
+    , decltype(_impl_.id_){}
+    , decltype(_impl_.year_){}
+    , decltype(_impl_.coefficient_){}
+    , decltype(_impl_.month_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.description_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.description_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_description().empty()) {
+    _this->_impl_.description_.Set(from._internal_description(), 
+      _this->GetArenaForAllocation());
+  }
+  ::memcpy(&_impl_.id_, &from._impl_.id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.month_) -
+    reinterpret_cast<char*>(&_impl_.id_)) + sizeof(_impl_.month_));
+  // @@protoc_insertion_point(copy_constructor:calc.UpdateCoefficientRequest)
+}
+
+inline void UpdateCoefficientRequest::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.description_){}
+    , decltype(_impl_.id_){0}
+    , decltype(_impl_.year_){0}
+    , decltype(_impl_.coefficient_){0}
+    , decltype(_impl_.month_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.description_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.description_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+UpdateCoefficientRequest::~UpdateCoefficientRequest() {
+  // @@protoc_insertion_point(destructor:calc.UpdateCoefficientRequest)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void UpdateCoefficientRequest::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.description_.Destroy();
+}
+
+void UpdateCoefficientRequest::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void UpdateCoefficientRequest::Clear() {
+// @@protoc_insertion_point(message_clear_start:calc.UpdateCoefficientRequest)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.description_.ClearToEmpty();
+  ::memset(&_impl_.id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.month_) -
+      reinterpret_cast<char*>(&_impl_.id_)) + sizeof(_impl_.month_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* UpdateCoefficientRequest::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // int32 id = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 year = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          _impl_.year_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 month = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
+          _impl_.month_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // double coefficient = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 33)) {
+          _impl_.coefficient_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
+          goto handle_unusual;
+        continue;
+      // string description = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
+          auto str = _internal_mutable_description();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "calc.UpdateCoefficientRequest.description"));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* UpdateCoefficientRequest::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:calc.UpdateCoefficientRequest)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int32 id = 1;
+  if (this->_internal_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_id(), target);
+  }
+
+  // int32 year = 2;
+  if (this->_internal_year() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_year(), target);
+  }
+
+  // int32 month = 3;
+  if (this->_internal_month() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_month(), target);
+  }
+
+  // double coefficient = 4;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_coefficient = this->_internal_coefficient();
+  uint64_t raw_coefficient;
+  memcpy(&raw_coefficient, &tmp_coefficient, sizeof(tmp_coefficient));
+  if (raw_coefficient != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(4, this->_internal_coefficient(), target);
+  }
+
+  // string description = 5;
+  if (!this->_internal_description().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_description().data(), static_cast<int>(this->_internal_description().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "calc.UpdateCoefficientRequest.description");
+    target = stream->WriteStringMaybeAliased(
+        5, this->_internal_description(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:calc.UpdateCoefficientRequest)
+  return target;
+}
+
+size_t UpdateCoefficientRequest::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:calc.UpdateCoefficientRequest)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string description = 5;
+  if (!this->_internal_description().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_description());
+  }
+
+  // int32 id = 1;
+  if (this->_internal_id() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_id());
+  }
+
+  // int32 year = 2;
+  if (this->_internal_year() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_year());
+  }
+
+  // double coefficient = 4;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_coefficient = this->_internal_coefficient();
+  uint64_t raw_coefficient;
+  memcpy(&raw_coefficient, &tmp_coefficient, sizeof(tmp_coefficient));
+  if (raw_coefficient != 0) {
+    total_size += 1 + 8;
+  }
+
+  // int32 month = 3;
+  if (this->_internal_month() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_month());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData UpdateCoefficientRequest::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    UpdateCoefficientRequest::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*UpdateCoefficientRequest::GetClassData() const { return &_class_data_; }
+
+
+void UpdateCoefficientRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<UpdateCoefficientRequest*>(&to_msg);
+  auto& from = static_cast<const UpdateCoefficientRequest&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:calc.UpdateCoefficientRequest)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_description().empty()) {
+    _this->_internal_set_description(from._internal_description());
+  }
+  if (from._internal_id() != 0) {
+    _this->_internal_set_id(from._internal_id());
+  }
+  if (from._internal_year() != 0) {
+    _this->_internal_set_year(from._internal_year());
+  }
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_coefficient = from._internal_coefficient();
+  uint64_t raw_coefficient;
+  memcpy(&raw_coefficient, &tmp_coefficient, sizeof(tmp_coefficient));
+  if (raw_coefficient != 0) {
+    _this->_internal_set_coefficient(from._internal_coefficient());
+  }
+  if (from._internal_month() != 0) {
+    _this->_internal_set_month(from._internal_month());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void UpdateCoefficientRequest::CopyFrom(const UpdateCoefficientRequest& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:calc.UpdateCoefficientRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool UpdateCoefficientRequest::IsInitialized() const {
+  return true;
+}
+
+void UpdateCoefficientRequest::InternalSwap(UpdateCoefficientRequest* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.description_, lhs_arena,
+      &other->_impl_.description_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(UpdateCoefficientRequest, _impl_.month_)
+      + sizeof(UpdateCoefficientRequest::_impl_.month_)
+      - PROTOBUF_FIELD_OFFSET(UpdateCoefficientRequest, _impl_.id_)>(
+          reinterpret_cast<char*>(&_impl_.id_),
+          reinterpret_cast<char*>(&other->_impl_.id_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata UpdateCoefficientRequest::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_calc_2eproto_getter, &descriptor_table_calc_2eproto_once,
+      file_level_metadata_calc_2eproto[14]);
+}
+
+// ===================================================================
+
+class UpdateCoefficientResponse::_Internal {
+ public:
+  static const ::calc::PensionCoefficient& coefficient(const UpdateCoefficientResponse* msg);
+};
+
+const ::calc::PensionCoefficient&
+UpdateCoefficientResponse::_Internal::coefficient(const UpdateCoefficientResponse* msg) {
+  return *msg->_impl_.coefficient_;
+}
+UpdateCoefficientResponse::UpdateCoefficientResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:calc.UpdateCoefficientResponse)
+}
+UpdateCoefficientResponse::UpdateCoefficientResponse(const UpdateCoefficientResponse& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  UpdateCoefficientResponse* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.error_message_){}
+    , decltype(_impl_.coefficient_){nullptr}
+    , decltype(_impl_.success_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.error_message_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.error_message_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_error_message().empty()) {
+    _this->_impl_.error_message_.Set(from._internal_error_message(), 
+      _this->GetArenaForAllocation());
+  }
+  if (from._internal_has_coefficient()) {
+    _this->_impl_.coefficient_ = new ::calc::PensionCoefficient(*from._impl_.coefficient_);
+  }
+  _this->_impl_.success_ = from._impl_.success_;
+  // @@protoc_insertion_point(copy_constructor:calc.UpdateCoefficientResponse)
+}
+
+inline void UpdateCoefficientResponse::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.error_message_){}
+    , decltype(_impl_.coefficient_){nullptr}
+    , decltype(_impl_.success_){false}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.error_message_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.error_message_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+UpdateCoefficientResponse::~UpdateCoefficientResponse() {
+  // @@protoc_insertion_point(destructor:calc.UpdateCoefficientResponse)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void UpdateCoefficientResponse::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.error_message_.Destroy();
+  if (this != internal_default_instance()) delete _impl_.coefficient_;
+}
+
+void UpdateCoefficientResponse::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void UpdateCoefficientResponse::Clear() {
+// @@protoc_insertion_point(message_clear_start:calc.UpdateCoefficientResponse)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.error_message_.ClearToEmpty();
+  if (GetArenaForAllocation() == nullptr && _impl_.coefficient_ != nullptr) {
+    delete _impl_.coefficient_;
+  }
+  _impl_.coefficient_ = nullptr;
+  _impl_.success_ = false;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* UpdateCoefficientResponse::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // bool success = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.success_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .calc.PensionCoefficient coefficient = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          ptr = ctx->ParseMessage(_internal_mutable_coefficient(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // string error_message = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          auto str = _internal_mutable_error_message();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "calc.UpdateCoefficientResponse.error_message"));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* UpdateCoefficientResponse::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:calc.UpdateCoefficientResponse)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // bool success = 1;
+  if (this->_internal_success() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(1, this->_internal_success(), target);
+  }
+
+  // .calc.PensionCoefficient coefficient = 2;
+  if (this->_internal_has_coefficient()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(2, _Internal::coefficient(this),
+        _Internal::coefficient(this).GetCachedSize(), target, stream);
+  }
+
+  // string error_message = 3;
+  if (!this->_internal_error_message().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_error_message().data(), static_cast<int>(this->_internal_error_message().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "calc.UpdateCoefficientResponse.error_message");
+    target = stream->WriteStringMaybeAliased(
+        3, this->_internal_error_message(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:calc.UpdateCoefficientResponse)
+  return target;
+}
+
+size_t UpdateCoefficientResponse::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:calc.UpdateCoefficientResponse)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string error_message = 3;
+  if (!this->_internal_error_message().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_error_message());
+  }
+
+  // .calc.PensionCoefficient coefficient = 2;
+  if (this->_internal_has_coefficient()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.coefficient_);
+  }
+
+  // bool success = 1;
+  if (this->_internal_success() != 0) {
+    total_size += 1 + 1;
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData UpdateCoefficientResponse::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    UpdateCoefficientResponse::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*UpdateCoefficientResponse::GetClassData() const { return &_class_data_; }
+
+
+void UpdateCoefficientResponse::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<UpdateCoefficientResponse*>(&to_msg);
+  auto& from = static_cast<const UpdateCoefficientResponse&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:calc.UpdateCoefficientResponse)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_error_message().empty()) {
+    _this->_internal_set_error_message(from._internal_error_message());
+  }
+  if (from._internal_has_coefficient()) {
+    _this->_internal_mutable_coefficient()->::calc::PensionCoefficient::MergeFrom(
+        from._internal_coefficient());
+  }
+  if (from._internal_success() != 0) {
+    _this->_internal_set_success(from._internal_success());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void UpdateCoefficientResponse::CopyFrom(const UpdateCoefficientResponse& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:calc.UpdateCoefficientResponse)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool UpdateCoefficientResponse::IsInitialized() const {
+  return true;
+}
+
+void UpdateCoefficientResponse::InternalSwap(UpdateCoefficientResponse* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.error_message_, lhs_arena,
+      &other->_impl_.error_message_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(UpdateCoefficientResponse, _impl_.success_)
+      + sizeof(UpdateCoefficientResponse::_impl_.success_)
+      - PROTOBUF_FIELD_OFFSET(UpdateCoefficientResponse, _impl_.coefficient_)>(
+          reinterpret_cast<char*>(&_impl_.coefficient_),
+          reinterpret_cast<char*>(&other->_impl_.coefficient_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata UpdateCoefficientResponse::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_calc_2eproto_getter, &descriptor_table_calc_2eproto_once,
+      file_level_metadata_calc_2eproto[15]);
+}
+
+// ===================================================================
+
+class DeleteCoefficientRequest::_Internal {
+ public:
+};
+
+DeleteCoefficientRequest::DeleteCoefficientRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:calc.DeleteCoefficientRequest)
+}
+DeleteCoefficientRequest::DeleteCoefficientRequest(const DeleteCoefficientRequest& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  DeleteCoefficientRequest* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.id_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _this->_impl_.id_ = from._impl_.id_;
+  // @@protoc_insertion_point(copy_constructor:calc.DeleteCoefficientRequest)
+}
+
+inline void DeleteCoefficientRequest::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.id_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
+
+DeleteCoefficientRequest::~DeleteCoefficientRequest() {
+  // @@protoc_insertion_point(destructor:calc.DeleteCoefficientRequest)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void DeleteCoefficientRequest::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+}
+
+void DeleteCoefficientRequest::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void DeleteCoefficientRequest::Clear() {
+// @@protoc_insertion_point(message_clear_start:calc.DeleteCoefficientRequest)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.id_ = 0;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* DeleteCoefficientRequest::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // int32 id = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* DeleteCoefficientRequest::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:calc.DeleteCoefficientRequest)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int32 id = 1;
+  if (this->_internal_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_id(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:calc.DeleteCoefficientRequest)
+  return target;
+}
+
+size_t DeleteCoefficientRequest::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:calc.DeleteCoefficientRequest)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // int32 id = 1;
+  if (this->_internal_id() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_id());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData DeleteCoefficientRequest::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    DeleteCoefficientRequest::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*DeleteCoefficientRequest::GetClassData() const { return &_class_data_; }
+
+
+void DeleteCoefficientRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<DeleteCoefficientRequest*>(&to_msg);
+  auto& from = static_cast<const DeleteCoefficientRequest&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:calc.DeleteCoefficientRequest)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_id() != 0) {
+    _this->_internal_set_id(from._internal_id());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void DeleteCoefficientRequest::CopyFrom(const DeleteCoefficientRequest& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:calc.DeleteCoefficientRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool DeleteCoefficientRequest::IsInitialized() const {
+  return true;
+}
+
+void DeleteCoefficientRequest::InternalSwap(DeleteCoefficientRequest* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_.id_, other->_impl_.id_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata DeleteCoefficientRequest::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_calc_2eproto_getter, &descriptor_table_calc_2eproto_once,
+      file_level_metadata_calc_2eproto[16]);
+}
+
+// ===================================================================
+
+class DeleteCoefficientResponse::_Internal {
+ public:
+};
+
+DeleteCoefficientResponse::DeleteCoefficientResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:calc.DeleteCoefficientResponse)
+}
+DeleteCoefficientResponse::DeleteCoefficientResponse(const DeleteCoefficientResponse& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  DeleteCoefficientResponse* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.error_message_){}
+    , decltype(_impl_.success_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.error_message_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.error_message_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_error_message().empty()) {
+    _this->_impl_.error_message_.Set(from._internal_error_message(), 
+      _this->GetArenaForAllocation());
+  }
+  _this->_impl_.success_ = from._impl_.success_;
+  // @@protoc_insertion_point(copy_constructor:calc.DeleteCoefficientResponse)
+}
+
+inline void DeleteCoefficientResponse::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.error_message_){}
+    , decltype(_impl_.success_){false}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.error_message_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.error_message_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+DeleteCoefficientResponse::~DeleteCoefficientResponse() {
+  // @@protoc_insertion_point(destructor:calc.DeleteCoefficientResponse)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void DeleteCoefficientResponse::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.error_message_.Destroy();
+}
+
+void DeleteCoefficientResponse::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void DeleteCoefficientResponse::Clear() {
+// @@protoc_insertion_point(message_clear_start:calc.DeleteCoefficientResponse)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.error_message_.ClearToEmpty();
+  _impl_.success_ = false;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* DeleteCoefficientResponse::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // bool success = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.success_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // string error_message = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          auto str = _internal_mutable_error_message();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "calc.DeleteCoefficientResponse.error_message"));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* DeleteCoefficientResponse::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:calc.DeleteCoefficientResponse)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // bool success = 1;
+  if (this->_internal_success() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(1, this->_internal_success(), target);
+  }
+
+  // string error_message = 2;
+  if (!this->_internal_error_message().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_error_message().data(), static_cast<int>(this->_internal_error_message().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "calc.DeleteCoefficientResponse.error_message");
+    target = stream->WriteStringMaybeAliased(
+        2, this->_internal_error_message(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:calc.DeleteCoefficientResponse)
+  return target;
+}
+
+size_t DeleteCoefficientResponse::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:calc.DeleteCoefficientResponse)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string error_message = 2;
+  if (!this->_internal_error_message().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_error_message());
+  }
+
+  // bool success = 1;
+  if (this->_internal_success() != 0) {
+    total_size += 1 + 1;
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData DeleteCoefficientResponse::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    DeleteCoefficientResponse::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*DeleteCoefficientResponse::GetClassData() const { return &_class_data_; }
+
+
+void DeleteCoefficientResponse::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<DeleteCoefficientResponse*>(&to_msg);
+  auto& from = static_cast<const DeleteCoefficientResponse&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:calc.DeleteCoefficientResponse)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_error_message().empty()) {
+    _this->_internal_set_error_message(from._internal_error_message());
+  }
+  if (from._internal_success() != 0) {
+    _this->_internal_set_success(from._internal_success());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void DeleteCoefficientResponse::CopyFrom(const DeleteCoefficientResponse& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:calc.DeleteCoefficientResponse)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool DeleteCoefficientResponse::IsInitialized() const {
+  return true;
+}
+
+void DeleteCoefficientResponse::InternalSwap(DeleteCoefficientResponse* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.error_message_, lhs_arena,
+      &other->_impl_.error_message_, rhs_arena
+  );
+  swap(_impl_.success_, other->_impl_.success_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata DeleteCoefficientResponse::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_calc_2eproto_getter, &descriptor_table_calc_2eproto_once,
+      file_level_metadata_calc_2eproto[17]);
+}
+
+// ===================================================================
+
+class AverageSalaryRecord::_Internal {
+ public:
+};
+
+AverageSalaryRecord::AverageSalaryRecord(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:calc.AverageSalaryRecord)
+}
+AverageSalaryRecord::AverageSalaryRecord(const AverageSalaryRecord& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  AverageSalaryRecord* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.year_){}
+    , decltype(_impl_.month_){}
+    , decltype(_impl_.amount_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::memcpy(&_impl_.year_, &from._impl_.year_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.amount_) -
+    reinterpret_cast<char*>(&_impl_.year_)) + sizeof(_impl_.amount_));
+  // @@protoc_insertion_point(copy_constructor:calc.AverageSalaryRecord)
+}
+
+inline void AverageSalaryRecord::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.year_){0}
+    , decltype(_impl_.month_){0}
+    , decltype(_impl_.amount_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
+
+AverageSalaryRecord::~AverageSalaryRecord() {
+  // @@protoc_insertion_point(destructor:calc.AverageSalaryRecord)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void AverageSalaryRecord::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+}
+
+void AverageSalaryRecord::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void AverageSalaryRecord::Clear() {
+// @@protoc_insertion_point(message_clear_start:calc.AverageSalaryRecord)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&_impl_.year_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.amount_) -
+      reinterpret_cast<char*>(&_impl_.year_)) + sizeof(_impl_.amount_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* AverageSalaryRecord::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // int32 year = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.year_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 month = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          _impl_.month_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // double amount = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 25)) {
+          _impl_.amount_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* AverageSalaryRecord::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:calc.AverageSalaryRecord)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int32 year = 1;
+  if (this->_internal_year() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_year(), target);
+  }
+
+  // int32 month = 2;
+  if (this->_internal_month() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_month(), target);
+  }
+
+  // double amount = 3;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_amount = this->_internal_amount();
+  uint64_t raw_amount;
+  memcpy(&raw_amount, &tmp_amount, sizeof(tmp_amount));
+  if (raw_amount != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(3, this->_internal_amount(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:calc.AverageSalaryRecord)
+  return target;
+}
+
+size_t AverageSalaryRecord::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:calc.AverageSalaryRecord)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // int32 year = 1;
+  if (this->_internal_year() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_year());
+  }
+
+  // int32 month = 2;
+  if (this->_internal_month() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_month());
+  }
+
+  // double amount = 3;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_amount = this->_internal_amount();
+  uint64_t raw_amount;
+  memcpy(&raw_amount, &tmp_amount, sizeof(tmp_amount));
+  if (raw_amount != 0) {
+    total_size += 1 + 8;
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData AverageSalaryRecord::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    AverageSalaryRecord::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*AverageSalaryRecord::GetClassData() const { return &_class_data_; }
+
+
+void AverageSalaryRecord::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<AverageSalaryRecord*>(&to_msg);
+  auto& from = static_cast<const AverageSalaryRecord&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:calc.AverageSalaryRecord)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_year() != 0) {
+    _this->_internal_set_year(from._internal_year());
+  }
+  if (from._internal_month() != 0) {
+    _this->_internal_set_month(from._internal_month());
+  }
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_amount = from._internal_amount();
+  uint64_t raw_amount;
+  memcpy(&raw_amount, &tmp_amount, sizeof(tmp_amount));
+  if (raw_amount != 0) {
+    _this->_internal_set_amount(from._internal_amount());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void AverageSalaryRecord::CopyFrom(const AverageSalaryRecord& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:calc.AverageSalaryRecord)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool AverageSalaryRecord::IsInitialized() const {
+  return true;
+}
+
+void AverageSalaryRecord::InternalSwap(AverageSalaryRecord* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(AverageSalaryRecord, _impl_.amount_)
+      + sizeof(AverageSalaryRecord::_impl_.amount_)
+      - PROTOBUF_FIELD_OFFSET(AverageSalaryRecord, _impl_.year_)>(
+          reinterpret_cast<char*>(&_impl_.year_),
+          reinterpret_cast<char*>(&other->_impl_.year_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata AverageSalaryRecord::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_calc_2eproto_getter, &descriptor_table_calc_2eproto_once,
+      file_level_metadata_calc_2eproto[18]);
+}
+
+// ===================================================================
+
+class SyncAverageSalariesRequest::_Internal {
+ public:
+};
+
+SyncAverageSalariesRequest::SyncAverageSalariesRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:calc.SyncAverageSalariesRequest)
+}
+SyncAverageSalariesRequest::SyncAverageSalariesRequest(const SyncAverageSalariesRequest& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  SyncAverageSalariesRequest* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.salaries_){from._impl_.salaries_}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:calc.SyncAverageSalariesRequest)
+}
+
+inline void SyncAverageSalariesRequest::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.salaries_){arena}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
+
+SyncAverageSalariesRequest::~SyncAverageSalariesRequest() {
+  // @@protoc_insertion_point(destructor:calc.SyncAverageSalariesRequest)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void SyncAverageSalariesRequest::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.salaries_.~RepeatedPtrField();
+}
+
+void SyncAverageSalariesRequest::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void SyncAverageSalariesRequest::Clear() {
+// @@protoc_insertion_point(message_clear_start:calc.SyncAverageSalariesRequest)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.salaries_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* SyncAverageSalariesRequest::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // repeated .calc.AverageSalaryRecord salaries = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_salaries(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<10>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* SyncAverageSalariesRequest::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:calc.SyncAverageSalariesRequest)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // repeated .calc.AverageSalaryRecord salaries = 1;
+  for (unsigned i = 0,
+      n = static_cast<unsigned>(this->_internal_salaries_size()); i < n; i++) {
+    const auto& repfield = this->_internal_salaries(i);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+        InternalWriteMessage(1, repfield, repfield.GetCachedSize(), target, stream);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:calc.SyncAverageSalariesRequest)
+  return target;
+}
+
+size_t SyncAverageSalariesRequest::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:calc.SyncAverageSalariesRequest)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated .calc.AverageSalaryRecord salaries = 1;
+  total_size += 1UL * this->_internal_salaries_size();
+  for (const auto& msg : this->_impl_.salaries_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData SyncAverageSalariesRequest::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    SyncAverageSalariesRequest::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*SyncAverageSalariesRequest::GetClassData() const { return &_class_data_; }
+
+
+void SyncAverageSalariesRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<SyncAverageSalariesRequest*>(&to_msg);
+  auto& from = static_cast<const SyncAverageSalariesRequest&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:calc.SyncAverageSalariesRequest)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  _this->_impl_.salaries_.MergeFrom(from._impl_.salaries_);
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void SyncAverageSalariesRequest::CopyFrom(const SyncAverageSalariesRequest& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:calc.SyncAverageSalariesRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool SyncAverageSalariesRequest::IsInitialized() const {
+  return true;
+}
+
+void SyncAverageSalariesRequest::InternalSwap(SyncAverageSalariesRequest* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  _impl_.salaries_.InternalSwap(&other->_impl_.salaries_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata SyncAverageSalariesRequest::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_calc_2eproto_getter, &descriptor_table_calc_2eproto_once,
+      file_level_metadata_calc_2eproto[19]);
+}
+
+// ===================================================================
+
+class SyncAverageSalariesResponse::_Internal {
+ public:
+};
+
+SyncAverageSalariesResponse::SyncAverageSalariesResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:calc.SyncAverageSalariesResponse)
+}
+SyncAverageSalariesResponse::SyncAverageSalariesResponse(const SyncAverageSalariesResponse& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  SyncAverageSalariesResponse* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.error_message_){}
+    , decltype(_impl_.success_){}
+    , decltype(_impl_.processed_count_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.error_message_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.error_message_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_error_message().empty()) {
+    _this->_impl_.error_message_.Set(from._internal_error_message(), 
+      _this->GetArenaForAllocation());
+  }
+  ::memcpy(&_impl_.success_, &from._impl_.success_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.processed_count_) -
+    reinterpret_cast<char*>(&_impl_.success_)) + sizeof(_impl_.processed_count_));
+  // @@protoc_insertion_point(copy_constructor:calc.SyncAverageSalariesResponse)
+}
+
+inline void SyncAverageSalariesResponse::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.error_message_){}
+    , decltype(_impl_.success_){false}
+    , decltype(_impl_.processed_count_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.error_message_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.error_message_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+SyncAverageSalariesResponse::~SyncAverageSalariesResponse() {
+  // @@protoc_insertion_point(destructor:calc.SyncAverageSalariesResponse)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void SyncAverageSalariesResponse::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.error_message_.Destroy();
+}
+
+void SyncAverageSalariesResponse::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void SyncAverageSalariesResponse::Clear() {
+// @@protoc_insertion_point(message_clear_start:calc.SyncAverageSalariesResponse)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.error_message_.ClearToEmpty();
+  ::memset(&_impl_.success_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.processed_count_) -
+      reinterpret_cast<char*>(&_impl_.success_)) + sizeof(_impl_.processed_count_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* SyncAverageSalariesResponse::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // bool success = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.success_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 processed_count = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          _impl_.processed_count_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // string error_message = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          auto str = _internal_mutable_error_message();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "calc.SyncAverageSalariesResponse.error_message"));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* SyncAverageSalariesResponse::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:calc.SyncAverageSalariesResponse)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // bool success = 1;
+  if (this->_internal_success() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(1, this->_internal_success(), target);
+  }
+
+  // int32 processed_count = 2;
+  if (this->_internal_processed_count() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_processed_count(), target);
+  }
+
+  // string error_message = 3;
+  if (!this->_internal_error_message().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_error_message().data(), static_cast<int>(this->_internal_error_message().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "calc.SyncAverageSalariesResponse.error_message");
+    target = stream->WriteStringMaybeAliased(
+        3, this->_internal_error_message(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:calc.SyncAverageSalariesResponse)
+  return target;
+}
+
+size_t SyncAverageSalariesResponse::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:calc.SyncAverageSalariesResponse)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string error_message = 3;
+  if (!this->_internal_error_message().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_error_message());
+  }
+
+  // bool success = 1;
+  if (this->_internal_success() != 0) {
+    total_size += 1 + 1;
+  }
+
+  // int32 processed_count = 2;
+  if (this->_internal_processed_count() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_processed_count());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData SyncAverageSalariesResponse::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    SyncAverageSalariesResponse::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*SyncAverageSalariesResponse::GetClassData() const { return &_class_data_; }
+
+
+void SyncAverageSalariesResponse::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<SyncAverageSalariesResponse*>(&to_msg);
+  auto& from = static_cast<const SyncAverageSalariesResponse&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:calc.SyncAverageSalariesResponse)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_error_message().empty()) {
+    _this->_internal_set_error_message(from._internal_error_message());
+  }
+  if (from._internal_success() != 0) {
+    _this->_internal_set_success(from._internal_success());
+  }
+  if (from._internal_processed_count() != 0) {
+    _this->_internal_set_processed_count(from._internal_processed_count());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void SyncAverageSalariesResponse::CopyFrom(const SyncAverageSalariesResponse& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:calc.SyncAverageSalariesResponse)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool SyncAverageSalariesResponse::IsInitialized() const {
+  return true;
+}
+
+void SyncAverageSalariesResponse::InternalSwap(SyncAverageSalariesResponse* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.error_message_, lhs_arena,
+      &other->_impl_.error_message_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(SyncAverageSalariesResponse, _impl_.processed_count_)
+      + sizeof(SyncAverageSalariesResponse::_impl_.processed_count_)
+      - PROTOBUF_FIELD_OFFSET(SyncAverageSalariesResponse, _impl_.success_)>(
+          reinterpret_cast<char*>(&_impl_.success_),
+          reinterpret_cast<char*>(&other->_impl_.success_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata SyncAverageSalariesResponse::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_calc_2eproto_getter, &descriptor_table_calc_2eproto_once,
+      file_level_metadata_calc_2eproto[20]);
+}
+
+// ===================================================================
+
+class UpsertSubsistenceMinimumRequest::_Internal {
+ public:
+};
+
+UpsertSubsistenceMinimumRequest::UpsertSubsistenceMinimumRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:calc.UpsertSubsistenceMinimumRequest)
+}
+UpsertSubsistenceMinimumRequest::UpsertSubsistenceMinimumRequest(const UpsertSubsistenceMinimumRequest& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  UpsertSubsistenceMinimumRequest* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.for_disabled_persons_){}
+    , decltype(_impl_.general_minimum_){}
+    , decltype(_impl_.year_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::memcpy(&_impl_.for_disabled_persons_, &from._impl_.for_disabled_persons_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.year_) -
+    reinterpret_cast<char*>(&_impl_.for_disabled_persons_)) + sizeof(_impl_.year_));
+  // @@protoc_insertion_point(copy_constructor:calc.UpsertSubsistenceMinimumRequest)
+}
+
+inline void UpsertSubsistenceMinimumRequest::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.for_disabled_persons_){0}
+    , decltype(_impl_.general_minimum_){0}
+    , decltype(_impl_.year_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
+
+UpsertSubsistenceMinimumRequest::~UpsertSubsistenceMinimumRequest() {
+  // @@protoc_insertion_point(destructor:calc.UpsertSubsistenceMinimumRequest)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void UpsertSubsistenceMinimumRequest::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+}
+
+void UpsertSubsistenceMinimumRequest::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void UpsertSubsistenceMinimumRequest::Clear() {
+// @@protoc_insertion_point(message_clear_start:calc.UpsertSubsistenceMinimumRequest)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&_impl_.for_disabled_persons_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.year_) -
+      reinterpret_cast<char*>(&_impl_.for_disabled_persons_)) + sizeof(_impl_.year_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* UpsertSubsistenceMinimumRequest::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // int32 year = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.year_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // double for_disabled_persons = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 17)) {
+          _impl_.for_disabled_persons_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
+          goto handle_unusual;
+        continue;
+      // double general_minimum = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 25)) {
+          _impl_.general_minimum_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* UpsertSubsistenceMinimumRequest::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:calc.UpsertSubsistenceMinimumRequest)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int32 year = 1;
+  if (this->_internal_year() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_year(), target);
+  }
+
+  // double for_disabled_persons = 2;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_for_disabled_persons = this->_internal_for_disabled_persons();
+  uint64_t raw_for_disabled_persons;
+  memcpy(&raw_for_disabled_persons, &tmp_for_disabled_persons, sizeof(tmp_for_disabled_persons));
+  if (raw_for_disabled_persons != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(2, this->_internal_for_disabled_persons(), target);
+  }
+
+  // double general_minimum = 3;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_general_minimum = this->_internal_general_minimum();
+  uint64_t raw_general_minimum;
+  memcpy(&raw_general_minimum, &tmp_general_minimum, sizeof(tmp_general_minimum));
+  if (raw_general_minimum != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(3, this->_internal_general_minimum(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:calc.UpsertSubsistenceMinimumRequest)
+  return target;
+}
+
+size_t UpsertSubsistenceMinimumRequest::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:calc.UpsertSubsistenceMinimumRequest)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // double for_disabled_persons = 2;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_for_disabled_persons = this->_internal_for_disabled_persons();
+  uint64_t raw_for_disabled_persons;
+  memcpy(&raw_for_disabled_persons, &tmp_for_disabled_persons, sizeof(tmp_for_disabled_persons));
+  if (raw_for_disabled_persons != 0) {
+    total_size += 1 + 8;
+  }
+
+  // double general_minimum = 3;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_general_minimum = this->_internal_general_minimum();
+  uint64_t raw_general_minimum;
+  memcpy(&raw_general_minimum, &tmp_general_minimum, sizeof(tmp_general_minimum));
+  if (raw_general_minimum != 0) {
+    total_size += 1 + 8;
+  }
+
+  // int32 year = 1;
+  if (this->_internal_year() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_year());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData UpsertSubsistenceMinimumRequest::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    UpsertSubsistenceMinimumRequest::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*UpsertSubsistenceMinimumRequest::GetClassData() const { return &_class_data_; }
+
+
+void UpsertSubsistenceMinimumRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<UpsertSubsistenceMinimumRequest*>(&to_msg);
+  auto& from = static_cast<const UpsertSubsistenceMinimumRequest&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:calc.UpsertSubsistenceMinimumRequest)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_for_disabled_persons = from._internal_for_disabled_persons();
+  uint64_t raw_for_disabled_persons;
+  memcpy(&raw_for_disabled_persons, &tmp_for_disabled_persons, sizeof(tmp_for_disabled_persons));
+  if (raw_for_disabled_persons != 0) {
+    _this->_internal_set_for_disabled_persons(from._internal_for_disabled_persons());
+  }
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_general_minimum = from._internal_general_minimum();
+  uint64_t raw_general_minimum;
+  memcpy(&raw_general_minimum, &tmp_general_minimum, sizeof(tmp_general_minimum));
+  if (raw_general_minimum != 0) {
+    _this->_internal_set_general_minimum(from._internal_general_minimum());
+  }
+  if (from._internal_year() != 0) {
+    _this->_internal_set_year(from._internal_year());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void UpsertSubsistenceMinimumRequest::CopyFrom(const UpsertSubsistenceMinimumRequest& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:calc.UpsertSubsistenceMinimumRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool UpsertSubsistenceMinimumRequest::IsInitialized() const {
+  return true;
+}
+
+void UpsertSubsistenceMinimumRequest::InternalSwap(UpsertSubsistenceMinimumRequest* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(UpsertSubsistenceMinimumRequest, _impl_.year_)
+      + sizeof(UpsertSubsistenceMinimumRequest::_impl_.year_)
+      - PROTOBUF_FIELD_OFFSET(UpsertSubsistenceMinimumRequest, _impl_.for_disabled_persons_)>(
+          reinterpret_cast<char*>(&_impl_.for_disabled_persons_),
+          reinterpret_cast<char*>(&other->_impl_.for_disabled_persons_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata UpsertSubsistenceMinimumRequest::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_calc_2eproto_getter, &descriptor_table_calc_2eproto_once,
+      file_level_metadata_calc_2eproto[21]);
+}
+
+// ===================================================================
+
+class UpsertSubsistenceMinimumResponse::_Internal {
+ public:
+};
+
+UpsertSubsistenceMinimumResponse::UpsertSubsistenceMinimumResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:calc.UpsertSubsistenceMinimumResponse)
+}
+UpsertSubsistenceMinimumResponse::UpsertSubsistenceMinimumResponse(const UpsertSubsistenceMinimumResponse& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  UpsertSubsistenceMinimumResponse* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.message_){}
+    , decltype(_impl_.error_message_){}
+    , decltype(_impl_.success_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.message_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.message_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_message().empty()) {
+    _this->_impl_.message_.Set(from._internal_message(), 
+      _this->GetArenaForAllocation());
+  }
+  _impl_.error_message_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.error_message_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_error_message().empty()) {
+    _this->_impl_.error_message_.Set(from._internal_error_message(), 
+      _this->GetArenaForAllocation());
+  }
+  _this->_impl_.success_ = from._impl_.success_;
+  // @@protoc_insertion_point(copy_constructor:calc.UpsertSubsistenceMinimumResponse)
+}
+
+inline void UpsertSubsistenceMinimumResponse::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.message_){}
+    , decltype(_impl_.error_message_){}
+    , decltype(_impl_.success_){false}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.message_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.message_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.error_message_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.error_message_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+UpsertSubsistenceMinimumResponse::~UpsertSubsistenceMinimumResponse() {
+  // @@protoc_insertion_point(destructor:calc.UpsertSubsistenceMinimumResponse)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void UpsertSubsistenceMinimumResponse::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.message_.Destroy();
+  _impl_.error_message_.Destroy();
+}
+
+void UpsertSubsistenceMinimumResponse::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void UpsertSubsistenceMinimumResponse::Clear() {
+// @@protoc_insertion_point(message_clear_start:calc.UpsertSubsistenceMinimumResponse)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.message_.ClearToEmpty();
+  _impl_.error_message_.ClearToEmpty();
+  _impl_.success_ = false;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* UpsertSubsistenceMinimumResponse::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // bool success = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.success_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // string message = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          auto str = _internal_mutable_message();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "calc.UpsertSubsistenceMinimumResponse.message"));
+        } else
+          goto handle_unusual;
+        continue;
+      // string error_message = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          auto str = _internal_mutable_error_message();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "calc.UpsertSubsistenceMinimumResponse.error_message"));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* UpsertSubsistenceMinimumResponse::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:calc.UpsertSubsistenceMinimumResponse)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // bool success = 1;
+  if (this->_internal_success() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(1, this->_internal_success(), target);
+  }
+
+  // string message = 2;
+  if (!this->_internal_message().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_message().data(), static_cast<int>(this->_internal_message().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "calc.UpsertSubsistenceMinimumResponse.message");
+    target = stream->WriteStringMaybeAliased(
+        2, this->_internal_message(), target);
+  }
+
+  // string error_message = 3;
+  if (!this->_internal_error_message().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_error_message().data(), static_cast<int>(this->_internal_error_message().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "calc.UpsertSubsistenceMinimumResponse.error_message");
+    target = stream->WriteStringMaybeAliased(
+        3, this->_internal_error_message(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:calc.UpsertSubsistenceMinimumResponse)
+  return target;
+}
+
+size_t UpsertSubsistenceMinimumResponse::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:calc.UpsertSubsistenceMinimumResponse)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string message = 2;
+  if (!this->_internal_message().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_message());
+  }
+
+  // string error_message = 3;
+  if (!this->_internal_error_message().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_error_message());
+  }
+
+  // bool success = 1;
+  if (this->_internal_success() != 0) {
+    total_size += 1 + 1;
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData UpsertSubsistenceMinimumResponse::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    UpsertSubsistenceMinimumResponse::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*UpsertSubsistenceMinimumResponse::GetClassData() const { return &_class_data_; }
+
+
+void UpsertSubsistenceMinimumResponse::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<UpsertSubsistenceMinimumResponse*>(&to_msg);
+  auto& from = static_cast<const UpsertSubsistenceMinimumResponse&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:calc.UpsertSubsistenceMinimumResponse)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_message().empty()) {
+    _this->_internal_set_message(from._internal_message());
+  }
+  if (!from._internal_error_message().empty()) {
+    _this->_internal_set_error_message(from._internal_error_message());
+  }
+  if (from._internal_success() != 0) {
+    _this->_internal_set_success(from._internal_success());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void UpsertSubsistenceMinimumResponse::CopyFrom(const UpsertSubsistenceMinimumResponse& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:calc.UpsertSubsistenceMinimumResponse)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool UpsertSubsistenceMinimumResponse::IsInitialized() const {
+  return true;
+}
+
+void UpsertSubsistenceMinimumResponse::InternalSwap(UpsertSubsistenceMinimumResponse* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.message_, lhs_arena,
+      &other->_impl_.message_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.error_message_, lhs_arena,
+      &other->_impl_.error_message_, rhs_arena
+  );
+  swap(_impl_.success_, other->_impl_.success_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata UpsertSubsistenceMinimumResponse::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_calc_2eproto_getter, &descriptor_table_calc_2eproto_once,
+      file_level_metadata_calc_2eproto[22]);
+}
+
+// ===================================================================
+
+class ListSubsistenceMinimumsRequest::_Internal {
+ public:
+};
+
+ListSubsistenceMinimumsRequest::ListSubsistenceMinimumsRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase(arena, is_message_owned) {
+  // @@protoc_insertion_point(arena_constructor:calc.ListSubsistenceMinimumsRequest)
+}
+ListSubsistenceMinimumsRequest::ListSubsistenceMinimumsRequest(const ListSubsistenceMinimumsRequest& from)
+  : ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase() {
+  ListSubsistenceMinimumsRequest* const _this = this; (void)_this;
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:calc.ListSubsistenceMinimumsRequest)
+}
+
+
+
+
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData ListSubsistenceMinimumsRequest::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::CopyImpl,
+    ::PROTOBUF_NAMESPACE_ID::internal::ZeroFieldsBase::MergeImpl,
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*ListSubsistenceMinimumsRequest::GetClassData() const { return &_class_data_; }
+
+
+
+
+
+
+
+::PROTOBUF_NAMESPACE_ID::Metadata ListSubsistenceMinimumsRequest::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_calc_2eproto_getter, &descriptor_table_calc_2eproto_once,
+      file_level_metadata_calc_2eproto[23]);
+}
+
+// ===================================================================
+
+class SubsistenceMinimumRecord::_Internal {
+ public:
+};
+
+SubsistenceMinimumRecord::SubsistenceMinimumRecord(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:calc.SubsistenceMinimumRecord)
+}
+SubsistenceMinimumRecord::SubsistenceMinimumRecord(const SubsistenceMinimumRecord& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  SubsistenceMinimumRecord* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.id_){}
+    , decltype(_impl_.year_){}
+    , decltype(_impl_.for_disabled_persons_){}
+    , decltype(_impl_.general_minimum_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::memcpy(&_impl_.id_, &from._impl_.id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.general_minimum_) -
+    reinterpret_cast<char*>(&_impl_.id_)) + sizeof(_impl_.general_minimum_));
+  // @@protoc_insertion_point(copy_constructor:calc.SubsistenceMinimumRecord)
+}
+
+inline void SubsistenceMinimumRecord::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.id_){0}
+    , decltype(_impl_.year_){0}
+    , decltype(_impl_.for_disabled_persons_){0}
+    , decltype(_impl_.general_minimum_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
+
+SubsistenceMinimumRecord::~SubsistenceMinimumRecord() {
+  // @@protoc_insertion_point(destructor:calc.SubsistenceMinimumRecord)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void SubsistenceMinimumRecord::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+}
+
+void SubsistenceMinimumRecord::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void SubsistenceMinimumRecord::Clear() {
+// @@protoc_insertion_point(message_clear_start:calc.SubsistenceMinimumRecord)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&_impl_.id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.general_minimum_) -
+      reinterpret_cast<char*>(&_impl_.id_)) + sizeof(_impl_.general_minimum_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* SubsistenceMinimumRecord::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // int32 id = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 year = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          _impl_.year_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // double for_disabled_persons = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 25)) {
+          _impl_.for_disabled_persons_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
+          goto handle_unusual;
+        continue;
+      // double general_minimum = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 33)) {
+          _impl_.general_minimum_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* SubsistenceMinimumRecord::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:calc.SubsistenceMinimumRecord)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int32 id = 1;
+  if (this->_internal_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_id(), target);
+  }
+
+  // int32 year = 2;
+  if (this->_internal_year() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_year(), target);
+  }
+
+  // double for_disabled_persons = 3;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_for_disabled_persons = this->_internal_for_disabled_persons();
+  uint64_t raw_for_disabled_persons;
+  memcpy(&raw_for_disabled_persons, &tmp_for_disabled_persons, sizeof(tmp_for_disabled_persons));
+  if (raw_for_disabled_persons != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(3, this->_internal_for_disabled_persons(), target);
+  }
+
+  // double general_minimum = 4;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_general_minimum = this->_internal_general_minimum();
+  uint64_t raw_general_minimum;
+  memcpy(&raw_general_minimum, &tmp_general_minimum, sizeof(tmp_general_minimum));
+  if (raw_general_minimum != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(4, this->_internal_general_minimum(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:calc.SubsistenceMinimumRecord)
+  return target;
+}
+
+size_t SubsistenceMinimumRecord::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:calc.SubsistenceMinimumRecord)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // int32 id = 1;
+  if (this->_internal_id() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_id());
+  }
+
+  // int32 year = 2;
+  if (this->_internal_year() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_year());
+  }
+
+  // double for_disabled_persons = 3;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_for_disabled_persons = this->_internal_for_disabled_persons();
+  uint64_t raw_for_disabled_persons;
+  memcpy(&raw_for_disabled_persons, &tmp_for_disabled_persons, sizeof(tmp_for_disabled_persons));
+  if (raw_for_disabled_persons != 0) {
+    total_size += 1 + 8;
+  }
+
+  // double general_minimum = 4;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_general_minimum = this->_internal_general_minimum();
+  uint64_t raw_general_minimum;
+  memcpy(&raw_general_minimum, &tmp_general_minimum, sizeof(tmp_general_minimum));
+  if (raw_general_minimum != 0) {
+    total_size += 1 + 8;
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData SubsistenceMinimumRecord::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    SubsistenceMinimumRecord::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*SubsistenceMinimumRecord::GetClassData() const { return &_class_data_; }
+
+
+void SubsistenceMinimumRecord::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<SubsistenceMinimumRecord*>(&to_msg);
+  auto& from = static_cast<const SubsistenceMinimumRecord&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:calc.SubsistenceMinimumRecord)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_id() != 0) {
+    _this->_internal_set_id(from._internal_id());
+  }
+  if (from._internal_year() != 0) {
+    _this->_internal_set_year(from._internal_year());
+  }
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_for_disabled_persons = from._internal_for_disabled_persons();
+  uint64_t raw_for_disabled_persons;
+  memcpy(&raw_for_disabled_persons, &tmp_for_disabled_persons, sizeof(tmp_for_disabled_persons));
+  if (raw_for_disabled_persons != 0) {
+    _this->_internal_set_for_disabled_persons(from._internal_for_disabled_persons());
+  }
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_general_minimum = from._internal_general_minimum();
+  uint64_t raw_general_minimum;
+  memcpy(&raw_general_minimum, &tmp_general_minimum, sizeof(tmp_general_minimum));
+  if (raw_general_minimum != 0) {
+    _this->_internal_set_general_minimum(from._internal_general_minimum());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void SubsistenceMinimumRecord::CopyFrom(const SubsistenceMinimumRecord& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:calc.SubsistenceMinimumRecord)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool SubsistenceMinimumRecord::IsInitialized() const {
+  return true;
+}
+
+void SubsistenceMinimumRecord::InternalSwap(SubsistenceMinimumRecord* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(SubsistenceMinimumRecord, _impl_.general_minimum_)
+      + sizeof(SubsistenceMinimumRecord::_impl_.general_minimum_)
+      - PROTOBUF_FIELD_OFFSET(SubsistenceMinimumRecord, _impl_.id_)>(
+          reinterpret_cast<char*>(&_impl_.id_),
+          reinterpret_cast<char*>(&other->_impl_.id_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata SubsistenceMinimumRecord::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_calc_2eproto_getter, &descriptor_table_calc_2eproto_once,
+      file_level_metadata_calc_2eproto[24]);
+}
+
+// ===================================================================
+
+class ListSubsistenceMinimumsResponse::_Internal {
+ public:
+};
+
+ListSubsistenceMinimumsResponse::ListSubsistenceMinimumsResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:calc.ListSubsistenceMinimumsResponse)
+}
+ListSubsistenceMinimumsResponse::ListSubsistenceMinimumsResponse(const ListSubsistenceMinimumsResponse& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  ListSubsistenceMinimumsResponse* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.records_){from._impl_.records_}
+    , decltype(_impl_.error_message_){}
+    , decltype(_impl_.success_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.error_message_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.error_message_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_error_message().empty()) {
+    _this->_impl_.error_message_.Set(from._internal_error_message(), 
+      _this->GetArenaForAllocation());
+  }
+  _this->_impl_.success_ = from._impl_.success_;
+  // @@protoc_insertion_point(copy_constructor:calc.ListSubsistenceMinimumsResponse)
+}
+
+inline void ListSubsistenceMinimumsResponse::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.records_){arena}
+    , decltype(_impl_.error_message_){}
+    , decltype(_impl_.success_){false}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.error_message_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.error_message_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+ListSubsistenceMinimumsResponse::~ListSubsistenceMinimumsResponse() {
+  // @@protoc_insertion_point(destructor:calc.ListSubsistenceMinimumsResponse)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void ListSubsistenceMinimumsResponse::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.records_.~RepeatedPtrField();
+  _impl_.error_message_.Destroy();
+}
+
+void ListSubsistenceMinimumsResponse::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void ListSubsistenceMinimumsResponse::Clear() {
+// @@protoc_insertion_point(message_clear_start:calc.ListSubsistenceMinimumsResponse)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.records_.Clear();
+  _impl_.error_message_.ClearToEmpty();
+  _impl_.success_ = false;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* ListSubsistenceMinimumsResponse::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // bool success = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.success_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // repeated .calc.SubsistenceMinimumRecord records = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_records(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<18>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
+      // string error_message = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          auto str = _internal_mutable_error_message();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "calc.ListSubsistenceMinimumsResponse.error_message"));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* ListSubsistenceMinimumsResponse::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:calc.ListSubsistenceMinimumsResponse)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // bool success = 1;
+  if (this->_internal_success() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(1, this->_internal_success(), target);
+  }
+
+  // repeated .calc.SubsistenceMinimumRecord records = 2;
+  for (unsigned i = 0,
+      n = static_cast<unsigned>(this->_internal_records_size()); i < n; i++) {
+    const auto& repfield = this->_internal_records(i);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+        InternalWriteMessage(2, repfield, repfield.GetCachedSize(), target, stream);
+  }
+
+  // string error_message = 3;
+  if (!this->_internal_error_message().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_error_message().data(), static_cast<int>(this->_internal_error_message().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "calc.ListSubsistenceMinimumsResponse.error_message");
+    target = stream->WriteStringMaybeAliased(
+        3, this->_internal_error_message(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:calc.ListSubsistenceMinimumsResponse)
+  return target;
+}
+
+size_t ListSubsistenceMinimumsResponse::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:calc.ListSubsistenceMinimumsResponse)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated .calc.SubsistenceMinimumRecord records = 2;
+  total_size += 1UL * this->_internal_records_size();
+  for (const auto& msg : this->_impl_.records_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
+  // string error_message = 3;
+  if (!this->_internal_error_message().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_error_message());
+  }
+
+  // bool success = 1;
+  if (this->_internal_success() != 0) {
+    total_size += 1 + 1;
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData ListSubsistenceMinimumsResponse::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    ListSubsistenceMinimumsResponse::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*ListSubsistenceMinimumsResponse::GetClassData() const { return &_class_data_; }
+
+
+void ListSubsistenceMinimumsResponse::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<ListSubsistenceMinimumsResponse*>(&to_msg);
+  auto& from = static_cast<const ListSubsistenceMinimumsResponse&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:calc.ListSubsistenceMinimumsResponse)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  _this->_impl_.records_.MergeFrom(from._impl_.records_);
+  if (!from._internal_error_message().empty()) {
+    _this->_internal_set_error_message(from._internal_error_message());
+  }
+  if (from._internal_success() != 0) {
+    _this->_internal_set_success(from._internal_success());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void ListSubsistenceMinimumsResponse::CopyFrom(const ListSubsistenceMinimumsResponse& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:calc.ListSubsistenceMinimumsResponse)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool ListSubsistenceMinimumsResponse::IsInitialized() const {
+  return true;
+}
+
+void ListSubsistenceMinimumsResponse::InternalSwap(ListSubsistenceMinimumsResponse* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  _impl_.records_.InternalSwap(&other->_impl_.records_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.error_message_, lhs_arena,
+      &other->_impl_.error_message_, rhs_arena
+  );
+  swap(_impl_.success_, other->_impl_.success_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata ListSubsistenceMinimumsResponse::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_calc_2eproto_getter, &descriptor_table_calc_2eproto_once,
+      file_level_metadata_calc_2eproto[25]);
+}
+
+// ===================================================================
+
+class UpdateSubsistenceMinimumRequest::_Internal {
+ public:
+};
+
+UpdateSubsistenceMinimumRequest::UpdateSubsistenceMinimumRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:calc.UpdateSubsistenceMinimumRequest)
+}
+UpdateSubsistenceMinimumRequest::UpdateSubsistenceMinimumRequest(const UpdateSubsistenceMinimumRequest& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  UpdateSubsistenceMinimumRequest* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.id_){}
+    , decltype(_impl_.year_){}
+    , decltype(_impl_.for_disabled_persons_){}
+    , decltype(_impl_.general_minimum_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::memcpy(&_impl_.id_, &from._impl_.id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.general_minimum_) -
+    reinterpret_cast<char*>(&_impl_.id_)) + sizeof(_impl_.general_minimum_));
+  // @@protoc_insertion_point(copy_constructor:calc.UpdateSubsistenceMinimumRequest)
+}
+
+inline void UpdateSubsistenceMinimumRequest::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.id_){0}
+    , decltype(_impl_.year_){0}
+    , decltype(_impl_.for_disabled_persons_){0}
+    , decltype(_impl_.general_minimum_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
+
+UpdateSubsistenceMinimumRequest::~UpdateSubsistenceMinimumRequest() {
+  // @@protoc_insertion_point(destructor:calc.UpdateSubsistenceMinimumRequest)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void UpdateSubsistenceMinimumRequest::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+}
+
+void UpdateSubsistenceMinimumRequest::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void UpdateSubsistenceMinimumRequest::Clear() {
+// @@protoc_insertion_point(message_clear_start:calc.UpdateSubsistenceMinimumRequest)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&_impl_.id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.general_minimum_) -
+      reinterpret_cast<char*>(&_impl_.id_)) + sizeof(_impl_.general_minimum_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* UpdateSubsistenceMinimumRequest::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // int32 id = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 year = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          _impl_.year_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // double for_disabled_persons = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 25)) {
+          _impl_.for_disabled_persons_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
+          goto handle_unusual;
+        continue;
+      // double general_minimum = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 33)) {
+          _impl_.general_minimum_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* UpdateSubsistenceMinimumRequest::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:calc.UpdateSubsistenceMinimumRequest)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int32 id = 1;
+  if (this->_internal_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_id(), target);
+  }
+
+  // int32 year = 2;
+  if (this->_internal_year() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_year(), target);
+  }
+
+  // double for_disabled_persons = 3;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_for_disabled_persons = this->_internal_for_disabled_persons();
+  uint64_t raw_for_disabled_persons;
+  memcpy(&raw_for_disabled_persons, &tmp_for_disabled_persons, sizeof(tmp_for_disabled_persons));
+  if (raw_for_disabled_persons != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(3, this->_internal_for_disabled_persons(), target);
+  }
+
+  // double general_minimum = 4;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_general_minimum = this->_internal_general_minimum();
+  uint64_t raw_general_minimum;
+  memcpy(&raw_general_minimum, &tmp_general_minimum, sizeof(tmp_general_minimum));
+  if (raw_general_minimum != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteDoubleToArray(4, this->_internal_general_minimum(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:calc.UpdateSubsistenceMinimumRequest)
+  return target;
+}
+
+size_t UpdateSubsistenceMinimumRequest::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:calc.UpdateSubsistenceMinimumRequest)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // int32 id = 1;
+  if (this->_internal_id() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_id());
+  }
+
+  // int32 year = 2;
+  if (this->_internal_year() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_year());
+  }
+
+  // double for_disabled_persons = 3;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_for_disabled_persons = this->_internal_for_disabled_persons();
+  uint64_t raw_for_disabled_persons;
+  memcpy(&raw_for_disabled_persons, &tmp_for_disabled_persons, sizeof(tmp_for_disabled_persons));
+  if (raw_for_disabled_persons != 0) {
+    total_size += 1 + 8;
+  }
+
+  // double general_minimum = 4;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_general_minimum = this->_internal_general_minimum();
+  uint64_t raw_general_minimum;
+  memcpy(&raw_general_minimum, &tmp_general_minimum, sizeof(tmp_general_minimum));
+  if (raw_general_minimum != 0) {
+    total_size += 1 + 8;
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData UpdateSubsistenceMinimumRequest::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    UpdateSubsistenceMinimumRequest::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*UpdateSubsistenceMinimumRequest::GetClassData() const { return &_class_data_; }
+
+
+void UpdateSubsistenceMinimumRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<UpdateSubsistenceMinimumRequest*>(&to_msg);
+  auto& from = static_cast<const UpdateSubsistenceMinimumRequest&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:calc.UpdateSubsistenceMinimumRequest)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_id() != 0) {
+    _this->_internal_set_id(from._internal_id());
+  }
+  if (from._internal_year() != 0) {
+    _this->_internal_set_year(from._internal_year());
+  }
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_for_disabled_persons = from._internal_for_disabled_persons();
+  uint64_t raw_for_disabled_persons;
+  memcpy(&raw_for_disabled_persons, &tmp_for_disabled_persons, sizeof(tmp_for_disabled_persons));
+  if (raw_for_disabled_persons != 0) {
+    _this->_internal_set_for_disabled_persons(from._internal_for_disabled_persons());
+  }
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_general_minimum = from._internal_general_minimum();
+  uint64_t raw_general_minimum;
+  memcpy(&raw_general_minimum, &tmp_general_minimum, sizeof(tmp_general_minimum));
+  if (raw_general_minimum != 0) {
+    _this->_internal_set_general_minimum(from._internal_general_minimum());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void UpdateSubsistenceMinimumRequest::CopyFrom(const UpdateSubsistenceMinimumRequest& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:calc.UpdateSubsistenceMinimumRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool UpdateSubsistenceMinimumRequest::IsInitialized() const {
+  return true;
+}
+
+void UpdateSubsistenceMinimumRequest::InternalSwap(UpdateSubsistenceMinimumRequest* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(UpdateSubsistenceMinimumRequest, _impl_.general_minimum_)
+      + sizeof(UpdateSubsistenceMinimumRequest::_impl_.general_minimum_)
+      - PROTOBUF_FIELD_OFFSET(UpdateSubsistenceMinimumRequest, _impl_.id_)>(
+          reinterpret_cast<char*>(&_impl_.id_),
+          reinterpret_cast<char*>(&other->_impl_.id_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata UpdateSubsistenceMinimumRequest::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_calc_2eproto_getter, &descriptor_table_calc_2eproto_once,
+      file_level_metadata_calc_2eproto[26]);
+}
+
+// ===================================================================
+
+class UpdateSubsistenceMinimumResponse::_Internal {
+ public:
+  static const ::calc::SubsistenceMinimumRecord& record(const UpdateSubsistenceMinimumResponse* msg);
+};
+
+const ::calc::SubsistenceMinimumRecord&
+UpdateSubsistenceMinimumResponse::_Internal::record(const UpdateSubsistenceMinimumResponse* msg) {
+  return *msg->_impl_.record_;
+}
+UpdateSubsistenceMinimumResponse::UpdateSubsistenceMinimumResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:calc.UpdateSubsistenceMinimumResponse)
+}
+UpdateSubsistenceMinimumResponse::UpdateSubsistenceMinimumResponse(const UpdateSubsistenceMinimumResponse& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  UpdateSubsistenceMinimumResponse* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.error_message_){}
+    , decltype(_impl_.record_){nullptr}
+    , decltype(_impl_.success_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.error_message_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.error_message_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_error_message().empty()) {
+    _this->_impl_.error_message_.Set(from._internal_error_message(), 
+      _this->GetArenaForAllocation());
+  }
+  if (from._internal_has_record()) {
+    _this->_impl_.record_ = new ::calc::SubsistenceMinimumRecord(*from._impl_.record_);
+  }
+  _this->_impl_.success_ = from._impl_.success_;
+  // @@protoc_insertion_point(copy_constructor:calc.UpdateSubsistenceMinimumResponse)
+}
+
+inline void UpdateSubsistenceMinimumResponse::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.error_message_){}
+    , decltype(_impl_.record_){nullptr}
+    , decltype(_impl_.success_){false}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.error_message_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.error_message_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+UpdateSubsistenceMinimumResponse::~UpdateSubsistenceMinimumResponse() {
+  // @@protoc_insertion_point(destructor:calc.UpdateSubsistenceMinimumResponse)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void UpdateSubsistenceMinimumResponse::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.error_message_.Destroy();
+  if (this != internal_default_instance()) delete _impl_.record_;
+}
+
+void UpdateSubsistenceMinimumResponse::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void UpdateSubsistenceMinimumResponse::Clear() {
+// @@protoc_insertion_point(message_clear_start:calc.UpdateSubsistenceMinimumResponse)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.error_message_.ClearToEmpty();
+  if (GetArenaForAllocation() == nullptr && _impl_.record_ != nullptr) {
+    delete _impl_.record_;
+  }
+  _impl_.record_ = nullptr;
+  _impl_.success_ = false;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* UpdateSubsistenceMinimumResponse::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // bool success = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.success_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .calc.SubsistenceMinimumRecord record = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          ptr = ctx->ParseMessage(_internal_mutable_record(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // string error_message = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          auto str = _internal_mutable_error_message();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "calc.UpdateSubsistenceMinimumResponse.error_message"));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* UpdateSubsistenceMinimumResponse::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:calc.UpdateSubsistenceMinimumResponse)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // bool success = 1;
+  if (this->_internal_success() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(1, this->_internal_success(), target);
+  }
+
+  // .calc.SubsistenceMinimumRecord record = 2;
+  if (this->_internal_has_record()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(2, _Internal::record(this),
+        _Internal::record(this).GetCachedSize(), target, stream);
+  }
+
+  // string error_message = 3;
+  if (!this->_internal_error_message().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_error_message().data(), static_cast<int>(this->_internal_error_message().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "calc.UpdateSubsistenceMinimumResponse.error_message");
+    target = stream->WriteStringMaybeAliased(
+        3, this->_internal_error_message(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:calc.UpdateSubsistenceMinimumResponse)
+  return target;
+}
+
+size_t UpdateSubsistenceMinimumResponse::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:calc.UpdateSubsistenceMinimumResponse)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string error_message = 3;
+  if (!this->_internal_error_message().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_error_message());
+  }
+
+  // .calc.SubsistenceMinimumRecord record = 2;
+  if (this->_internal_has_record()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.record_);
+  }
+
+  // bool success = 1;
+  if (this->_internal_success() != 0) {
+    total_size += 1 + 1;
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData UpdateSubsistenceMinimumResponse::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    UpdateSubsistenceMinimumResponse::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*UpdateSubsistenceMinimumResponse::GetClassData() const { return &_class_data_; }
+
+
+void UpdateSubsistenceMinimumResponse::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<UpdateSubsistenceMinimumResponse*>(&to_msg);
+  auto& from = static_cast<const UpdateSubsistenceMinimumResponse&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:calc.UpdateSubsistenceMinimumResponse)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_error_message().empty()) {
+    _this->_internal_set_error_message(from._internal_error_message());
+  }
+  if (from._internal_has_record()) {
+    _this->_internal_mutable_record()->::calc::SubsistenceMinimumRecord::MergeFrom(
+        from._internal_record());
+  }
+  if (from._internal_success() != 0) {
+    _this->_internal_set_success(from._internal_success());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void UpdateSubsistenceMinimumResponse::CopyFrom(const UpdateSubsistenceMinimumResponse& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:calc.UpdateSubsistenceMinimumResponse)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool UpdateSubsistenceMinimumResponse::IsInitialized() const {
+  return true;
+}
+
+void UpdateSubsistenceMinimumResponse::InternalSwap(UpdateSubsistenceMinimumResponse* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.error_message_, lhs_arena,
+      &other->_impl_.error_message_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(UpdateSubsistenceMinimumResponse, _impl_.success_)
+      + sizeof(UpdateSubsistenceMinimumResponse::_impl_.success_)
+      - PROTOBUF_FIELD_OFFSET(UpdateSubsistenceMinimumResponse, _impl_.record_)>(
+          reinterpret_cast<char*>(&_impl_.record_),
+          reinterpret_cast<char*>(&other->_impl_.record_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata UpdateSubsistenceMinimumResponse::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_calc_2eproto_getter, &descriptor_table_calc_2eproto_once,
+      file_level_metadata_calc_2eproto[27]);
+}
+
+// ===================================================================
+
+class DeleteSubsistenceMinimumRequest::_Internal {
+ public:
+};
+
+DeleteSubsistenceMinimumRequest::DeleteSubsistenceMinimumRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:calc.DeleteSubsistenceMinimumRequest)
+}
+DeleteSubsistenceMinimumRequest::DeleteSubsistenceMinimumRequest(const DeleteSubsistenceMinimumRequest& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  DeleteSubsistenceMinimumRequest* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.id_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _this->_impl_.id_ = from._impl_.id_;
+  // @@protoc_insertion_point(copy_constructor:calc.DeleteSubsistenceMinimumRequest)
+}
+
+inline void DeleteSubsistenceMinimumRequest::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.id_){0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
+
+DeleteSubsistenceMinimumRequest::~DeleteSubsistenceMinimumRequest() {
+  // @@protoc_insertion_point(destructor:calc.DeleteSubsistenceMinimumRequest)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void DeleteSubsistenceMinimumRequest::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+}
+
+void DeleteSubsistenceMinimumRequest::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void DeleteSubsistenceMinimumRequest::Clear() {
+// @@protoc_insertion_point(message_clear_start:calc.DeleteSubsistenceMinimumRequest)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.id_ = 0;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* DeleteSubsistenceMinimumRequest::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // int32 id = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* DeleteSubsistenceMinimumRequest::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:calc.DeleteSubsistenceMinimumRequest)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int32 id = 1;
+  if (this->_internal_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_id(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:calc.DeleteSubsistenceMinimumRequest)
+  return target;
+}
+
+size_t DeleteSubsistenceMinimumRequest::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:calc.DeleteSubsistenceMinimumRequest)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // int32 id = 1;
+  if (this->_internal_id() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_id());
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData DeleteSubsistenceMinimumRequest::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    DeleteSubsistenceMinimumRequest::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*DeleteSubsistenceMinimumRequest::GetClassData() const { return &_class_data_; }
+
+
+void DeleteSubsistenceMinimumRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<DeleteSubsistenceMinimumRequest*>(&to_msg);
+  auto& from = static_cast<const DeleteSubsistenceMinimumRequest&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:calc.DeleteSubsistenceMinimumRequest)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_id() != 0) {
+    _this->_internal_set_id(from._internal_id());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void DeleteSubsistenceMinimumRequest::CopyFrom(const DeleteSubsistenceMinimumRequest& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:calc.DeleteSubsistenceMinimumRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool DeleteSubsistenceMinimumRequest::IsInitialized() const {
+  return true;
+}
+
+void DeleteSubsistenceMinimumRequest::InternalSwap(DeleteSubsistenceMinimumRequest* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_impl_.id_, other->_impl_.id_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata DeleteSubsistenceMinimumRequest::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_calc_2eproto_getter, &descriptor_table_calc_2eproto_once,
+      file_level_metadata_calc_2eproto[28]);
+}
+
+// ===================================================================
+
+class DeleteSubsistenceMinimumResponse::_Internal {
+ public:
+};
+
+DeleteSubsistenceMinimumResponse::DeleteSubsistenceMinimumResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:calc.DeleteSubsistenceMinimumResponse)
+}
+DeleteSubsistenceMinimumResponse::DeleteSubsistenceMinimumResponse(const DeleteSubsistenceMinimumResponse& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  DeleteSubsistenceMinimumResponse* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.error_message_){}
+    , decltype(_impl_.success_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.error_message_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.error_message_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_error_message().empty()) {
+    _this->_impl_.error_message_.Set(from._internal_error_message(), 
+      _this->GetArenaForAllocation());
+  }
+  _this->_impl_.success_ = from._impl_.success_;
+  // @@protoc_insertion_point(copy_constructor:calc.DeleteSubsistenceMinimumResponse)
+}
+
+inline void DeleteSubsistenceMinimumResponse::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.error_message_){}
+    , decltype(_impl_.success_){false}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.error_message_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.error_message_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+DeleteSubsistenceMinimumResponse::~DeleteSubsistenceMinimumResponse() {
+  // @@protoc_insertion_point(destructor:calc.DeleteSubsistenceMinimumResponse)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void DeleteSubsistenceMinimumResponse::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.error_message_.Destroy();
+}
+
+void DeleteSubsistenceMinimumResponse::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void DeleteSubsistenceMinimumResponse::Clear() {
+// @@protoc_insertion_point(message_clear_start:calc.DeleteSubsistenceMinimumResponse)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.error_message_.ClearToEmpty();
+  _impl_.success_ = false;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* DeleteSubsistenceMinimumResponse::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // bool success = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.success_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // string error_message = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          auto str = _internal_mutable_error_message();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "calc.DeleteSubsistenceMinimumResponse.error_message"));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* DeleteSubsistenceMinimumResponse::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:calc.DeleteSubsistenceMinimumResponse)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // bool success = 1;
+  if (this->_internal_success() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(1, this->_internal_success(), target);
+  }
+
+  // string error_message = 2;
+  if (!this->_internal_error_message().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_error_message().data(), static_cast<int>(this->_internal_error_message().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "calc.DeleteSubsistenceMinimumResponse.error_message");
+    target = stream->WriteStringMaybeAliased(
+        2, this->_internal_error_message(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:calc.DeleteSubsistenceMinimumResponse)
+  return target;
+}
+
+size_t DeleteSubsistenceMinimumResponse::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:calc.DeleteSubsistenceMinimumResponse)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // string error_message = 2;
+  if (!this->_internal_error_message().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_error_message());
+  }
+
+  // bool success = 1;
+  if (this->_internal_success() != 0) {
+    total_size += 1 + 1;
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData DeleteSubsistenceMinimumResponse::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    DeleteSubsistenceMinimumResponse::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*DeleteSubsistenceMinimumResponse::GetClassData() const { return &_class_data_; }
+
+
+void DeleteSubsistenceMinimumResponse::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<DeleteSubsistenceMinimumResponse*>(&to_msg);
+  auto& from = static_cast<const DeleteSubsistenceMinimumResponse&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:calc.DeleteSubsistenceMinimumResponse)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (!from._internal_error_message().empty()) {
+    _this->_internal_set_error_message(from._internal_error_message());
+  }
+  if (from._internal_success() != 0) {
+    _this->_internal_set_success(from._internal_success());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void DeleteSubsistenceMinimumResponse::CopyFrom(const DeleteSubsistenceMinimumResponse& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:calc.DeleteSubsistenceMinimumResponse)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool DeleteSubsistenceMinimumResponse::IsInitialized() const {
+  return true;
+}
+
+void DeleteSubsistenceMinimumResponse::InternalSwap(DeleteSubsistenceMinimumResponse* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.error_message_, lhs_arena,
+      &other->_impl_.error_message_, rhs_arena
+  );
+  swap(_impl_.success_, other->_impl_.success_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata DeleteSubsistenceMinimumResponse::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_calc_2eproto_getter, &descriptor_table_calc_2eproto_once,
+      file_level_metadata_calc_2eproto[29]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace calc
 PROTOBUF_NAMESPACE_OPEN
+template<> PROTOBUF_NOINLINE ::calc::EmploymentPeriod*
+Arena::CreateMaybeMessage< ::calc::EmploymentPeriod >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::calc::EmploymentPeriod >(arena);
+}
+template<> PROTOBUF_NOINLINE ::calc::SalaryMonthRecord*
+Arena::CreateMaybeMessage< ::calc::SalaryMonthRecord >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::calc::SalaryMonthRecord >(arena);
+}
+template<> PROTOBUF_NOINLINE ::calc::SubsistenceMinimums*
+Arena::CreateMaybeMessage< ::calc::SubsistenceMinimums >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::calc::SubsistenceMinimums >(arena);
+}
 template<> PROTOBUF_NOINLINE ::calc::TaxRecord*
 Arena::CreateMaybeMessage< ::calc::TaxRecord >(Arena* arena) {
   return Arena::CreateMessageInternal< ::calc::TaxRecord >(arena);
+}
+template<> PROTOBUF_NOINLINE ::calc::CalculatePensionRequest*
+Arena::CreateMaybeMessage< ::calc::CalculatePensionRequest >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::calc::CalculatePensionRequest >(arena);
+}
+template<> PROTOBUF_NOINLINE ::calc::BenefitSurchargeDetail*
+Arena::CreateMaybeMessage< ::calc::BenefitSurchargeDetail >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::calc::BenefitSurchargeDetail >(arena);
+}
+template<> PROTOBUF_NOINLINE ::calc::CalculatePensionResponse*
+Arena::CreateMaybeMessage< ::calc::CalculatePensionResponse >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::calc::CalculatePensionResponse >(arena);
 }
 template<> PROTOBUF_NOINLINE ::calc::PensionRequest*
 Arena::CreateMaybeMessage< ::calc::PensionRequest >(Arena* arena) {
@@ -1107,6 +9517,90 @@ Arena::CreateMaybeMessage< ::calc::PensionRequest >(Arena* arena) {
 template<> PROTOBUF_NOINLINE ::calc::PensionResponse*
 Arena::CreateMaybeMessage< ::calc::PensionResponse >(Arena* arena) {
   return Arena::CreateMessageInternal< ::calc::PensionResponse >(arena);
+}
+template<> PROTOBUF_NOINLINE ::calc::PensionCoefficient*
+Arena::CreateMaybeMessage< ::calc::PensionCoefficient >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::calc::PensionCoefficient >(arena);
+}
+template<> PROTOBUF_NOINLINE ::calc::ListCoefficientsRequest*
+Arena::CreateMaybeMessage< ::calc::ListCoefficientsRequest >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::calc::ListCoefficientsRequest >(arena);
+}
+template<> PROTOBUF_NOINLINE ::calc::ListCoefficientsResponse*
+Arena::CreateMaybeMessage< ::calc::ListCoefficientsResponse >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::calc::ListCoefficientsResponse >(arena);
+}
+template<> PROTOBUF_NOINLINE ::calc::AddCoefficientRequest*
+Arena::CreateMaybeMessage< ::calc::AddCoefficientRequest >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::calc::AddCoefficientRequest >(arena);
+}
+template<> PROTOBUF_NOINLINE ::calc::AddCoefficientResponse*
+Arena::CreateMaybeMessage< ::calc::AddCoefficientResponse >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::calc::AddCoefficientResponse >(arena);
+}
+template<> PROTOBUF_NOINLINE ::calc::UpdateCoefficientRequest*
+Arena::CreateMaybeMessage< ::calc::UpdateCoefficientRequest >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::calc::UpdateCoefficientRequest >(arena);
+}
+template<> PROTOBUF_NOINLINE ::calc::UpdateCoefficientResponse*
+Arena::CreateMaybeMessage< ::calc::UpdateCoefficientResponse >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::calc::UpdateCoefficientResponse >(arena);
+}
+template<> PROTOBUF_NOINLINE ::calc::DeleteCoefficientRequest*
+Arena::CreateMaybeMessage< ::calc::DeleteCoefficientRequest >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::calc::DeleteCoefficientRequest >(arena);
+}
+template<> PROTOBUF_NOINLINE ::calc::DeleteCoefficientResponse*
+Arena::CreateMaybeMessage< ::calc::DeleteCoefficientResponse >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::calc::DeleteCoefficientResponse >(arena);
+}
+template<> PROTOBUF_NOINLINE ::calc::AverageSalaryRecord*
+Arena::CreateMaybeMessage< ::calc::AverageSalaryRecord >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::calc::AverageSalaryRecord >(arena);
+}
+template<> PROTOBUF_NOINLINE ::calc::SyncAverageSalariesRequest*
+Arena::CreateMaybeMessage< ::calc::SyncAverageSalariesRequest >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::calc::SyncAverageSalariesRequest >(arena);
+}
+template<> PROTOBUF_NOINLINE ::calc::SyncAverageSalariesResponse*
+Arena::CreateMaybeMessage< ::calc::SyncAverageSalariesResponse >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::calc::SyncAverageSalariesResponse >(arena);
+}
+template<> PROTOBUF_NOINLINE ::calc::UpsertSubsistenceMinimumRequest*
+Arena::CreateMaybeMessage< ::calc::UpsertSubsistenceMinimumRequest >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::calc::UpsertSubsistenceMinimumRequest >(arena);
+}
+template<> PROTOBUF_NOINLINE ::calc::UpsertSubsistenceMinimumResponse*
+Arena::CreateMaybeMessage< ::calc::UpsertSubsistenceMinimumResponse >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::calc::UpsertSubsistenceMinimumResponse >(arena);
+}
+template<> PROTOBUF_NOINLINE ::calc::ListSubsistenceMinimumsRequest*
+Arena::CreateMaybeMessage< ::calc::ListSubsistenceMinimumsRequest >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::calc::ListSubsistenceMinimumsRequest >(arena);
+}
+template<> PROTOBUF_NOINLINE ::calc::SubsistenceMinimumRecord*
+Arena::CreateMaybeMessage< ::calc::SubsistenceMinimumRecord >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::calc::SubsistenceMinimumRecord >(arena);
+}
+template<> PROTOBUF_NOINLINE ::calc::ListSubsistenceMinimumsResponse*
+Arena::CreateMaybeMessage< ::calc::ListSubsistenceMinimumsResponse >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::calc::ListSubsistenceMinimumsResponse >(arena);
+}
+template<> PROTOBUF_NOINLINE ::calc::UpdateSubsistenceMinimumRequest*
+Arena::CreateMaybeMessage< ::calc::UpdateSubsistenceMinimumRequest >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::calc::UpdateSubsistenceMinimumRequest >(arena);
+}
+template<> PROTOBUF_NOINLINE ::calc::UpdateSubsistenceMinimumResponse*
+Arena::CreateMaybeMessage< ::calc::UpdateSubsistenceMinimumResponse >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::calc::UpdateSubsistenceMinimumResponse >(arena);
+}
+template<> PROTOBUF_NOINLINE ::calc::DeleteSubsistenceMinimumRequest*
+Arena::CreateMaybeMessage< ::calc::DeleteSubsistenceMinimumRequest >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::calc::DeleteSubsistenceMinimumRequest >(arena);
+}
+template<> PROTOBUF_NOINLINE ::calc::DeleteSubsistenceMinimumResponse*
+Arena::CreateMaybeMessage< ::calc::DeleteSubsistenceMinimumResponse >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::calc::DeleteSubsistenceMinimumResponse >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

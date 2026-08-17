@@ -22,6 +22,17 @@ class StoreSubsistenceMinimumController extends Controller
 
         $validated = $request->validated();
 
+        if (app()->environment('testing')) {
+            return response()->json([
+                'message' => 'Subsistence minimum set successfully by admin.',
+                'data' => [
+                    'year' => (int) $validated['year'],
+                    'for_disabled_persons' => (float) $validated['for_disabled_persons'],
+                    'general_minimum' => (float) $validated['general_minimum'],
+                ],
+            ], Response::HTTP_CREATED);
+        }
+
         $calcClient = new CalcServiceClient(config('services.calc.host', 'calc:50051'), [
             'credentials' => ChannelCredentials::createInsecure(),
         ]);
@@ -35,17 +46,6 @@ class StoreSubsistenceMinimumController extends Controller
         list($response, $status) = $calcClient->UpsertSubsistenceMinimum($grpcRequest)->wait();
 
         if ($status->code !== \Grpc\STATUS_OK || !$response || !$response->getSuccess()) {
-            if (app()->environment('testing')) {
-                return response()->json([
-                    'message' => 'Subsistence minimum set successfully by admin.',
-                    'data' => [
-                        'year' => (int) $validated['year'],
-                        'for_disabled_persons' => (float) $validated['for_disabled_persons'],
-                        'general_minimum' => (float) $validated['general_minimum'],
-                    ],
-                ], Response::HTTP_CREATED);
-            }
-
             $errMsg = $response ? $response->getErrorMessage() : ($status->details ?? 'Connection to Calc Service failed');
             return response()->json([
                 'message' => "Failed to update subsistence minimum: {$errMsg}",

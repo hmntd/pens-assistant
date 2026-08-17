@@ -35,41 +35,221 @@ class CalcService final {
   class StubInterface {
    public:
     virtual ~StubInterface() {}
-    virtual ::grpc::Status CalculatePension(::grpc::ClientContext* context, const ::calc::PensionRequest& request, ::calc::PensionResponse* response) = 0;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::PensionResponse>> AsyncCalculatePension(::grpc::ClientContext* context, const ::calc::PensionRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::PensionResponse>>(AsyncCalculatePensionRaw(context, request, cq));
+    virtual ::grpc::Status CalculatePension(::grpc::ClientContext* context, const ::calc::CalculatePensionRequest& request, ::calc::CalculatePensionResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::CalculatePensionResponse>> AsyncCalculatePension(::grpc::ClientContext* context, const ::calc::CalculatePensionRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::CalculatePensionResponse>>(AsyncCalculatePensionRaw(context, request, cq));
     }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::PensionResponse>> PrepareAsyncCalculatePension(::grpc::ClientContext* context, const ::calc::PensionRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::PensionResponse>>(PrepareAsyncCalculatePensionRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::CalculatePensionResponse>> PrepareAsyncCalculatePension(::grpc::ClientContext* context, const ::calc::CalculatePensionRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::CalculatePensionResponse>>(PrepareAsyncCalculatePensionRaw(context, request, cq));
+    }
+    virtual ::grpc::Status ListCoefficients(::grpc::ClientContext* context, const ::calc::ListCoefficientsRequest& request, ::calc::ListCoefficientsResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::ListCoefficientsResponse>> AsyncListCoefficients(::grpc::ClientContext* context, const ::calc::ListCoefficientsRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::ListCoefficientsResponse>>(AsyncListCoefficientsRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::ListCoefficientsResponse>> PrepareAsyncListCoefficients(::grpc::ClientContext* context, const ::calc::ListCoefficientsRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::ListCoefficientsResponse>>(PrepareAsyncListCoefficientsRaw(context, request, cq));
+    }
+    virtual ::grpc::Status AddCoefficient(::grpc::ClientContext* context, const ::calc::AddCoefficientRequest& request, ::calc::AddCoefficientResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::AddCoefficientResponse>> AsyncAddCoefficient(::grpc::ClientContext* context, const ::calc::AddCoefficientRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::AddCoefficientResponse>>(AsyncAddCoefficientRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::AddCoefficientResponse>> PrepareAsyncAddCoefficient(::grpc::ClientContext* context, const ::calc::AddCoefficientRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::AddCoefficientResponse>>(PrepareAsyncAddCoefficientRaw(context, request, cq));
+    }
+    virtual ::grpc::Status UpdateCoefficient(::grpc::ClientContext* context, const ::calc::UpdateCoefficientRequest& request, ::calc::UpdateCoefficientResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::UpdateCoefficientResponse>> AsyncUpdateCoefficient(::grpc::ClientContext* context, const ::calc::UpdateCoefficientRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::UpdateCoefficientResponse>>(AsyncUpdateCoefficientRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::UpdateCoefficientResponse>> PrepareAsyncUpdateCoefficient(::grpc::ClientContext* context, const ::calc::UpdateCoefficientRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::UpdateCoefficientResponse>>(PrepareAsyncUpdateCoefficientRaw(context, request, cq));
+    }
+    virtual ::grpc::Status DeleteCoefficient(::grpc::ClientContext* context, const ::calc::DeleteCoefficientRequest& request, ::calc::DeleteCoefficientResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::DeleteCoefficientResponse>> AsyncDeleteCoefficient(::grpc::ClientContext* context, const ::calc::DeleteCoefficientRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::DeleteCoefficientResponse>>(AsyncDeleteCoefficientRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::DeleteCoefficientResponse>> PrepareAsyncDeleteCoefficient(::grpc::ClientContext* context, const ::calc::DeleteCoefficientRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::DeleteCoefficientResponse>>(PrepareAsyncDeleteCoefficientRaw(context, request, cq));
+    }
+    virtual ::grpc::Status SyncAverageSalaries(::grpc::ClientContext* context, const ::calc::SyncAverageSalariesRequest& request, ::calc::SyncAverageSalariesResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::SyncAverageSalariesResponse>> AsyncSyncAverageSalaries(::grpc::ClientContext* context, const ::calc::SyncAverageSalariesRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::SyncAverageSalariesResponse>>(AsyncSyncAverageSalariesRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::SyncAverageSalariesResponse>> PrepareAsyncSyncAverageSalaries(::grpc::ClientContext* context, const ::calc::SyncAverageSalariesRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::SyncAverageSalariesResponse>>(PrepareAsyncSyncAverageSalariesRaw(context, request, cq));
+    }
+    virtual ::grpc::Status UpsertSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::UpsertSubsistenceMinimumRequest& request, ::calc::UpsertSubsistenceMinimumResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::UpsertSubsistenceMinimumResponse>> AsyncUpsertSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::UpsertSubsistenceMinimumRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::UpsertSubsistenceMinimumResponse>>(AsyncUpsertSubsistenceMinimumRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::UpsertSubsistenceMinimumResponse>> PrepareAsyncUpsertSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::UpsertSubsistenceMinimumRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::UpsertSubsistenceMinimumResponse>>(PrepareAsyncUpsertSubsistenceMinimumRaw(context, request, cq));
+    }
+    virtual ::grpc::Status ListSubsistenceMinimums(::grpc::ClientContext* context, const ::calc::ListSubsistenceMinimumsRequest& request, ::calc::ListSubsistenceMinimumsResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::ListSubsistenceMinimumsResponse>> AsyncListSubsistenceMinimums(::grpc::ClientContext* context, const ::calc::ListSubsistenceMinimumsRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::ListSubsistenceMinimumsResponse>>(AsyncListSubsistenceMinimumsRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::ListSubsistenceMinimumsResponse>> PrepareAsyncListSubsistenceMinimums(::grpc::ClientContext* context, const ::calc::ListSubsistenceMinimumsRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::ListSubsistenceMinimumsResponse>>(PrepareAsyncListSubsistenceMinimumsRaw(context, request, cq));
+    }
+    virtual ::grpc::Status UpdateSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::UpdateSubsistenceMinimumRequest& request, ::calc::UpdateSubsistenceMinimumResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::UpdateSubsistenceMinimumResponse>> AsyncUpdateSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::UpdateSubsistenceMinimumRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::UpdateSubsistenceMinimumResponse>>(AsyncUpdateSubsistenceMinimumRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::UpdateSubsistenceMinimumResponse>> PrepareAsyncUpdateSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::UpdateSubsistenceMinimumRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::UpdateSubsistenceMinimumResponse>>(PrepareAsyncUpdateSubsistenceMinimumRaw(context, request, cq));
+    }
+    virtual ::grpc::Status DeleteSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::DeleteSubsistenceMinimumRequest& request, ::calc::DeleteSubsistenceMinimumResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::DeleteSubsistenceMinimumResponse>> AsyncDeleteSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::DeleteSubsistenceMinimumRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::DeleteSubsistenceMinimumResponse>>(AsyncDeleteSubsistenceMinimumRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::DeleteSubsistenceMinimumResponse>> PrepareAsyncDeleteSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::DeleteSubsistenceMinimumRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::DeleteSubsistenceMinimumResponse>>(PrepareAsyncDeleteSubsistenceMinimumRaw(context, request, cq));
     }
     class async_interface {
      public:
       virtual ~async_interface() {}
-      virtual void CalculatePension(::grpc::ClientContext* context, const ::calc::PensionRequest* request, ::calc::PensionResponse* response, std::function<void(::grpc::Status)>) = 0;
-      virtual void CalculatePension(::grpc::ClientContext* context, const ::calc::PensionRequest* request, ::calc::PensionResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void CalculatePension(::grpc::ClientContext* context, const ::calc::CalculatePensionRequest* request, ::calc::CalculatePensionResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void CalculatePension(::grpc::ClientContext* context, const ::calc::CalculatePensionRequest* request, ::calc::CalculatePensionResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void ListCoefficients(::grpc::ClientContext* context, const ::calc::ListCoefficientsRequest* request, ::calc::ListCoefficientsResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void ListCoefficients(::grpc::ClientContext* context, const ::calc::ListCoefficientsRequest* request, ::calc::ListCoefficientsResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void AddCoefficient(::grpc::ClientContext* context, const ::calc::AddCoefficientRequest* request, ::calc::AddCoefficientResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void AddCoefficient(::grpc::ClientContext* context, const ::calc::AddCoefficientRequest* request, ::calc::AddCoefficientResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void UpdateCoefficient(::grpc::ClientContext* context, const ::calc::UpdateCoefficientRequest* request, ::calc::UpdateCoefficientResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void UpdateCoefficient(::grpc::ClientContext* context, const ::calc::UpdateCoefficientRequest* request, ::calc::UpdateCoefficientResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void DeleteCoefficient(::grpc::ClientContext* context, const ::calc::DeleteCoefficientRequest* request, ::calc::DeleteCoefficientResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void DeleteCoefficient(::grpc::ClientContext* context, const ::calc::DeleteCoefficientRequest* request, ::calc::DeleteCoefficientResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void SyncAverageSalaries(::grpc::ClientContext* context, const ::calc::SyncAverageSalariesRequest* request, ::calc::SyncAverageSalariesResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void SyncAverageSalaries(::grpc::ClientContext* context, const ::calc::SyncAverageSalariesRequest* request, ::calc::SyncAverageSalariesResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void UpsertSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::UpsertSubsistenceMinimumRequest* request, ::calc::UpsertSubsistenceMinimumResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void UpsertSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::UpsertSubsistenceMinimumRequest* request, ::calc::UpsertSubsistenceMinimumResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void ListSubsistenceMinimums(::grpc::ClientContext* context, const ::calc::ListSubsistenceMinimumsRequest* request, ::calc::ListSubsistenceMinimumsResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void ListSubsistenceMinimums(::grpc::ClientContext* context, const ::calc::ListSubsistenceMinimumsRequest* request, ::calc::ListSubsistenceMinimumsResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void UpdateSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::UpdateSubsistenceMinimumRequest* request, ::calc::UpdateSubsistenceMinimumResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void UpdateSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::UpdateSubsistenceMinimumRequest* request, ::calc::UpdateSubsistenceMinimumResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void DeleteSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::DeleteSubsistenceMinimumRequest* request, ::calc::DeleteSubsistenceMinimumResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void DeleteSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::DeleteSubsistenceMinimumRequest* request, ::calc::DeleteSubsistenceMinimumResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
     };
     typedef class async_interface experimental_async_interface;
     virtual class async_interface* async() { return nullptr; }
     class async_interface* experimental_async() { return async(); }
    private:
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::calc::PensionResponse>* AsyncCalculatePensionRaw(::grpc::ClientContext* context, const ::calc::PensionRequest& request, ::grpc::CompletionQueue* cq) = 0;
-    virtual ::grpc::ClientAsyncResponseReaderInterface< ::calc::PensionResponse>* PrepareAsyncCalculatePensionRaw(::grpc::ClientContext* context, const ::calc::PensionRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::calc::CalculatePensionResponse>* AsyncCalculatePensionRaw(::grpc::ClientContext* context, const ::calc::CalculatePensionRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::calc::CalculatePensionResponse>* PrepareAsyncCalculatePensionRaw(::grpc::ClientContext* context, const ::calc::CalculatePensionRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::calc::ListCoefficientsResponse>* AsyncListCoefficientsRaw(::grpc::ClientContext* context, const ::calc::ListCoefficientsRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::calc::ListCoefficientsResponse>* PrepareAsyncListCoefficientsRaw(::grpc::ClientContext* context, const ::calc::ListCoefficientsRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::calc::AddCoefficientResponse>* AsyncAddCoefficientRaw(::grpc::ClientContext* context, const ::calc::AddCoefficientRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::calc::AddCoefficientResponse>* PrepareAsyncAddCoefficientRaw(::grpc::ClientContext* context, const ::calc::AddCoefficientRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::calc::UpdateCoefficientResponse>* AsyncUpdateCoefficientRaw(::grpc::ClientContext* context, const ::calc::UpdateCoefficientRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::calc::UpdateCoefficientResponse>* PrepareAsyncUpdateCoefficientRaw(::grpc::ClientContext* context, const ::calc::UpdateCoefficientRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::calc::DeleteCoefficientResponse>* AsyncDeleteCoefficientRaw(::grpc::ClientContext* context, const ::calc::DeleteCoefficientRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::calc::DeleteCoefficientResponse>* PrepareAsyncDeleteCoefficientRaw(::grpc::ClientContext* context, const ::calc::DeleteCoefficientRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::calc::SyncAverageSalariesResponse>* AsyncSyncAverageSalariesRaw(::grpc::ClientContext* context, const ::calc::SyncAverageSalariesRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::calc::SyncAverageSalariesResponse>* PrepareAsyncSyncAverageSalariesRaw(::grpc::ClientContext* context, const ::calc::SyncAverageSalariesRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::calc::UpsertSubsistenceMinimumResponse>* AsyncUpsertSubsistenceMinimumRaw(::grpc::ClientContext* context, const ::calc::UpsertSubsistenceMinimumRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::calc::UpsertSubsistenceMinimumResponse>* PrepareAsyncUpsertSubsistenceMinimumRaw(::grpc::ClientContext* context, const ::calc::UpsertSubsistenceMinimumRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::calc::ListSubsistenceMinimumsResponse>* AsyncListSubsistenceMinimumsRaw(::grpc::ClientContext* context, const ::calc::ListSubsistenceMinimumsRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::calc::ListSubsistenceMinimumsResponse>* PrepareAsyncListSubsistenceMinimumsRaw(::grpc::ClientContext* context, const ::calc::ListSubsistenceMinimumsRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::calc::UpdateSubsistenceMinimumResponse>* AsyncUpdateSubsistenceMinimumRaw(::grpc::ClientContext* context, const ::calc::UpdateSubsistenceMinimumRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::calc::UpdateSubsistenceMinimumResponse>* PrepareAsyncUpdateSubsistenceMinimumRaw(::grpc::ClientContext* context, const ::calc::UpdateSubsistenceMinimumRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::calc::DeleteSubsistenceMinimumResponse>* AsyncDeleteSubsistenceMinimumRaw(::grpc::ClientContext* context, const ::calc::DeleteSubsistenceMinimumRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::calc::DeleteSubsistenceMinimumResponse>* PrepareAsyncDeleteSubsistenceMinimumRaw(::grpc::ClientContext* context, const ::calc::DeleteSubsistenceMinimumRequest& request, ::grpc::CompletionQueue* cq) = 0;
   };
   class Stub final : public StubInterface {
    public:
     Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
-    ::grpc::Status CalculatePension(::grpc::ClientContext* context, const ::calc::PensionRequest& request, ::calc::PensionResponse* response) override;
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::PensionResponse>> AsyncCalculatePension(::grpc::ClientContext* context, const ::calc::PensionRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::PensionResponse>>(AsyncCalculatePensionRaw(context, request, cq));
+    ::grpc::Status CalculatePension(::grpc::ClientContext* context, const ::calc::CalculatePensionRequest& request, ::calc::CalculatePensionResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::CalculatePensionResponse>> AsyncCalculatePension(::grpc::ClientContext* context, const ::calc::CalculatePensionRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::CalculatePensionResponse>>(AsyncCalculatePensionRaw(context, request, cq));
     }
-    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::PensionResponse>> PrepareAsyncCalculatePension(::grpc::ClientContext* context, const ::calc::PensionRequest& request, ::grpc::CompletionQueue* cq) {
-      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::PensionResponse>>(PrepareAsyncCalculatePensionRaw(context, request, cq));
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::CalculatePensionResponse>> PrepareAsyncCalculatePension(::grpc::ClientContext* context, const ::calc::CalculatePensionRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::CalculatePensionResponse>>(PrepareAsyncCalculatePensionRaw(context, request, cq));
+    }
+    ::grpc::Status ListCoefficients(::grpc::ClientContext* context, const ::calc::ListCoefficientsRequest& request, ::calc::ListCoefficientsResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::ListCoefficientsResponse>> AsyncListCoefficients(::grpc::ClientContext* context, const ::calc::ListCoefficientsRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::ListCoefficientsResponse>>(AsyncListCoefficientsRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::ListCoefficientsResponse>> PrepareAsyncListCoefficients(::grpc::ClientContext* context, const ::calc::ListCoefficientsRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::ListCoefficientsResponse>>(PrepareAsyncListCoefficientsRaw(context, request, cq));
+    }
+    ::grpc::Status AddCoefficient(::grpc::ClientContext* context, const ::calc::AddCoefficientRequest& request, ::calc::AddCoefficientResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::AddCoefficientResponse>> AsyncAddCoefficient(::grpc::ClientContext* context, const ::calc::AddCoefficientRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::AddCoefficientResponse>>(AsyncAddCoefficientRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::AddCoefficientResponse>> PrepareAsyncAddCoefficient(::grpc::ClientContext* context, const ::calc::AddCoefficientRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::AddCoefficientResponse>>(PrepareAsyncAddCoefficientRaw(context, request, cq));
+    }
+    ::grpc::Status UpdateCoefficient(::grpc::ClientContext* context, const ::calc::UpdateCoefficientRequest& request, ::calc::UpdateCoefficientResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::UpdateCoefficientResponse>> AsyncUpdateCoefficient(::grpc::ClientContext* context, const ::calc::UpdateCoefficientRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::UpdateCoefficientResponse>>(AsyncUpdateCoefficientRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::UpdateCoefficientResponse>> PrepareAsyncUpdateCoefficient(::grpc::ClientContext* context, const ::calc::UpdateCoefficientRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::UpdateCoefficientResponse>>(PrepareAsyncUpdateCoefficientRaw(context, request, cq));
+    }
+    ::grpc::Status DeleteCoefficient(::grpc::ClientContext* context, const ::calc::DeleteCoefficientRequest& request, ::calc::DeleteCoefficientResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::DeleteCoefficientResponse>> AsyncDeleteCoefficient(::grpc::ClientContext* context, const ::calc::DeleteCoefficientRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::DeleteCoefficientResponse>>(AsyncDeleteCoefficientRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::DeleteCoefficientResponse>> PrepareAsyncDeleteCoefficient(::grpc::ClientContext* context, const ::calc::DeleteCoefficientRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::DeleteCoefficientResponse>>(PrepareAsyncDeleteCoefficientRaw(context, request, cq));
+    }
+    ::grpc::Status SyncAverageSalaries(::grpc::ClientContext* context, const ::calc::SyncAverageSalariesRequest& request, ::calc::SyncAverageSalariesResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::SyncAverageSalariesResponse>> AsyncSyncAverageSalaries(::grpc::ClientContext* context, const ::calc::SyncAverageSalariesRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::SyncAverageSalariesResponse>>(AsyncSyncAverageSalariesRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::SyncAverageSalariesResponse>> PrepareAsyncSyncAverageSalaries(::grpc::ClientContext* context, const ::calc::SyncAverageSalariesRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::SyncAverageSalariesResponse>>(PrepareAsyncSyncAverageSalariesRaw(context, request, cq));
+    }
+    ::grpc::Status UpsertSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::UpsertSubsistenceMinimumRequest& request, ::calc::UpsertSubsistenceMinimumResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::UpsertSubsistenceMinimumResponse>> AsyncUpsertSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::UpsertSubsistenceMinimumRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::UpsertSubsistenceMinimumResponse>>(AsyncUpsertSubsistenceMinimumRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::UpsertSubsistenceMinimumResponse>> PrepareAsyncUpsertSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::UpsertSubsistenceMinimumRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::UpsertSubsistenceMinimumResponse>>(PrepareAsyncUpsertSubsistenceMinimumRaw(context, request, cq));
+    }
+    ::grpc::Status ListSubsistenceMinimums(::grpc::ClientContext* context, const ::calc::ListSubsistenceMinimumsRequest& request, ::calc::ListSubsistenceMinimumsResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::ListSubsistenceMinimumsResponse>> AsyncListSubsistenceMinimums(::grpc::ClientContext* context, const ::calc::ListSubsistenceMinimumsRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::ListSubsistenceMinimumsResponse>>(AsyncListSubsistenceMinimumsRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::ListSubsistenceMinimumsResponse>> PrepareAsyncListSubsistenceMinimums(::grpc::ClientContext* context, const ::calc::ListSubsistenceMinimumsRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::ListSubsistenceMinimumsResponse>>(PrepareAsyncListSubsistenceMinimumsRaw(context, request, cq));
+    }
+    ::grpc::Status UpdateSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::UpdateSubsistenceMinimumRequest& request, ::calc::UpdateSubsistenceMinimumResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::UpdateSubsistenceMinimumResponse>> AsyncUpdateSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::UpdateSubsistenceMinimumRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::UpdateSubsistenceMinimumResponse>>(AsyncUpdateSubsistenceMinimumRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::UpdateSubsistenceMinimumResponse>> PrepareAsyncUpdateSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::UpdateSubsistenceMinimumRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::UpdateSubsistenceMinimumResponse>>(PrepareAsyncUpdateSubsistenceMinimumRaw(context, request, cq));
+    }
+    ::grpc::Status DeleteSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::DeleteSubsistenceMinimumRequest& request, ::calc::DeleteSubsistenceMinimumResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::DeleteSubsistenceMinimumResponse>> AsyncDeleteSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::DeleteSubsistenceMinimumRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::DeleteSubsistenceMinimumResponse>>(AsyncDeleteSubsistenceMinimumRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::DeleteSubsistenceMinimumResponse>> PrepareAsyncDeleteSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::DeleteSubsistenceMinimumRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::DeleteSubsistenceMinimumResponse>>(PrepareAsyncDeleteSubsistenceMinimumRaw(context, request, cq));
     }
     class async final :
       public StubInterface::async_interface {
      public:
-      void CalculatePension(::grpc::ClientContext* context, const ::calc::PensionRequest* request, ::calc::PensionResponse* response, std::function<void(::grpc::Status)>) override;
-      void CalculatePension(::grpc::ClientContext* context, const ::calc::PensionRequest* request, ::calc::PensionResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void CalculatePension(::grpc::ClientContext* context, const ::calc::CalculatePensionRequest* request, ::calc::CalculatePensionResponse* response, std::function<void(::grpc::Status)>) override;
+      void CalculatePension(::grpc::ClientContext* context, const ::calc::CalculatePensionRequest* request, ::calc::CalculatePensionResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void ListCoefficients(::grpc::ClientContext* context, const ::calc::ListCoefficientsRequest* request, ::calc::ListCoefficientsResponse* response, std::function<void(::grpc::Status)>) override;
+      void ListCoefficients(::grpc::ClientContext* context, const ::calc::ListCoefficientsRequest* request, ::calc::ListCoefficientsResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void AddCoefficient(::grpc::ClientContext* context, const ::calc::AddCoefficientRequest* request, ::calc::AddCoefficientResponse* response, std::function<void(::grpc::Status)>) override;
+      void AddCoefficient(::grpc::ClientContext* context, const ::calc::AddCoefficientRequest* request, ::calc::AddCoefficientResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void UpdateCoefficient(::grpc::ClientContext* context, const ::calc::UpdateCoefficientRequest* request, ::calc::UpdateCoefficientResponse* response, std::function<void(::grpc::Status)>) override;
+      void UpdateCoefficient(::grpc::ClientContext* context, const ::calc::UpdateCoefficientRequest* request, ::calc::UpdateCoefficientResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void DeleteCoefficient(::grpc::ClientContext* context, const ::calc::DeleteCoefficientRequest* request, ::calc::DeleteCoefficientResponse* response, std::function<void(::grpc::Status)>) override;
+      void DeleteCoefficient(::grpc::ClientContext* context, const ::calc::DeleteCoefficientRequest* request, ::calc::DeleteCoefficientResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void SyncAverageSalaries(::grpc::ClientContext* context, const ::calc::SyncAverageSalariesRequest* request, ::calc::SyncAverageSalariesResponse* response, std::function<void(::grpc::Status)>) override;
+      void SyncAverageSalaries(::grpc::ClientContext* context, const ::calc::SyncAverageSalariesRequest* request, ::calc::SyncAverageSalariesResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void UpsertSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::UpsertSubsistenceMinimumRequest* request, ::calc::UpsertSubsistenceMinimumResponse* response, std::function<void(::grpc::Status)>) override;
+      void UpsertSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::UpsertSubsistenceMinimumRequest* request, ::calc::UpsertSubsistenceMinimumResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void ListSubsistenceMinimums(::grpc::ClientContext* context, const ::calc::ListSubsistenceMinimumsRequest* request, ::calc::ListSubsistenceMinimumsResponse* response, std::function<void(::grpc::Status)>) override;
+      void ListSubsistenceMinimums(::grpc::ClientContext* context, const ::calc::ListSubsistenceMinimumsRequest* request, ::calc::ListSubsistenceMinimumsResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void UpdateSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::UpdateSubsistenceMinimumRequest* request, ::calc::UpdateSubsistenceMinimumResponse* response, std::function<void(::grpc::Status)>) override;
+      void UpdateSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::UpdateSubsistenceMinimumRequest* request, ::calc::UpdateSubsistenceMinimumResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void DeleteSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::DeleteSubsistenceMinimumRequest* request, ::calc::DeleteSubsistenceMinimumResponse* response, std::function<void(::grpc::Status)>) override;
+      void DeleteSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::DeleteSubsistenceMinimumRequest* request, ::calc::DeleteSubsistenceMinimumResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
      private:
       friend class Stub;
       explicit async(Stub* stub): stub_(stub) { }
@@ -81,9 +261,36 @@ class CalcService final {
    private:
     std::shared_ptr< ::grpc::ChannelInterface> channel_;
     class async async_stub_{this};
-    ::grpc::ClientAsyncResponseReader< ::calc::PensionResponse>* AsyncCalculatePensionRaw(::grpc::ClientContext* context, const ::calc::PensionRequest& request, ::grpc::CompletionQueue* cq) override;
-    ::grpc::ClientAsyncResponseReader< ::calc::PensionResponse>* PrepareAsyncCalculatePensionRaw(::grpc::ClientContext* context, const ::calc::PensionRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::calc::CalculatePensionResponse>* AsyncCalculatePensionRaw(::grpc::ClientContext* context, const ::calc::CalculatePensionRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::calc::CalculatePensionResponse>* PrepareAsyncCalculatePensionRaw(::grpc::ClientContext* context, const ::calc::CalculatePensionRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::calc::ListCoefficientsResponse>* AsyncListCoefficientsRaw(::grpc::ClientContext* context, const ::calc::ListCoefficientsRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::calc::ListCoefficientsResponse>* PrepareAsyncListCoefficientsRaw(::grpc::ClientContext* context, const ::calc::ListCoefficientsRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::calc::AddCoefficientResponse>* AsyncAddCoefficientRaw(::grpc::ClientContext* context, const ::calc::AddCoefficientRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::calc::AddCoefficientResponse>* PrepareAsyncAddCoefficientRaw(::grpc::ClientContext* context, const ::calc::AddCoefficientRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::calc::UpdateCoefficientResponse>* AsyncUpdateCoefficientRaw(::grpc::ClientContext* context, const ::calc::UpdateCoefficientRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::calc::UpdateCoefficientResponse>* PrepareAsyncUpdateCoefficientRaw(::grpc::ClientContext* context, const ::calc::UpdateCoefficientRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::calc::DeleteCoefficientResponse>* AsyncDeleteCoefficientRaw(::grpc::ClientContext* context, const ::calc::DeleteCoefficientRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::calc::DeleteCoefficientResponse>* PrepareAsyncDeleteCoefficientRaw(::grpc::ClientContext* context, const ::calc::DeleteCoefficientRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::calc::SyncAverageSalariesResponse>* AsyncSyncAverageSalariesRaw(::grpc::ClientContext* context, const ::calc::SyncAverageSalariesRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::calc::SyncAverageSalariesResponse>* PrepareAsyncSyncAverageSalariesRaw(::grpc::ClientContext* context, const ::calc::SyncAverageSalariesRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::calc::UpsertSubsistenceMinimumResponse>* AsyncUpsertSubsistenceMinimumRaw(::grpc::ClientContext* context, const ::calc::UpsertSubsistenceMinimumRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::calc::UpsertSubsistenceMinimumResponse>* PrepareAsyncUpsertSubsistenceMinimumRaw(::grpc::ClientContext* context, const ::calc::UpsertSubsistenceMinimumRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::calc::ListSubsistenceMinimumsResponse>* AsyncListSubsistenceMinimumsRaw(::grpc::ClientContext* context, const ::calc::ListSubsistenceMinimumsRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::calc::ListSubsistenceMinimumsResponse>* PrepareAsyncListSubsistenceMinimumsRaw(::grpc::ClientContext* context, const ::calc::ListSubsistenceMinimumsRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::calc::UpdateSubsistenceMinimumResponse>* AsyncUpdateSubsistenceMinimumRaw(::grpc::ClientContext* context, const ::calc::UpdateSubsistenceMinimumRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::calc::UpdateSubsistenceMinimumResponse>* PrepareAsyncUpdateSubsistenceMinimumRaw(::grpc::ClientContext* context, const ::calc::UpdateSubsistenceMinimumRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::calc::DeleteSubsistenceMinimumResponse>* AsyncDeleteSubsistenceMinimumRaw(::grpc::ClientContext* context, const ::calc::DeleteSubsistenceMinimumRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::calc::DeleteSubsistenceMinimumResponse>* PrepareAsyncDeleteSubsistenceMinimumRaw(::grpc::ClientContext* context, const ::calc::DeleteSubsistenceMinimumRequest& request, ::grpc::CompletionQueue* cq) override;
     const ::grpc::internal::RpcMethod rpcmethod_CalculatePension_;
+    const ::grpc::internal::RpcMethod rpcmethod_ListCoefficients_;
+    const ::grpc::internal::RpcMethod rpcmethod_AddCoefficient_;
+    const ::grpc::internal::RpcMethod rpcmethod_UpdateCoefficient_;
+    const ::grpc::internal::RpcMethod rpcmethod_DeleteCoefficient_;
+    const ::grpc::internal::RpcMethod rpcmethod_SyncAverageSalaries_;
+    const ::grpc::internal::RpcMethod rpcmethod_UpsertSubsistenceMinimum_;
+    const ::grpc::internal::RpcMethod rpcmethod_ListSubsistenceMinimums_;
+    const ::grpc::internal::RpcMethod rpcmethod_UpdateSubsistenceMinimum_;
+    const ::grpc::internal::RpcMethod rpcmethod_DeleteSubsistenceMinimum_;
   };
   static std::unique_ptr<Stub> NewStub(const std::shared_ptr< ::grpc::ChannelInterface>& channel, const ::grpc::StubOptions& options = ::grpc::StubOptions());
 
@@ -91,7 +298,16 @@ class CalcService final {
    public:
     Service();
     virtual ~Service();
-    virtual ::grpc::Status CalculatePension(::grpc::ServerContext* context, const ::calc::PensionRequest* request, ::calc::PensionResponse* response);
+    virtual ::grpc::Status CalculatePension(::grpc::ServerContext* context, const ::calc::CalculatePensionRequest* request, ::calc::CalculatePensionResponse* response);
+    virtual ::grpc::Status ListCoefficients(::grpc::ServerContext* context, const ::calc::ListCoefficientsRequest* request, ::calc::ListCoefficientsResponse* response);
+    virtual ::grpc::Status AddCoefficient(::grpc::ServerContext* context, const ::calc::AddCoefficientRequest* request, ::calc::AddCoefficientResponse* response);
+    virtual ::grpc::Status UpdateCoefficient(::grpc::ServerContext* context, const ::calc::UpdateCoefficientRequest* request, ::calc::UpdateCoefficientResponse* response);
+    virtual ::grpc::Status DeleteCoefficient(::grpc::ServerContext* context, const ::calc::DeleteCoefficientRequest* request, ::calc::DeleteCoefficientResponse* response);
+    virtual ::grpc::Status SyncAverageSalaries(::grpc::ServerContext* context, const ::calc::SyncAverageSalariesRequest* request, ::calc::SyncAverageSalariesResponse* response);
+    virtual ::grpc::Status UpsertSubsistenceMinimum(::grpc::ServerContext* context, const ::calc::UpsertSubsistenceMinimumRequest* request, ::calc::UpsertSubsistenceMinimumResponse* response);
+    virtual ::grpc::Status ListSubsistenceMinimums(::grpc::ServerContext* context, const ::calc::ListSubsistenceMinimumsRequest* request, ::calc::ListSubsistenceMinimumsResponse* response);
+    virtual ::grpc::Status UpdateSubsistenceMinimum(::grpc::ServerContext* context, const ::calc::UpdateSubsistenceMinimumRequest* request, ::calc::UpdateSubsistenceMinimumResponse* response);
+    virtual ::grpc::Status DeleteSubsistenceMinimum(::grpc::ServerContext* context, const ::calc::DeleteSubsistenceMinimumRequest* request, ::calc::DeleteSubsistenceMinimumResponse* response);
   };
   template <class BaseClass>
   class WithAsyncMethod_CalculatePension : public BaseClass {
@@ -105,15 +321,195 @@ class CalcService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status CalculatePension(::grpc::ServerContext* /*context*/, const ::calc::PensionRequest* /*request*/, ::calc::PensionResponse* /*response*/) override {
+    ::grpc::Status CalculatePension(::grpc::ServerContext* /*context*/, const ::calc::CalculatePensionRequest* /*request*/, ::calc::CalculatePensionResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
-    void RequestCalculatePension(::grpc::ServerContext* context, ::calc::PensionRequest* request, ::grpc::ServerAsyncResponseWriter< ::calc::PensionResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+    void RequestCalculatePension(::grpc::ServerContext* context, ::calc::CalculatePensionRequest* request, ::grpc::ServerAsyncResponseWriter< ::calc::CalculatePensionResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncUnary(0, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
-  typedef WithAsyncMethod_CalculatePension<Service > AsyncService;
+  template <class BaseClass>
+  class WithAsyncMethod_ListCoefficients : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_ListCoefficients() {
+      ::grpc::Service::MarkMethodAsync(1);
+    }
+    ~WithAsyncMethod_ListCoefficients() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status ListCoefficients(::grpc::ServerContext* /*context*/, const ::calc::ListCoefficientsRequest* /*request*/, ::calc::ListCoefficientsResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestListCoefficients(::grpc::ServerContext* context, ::calc::ListCoefficientsRequest* request, ::grpc::ServerAsyncResponseWriter< ::calc::ListCoefficientsResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_AddCoefficient : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_AddCoefficient() {
+      ::grpc::Service::MarkMethodAsync(2);
+    }
+    ~WithAsyncMethod_AddCoefficient() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status AddCoefficient(::grpc::ServerContext* /*context*/, const ::calc::AddCoefficientRequest* /*request*/, ::calc::AddCoefficientResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestAddCoefficient(::grpc::ServerContext* context, ::calc::AddCoefficientRequest* request, ::grpc::ServerAsyncResponseWriter< ::calc::AddCoefficientResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(2, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_UpdateCoefficient : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_UpdateCoefficient() {
+      ::grpc::Service::MarkMethodAsync(3);
+    }
+    ~WithAsyncMethod_UpdateCoefficient() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpdateCoefficient(::grpc::ServerContext* /*context*/, const ::calc::UpdateCoefficientRequest* /*request*/, ::calc::UpdateCoefficientResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestUpdateCoefficient(::grpc::ServerContext* context, ::calc::UpdateCoefficientRequest* request, ::grpc::ServerAsyncResponseWriter< ::calc::UpdateCoefficientResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(3, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_DeleteCoefficient : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_DeleteCoefficient() {
+      ::grpc::Service::MarkMethodAsync(4);
+    }
+    ~WithAsyncMethod_DeleteCoefficient() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status DeleteCoefficient(::grpc::ServerContext* /*context*/, const ::calc::DeleteCoefficientRequest* /*request*/, ::calc::DeleteCoefficientResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestDeleteCoefficient(::grpc::ServerContext* context, ::calc::DeleteCoefficientRequest* request, ::grpc::ServerAsyncResponseWriter< ::calc::DeleteCoefficientResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(4, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_SyncAverageSalaries : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_SyncAverageSalaries() {
+      ::grpc::Service::MarkMethodAsync(5);
+    }
+    ~WithAsyncMethod_SyncAverageSalaries() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SyncAverageSalaries(::grpc::ServerContext* /*context*/, const ::calc::SyncAverageSalariesRequest* /*request*/, ::calc::SyncAverageSalariesResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestSyncAverageSalaries(::grpc::ServerContext* context, ::calc::SyncAverageSalariesRequest* request, ::grpc::ServerAsyncResponseWriter< ::calc::SyncAverageSalariesResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_UpsertSubsistenceMinimum : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_UpsertSubsistenceMinimum() {
+      ::grpc::Service::MarkMethodAsync(6);
+    }
+    ~WithAsyncMethod_UpsertSubsistenceMinimum() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpsertSubsistenceMinimum(::grpc::ServerContext* /*context*/, const ::calc::UpsertSubsistenceMinimumRequest* /*request*/, ::calc::UpsertSubsistenceMinimumResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestUpsertSubsistenceMinimum(::grpc::ServerContext* context, ::calc::UpsertSubsistenceMinimumRequest* request, ::grpc::ServerAsyncResponseWriter< ::calc::UpsertSubsistenceMinimumResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_ListSubsistenceMinimums : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_ListSubsistenceMinimums() {
+      ::grpc::Service::MarkMethodAsync(7);
+    }
+    ~WithAsyncMethod_ListSubsistenceMinimums() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status ListSubsistenceMinimums(::grpc::ServerContext* /*context*/, const ::calc::ListSubsistenceMinimumsRequest* /*request*/, ::calc::ListSubsistenceMinimumsResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestListSubsistenceMinimums(::grpc::ServerContext* context, ::calc::ListSubsistenceMinimumsRequest* request, ::grpc::ServerAsyncResponseWriter< ::calc::ListSubsistenceMinimumsResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_UpdateSubsistenceMinimum : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_UpdateSubsistenceMinimum() {
+      ::grpc::Service::MarkMethodAsync(8);
+    }
+    ~WithAsyncMethod_UpdateSubsistenceMinimum() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpdateSubsistenceMinimum(::grpc::ServerContext* /*context*/, const ::calc::UpdateSubsistenceMinimumRequest* /*request*/, ::calc::UpdateSubsistenceMinimumResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestUpdateSubsistenceMinimum(::grpc::ServerContext* context, ::calc::UpdateSubsistenceMinimumRequest* request, ::grpc::ServerAsyncResponseWriter< ::calc::UpdateSubsistenceMinimumResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(8, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithAsyncMethod_DeleteSubsistenceMinimum : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_DeleteSubsistenceMinimum() {
+      ::grpc::Service::MarkMethodAsync(9);
+    }
+    ~WithAsyncMethod_DeleteSubsistenceMinimum() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status DeleteSubsistenceMinimum(::grpc::ServerContext* /*context*/, const ::calc::DeleteSubsistenceMinimumRequest* /*request*/, ::calc::DeleteSubsistenceMinimumResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestDeleteSubsistenceMinimum(::grpc::ServerContext* context, ::calc::DeleteSubsistenceMinimumRequest* request, ::grpc::ServerAsyncResponseWriter< ::calc::DeleteSubsistenceMinimumResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(9, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  typedef WithAsyncMethod_CalculatePension<WithAsyncMethod_ListCoefficients<WithAsyncMethod_AddCoefficient<WithAsyncMethod_UpdateCoefficient<WithAsyncMethod_DeleteCoefficient<WithAsyncMethod_SyncAverageSalaries<WithAsyncMethod_UpsertSubsistenceMinimum<WithAsyncMethod_ListSubsistenceMinimums<WithAsyncMethod_UpdateSubsistenceMinimum<WithAsyncMethod_DeleteSubsistenceMinimum<Service > > > > > > > > > > AsyncService;
   template <class BaseClass>
   class WithCallbackMethod_CalculatePension : public BaseClass {
    private:
@@ -121,27 +517,270 @@ class CalcService final {
    public:
     WithCallbackMethod_CalculatePension() {
       ::grpc::Service::MarkMethodCallback(0,
-          new ::grpc::internal::CallbackUnaryHandler< ::calc::PensionRequest, ::calc::PensionResponse>(
+          new ::grpc::internal::CallbackUnaryHandler< ::calc::CalculatePensionRequest, ::calc::CalculatePensionResponse>(
             [this](
-                   ::grpc::CallbackServerContext* context, const ::calc::PensionRequest* request, ::calc::PensionResponse* response) { return this->CalculatePension(context, request, response); }));}
+                   ::grpc::CallbackServerContext* context, const ::calc::CalculatePensionRequest* request, ::calc::CalculatePensionResponse* response) { return this->CalculatePension(context, request, response); }));}
     void SetMessageAllocatorFor_CalculatePension(
-        ::grpc::MessageAllocator< ::calc::PensionRequest, ::calc::PensionResponse>* allocator) {
+        ::grpc::MessageAllocator< ::calc::CalculatePensionRequest, ::calc::CalculatePensionResponse>* allocator) {
       ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(0);
-      static_cast<::grpc::internal::CallbackUnaryHandler< ::calc::PensionRequest, ::calc::PensionResponse>*>(handler)
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::calc::CalculatePensionRequest, ::calc::CalculatePensionResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
     ~WithCallbackMethod_CalculatePension() override {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status CalculatePension(::grpc::ServerContext* /*context*/, const ::calc::PensionRequest* /*request*/, ::calc::PensionResponse* /*response*/) override {
+    ::grpc::Status CalculatePension(::grpc::ServerContext* /*context*/, const ::calc::CalculatePensionRequest* /*request*/, ::calc::CalculatePensionResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     virtual ::grpc::ServerUnaryReactor* CalculatePension(
-      ::grpc::CallbackServerContext* /*context*/, const ::calc::PensionRequest* /*request*/, ::calc::PensionResponse* /*response*/)  { return nullptr; }
+      ::grpc::CallbackServerContext* /*context*/, const ::calc::CalculatePensionRequest* /*request*/, ::calc::CalculatePensionResponse* /*response*/)  { return nullptr; }
   };
-  typedef WithCallbackMethod_CalculatePension<Service > CallbackService;
+  template <class BaseClass>
+  class WithCallbackMethod_ListCoefficients : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_ListCoefficients() {
+      ::grpc::Service::MarkMethodCallback(1,
+          new ::grpc::internal::CallbackUnaryHandler< ::calc::ListCoefficientsRequest, ::calc::ListCoefficientsResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::calc::ListCoefficientsRequest* request, ::calc::ListCoefficientsResponse* response) { return this->ListCoefficients(context, request, response); }));}
+    void SetMessageAllocatorFor_ListCoefficients(
+        ::grpc::MessageAllocator< ::calc::ListCoefficientsRequest, ::calc::ListCoefficientsResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(1);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::calc::ListCoefficientsRequest, ::calc::ListCoefficientsResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_ListCoefficients() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status ListCoefficients(::grpc::ServerContext* /*context*/, const ::calc::ListCoefficientsRequest* /*request*/, ::calc::ListCoefficientsResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* ListCoefficients(
+      ::grpc::CallbackServerContext* /*context*/, const ::calc::ListCoefficientsRequest* /*request*/, ::calc::ListCoefficientsResponse* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_AddCoefficient : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_AddCoefficient() {
+      ::grpc::Service::MarkMethodCallback(2,
+          new ::grpc::internal::CallbackUnaryHandler< ::calc::AddCoefficientRequest, ::calc::AddCoefficientResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::calc::AddCoefficientRequest* request, ::calc::AddCoefficientResponse* response) { return this->AddCoefficient(context, request, response); }));}
+    void SetMessageAllocatorFor_AddCoefficient(
+        ::grpc::MessageAllocator< ::calc::AddCoefficientRequest, ::calc::AddCoefficientResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(2);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::calc::AddCoefficientRequest, ::calc::AddCoefficientResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_AddCoefficient() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status AddCoefficient(::grpc::ServerContext* /*context*/, const ::calc::AddCoefficientRequest* /*request*/, ::calc::AddCoefficientResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* AddCoefficient(
+      ::grpc::CallbackServerContext* /*context*/, const ::calc::AddCoefficientRequest* /*request*/, ::calc::AddCoefficientResponse* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_UpdateCoefficient : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_UpdateCoefficient() {
+      ::grpc::Service::MarkMethodCallback(3,
+          new ::grpc::internal::CallbackUnaryHandler< ::calc::UpdateCoefficientRequest, ::calc::UpdateCoefficientResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::calc::UpdateCoefficientRequest* request, ::calc::UpdateCoefficientResponse* response) { return this->UpdateCoefficient(context, request, response); }));}
+    void SetMessageAllocatorFor_UpdateCoefficient(
+        ::grpc::MessageAllocator< ::calc::UpdateCoefficientRequest, ::calc::UpdateCoefficientResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(3);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::calc::UpdateCoefficientRequest, ::calc::UpdateCoefficientResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_UpdateCoefficient() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpdateCoefficient(::grpc::ServerContext* /*context*/, const ::calc::UpdateCoefficientRequest* /*request*/, ::calc::UpdateCoefficientResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* UpdateCoefficient(
+      ::grpc::CallbackServerContext* /*context*/, const ::calc::UpdateCoefficientRequest* /*request*/, ::calc::UpdateCoefficientResponse* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_DeleteCoefficient : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_DeleteCoefficient() {
+      ::grpc::Service::MarkMethodCallback(4,
+          new ::grpc::internal::CallbackUnaryHandler< ::calc::DeleteCoefficientRequest, ::calc::DeleteCoefficientResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::calc::DeleteCoefficientRequest* request, ::calc::DeleteCoefficientResponse* response) { return this->DeleteCoefficient(context, request, response); }));}
+    void SetMessageAllocatorFor_DeleteCoefficient(
+        ::grpc::MessageAllocator< ::calc::DeleteCoefficientRequest, ::calc::DeleteCoefficientResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(4);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::calc::DeleteCoefficientRequest, ::calc::DeleteCoefficientResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_DeleteCoefficient() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status DeleteCoefficient(::grpc::ServerContext* /*context*/, const ::calc::DeleteCoefficientRequest* /*request*/, ::calc::DeleteCoefficientResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* DeleteCoefficient(
+      ::grpc::CallbackServerContext* /*context*/, const ::calc::DeleteCoefficientRequest* /*request*/, ::calc::DeleteCoefficientResponse* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_SyncAverageSalaries : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_SyncAverageSalaries() {
+      ::grpc::Service::MarkMethodCallback(5,
+          new ::grpc::internal::CallbackUnaryHandler< ::calc::SyncAverageSalariesRequest, ::calc::SyncAverageSalariesResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::calc::SyncAverageSalariesRequest* request, ::calc::SyncAverageSalariesResponse* response) { return this->SyncAverageSalaries(context, request, response); }));}
+    void SetMessageAllocatorFor_SyncAverageSalaries(
+        ::grpc::MessageAllocator< ::calc::SyncAverageSalariesRequest, ::calc::SyncAverageSalariesResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(5);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::calc::SyncAverageSalariesRequest, ::calc::SyncAverageSalariesResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_SyncAverageSalaries() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SyncAverageSalaries(::grpc::ServerContext* /*context*/, const ::calc::SyncAverageSalariesRequest* /*request*/, ::calc::SyncAverageSalariesResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* SyncAverageSalaries(
+      ::grpc::CallbackServerContext* /*context*/, const ::calc::SyncAverageSalariesRequest* /*request*/, ::calc::SyncAverageSalariesResponse* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_UpsertSubsistenceMinimum : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_UpsertSubsistenceMinimum() {
+      ::grpc::Service::MarkMethodCallback(6,
+          new ::grpc::internal::CallbackUnaryHandler< ::calc::UpsertSubsistenceMinimumRequest, ::calc::UpsertSubsistenceMinimumResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::calc::UpsertSubsistenceMinimumRequest* request, ::calc::UpsertSubsistenceMinimumResponse* response) { return this->UpsertSubsistenceMinimum(context, request, response); }));}
+    void SetMessageAllocatorFor_UpsertSubsistenceMinimum(
+        ::grpc::MessageAllocator< ::calc::UpsertSubsistenceMinimumRequest, ::calc::UpsertSubsistenceMinimumResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(6);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::calc::UpsertSubsistenceMinimumRequest, ::calc::UpsertSubsistenceMinimumResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_UpsertSubsistenceMinimum() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpsertSubsistenceMinimum(::grpc::ServerContext* /*context*/, const ::calc::UpsertSubsistenceMinimumRequest* /*request*/, ::calc::UpsertSubsistenceMinimumResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* UpsertSubsistenceMinimum(
+      ::grpc::CallbackServerContext* /*context*/, const ::calc::UpsertSubsistenceMinimumRequest* /*request*/, ::calc::UpsertSubsistenceMinimumResponse* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_ListSubsistenceMinimums : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_ListSubsistenceMinimums() {
+      ::grpc::Service::MarkMethodCallback(7,
+          new ::grpc::internal::CallbackUnaryHandler< ::calc::ListSubsistenceMinimumsRequest, ::calc::ListSubsistenceMinimumsResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::calc::ListSubsistenceMinimumsRequest* request, ::calc::ListSubsistenceMinimumsResponse* response) { return this->ListSubsistenceMinimums(context, request, response); }));}
+    void SetMessageAllocatorFor_ListSubsistenceMinimums(
+        ::grpc::MessageAllocator< ::calc::ListSubsistenceMinimumsRequest, ::calc::ListSubsistenceMinimumsResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(7);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::calc::ListSubsistenceMinimumsRequest, ::calc::ListSubsistenceMinimumsResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_ListSubsistenceMinimums() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status ListSubsistenceMinimums(::grpc::ServerContext* /*context*/, const ::calc::ListSubsistenceMinimumsRequest* /*request*/, ::calc::ListSubsistenceMinimumsResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* ListSubsistenceMinimums(
+      ::grpc::CallbackServerContext* /*context*/, const ::calc::ListSubsistenceMinimumsRequest* /*request*/, ::calc::ListSubsistenceMinimumsResponse* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_UpdateSubsistenceMinimum : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_UpdateSubsistenceMinimum() {
+      ::grpc::Service::MarkMethodCallback(8,
+          new ::grpc::internal::CallbackUnaryHandler< ::calc::UpdateSubsistenceMinimumRequest, ::calc::UpdateSubsistenceMinimumResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::calc::UpdateSubsistenceMinimumRequest* request, ::calc::UpdateSubsistenceMinimumResponse* response) { return this->UpdateSubsistenceMinimum(context, request, response); }));}
+    void SetMessageAllocatorFor_UpdateSubsistenceMinimum(
+        ::grpc::MessageAllocator< ::calc::UpdateSubsistenceMinimumRequest, ::calc::UpdateSubsistenceMinimumResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(8);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::calc::UpdateSubsistenceMinimumRequest, ::calc::UpdateSubsistenceMinimumResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_UpdateSubsistenceMinimum() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpdateSubsistenceMinimum(::grpc::ServerContext* /*context*/, const ::calc::UpdateSubsistenceMinimumRequest* /*request*/, ::calc::UpdateSubsistenceMinimumResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* UpdateSubsistenceMinimum(
+      ::grpc::CallbackServerContext* /*context*/, const ::calc::UpdateSubsistenceMinimumRequest* /*request*/, ::calc::UpdateSubsistenceMinimumResponse* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithCallbackMethod_DeleteSubsistenceMinimum : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_DeleteSubsistenceMinimum() {
+      ::grpc::Service::MarkMethodCallback(9,
+          new ::grpc::internal::CallbackUnaryHandler< ::calc::DeleteSubsistenceMinimumRequest, ::calc::DeleteSubsistenceMinimumResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::calc::DeleteSubsistenceMinimumRequest* request, ::calc::DeleteSubsistenceMinimumResponse* response) { return this->DeleteSubsistenceMinimum(context, request, response); }));}
+    void SetMessageAllocatorFor_DeleteSubsistenceMinimum(
+        ::grpc::MessageAllocator< ::calc::DeleteSubsistenceMinimumRequest, ::calc::DeleteSubsistenceMinimumResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(9);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::calc::DeleteSubsistenceMinimumRequest, ::calc::DeleteSubsistenceMinimumResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_DeleteSubsistenceMinimum() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status DeleteSubsistenceMinimum(::grpc::ServerContext* /*context*/, const ::calc::DeleteSubsistenceMinimumRequest* /*request*/, ::calc::DeleteSubsistenceMinimumResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* DeleteSubsistenceMinimum(
+      ::grpc::CallbackServerContext* /*context*/, const ::calc::DeleteSubsistenceMinimumRequest* /*request*/, ::calc::DeleteSubsistenceMinimumResponse* /*response*/)  { return nullptr; }
+  };
+  typedef WithCallbackMethod_CalculatePension<WithCallbackMethod_ListCoefficients<WithCallbackMethod_AddCoefficient<WithCallbackMethod_UpdateCoefficient<WithCallbackMethod_DeleteCoefficient<WithCallbackMethod_SyncAverageSalaries<WithCallbackMethod_UpsertSubsistenceMinimum<WithCallbackMethod_ListSubsistenceMinimums<WithCallbackMethod_UpdateSubsistenceMinimum<WithCallbackMethod_DeleteSubsistenceMinimum<Service > > > > > > > > > > CallbackService;
   typedef CallbackService ExperimentalCallbackService;
   template <class BaseClass>
   class WithGenericMethod_CalculatePension : public BaseClass {
@@ -155,7 +794,160 @@ class CalcService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status CalculatePension(::grpc::ServerContext* /*context*/, const ::calc::PensionRequest* /*request*/, ::calc::PensionResponse* /*response*/) override {
+    ::grpc::Status CalculatePension(::grpc::ServerContext* /*context*/, const ::calc::CalculatePensionRequest* /*request*/, ::calc::CalculatePensionResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_ListCoefficients : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_ListCoefficients() {
+      ::grpc::Service::MarkMethodGeneric(1);
+    }
+    ~WithGenericMethod_ListCoefficients() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status ListCoefficients(::grpc::ServerContext* /*context*/, const ::calc::ListCoefficientsRequest* /*request*/, ::calc::ListCoefficientsResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_AddCoefficient : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_AddCoefficient() {
+      ::grpc::Service::MarkMethodGeneric(2);
+    }
+    ~WithGenericMethod_AddCoefficient() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status AddCoefficient(::grpc::ServerContext* /*context*/, const ::calc::AddCoefficientRequest* /*request*/, ::calc::AddCoefficientResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_UpdateCoefficient : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_UpdateCoefficient() {
+      ::grpc::Service::MarkMethodGeneric(3);
+    }
+    ~WithGenericMethod_UpdateCoefficient() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpdateCoefficient(::grpc::ServerContext* /*context*/, const ::calc::UpdateCoefficientRequest* /*request*/, ::calc::UpdateCoefficientResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_DeleteCoefficient : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_DeleteCoefficient() {
+      ::grpc::Service::MarkMethodGeneric(4);
+    }
+    ~WithGenericMethod_DeleteCoefficient() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status DeleteCoefficient(::grpc::ServerContext* /*context*/, const ::calc::DeleteCoefficientRequest* /*request*/, ::calc::DeleteCoefficientResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_SyncAverageSalaries : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_SyncAverageSalaries() {
+      ::grpc::Service::MarkMethodGeneric(5);
+    }
+    ~WithGenericMethod_SyncAverageSalaries() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SyncAverageSalaries(::grpc::ServerContext* /*context*/, const ::calc::SyncAverageSalariesRequest* /*request*/, ::calc::SyncAverageSalariesResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_UpsertSubsistenceMinimum : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_UpsertSubsistenceMinimum() {
+      ::grpc::Service::MarkMethodGeneric(6);
+    }
+    ~WithGenericMethod_UpsertSubsistenceMinimum() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpsertSubsistenceMinimum(::grpc::ServerContext* /*context*/, const ::calc::UpsertSubsistenceMinimumRequest* /*request*/, ::calc::UpsertSubsistenceMinimumResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_ListSubsistenceMinimums : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_ListSubsistenceMinimums() {
+      ::grpc::Service::MarkMethodGeneric(7);
+    }
+    ~WithGenericMethod_ListSubsistenceMinimums() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status ListSubsistenceMinimums(::grpc::ServerContext* /*context*/, const ::calc::ListSubsistenceMinimumsRequest* /*request*/, ::calc::ListSubsistenceMinimumsResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_UpdateSubsistenceMinimum : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_UpdateSubsistenceMinimum() {
+      ::grpc::Service::MarkMethodGeneric(8);
+    }
+    ~WithGenericMethod_UpdateSubsistenceMinimum() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpdateSubsistenceMinimum(::grpc::ServerContext* /*context*/, const ::calc::UpdateSubsistenceMinimumRequest* /*request*/, ::calc::UpdateSubsistenceMinimumResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
+  class WithGenericMethod_DeleteSubsistenceMinimum : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_DeleteSubsistenceMinimum() {
+      ::grpc::Service::MarkMethodGeneric(9);
+    }
+    ~WithGenericMethod_DeleteSubsistenceMinimum() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status DeleteSubsistenceMinimum(::grpc::ServerContext* /*context*/, const ::calc::DeleteSubsistenceMinimumRequest* /*request*/, ::calc::DeleteSubsistenceMinimumResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
@@ -172,12 +964,192 @@ class CalcService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status CalculatePension(::grpc::ServerContext* /*context*/, const ::calc::PensionRequest* /*request*/, ::calc::PensionResponse* /*response*/) override {
+    ::grpc::Status CalculatePension(::grpc::ServerContext* /*context*/, const ::calc::CalculatePensionRequest* /*request*/, ::calc::CalculatePensionResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestCalculatePension(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
       ::grpc::Service::RequestAsyncUnary(0, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_ListCoefficients : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_ListCoefficients() {
+      ::grpc::Service::MarkMethodRaw(1);
+    }
+    ~WithRawMethod_ListCoefficients() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status ListCoefficients(::grpc::ServerContext* /*context*/, const ::calc::ListCoefficientsRequest* /*request*/, ::calc::ListCoefficientsResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestListCoefficients(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(1, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_AddCoefficient : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_AddCoefficient() {
+      ::grpc::Service::MarkMethodRaw(2);
+    }
+    ~WithRawMethod_AddCoefficient() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status AddCoefficient(::grpc::ServerContext* /*context*/, const ::calc::AddCoefficientRequest* /*request*/, ::calc::AddCoefficientResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestAddCoefficient(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(2, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_UpdateCoefficient : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_UpdateCoefficient() {
+      ::grpc::Service::MarkMethodRaw(3);
+    }
+    ~WithRawMethod_UpdateCoefficient() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpdateCoefficient(::grpc::ServerContext* /*context*/, const ::calc::UpdateCoefficientRequest* /*request*/, ::calc::UpdateCoefficientResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestUpdateCoefficient(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(3, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_DeleteCoefficient : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_DeleteCoefficient() {
+      ::grpc::Service::MarkMethodRaw(4);
+    }
+    ~WithRawMethod_DeleteCoefficient() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status DeleteCoefficient(::grpc::ServerContext* /*context*/, const ::calc::DeleteCoefficientRequest* /*request*/, ::calc::DeleteCoefficientResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestDeleteCoefficient(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(4, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_SyncAverageSalaries : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_SyncAverageSalaries() {
+      ::grpc::Service::MarkMethodRaw(5);
+    }
+    ~WithRawMethod_SyncAverageSalaries() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SyncAverageSalaries(::grpc::ServerContext* /*context*/, const ::calc::SyncAverageSalariesRequest* /*request*/, ::calc::SyncAverageSalariesResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestSyncAverageSalaries(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(5, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_UpsertSubsistenceMinimum : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_UpsertSubsistenceMinimum() {
+      ::grpc::Service::MarkMethodRaw(6);
+    }
+    ~WithRawMethod_UpsertSubsistenceMinimum() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpsertSubsistenceMinimum(::grpc::ServerContext* /*context*/, const ::calc::UpsertSubsistenceMinimumRequest* /*request*/, ::calc::UpsertSubsistenceMinimumResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestUpsertSubsistenceMinimum(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_ListSubsistenceMinimums : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_ListSubsistenceMinimums() {
+      ::grpc::Service::MarkMethodRaw(7);
+    }
+    ~WithRawMethod_ListSubsistenceMinimums() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status ListSubsistenceMinimums(::grpc::ServerContext* /*context*/, const ::calc::ListSubsistenceMinimumsRequest* /*request*/, ::calc::ListSubsistenceMinimumsResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestListSubsistenceMinimums(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_UpdateSubsistenceMinimum : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_UpdateSubsistenceMinimum() {
+      ::grpc::Service::MarkMethodRaw(8);
+    }
+    ~WithRawMethod_UpdateSubsistenceMinimum() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpdateSubsistenceMinimum(::grpc::ServerContext* /*context*/, const ::calc::UpdateSubsistenceMinimumRequest* /*request*/, ::calc::UpdateSubsistenceMinimumResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestUpdateSubsistenceMinimum(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(8, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
+  class WithRawMethod_DeleteSubsistenceMinimum : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_DeleteSubsistenceMinimum() {
+      ::grpc::Service::MarkMethodRaw(9);
+    }
+    ~WithRawMethod_DeleteSubsistenceMinimum() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status DeleteSubsistenceMinimum(::grpc::ServerContext* /*context*/, const ::calc::DeleteSubsistenceMinimumRequest* /*request*/, ::calc::DeleteSubsistenceMinimumResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestDeleteSubsistenceMinimum(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(9, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -195,11 +1167,209 @@ class CalcService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable synchronous version of this method
-    ::grpc::Status CalculatePension(::grpc::ServerContext* /*context*/, const ::calc::PensionRequest* /*request*/, ::calc::PensionResponse* /*response*/) override {
+    ::grpc::Status CalculatePension(::grpc::ServerContext* /*context*/, const ::calc::CalculatePensionRequest* /*request*/, ::calc::CalculatePensionResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     virtual ::grpc::ServerUnaryReactor* CalculatePension(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_ListCoefficients : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_ListCoefficients() {
+      ::grpc::Service::MarkMethodRawCallback(1,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->ListCoefficients(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_ListCoefficients() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status ListCoefficients(::grpc::ServerContext* /*context*/, const ::calc::ListCoefficientsRequest* /*request*/, ::calc::ListCoefficientsResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* ListCoefficients(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_AddCoefficient : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_AddCoefficient() {
+      ::grpc::Service::MarkMethodRawCallback(2,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->AddCoefficient(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_AddCoefficient() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status AddCoefficient(::grpc::ServerContext* /*context*/, const ::calc::AddCoefficientRequest* /*request*/, ::calc::AddCoefficientResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* AddCoefficient(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_UpdateCoefficient : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_UpdateCoefficient() {
+      ::grpc::Service::MarkMethodRawCallback(3,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->UpdateCoefficient(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_UpdateCoefficient() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpdateCoefficient(::grpc::ServerContext* /*context*/, const ::calc::UpdateCoefficientRequest* /*request*/, ::calc::UpdateCoefficientResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* UpdateCoefficient(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_DeleteCoefficient : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_DeleteCoefficient() {
+      ::grpc::Service::MarkMethodRawCallback(4,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->DeleteCoefficient(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_DeleteCoefficient() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status DeleteCoefficient(::grpc::ServerContext* /*context*/, const ::calc::DeleteCoefficientRequest* /*request*/, ::calc::DeleteCoefficientResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* DeleteCoefficient(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_SyncAverageSalaries : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_SyncAverageSalaries() {
+      ::grpc::Service::MarkMethodRawCallback(5,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->SyncAverageSalaries(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_SyncAverageSalaries() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status SyncAverageSalaries(::grpc::ServerContext* /*context*/, const ::calc::SyncAverageSalariesRequest* /*request*/, ::calc::SyncAverageSalariesResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* SyncAverageSalaries(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_UpsertSubsistenceMinimum : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_UpsertSubsistenceMinimum() {
+      ::grpc::Service::MarkMethodRawCallback(6,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->UpsertSubsistenceMinimum(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_UpsertSubsistenceMinimum() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpsertSubsistenceMinimum(::grpc::ServerContext* /*context*/, const ::calc::UpsertSubsistenceMinimumRequest* /*request*/, ::calc::UpsertSubsistenceMinimumResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* UpsertSubsistenceMinimum(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_ListSubsistenceMinimums : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_ListSubsistenceMinimums() {
+      ::grpc::Service::MarkMethodRawCallback(7,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->ListSubsistenceMinimums(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_ListSubsistenceMinimums() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status ListSubsistenceMinimums(::grpc::ServerContext* /*context*/, const ::calc::ListSubsistenceMinimumsRequest* /*request*/, ::calc::ListSubsistenceMinimumsResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* ListSubsistenceMinimums(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_UpdateSubsistenceMinimum : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_UpdateSubsistenceMinimum() {
+      ::grpc::Service::MarkMethodRawCallback(8,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->UpdateSubsistenceMinimum(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_UpdateSubsistenceMinimum() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status UpdateSubsistenceMinimum(::grpc::ServerContext* /*context*/, const ::calc::UpdateSubsistenceMinimumRequest* /*request*/, ::calc::UpdateSubsistenceMinimumResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* UpdateSubsistenceMinimum(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
+  class WithRawCallbackMethod_DeleteSubsistenceMinimum : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_DeleteSubsistenceMinimum() {
+      ::grpc::Service::MarkMethodRawCallback(9,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->DeleteSubsistenceMinimum(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_DeleteSubsistenceMinimum() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status DeleteSubsistenceMinimum(::grpc::ServerContext* /*context*/, const ::calc::DeleteSubsistenceMinimumRequest* /*request*/, ::calc::DeleteSubsistenceMinimumResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* DeleteSubsistenceMinimum(
       ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
@@ -210,10 +1380,10 @@ class CalcService final {
     WithStreamedUnaryMethod_CalculatePension() {
       ::grpc::Service::MarkMethodStreamed(0,
         new ::grpc::internal::StreamedUnaryHandler<
-          ::calc::PensionRequest, ::calc::PensionResponse>(
+          ::calc::CalculatePensionRequest, ::calc::CalculatePensionResponse>(
             [this](::grpc::ServerContext* context,
                    ::grpc::ServerUnaryStreamer<
-                     ::calc::PensionRequest, ::calc::PensionResponse>* streamer) {
+                     ::calc::CalculatePensionRequest, ::calc::CalculatePensionResponse>* streamer) {
                        return this->StreamedCalculatePension(context,
                          streamer);
                   }));
@@ -222,16 +1392,259 @@ class CalcService final {
       BaseClassMustBeDerivedFromService(this);
     }
     // disable regular version of this method
-    ::grpc::Status CalculatePension(::grpc::ServerContext* /*context*/, const ::calc::PensionRequest* /*request*/, ::calc::PensionResponse* /*response*/) override {
+    ::grpc::Status CalculatePension(::grpc::ServerContext* /*context*/, const ::calc::CalculatePensionRequest* /*request*/, ::calc::CalculatePensionResponse* /*response*/) override {
       abort();
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     // replace default version of method with streamed unary
-    virtual ::grpc::Status StreamedCalculatePension(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::calc::PensionRequest,::calc::PensionResponse>* server_unary_streamer) = 0;
+    virtual ::grpc::Status StreamedCalculatePension(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::calc::CalculatePensionRequest,::calc::CalculatePensionResponse>* server_unary_streamer) = 0;
   };
-  typedef WithStreamedUnaryMethod_CalculatePension<Service > StreamedUnaryService;
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_ListCoefficients : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_ListCoefficients() {
+      ::grpc::Service::MarkMethodStreamed(1,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::calc::ListCoefficientsRequest, ::calc::ListCoefficientsResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::calc::ListCoefficientsRequest, ::calc::ListCoefficientsResponse>* streamer) {
+                       return this->StreamedListCoefficients(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_ListCoefficients() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status ListCoefficients(::grpc::ServerContext* /*context*/, const ::calc::ListCoefficientsRequest* /*request*/, ::calc::ListCoefficientsResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedListCoefficients(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::calc::ListCoefficientsRequest,::calc::ListCoefficientsResponse>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_AddCoefficient : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_AddCoefficient() {
+      ::grpc::Service::MarkMethodStreamed(2,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::calc::AddCoefficientRequest, ::calc::AddCoefficientResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::calc::AddCoefficientRequest, ::calc::AddCoefficientResponse>* streamer) {
+                       return this->StreamedAddCoefficient(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_AddCoefficient() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status AddCoefficient(::grpc::ServerContext* /*context*/, const ::calc::AddCoefficientRequest* /*request*/, ::calc::AddCoefficientResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedAddCoefficient(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::calc::AddCoefficientRequest,::calc::AddCoefficientResponse>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_UpdateCoefficient : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_UpdateCoefficient() {
+      ::grpc::Service::MarkMethodStreamed(3,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::calc::UpdateCoefficientRequest, ::calc::UpdateCoefficientResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::calc::UpdateCoefficientRequest, ::calc::UpdateCoefficientResponse>* streamer) {
+                       return this->StreamedUpdateCoefficient(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_UpdateCoefficient() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status UpdateCoefficient(::grpc::ServerContext* /*context*/, const ::calc::UpdateCoefficientRequest* /*request*/, ::calc::UpdateCoefficientResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedUpdateCoefficient(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::calc::UpdateCoefficientRequest,::calc::UpdateCoefficientResponse>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_DeleteCoefficient : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_DeleteCoefficient() {
+      ::grpc::Service::MarkMethodStreamed(4,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::calc::DeleteCoefficientRequest, ::calc::DeleteCoefficientResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::calc::DeleteCoefficientRequest, ::calc::DeleteCoefficientResponse>* streamer) {
+                       return this->StreamedDeleteCoefficient(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_DeleteCoefficient() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status DeleteCoefficient(::grpc::ServerContext* /*context*/, const ::calc::DeleteCoefficientRequest* /*request*/, ::calc::DeleteCoefficientResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedDeleteCoefficient(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::calc::DeleteCoefficientRequest,::calc::DeleteCoefficientResponse>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_SyncAverageSalaries : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_SyncAverageSalaries() {
+      ::grpc::Service::MarkMethodStreamed(5,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::calc::SyncAverageSalariesRequest, ::calc::SyncAverageSalariesResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::calc::SyncAverageSalariesRequest, ::calc::SyncAverageSalariesResponse>* streamer) {
+                       return this->StreamedSyncAverageSalaries(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_SyncAverageSalaries() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status SyncAverageSalaries(::grpc::ServerContext* /*context*/, const ::calc::SyncAverageSalariesRequest* /*request*/, ::calc::SyncAverageSalariesResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedSyncAverageSalaries(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::calc::SyncAverageSalariesRequest,::calc::SyncAverageSalariesResponse>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_UpsertSubsistenceMinimum : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_UpsertSubsistenceMinimum() {
+      ::grpc::Service::MarkMethodStreamed(6,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::calc::UpsertSubsistenceMinimumRequest, ::calc::UpsertSubsistenceMinimumResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::calc::UpsertSubsistenceMinimumRequest, ::calc::UpsertSubsistenceMinimumResponse>* streamer) {
+                       return this->StreamedUpsertSubsistenceMinimum(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_UpsertSubsistenceMinimum() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status UpsertSubsistenceMinimum(::grpc::ServerContext* /*context*/, const ::calc::UpsertSubsistenceMinimumRequest* /*request*/, ::calc::UpsertSubsistenceMinimumResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedUpsertSubsistenceMinimum(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::calc::UpsertSubsistenceMinimumRequest,::calc::UpsertSubsistenceMinimumResponse>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_ListSubsistenceMinimums : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_ListSubsistenceMinimums() {
+      ::grpc::Service::MarkMethodStreamed(7,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::calc::ListSubsistenceMinimumsRequest, ::calc::ListSubsistenceMinimumsResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::calc::ListSubsistenceMinimumsRequest, ::calc::ListSubsistenceMinimumsResponse>* streamer) {
+                       return this->StreamedListSubsistenceMinimums(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_ListSubsistenceMinimums() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status ListSubsistenceMinimums(::grpc::ServerContext* /*context*/, const ::calc::ListSubsistenceMinimumsRequest* /*request*/, ::calc::ListSubsistenceMinimumsResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedListSubsistenceMinimums(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::calc::ListSubsistenceMinimumsRequest,::calc::ListSubsistenceMinimumsResponse>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_UpdateSubsistenceMinimum : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_UpdateSubsistenceMinimum() {
+      ::grpc::Service::MarkMethodStreamed(8,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::calc::UpdateSubsistenceMinimumRequest, ::calc::UpdateSubsistenceMinimumResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::calc::UpdateSubsistenceMinimumRequest, ::calc::UpdateSubsistenceMinimumResponse>* streamer) {
+                       return this->StreamedUpdateSubsistenceMinimum(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_UpdateSubsistenceMinimum() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status UpdateSubsistenceMinimum(::grpc::ServerContext* /*context*/, const ::calc::UpdateSubsistenceMinimumRequest* /*request*/, ::calc::UpdateSubsistenceMinimumResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedUpdateSubsistenceMinimum(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::calc::UpdateSubsistenceMinimumRequest,::calc::UpdateSubsistenceMinimumResponse>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
+  class WithStreamedUnaryMethod_DeleteSubsistenceMinimum : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_DeleteSubsistenceMinimum() {
+      ::grpc::Service::MarkMethodStreamed(9,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::calc::DeleteSubsistenceMinimumRequest, ::calc::DeleteSubsistenceMinimumResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::calc::DeleteSubsistenceMinimumRequest, ::calc::DeleteSubsistenceMinimumResponse>* streamer) {
+                       return this->StreamedDeleteSubsistenceMinimum(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_DeleteSubsistenceMinimum() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status DeleteSubsistenceMinimum(::grpc::ServerContext* /*context*/, const ::calc::DeleteSubsistenceMinimumRequest* /*request*/, ::calc::DeleteSubsistenceMinimumResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedDeleteSubsistenceMinimum(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::calc::DeleteSubsistenceMinimumRequest,::calc::DeleteSubsistenceMinimumResponse>* server_unary_streamer) = 0;
+  };
+  typedef WithStreamedUnaryMethod_CalculatePension<WithStreamedUnaryMethod_ListCoefficients<WithStreamedUnaryMethod_AddCoefficient<WithStreamedUnaryMethod_UpdateCoefficient<WithStreamedUnaryMethod_DeleteCoefficient<WithStreamedUnaryMethod_SyncAverageSalaries<WithStreamedUnaryMethod_UpsertSubsistenceMinimum<WithStreamedUnaryMethod_ListSubsistenceMinimums<WithStreamedUnaryMethod_UpdateSubsistenceMinimum<WithStreamedUnaryMethod_DeleteSubsistenceMinimum<Service > > > > > > > > > > StreamedUnaryService;
   typedef Service SplitStreamedService;
-  typedef WithStreamedUnaryMethod_CalculatePension<Service > StreamedService;
+  typedef WithStreamedUnaryMethod_CalculatePension<WithStreamedUnaryMethod_ListCoefficients<WithStreamedUnaryMethod_AddCoefficient<WithStreamedUnaryMethod_UpdateCoefficient<WithStreamedUnaryMethod_DeleteCoefficient<WithStreamedUnaryMethod_SyncAverageSalaries<WithStreamedUnaryMethod_UpsertSubsistenceMinimum<WithStreamedUnaryMethod_ListSubsistenceMinimums<WithStreamedUnaryMethod_UpdateSubsistenceMinimum<WithStreamedUnaryMethod_DeleteSubsistenceMinimum<Service > > > > > > > > > > StreamedService;
 };
 
 }  // namespace calc
