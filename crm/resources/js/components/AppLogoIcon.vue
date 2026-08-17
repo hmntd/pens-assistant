@@ -13,17 +13,35 @@ defineProps<Props>();
 </script>
 
 <template>
-    <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 40 42"
-        :class="className"
-        v-bind="$attrs"
-    >
-        <path
-            fill="currentColor"
-            fill-rule="evenodd"
-            clip-rule="evenodd"
-            d="M17.2 5.633 8.6.855 0 5.633v26.51l16.2 9 16.2-9v-8.442l7.6-4.223V9.856l-8.6-4.777-8.6 4.777V18.3l-5.6 3.111V5.633ZM38 18.301l-5.6 3.11v-6.157l5.6-3.11V18.3Zm-1.06-7.856-5.54 3.078-5.54-3.079 5.54-3.078 5.54 3.079ZM24.8 18.3v-6.157l5.6 3.111v6.158L24.8 18.3Zm-1 1.732 5.54 3.078-13.14 7.302-5.54-3.078 13.14-7.3v-.002Zm-16.2 7.89 7.6 4.222V38.3L2 30.966V7.92l5.6 3.111v16.892ZM8.6 9.3 3.06 6.222 8.6 3.143l5.54 3.08L8.6 9.3Zm21.8 15.51-13.2 7.334V38.3l13.2-7.334v-6.156ZM9.6 11.034l5.6-3.11v14.6l-5.6 3.11v-14.6Z"
-        />
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" v-bind="$attrs">
+        <path d="M 40 30
+         a 10 10 0 0 1 10 -10
+         h 50
+         a 10 10 0 0 1 10 10
+         v 15
+         a 10 10 0 0 0 10 10
+         h 15
+         a 10 10 0 0 1 10 10
+         v 90
+         a 10 10 0 0 1 -10 10
+         h -85
+         a 10 10 0 0 1 -10 -10
+         Z" class="fill-white dark:fill-slate-800 text-slate-900 dark:text-slate-100" stroke="currentColor"
+            stroke-width="12" stroke-linejoin="round" />
+
+        <g class="text-slate-900 dark:text-slate-100" stroke="currentColor" stroke-width="12" stroke-linecap="round">
+            <path d="M 65 55 h 35" />
+            <path d="M 65 75 h 55" />
+            <path d="M 65 95 h 55" />
+            <path d="M 65 115 h 55" />
+            <path d="M 65 135 h 35" />
+        </g>
+
+        <g class="text-slate-900 dark:text-slate-100" stroke="currentColor" stroke-width="12" stroke-linejoin="round">
+            <path d="M 70 145 v 20 a 50 20 0 0 0 100 0 v -20 Z" fill="#31DE97" />
+            <path d="M 70 120 v 20 a 50 20 0 0 0 100 0 v -20 Z" fill="#31DE97" />
+            <path d="M 70 95 v 20 a 50 20 0 0 0 100 0 v -20 Z" fill="#31DE97" />
+            <ellipse cx="120" cy="95" rx="50" ry="20" fill="#31DE97" />
+        </g>
     </svg>
 </template>
