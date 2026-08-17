@@ -22,10 +22,10 @@ class StorePensionCalculationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'gender' => 'required|string|in:male,female,MALE,FEMALE',
-            'date_of_birth' => 'required|date',
-            'retirement_date' => 'required|date|after_or_equal:date_of_birth',
-            'pension_type' => 'required|string|in:old_age,disability,loss_of_breadwinner,OLD_AGE,DISABILITY,LOSS_OF_BREADWINNER',
+            'gender' => 'nullable|string|in:male,female,MALE,FEMALE',
+            'date_of_birth' => 'nullable|date',
+            'retirement_date' => 'nullable|date',
+            'pension_type' => 'nullable|string|in:old_age,disability,loss_of_breadwinner,OLD_AGE,DISABILITY,LOSS_OF_BREADWINNER',
             'disability_group' => 'nullable|string|in:none,group_1,group_2,group_3,DISABILITY_NONE,GROUP_1,GROUP_2,GROUP_3',
             'dependents_count' => 'nullable|integer|min:0',
             'employment_history' => 'nullable|array',
@@ -37,7 +37,7 @@ class StorePensionCalculationRequest extends FormRequest
             'salary_history.*.month' => 'required_with:salary_history|integer|between:1,12',
             'salary_history.*.amount' => 'required_with:salary_history|numeric|min:0',
             'benefits' => 'nullable|array',
-            'benefits.*' => 'string|in:combat_veteran,honorary_donor,chornobyl_liquidator,disabled_child_care,COMBAT_VETERAN,HONORARY_DONOR,CHORNOBYL_LIQUIDATOR,DISABLED_CHILD_CARE',
+            'benefits.*' => 'string|in:combat_veteran,honorary_donor,chornobyl_liquidator,disabled_child_care,age_supplement,COMBAT_VETERAN,HONORARY_DONOR,CHORNOBYL_LIQUIDATOR,DISABLED_CHILD_CARE,AGE_SUPPLEMENT',
             'enable_optimization_rule' => 'nullable|boolean',
             'zp_macroeconomic_average' => 'nullable|numeric|min:0',
             'target_user_id' => 'nullable|integer|exists:users,id',

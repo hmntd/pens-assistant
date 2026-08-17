@@ -266,8 +266,6 @@ namespace calc
             const SubsistenceLimits &limits,
             std::vector<std::string> &logs) const
         {
-            // Under Art. 28 of Ukrainian Law No. 1058-IV (for pensions appointed after Oct 1, 2011),
-            // required insurance experience norm for extra service allowance (понаднормовий стаж) is 35 years (420 months) for all genders.
             int required_months = 420;
             int extra_months = total_months - required_months;
 
@@ -296,6 +294,92 @@ namespace calc
             logs.push_back(ss.str());
 
             return total_allowance;
+        }
+
+        int PensionCalculator::calculateAgeInYears(const std::string &date_of_birth, const std::string &retirement_date) const
+        {
+            if (date_of_birth.length() < 10 || retirement_date.length() < 10)
+            {
+                return -1;
+            }
+
+            try
+            {
+                int dob_y = std::stoi(date_of_birth.substr(0, 4));
+                int dob_m = std::stoi(date_of_birth.substr(5, 2));
+                int dob_d = std::stoi(date_of_birth.substr(8, 2));
+
+                int ret_y = std::stoi(retirement_date.substr(0, 4));
+                int ret_m = std::stoi(retirement_date.substr(5, 2));
+                int ret_d = std::stoi(retirement_date.substr(8, 2));
+
+                int age = ret_y - dob_y;
+                if (ret_m < dob_m || (ret_m == dob_m && ret_d < dob_d))
+                {
+                    age--;
+                }
+                return age;
+            }
+            catch (const std::exception &)
+            {
+                return -1;
+            }
+        }
+
+        double PensionCalculator::calculateAgeSurcharge(
+            const calc::CalculatePensionRequest *request,
+            double pre_age_pension,
+            const SubsistenceLimits &limits,
+            std::vector<std::string> &logs,
+            SurchargeResult &out_surcharge) const
+        {
+            int age = calculateAgeInYears(request->date_of_birth(), request->retirement_date());
+            if (age < 70)
+            {
+                return 0.0;
+            }
+
+            double age_surcharge_cap = limits.age_surcharge_cap > 0.0 ? limits.age_surcharge_cap : 10340.35;
+            if (pre_age_pension >= age_surcharge_cap)
+            {
+                std::ostringstream ss;
+                ss << "Stage 4 [Age Surcharge Exceeded Cap]: Citizen age is " << age
+                   << " yrs (eligible for age supplement), but pension payout ("
+                   << std::fixed << std::setprecision(2) << pre_age_pension
+                   << " UAH) reaches or exceeds legal cap (" << age_surcharge_cap << " UAH). Supplement = 0.00 UAH";
+                logs.push_back(ss.str());
+                return 0.0;
+            }
+
+            double amount = 0.0;
+            std::string bracket_name;
+
+            if (age >= 80)
+            {
+                amount = 570.0;
+                bracket_name = "Вікова надбавка до пенсії (80+ років) [+570.00 грн]";
+            }
+            else if (age >= 75)
+            {
+                amount = 456.0;
+                bracket_name = "Вікова надбавка до пенсії (75-79 років) [+456.00 грн]";
+            }
+            else if (age >= 70)
+            {
+                amount = 300.0;
+                bracket_name = "Вікова надбавка до пенсії (70-74 років) [+300.00 грн]";
+            }
+
+            out_surcharge.type = calc::BenefitType::AGE_SUPPLEMENT;
+            out_surcharge.name = bracket_name;
+            out_surcharge.amount = amount;
+
+            std::ostringstream ss;
+            ss << "Stage 4 [Age Surcharge Applied]: " << bracket_name << " = +"
+               << std::fixed << std::setprecision(2) << amount << " UAH";
+            logs.push_back(ss.str());
+
+            return amount;
         }
 
         CalculationResult PensionCalculator::calculate(const calc::CalculatePensionRequest *request)
@@ -411,11 +495,14 @@ namespace calc
             // STAGE 3: EXTRA SERVICE ALLOWANCE
             double extra_allowance = calculateExtraServiceAllowance(request, total_months, base_pension, limits, logs);
 
-            // STAGE 4: SPECIAL BENEFITS & SURCHARGES
+            // STAGE 4: SPECIAL BENEFITS & AGE SURCHARGES
             std::vector<calc::BenefitType> active_benefits;
             for (int i = 0; i < request->benefits_size(); ++i)
             {
-                active_benefits.push_back(request->benefits(i));
+                if (request->benefits(i) != calc::BenefitType::AGE_SUPPLEMENT)
+                {
+                    active_benefits.push_back(request->benefits(i));
+                }
             }
 
             auto surcharges = benefit_engine_.evaluateBenefits(active_benefits, limits);
@@ -428,6 +515,15 @@ namespace calc
                 ss_sc << "Stage 4 [Benefit Surcharge]: " << sc.name << " = +"
                       << std::fixed << std::setprecision(2) << sc.amount << " UAH";
                 logs.push_back(ss_sc.str());
+            }
+
+            double pre_age_pension = modified_base + extra_allowance + total_surcharges;
+            SurchargeResult age_surcharge;
+            double age_amount = calculateAgeSurcharge(request, pre_age_pension, limits, logs, age_surcharge);
+            if (age_amount > 0.0)
+            {
+                surcharges.push_back(age_surcharge);
+                total_surcharges += age_amount;
             }
 
             // STAGE 5: LEGAL CAPS (MIN / MAX BOUNDS)

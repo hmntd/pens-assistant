@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Models\CalculatedPension;
+use App\Models\TaxHistory;
 use App\Models\User;
 use App\Services\PensionCalculatorService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -145,6 +146,92 @@ class PensionCalculationTest extends TestCase
         $response = $this->actingAs($user)->postJson('/pension-calculations', $payload);
 
         $response->assertStatus(422)
-            ->assertJsonValidationErrors(['gender', 'date_of_birth', 'retirement_date', 'pension_type']);
+            ->assertJsonValidationErrors(['pension_type']);
+    }
+
+    public function test_calculation_uses_user_profile_fallbacks(): void
+    {
+        $user = User::factory()->create([
+            'gender' => 'female',
+            'date_of_birth' => '1955-03-10',
+            'disability_group' => 'group_2',
+            'benefits' => ['combat_veteran'],
+        ]);
+
+        $this->mock(PensionCalculatorService::class, function ($mock) use ($user) {
+            $mock->shouldReceive('calculateAndSave')
+                ->once()
+                ->withArgs(function ($targetUser, $data) use ($user) {
+                    return $targetUser->id === $user->id;
+                })
+                ->andReturnUsing(function () use ($user) {
+                    return CalculatedPension::create([
+                        'user_id' => $user->id,
+                        'final_pension' => 7500.00,
+                        'base_pension' => 7000.00,
+                        'estimated_monthly_pension' => 7500.00,
+                        'total_accumulated_capital' => 1680000.00,
+                    ]);
+                });
+        });
+
+        // Omit gender, date_of_birth, disability_group, and benefits from payload
+        $payload = [
+            'pension_type' => 'disability',
+            'retirement_date' => '2024-06-01',
+        ];
+
+        $response = $this->actingAs($user)->postJson('/pension-calculations', $payload);
+
+        $response->assertStatus(201);
+    }
+
+    public function test_end_to_end_user_roadmap_zero_input_calculation(): void
+    {
+        // 1. User sets profile attributes in dashboard
+        $user = User::factory()->create([
+            'gender' => 'female',
+            'date_of_birth' => '1952-05-15',
+            'disability_group' => 'none',
+            'benefits' => ['combat_veteran'],
+        ]);
+
+        // 2. User uploads tax document, creating TaxHistory records via OCR
+        TaxHistory::create([
+            'user_id' => $user->id,
+            'year' => 2023,
+            'annual_income' => 180000.00,
+            'tax_paid' => 32400.00,
+            'months_worked' => 12,
+        ]);
+
+        $this->mock(PensionCalculatorService::class, function ($mock) use ($user) {
+            $mock->shouldReceive('calculateAndSave')
+                ->once()
+                ->withArgs(function ($targetUser, $data) use ($user) {
+                    return $targetUser->id === $user->id;
+                })
+                ->andReturnUsing(function () use ($user) {
+                    return CalculatedPension::create([
+                        'user_id' => $user->id,
+                        'final_pension' => 8541.31,
+                        'base_pension' => 7971.31,
+                        'estimated_monthly_pension' => 8541.31,
+                        'total_accumulated_capital' => 1913114.40,
+                        'input_parameters' => [
+                            'gender' => 'female',
+                            'date_of_birth' => '1952-05-15',
+                            'retirement_date' => '2024-06-01',
+                        ],
+                    ]);
+                });
+        });
+
+        // 3. User clicks "Calculate Pension" without providing ANY request payload
+        $response = $this->actingAs($user)->postJson('/pension-calculations', []);
+
+        $response->assertStatus(201)
+            ->assertJsonPath('data.user_id', $user->id)
+            ->assertJsonPath('data.age', 72);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 
 /**
@@ -26,10 +27,11 @@ use Illuminate\Support\Carbon;
  * @property array|null $calculation_breakdown
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property Carbon|null $deleted_at
  */
 class CalculatedPension extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     /**
      * The attributes that are guarded against mass assignment.
@@ -62,10 +64,36 @@ class CalculatedPension extends Model
     }
 
     /**
+     * The accessors to append to the model's array form.
+     *
+     * @var list<string>
+     */
+    protected $appends = ['age'];
+
+    /**
      * Get the user that owns the calculated pension record.
      */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the client's calculated age at retirement date.
+     */
+    public function getAgeAttribute(): ?int
+    {
+        $dob = $this->input_parameters['date_of_birth'] ?? null;
+        $ret = $this->input_parameters['retirement_date'] ?? null;
+
+        if (!$dob || !$ret) {
+            return null;
+        }
+
+        try {
+            return (int) Carbon::parse($dob)->diffInYears(Carbon::parse($ret));
+        } catch (\Throwable) {
+            return null;
+        }
     }
 }

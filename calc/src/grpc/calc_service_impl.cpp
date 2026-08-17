@@ -120,7 +120,8 @@ CalcServiceImpl::CalcServiceImpl(bool mock_mode)
 }
 
 ::grpc::Status CalcServiceImpl::UpsertSubsistenceMinimum(::grpc::ServerContext* context, const ::calc::UpsertSubsistenceMinimumRequest* request, ::calc::UpsertSubsistenceMinimumResponse* reply) {
-    bool ok = repo_.upsertSubsistenceLimits(request->year(), request->for_disabled_persons(), request->general_minimum());
+    double cap = request->age_surcharge_cap() > 0.0 ? request->age_surcharge_cap() : 10340.35;
+    bool ok = repo_.upsertSubsistenceLimits(request->year(), request->for_disabled_persons(), request->general_minimum(), cap);
     if (ok) {
         reply->set_success(true);
         reply->set_message("Subsistence minimum updated successfully for year " + std::to_string(request->year()));
@@ -142,13 +143,15 @@ CalcServiceImpl::CalcServiceImpl(bool mock_mode)
         rec->set_year(item.year);
         rec->set_for_disabled_persons(item.for_disabled_persons);
         rec->set_general_minimum(item.general_minimum);
+        rec->set_age_surcharge_cap(item.age_surcharge_cap);
     }
     reply->set_error_message("");
     return ::grpc::Status::OK;
 }
 
 ::grpc::Status CalcServiceImpl::UpdateSubsistenceMinimum(::grpc::ServerContext* context, const ::calc::UpdateSubsistenceMinimumRequest* request, ::calc::UpdateSubsistenceMinimumResponse* reply) {
-    auto updated = repo_.updateSubsistenceMinimum(request->id(), request->year(), request->for_disabled_persons(), request->general_minimum());
+    double cap = request->age_surcharge_cap() > 0.0 ? request->age_surcharge_cap() : 10340.35;
+    auto updated = repo_.updateSubsistenceMinimum(request->id(), request->year(), request->for_disabled_persons(), request->general_minimum(), cap);
     if (updated.has_value()) {
         reply->set_success(true);
         auto* rec = reply->mutable_record();
@@ -156,6 +159,7 @@ CalcServiceImpl::CalcServiceImpl(bool mock_mode)
         rec->set_year(updated->year);
         rec->set_for_disabled_persons(updated->for_disabled_persons);
         rec->set_general_minimum(updated->general_minimum);
+        rec->set_age_surcharge_cap(updated->age_surcharge_cap);
         reply->set_error_message("");
     } else {
         reply->set_success(false);

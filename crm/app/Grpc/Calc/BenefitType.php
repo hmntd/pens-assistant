@@ -39,6 +39,12 @@ class BenefitType
      * Generated from protobuf enum <code>DISABLED_CHILD_CARE = 4;</code>
      */
     const DISABLED_CHILD_CARE = 4;
+    /**
+     * Вікова надбавка 70+ (300/456/570 UAH, max pension 10340.35 UAH)
+     *
+     * Generated from protobuf enum <code>AGE_SUPPLEMENT = 5;</code>
+     */
+    const AGE_SUPPLEMENT = 5;
 
     private static $valueToName = [
         self::BENEFIT_NONE => 'BENEFIT_NONE',
@@ -46,6 +52,7 @@ class BenefitType
         self::HONORARY_DONOR => 'HONORARY_DONOR',
         self::CHORNOBYL_LIQUIDATOR => 'CHORNOBYL_LIQUIDATOR',
         self::DISABLED_CHILD_CARE => 'DISABLED_CHILD_CARE',
+        self::AGE_SUPPLEMENT => 'AGE_SUPPLEMENT',
     ];
 
     public static function name($value)

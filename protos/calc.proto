@@ -39,6 +39,7 @@ enum BenefitType {
     HONORARY_DONOR = 2;         // Почесний донор (+10% of general subsistence minimum)
     CHORNOBYL_LIQUIDATOR = 3;   // Чорнобилець-ліквідатор (+30% of subsistence minimum for disabled)
     DISABLED_CHILD_CARE = 4;    // Догляд за дитиною з інвалідністю (+10% of subsistence minimum for disabled)
+    AGE_SUPPLEMENT = 5;         // Вікова надбавка 70+ (300/456/570 UAH, max pension 10340.35 UAH)
 }
 
 message EmploymentPeriod {
@@ -56,6 +57,7 @@ message SalaryMonthRecord {
 message SubsistenceMinimums {
     double for_disabled_persons = 1; // e.g. 2361.0 UAH
     double general_minimum = 2;      // e.g. 2920.0 UAH
+    double age_surcharge_cap = 3;    // e.g. 10340.35 UAH
 }
 
 message TaxRecord {
@@ -196,6 +198,7 @@ message UpsertSubsistenceMinimumRequest {
     int32 year = 1;
     double for_disabled_persons = 2;
     double general_minimum = 3;
+    double age_surcharge_cap = 4;
 }
 
 message UpsertSubsistenceMinimumResponse {
@@ -211,6 +214,7 @@ message SubsistenceMinimumRecord {
     int32 year = 2;
     double for_disabled_persons = 3;
     double general_minimum = 4;
+    double age_surcharge_cap = 5;
 }
 
 message ListSubsistenceMinimumsResponse {
@@ -224,6 +228,7 @@ message UpdateSubsistenceMinimumRequest {
     int32 year = 2;
     double for_disabled_persons = 3;
     double general_minimum = 4;
+    double age_surcharge_cap = 5;
 }
 
 message UpdateSubsistenceMinimumResponse {

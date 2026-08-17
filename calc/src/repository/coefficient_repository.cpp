@@ -233,7 +233,7 @@ namespace calc
                         return it->second;
                     }
                     double min_diff = 1e9;
-                    service::SubsistenceLimits best_limits{2361.0, 2920.0};
+                    service::SubsistenceLimits best_limits{2361.0, 2920.0, 10340.35};
                     for (const auto &pair : mock_limits_)
                     {
                         double diff = std::abs(pair.first - year);
@@ -245,10 +245,10 @@ namespace calc
                     }
                     return best_limits;
                 }
-                return service::SubsistenceLimits{2361.0, 2920.0};
+                return service::SubsistenceLimits{2361.0, 2920.0, 10340.35};
             }
 
-            service::SubsistenceLimits limits{0.0, 0.0};
+            service::SubsistenceLimits limits{0.0, 0.0, 10340.35};
             try
             {
                 pqxx::connection conn(db::DbConfig::getConnectionString());
@@ -260,12 +260,13 @@ namespace calc
                 pqxx::work txn(conn);
                 // Order by absolute difference to select current year or nearest year
                 pqxx::result res = txn.exec_params(
-                    "SELECT for_disabled_persons, general_minimum FROM subsistence_minimums ORDER BY ABS(year - $1) ASC LIMIT 1",
+                    "SELECT for_disabled_persons, general_minimum, COALESCE(age_surcharge_cap, 10340.35) FROM subsistence_minimums ORDER BY ABS(year - $1) ASC LIMIT 1",
                     year);
                 if (!res.empty())
                 {
                     limits.for_disabled_persons = res[0][0].as<double>();
                     limits.general_minimum = res[0][1].as<double>();
+                    limits.age_surcharge_cap = res[0][2].as<double>();
                     return limits;
                 }
             }
@@ -276,9 +277,9 @@ namespace calc
             return limits;
         }
 
-        bool CoefficientRepository::upsertSubsistenceLimits(int year, double for_disabled, double general)
+        bool CoefficientRepository::upsertSubsistenceLimits(int year, double for_disabled, double general, double age_surcharge_cap)
         {
-            mock_limits_[year] = service::SubsistenceLimits{for_disabled, general};
+            mock_limits_[year] = service::SubsistenceLimits{for_disabled, general, age_surcharge_cap};
             if (mock_mode_)
             {
                 return true;
@@ -294,8 +295,8 @@ namespace calc
 
                 pqxx::work txn(conn);
                 txn.exec_params(
-                    "INSERT INTO subsistence_minimums (year, for_disabled_persons, general_minimum) VALUES ($1, $2, $3) ON CONFLICT (year) DO UPDATE SET for_disabled_persons = EXCLUDED.for_disabled_persons, general_minimum = EXCLUDED.general_minimum, updated_at = CURRENT_TIMESTAMP",
-                    year, for_disabled, general);
+                    "INSERT INTO subsistence_minimums (year, for_disabled_persons, general_minimum, age_surcharge_cap) VALUES ($1, $2, $3, $4) ON CONFLICT (year) DO UPDATE SET for_disabled_persons = EXCLUDED.for_disabled_persons, general_minimum = EXCLUDED.general_minimum, age_surcharge_cap = EXCLUDED.age_surcharge_cap, updated_at = CURRENT_TIMESTAMP",
+                    year, for_disabled, general, age_surcharge_cap);
                 txn.commit();
                 return true;
             }
@@ -319,7 +320,7 @@ namespace calc
 
                 pqxx::work txn(conn);
                 pqxx::result res = txn.exec(
-                    "SELECT id, year, for_disabled_persons, general_minimum FROM subsistence_minimums ORDER BY year DESC");
+                    "SELECT id, year, for_disabled_persons, general_minimum, COALESCE(age_surcharge_cap, 10340.35) FROM subsistence_minimums ORDER BY year DESC");
                 txn.commit();
 
                 for (const auto &row : res)
@@ -329,6 +330,7 @@ namespace calc
                     rec.year = row[1].as<int>();
                     rec.for_disabled_persons = row[2].as<double>();
                     rec.general_minimum = row[3].as<double>();
+                    rec.age_surcharge_cap = row[4].as<double>();
                     results.push_back(rec);
                 }
             }
@@ -339,7 +341,7 @@ namespace calc
             return results;
         }
 
-        std::optional<SubsistenceMinimumRecord> CoefficientRepository::updateSubsistenceMinimum(int id, int year, double for_disabled, double general)
+        std::optional<SubsistenceMinimumRecord> CoefficientRepository::updateSubsistenceMinimum(int id, int year, double for_disabled, double general, double age_surcharge_cap)
         {
             try
             {
@@ -349,8 +351,8 @@ namespace calc
 
                 pqxx::work txn(conn);
                 pqxx::result res = txn.exec_params(
-                    "UPDATE subsistence_minimums SET year = $1, for_disabled_persons = $2, general_minimum = $3, updated_at = CURRENT_TIMESTAMP WHERE id = $4 RETURNING id, year, for_disabled_persons, general_minimum",
-                    year, for_disabled, general, id);
+                    "UPDATE subsistence_minimums SET year = $1, for_disabled_persons = $2, general_minimum = $3, age_surcharge_cap = $4, updated_at = CURRENT_TIMESTAMP WHERE id = $5 RETURNING id, year, for_disabled_persons, general_minimum, COALESCE(age_surcharge_cap, 10340.35)",
+                    year, for_disabled, general, age_surcharge_cap, id);
                 txn.commit();
 
                 if (!res.empty())
@@ -360,6 +362,7 @@ namespace calc
                     rec.year = res[0][1].as<int>();
                     rec.for_disabled_persons = res[0][2].as<double>();
                     rec.general_minimum = res[0][3].as<double>();
+                    rec.age_surcharge_cap = res[0][4].as<double>();
                     return rec;
                 }
             }

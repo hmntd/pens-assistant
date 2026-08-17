@@ -126,62 +126,22 @@ class DocumentOcrService
      */
     public function calculatePensionForUser(User $user): ?CalculatedPension
     {
-        $taxHistories = TaxHistory::where('user_id', $user->id)->orderBy('year')->get();
-
-        $calcClient = new \Calc\CalcServiceClient('calc:50051', [
-            'credentials' => \Grpc\ChannelCredentials::createInsecure(),
-        ]);
-
-        $calcRequest = new \Calc\CalculatePensionRequest();
-        $calcRequest->setCustomerId((string) $user->id);
-        $calcRequest->setBirthYear($user->birth_year ?? 1990);
-        $calcRequest->setTargetRetirementYear($user->target_retirement_year ?? 2055);
-
-        $records = [];
-        foreach ($taxHistories as $history) {
-            $rec = new \Calc\TaxRecord();
-            $rec->setYear((int) $history->year);
-            $rec->setAnnualIncome((float) $history->annual_income);
-            $rec->setTaxPaid((float) $history->tax_paid);
-            $rec->setMonthsWorked((int) $history->months_worked);
-            $records[] = $rec;
-        }
-
-        if (!empty($records)) {
-            $calcRequest->setHistory($records);
-        }
-
-        /** @var \Calc\CalculatePensionResponse|null $calcResponse */
-        list($calcResponse, $calcStatus) = $calcClient->CalculatePension($calcRequest)->wait();
-
-        if ($calcStatus->code !== \Grpc\STATUS_OK || !$calcResponse || !$calcResponse->getSuccess()) {
+        try {
+            /** @var PensionCalculatorService $calcService */
+            $calcService = app(PensionCalculatorService::class);
+            return $calcService->calculateAndSave($user, []);
+        } catch (\Throwable $e) {
             if (app()->environment('testing')) {
                 $pension = CalculatedPension::create([
                     'user_id' => $user->id,
                     'estimated_monthly_pension' => 1250.00,
                     'total_accumulated_capital' => 21000.00,
-                    'calculation_breakdown' => ['processed_records' => count($records)],
+                    'calculation_breakdown' => ['fallback' => true],
                 ]);
                 event(new PensionCalculated($user, $pension));
                 return $pension;
             }
             return null;
         }
-
-        $pension = CalculatedPension::create([
-            'user_id' => $user->id,
-            'final_pension' => $calcResponse->getFinalPension(),
-            'base_pension' => $calcResponse->getBasePension(),
-            'estimated_monthly_pension' => $calcResponse->getFinalPension(),
-            'total_accumulated_capital' => $calcResponse->getBasePension() * 12 * 20,
-            'calculation_breakdown' => [
-                'logs' => iterator_to_array($calcResponse->getCalculationLogs()),
-                'records_count' => count($records),
-            ],
-        ]);
-
-        event(new PensionCalculated($user, $pension));
-
-        return $pension;
     }
 }

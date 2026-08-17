@@ -25,6 +25,10 @@ class UpsertSubsistenceMinimumRequest extends \Google\Protobuf\Internal\Message
      * Generated from protobuf field <code>double general_minimum = 3;</code>
      */
     protected $general_minimum = 0.0;
+    /**
+     * Generated from protobuf field <code>double age_surcharge_cap = 4;</code>
+     */
+    protected $age_surcharge_cap = 0.0;
 
     /**
      * Constructor.
@@ -35,6 +39,7 @@ class UpsertSubsistenceMinimumRequest extends \Google\Protobuf\Internal\Message
      *     @type int $year
      *     @type float $for_disabled_persons
      *     @type float $general_minimum
+     *     @type float $age_surcharge_cap
      * }
      */
     public function __construct($data = NULL) {
@@ -104,6 +109,28 @@ class UpsertSubsistenceMinimumRequest extends \Google\Protobuf\Internal\Message
     {
         GPBUtil::checkDouble($var);
         $this->general_minimum = $var;
+
+        return $this;
+    }
+
+    /**
+     * Generated from protobuf field <code>double age_surcharge_cap = 4;</code>
+     * @return float
+     */
+    public function getAgeSurchargeCap()
+    {
+        return $this->age_surcharge_cap;
+    }
+
+    /**
+     * Generated from protobuf field <code>double age_surcharge_cap = 4;</code>
+     * @param float $var
+     * @return $this
+     */
+    public function setAgeSurchargeCap($var)
+    {
+        GPBUtil::checkDouble($var);
+        $this->age_surcharge_cap = $var;
 
         return $this;
     }

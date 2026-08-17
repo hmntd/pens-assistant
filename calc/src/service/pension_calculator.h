@@ -47,6 +47,8 @@ namespace calc
             double calculateWageCoefficientKz(const calc::CalculatePensionRequest *request, std::vector<std::string> &logs, std::string &error_message) const;
             double calculatePensionTypeModifier(const calc::CalculatePensionRequest *request, std::vector<std::string> &logs, std::string &error_message) const;
             double calculateExtraServiceAllowance(const calc::CalculatePensionRequest *request, int total_months, double base_pension, const SubsistenceLimits &limits, std::vector<std::string> &logs) const;
+            int calculateAgeInYears(const std::string &date_of_birth, const std::string &retirement_date) const;
+            double calculateAgeSurcharge(const calc::CalculatePensionRequest *request, double pre_age_pension, const SubsistenceLimits &limits, std::vector<std::string> &logs, SurchargeResult &out_surcharge) const;
 
         public:
             explicit PensionCalculator(repository::CoefficientRepository repo = repository::CoefficientRepository());

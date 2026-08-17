@@ -17,6 +17,7 @@ class StoreSubsistenceMinimumRequest extends FormRequest
             'year' => 'required|integer|between:1950,2099',
             'for_disabled_persons' => 'required|numeric|min:0',
             'general_minimum' => 'required|numeric|min:0',
+            'age_surcharge_cap' => 'nullable|numeric|min:0',
         ];
     }
 }

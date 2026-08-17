@@ -43,6 +43,7 @@ class UpdateSubsistenceMinimumController extends Controller
         $grpcRequest->setYear((int) $validated['year']);
         $grpcRequest->setForDisabledPersons((float) $validated['for_disabled_persons']);
         $grpcRequest->setGeneralMinimum((float) $validated['general_minimum']);
+        $grpcRequest->setAgeSurchargeCap((float) ($validated['age_surcharge_cap']));
 
         /** @var UpdateSubsistenceMinimumResponse|null $response */
         list($response, $status) = $calcClient->UpdateSubsistenceMinimum($grpcRequest)->wait();

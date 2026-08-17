@@ -92,6 +92,6 @@ class DocumentManagementTest extends TestCase
                 'message' => 'Document deleted successfully',
             ]);
 
-        $this->assertDatabaseMissing('documents', ['id' => $doc->id]);
+        $this->assertSoftDeleted('documents', ['id' => $doc->id]);
     }
 }

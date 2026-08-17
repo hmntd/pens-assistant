@@ -43,19 +43,23 @@ class PensionCalculatorService
         $request = new CalculatePensionRequest();
         $request->setCustomerId((string) $user->id);
 
-        // Gender
-        $genderStr = strtoupper($data['gender'] ?? 'MALE');
+        // Gender: input override -> user profile
+        $rawGender = $data['gender'] ?? $user->gender;
+        $genderStr = strtoupper((string) $rawGender);
         $genderVal = match ($genderStr) {
             'FEMALE' => Gender::FEMALE,
             default => Gender::MALE,
         };
         $request->setGender($genderVal);
 
-        $request->setDateOfBirth($data['date_of_birth'] ?? '1960-01-01');
-        $request->setRetirementDate($data['retirement_date'] ?? '2024-01-01');
+        // Date of Birth: input override -> user profile
+        $userDob = $user->date_of_birth ? $user->date_of_birth->format('Y-m-d') : null;
+        $dobStr = (string) ($data['date_of_birth'] ?? $userDob);
+        $request->setDateOfBirth($dobStr);
+        $request->setRetirementDate((string) ($data['retirement_date'] ?? now()->format('Y-m-d')));
 
         // Pension Type
-        $pensionTypeStr = strtoupper($data['pension_type'] ?? 'OLD_AGE');
+        $pensionTypeStr = strtoupper((string) ($data['pension_type'] ?? 'OLD_AGE'));
         $pensionTypeVal = match ($pensionTypeStr) {
             'DISABILITY' => PensionType::DISABILITY,
             'LOSS_OF_BREADWINNER' => PensionType::LOSS_OF_BREADWINNER,
@@ -63,8 +67,9 @@ class PensionCalculatorService
         };
         $request->setPensionType($pensionTypeVal);
 
-        // Disability Group
-        $disabilityGroupStr = strtoupper($data['disability_group'] ?? 'DISABILITY_NONE');
+        // Disability Group: input override -> user profile -> default DISABILITY_NONE
+        $rawDisability = $data['disability_group'] ?? $user->disability_group ?? 'DISABILITY_NONE';
+        $disabilityGroupStr = strtoupper((string) $rawDisability);
         $disabilityGroupVal = match ($disabilityGroupStr) {
             'GROUP_1', '1' => DisabilityGroup::GROUP_1,
             'GROUP_2', '2' => DisabilityGroup::GROUP_2,
@@ -93,9 +98,9 @@ class PensionCalculatorService
             $request->setEmploymentHistory($employmentPeriods);
         }
 
-        // Salary History
+        // Salary History: input payload -> fallback to user tax histories (from uploaded document OCR)
+        $salaryRecords = [];
         if (!empty($data['salary_history']) && is_array($data['salary_history'])) {
-            $salaryRecords = [];
             foreach ($data['salary_history'] as $sal) {
                 $sr = new SalaryMonthRecord();
                 $sr->setYear((int) $sal['year']);
@@ -103,19 +108,38 @@ class PensionCalculatorService
                 $sr->setAmount((float) $sal['amount']);
                 $salaryRecords[] = $sr;
             }
+        } else {
+            // Auto-load salary history from OCR document tax histories
+            $taxHistories = $user->taxHistories()->orderBy('year')->get();
+            foreach ($taxHistories as $th) {
+                /** @var \App\Models\TaxHistory $th */
+                $months = max(1, min(12, (int) ($th->months_worked ?: 12)));
+                $monthlyAmount = (float) $th->annual_income / $months;
+                for ($m = 1; $m <= $months; $m++) {
+                    $sr = new SalaryMonthRecord();
+                    $sr->setYear((int) $th->year);
+                    $sr->setMonth($m);
+                    $sr->setAmount($monthlyAmount);
+                    $salaryRecords[] = $sr;
+                }
+            }
+        }
+        if (!empty($salaryRecords)) {
             $request->setSalaryHistory($salaryRecords);
         }
 
-        // Benefits
-        if (!empty($data['benefits']) && is_array($data['benefits'])) {
+        // Benefits: input override -> user profile -> empty array
+        $rawBenefits = $data['benefits'] ?? $user->benefits ?? [];
+        if (!empty($rawBenefits) && is_array($rawBenefits)) {
             $benefitEnums = [];
-            foreach ($data['benefits'] as $b) {
-                $bStr = strtoupper($b);
+            foreach ($rawBenefits as $b) {
+                $bStr = strtoupper((string) $b);
                 $bEnum = match ($bStr) {
                     'COMBAT_VETERAN' => BenefitType::COMBAT_VETERAN,
                     'HONORARY_DONOR' => BenefitType::HONORARY_DONOR,
                     'CHORNOBYL_LIQUIDATOR' => BenefitType::CHORNOBYL_LIQUIDATOR,
                     'DISABLED_CHILD_CARE' => BenefitType::DISABLED_CHILD_CARE,
+                    'AGE_SUPPLEMENT' => BenefitType::AGE_SUPPLEMENT,
                     default => null,
                 };
                 if ($bEnum !== null) {
@@ -129,6 +153,7 @@ class PensionCalculatorService
         $subMin = new SubsistenceMinimums();
         $subMin->setForDisabledPersons(2361.0);
         $subMin->setGeneralMinimum(2920.0);
+        $subMin->setAgeSurchargeCap(10340.35);
         $request->setSubsistenceMinimums($subMin);
 
         // Execute gRPC Call

@@ -29,6 +29,7 @@ namespace calc
             int year{0};
             double for_disabled_persons{0.0};
             double general_minimum{0.0};
+            double age_surcharge_cap{0.0};
         };
 
         class CoefficientRepository
@@ -52,9 +53,9 @@ namespace calc
             double getAverageSalary(int year, int month) const;
             bool upsertAverageSalary(int year, int month, double amount);
             service::SubsistenceLimits getSubsistenceLimits(int year) const;
-            bool upsertSubsistenceLimits(int year, double for_disabled, double general);
+            bool upsertSubsistenceLimits(int year, double for_disabled, double general, double age_surcharge_cap);
             std::vector<SubsistenceMinimumRecord> listSubsistenceMinimums() const;
-            std::optional<SubsistenceMinimumRecord> updateSubsistenceMinimum(int id, int year, double for_disabled, double general);
+            std::optional<SubsistenceMinimumRecord> updateSubsistenceMinimum(int id, int year, double for_disabled, double general, double age_surcharge_cap);
             bool deleteSubsistenceMinimum(int id);
         };
 

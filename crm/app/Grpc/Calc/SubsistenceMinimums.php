@@ -25,6 +25,12 @@ class SubsistenceMinimums extends \Google\Protobuf\Internal\Message
      * Generated from protobuf field <code>double general_minimum = 2;</code>
      */
     protected $general_minimum = 0.0;
+    /**
+     * e.g. 10340.35 UAH
+     *
+     * Generated from protobuf field <code>double age_surcharge_cap = 3;</code>
+     */
+    protected $age_surcharge_cap = 0.0;
 
     /**
      * Constructor.
@@ -36,6 +42,8 @@ class SubsistenceMinimums extends \Google\Protobuf\Internal\Message
      *           e.g. 2361.0 UAH
      *     @type float $general_minimum
      *           e.g. 2920.0 UAH
+     *     @type float $age_surcharge_cap
+     *           e.g. 10340.35 UAH
      * }
      */
     public function __construct($data = NULL) {
@@ -91,6 +99,32 @@ class SubsistenceMinimums extends \Google\Protobuf\Internal\Message
     {
         GPBUtil::checkDouble($var);
         $this->general_minimum = $var;
+
+        return $this;
+    }
+
+    /**
+     * e.g. 10340.35 UAH
+     *
+     * Generated from protobuf field <code>double age_surcharge_cap = 3;</code>
+     * @return float
+     */
+    public function getAgeSurchargeCap()
+    {
+        return $this->age_surcharge_cap;
+    }
+
+    /**
+     * e.g. 10340.35 UAH
+     *
+     * Generated from protobuf field <code>double age_surcharge_cap = 3;</code>
+     * @param float $var
+     * @return $this
+     */
+    public function setAgeSurchargeCap($var)
+    {
+        GPBUtil::checkDouble($var);
+        $this->age_surcharge_cap = $var;
 
         return $this;
     }
