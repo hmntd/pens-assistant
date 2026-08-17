@@ -43,9 +43,9 @@ namespace calc
             repository::CoefficientRepository repo_;
             BenefitRulesEngine benefit_engine_;
 
-            int calculateTotalServiceMonths(const calc::CalculatePensionRequest *request) const;
+            int calculateTotalServiceMonths(const calc::CalculatePensionRequest *request, std::vector<std::string> &logs, std::string &error_message) const;
             double calculateWageCoefficientKz(const calc::CalculatePensionRequest *request, std::vector<std::string> &logs, std::string &error_message) const;
-            double calculatePensionTypeModifier(const calc::CalculatePensionRequest *request, std::vector<std::string> &logs) const;
+            double calculatePensionTypeModifier(const calc::CalculatePensionRequest *request, std::vector<std::string> &logs, std::string &error_message) const;
             double calculateExtraServiceAllowance(const calc::CalculatePensionRequest *request, int total_months, double base_pension, const SubsistenceLimits &limits, std::vector<std::string> &logs) const;
 
         public:
