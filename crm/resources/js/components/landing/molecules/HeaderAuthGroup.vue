@@ -15,7 +15,7 @@ const isAuthenticated = computed(() => !!page.props.auth?.user);
         <template v-if="isAuthenticated">
             <Link
                 :href="dashboard()"
-                class="inline-flex h-9 items-center justify-center rounded-lg bg-[#31DE97] px-4 text-xs font-semibold text-slate-950 shadow-sm transition-all hover:bg-[#28C586] hover:shadow"
+                class="inline-flex h-9 items-center justify-center rounded-lg bg-main px-4 text-xs font-semibold text-slate-950 shadow-sm transition-all hover:bg-main-hover hover:shadow"
             >
                 {{ t('header.dashboard') }}
             </Link>
@@ -23,13 +23,13 @@ const isAuthenticated = computed(() => !!page.props.auth?.user);
         <template v-else>
             <Link
                 :href="login()"
-                class="inline-flex h-9 items-center justify-center rounded-lg bg-[#31DE97] px-4 text-xs font-semibold text-slate-950 shadow-sm transition-all hover:bg-[#28C586]"
+                class="inline-flex h-9 items-center justify-center rounded-lg bg-main px-4 text-xs font-semibold text-slate-950 shadow-sm transition-all hover:bg-main-hover"
             >
                 {{ t('header.signIn') }}
             </Link>
             <Link
                 :href="register()"
-                class="hidden h-9 items-center justify-center rounded-lg border border-slate-200 bg-white px-4 text-xs font-semibold text-slate-700 shadow-sm transition-all hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 sm:inline-flex"
+                class="hidden h-9 items-center justify-center rounded-lg border border-slate-200 bg-white px-4 text-xs font-semibold text-slate-700 shadow-sm transition-all hover:bg-slate-50 dark:border-zinc-800 dark:bg-black dark:text-slate-300 dark:hover:bg-zinc-900 sm:inline-flex"
             >
                 {{ t('header.signUp') }}
             </Link>

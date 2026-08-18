@@ -9,3 +9,4 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Schedule::command('pfu:sync-salaries')->dailyAt('03:00');
+Schedule::command('pfu:sync-news')->daily();

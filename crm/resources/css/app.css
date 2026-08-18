@@ -59,6 +59,16 @@
     --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-ring: var(--sidebar-ring);
+
+    --color-main: var(--main);
+    --color-main-hover: var(--main-hover);
+    --color-main-dark: var(--main-dark);
+    --color-main-light: var(--main-light);
+
+    --color-brand: var(--main);
+    --color-brand-hover: var(--main-hover);
+    --color-brand-dark: var(--main-dark);
+    --color-brand-light: var(--main-light);
 }
 
 /*
@@ -70,6 +80,7 @@
   color utility to any element that depends on these defaults.
 */
 @layer base {
+
     *,
     ::after,
     ::before,
@@ -80,6 +91,7 @@
 }
 
 @layer utilities {
+
     body,
     html {
         --font-sans:
@@ -90,6 +102,12 @@
 }
 
 :root {
+    /* Main Brand Colors (#31DE97 system) */
+    --main: #31DE97;
+    --main-hover: #28C586;
+    --main-dark: #1cb777;
+    --main-light: rgba(49, 222, 151, 0.1);
+
     --background: hsl(0 0% 100%);
     --foreground: hsl(0 0% 3.9%);
     --card: hsl(0 0% 100%);
@@ -127,12 +145,18 @@
 }
 
 .dark {
-    --background: hsl(0 0% 3.9%);
+    /* Main Brand Colors in Dark mode */
+    --main: #31DE97;
+    --main-hover: #28C586;
+    --main-dark: #31DE97;
+    --main-light: rgba(49, 222, 151, 0.15);
+
+    --background: hsl(0 0% 0%);
     --foreground: hsl(0 0% 98%);
-    --card: hsl(0 0% 3.9%);
+    --card: hsl(0 0% 5%);
     --card-foreground: hsl(0 0% 98%);
-    --popover: hsl(0 0% 3.9%);
-    --popover-foreground: hsl(0 0% 98%);
+    --popover: hsl(0 0% 0%);
+    --popover-foreground: hsl(0 0% 3.9%);
     --primary: hsl(0 0% 98%);
     --primary-foreground: hsl(0 0% 9%);
     --secondary: hsl(0 0% 14.9%);
@@ -166,6 +190,7 @@
     * {
         @apply border-border outline-ring/50;
     }
+
     body {
         @apply bg-background text-foreground;
     }
@@ -175,6 +200,7 @@
     0% {
         transform: translateX(0%);
     }
+
     100% {
         transform: translateX(-50%);
     }
@@ -184,6 +210,7 @@
     0% {
         transform: translateX(-50%);
     }
+
     100% {
         transform: translateX(0%);
     }

@@ -20,7 +20,7 @@ const row2 = computed(() => [
 </script>
 
 <template>
-    <section id="testimonials" class="testimonials relative overflow-hidden py-16 lg:py-24 bg-slate-50/50 dark:bg-slate-900/30">
+    <section id="testimonials" class="testimonials relative overflow-hidden py-16 lg:py-24 bg-slate-50/50 dark:bg-black">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             
             <!-- Section Header -->

@@ -38,10 +38,10 @@ defineProps<Props>();
         </g>
 
         <g class="text-slate-900 dark:text-slate-100" stroke="currentColor" stroke-width="12" stroke-linejoin="round">
-            <path d="M 70 145 v 20 a 50 20 0 0 0 100 0 v -20 Z" fill="#31DE97" />
-            <path d="M 70 120 v 20 a 50 20 0 0 0 100 0 v -20 Z" fill="#31DE97" />
-            <path d="M 70 95 v 20 a 50 20 0 0 0 100 0 v -20 Z" fill="#31DE97" />
-            <ellipse cx="120" cy="95" rx="50" ry="20" fill="#31DE97" />
+            <path d="M 70 145 v 20 a 50 20 0 0 0 100 0 v -20 Z" fill="var(--main)" />
+            <path d="M 70 120 v 20 a 50 20 0 0 0 100 0 v -20 Z" fill="var(--main)" />
+            <path d="M 70 95 v 20 a 50 20 0 0 0 100 0 v -20 Z" fill="var(--main)" />
+            <ellipse cx="120" cy="95" rx="50" ry="20" fill="var(--main)" />
         </g>
     </svg>
 </template>

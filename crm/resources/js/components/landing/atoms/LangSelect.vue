@@ -16,7 +16,7 @@ function onChange(event: Event) {
         <select
             :value="locale"
             @change="onChange"
-            class="h-9 appearance-none rounded-lg border border-slate-200 bg-white pl-8 pr-7 text-xs font-medium text-slate-700 shadow-sm transition-colors hover:border-slate-300 focus:border-[#31DE97] focus:outline-none focus:ring-1 focus:ring-[#31DE97] dark:border-slate-800 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-slate-700"
+            class="h-9 appearance-none rounded-lg border border-slate-200 bg-white pl-8 pr-7 text-xs font-medium text-slate-700 shadow-sm transition-colors hover:border-slate-300 focus:border-main focus:outline-none focus:ring-1 focus:ring-main dark:border-zinc-800 dark:bg-black dark:text-slate-200 dark:hover:border-zinc-700"
         >
             <option value="uk">🇺🇦 UK</option>
             <option value="en">🇬🇧 EN</option>

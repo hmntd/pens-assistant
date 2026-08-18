@@ -16,10 +16,16 @@ use App\Http\Controllers\PensionCalculation\ShowPensionCalculationController;
 use App\Http\Controllers\PensionCalculation\StorePensionCalculationController;
 use Illuminate\Support\Facades\Route;
 
-Route::inertia('/', 'Welcome')->name('home');
+Route::get('/', \App\Http\Controllers\WelcomeController::class)->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::inertia('dashboard', 'Dashboard')->name('dashboard');
+    Route::get('/dashboard', \App\Http\Controllers\DashboardController::class)->name('dashboard');
+});
+
+Route::middleware(['auth'])->prefix('notifications')->group(function () {
+    Route::get('/', [\App\Http\Controllers\NotificationController::class, 'index'])->name('notifications.index');
+    Route::post('/mark-all-read', [\App\Http\Controllers\NotificationController::class, 'markAllAsRead'])->name('notifications.mark-all-read');
+    Route::post('/{notification}/mark-read', [\App\Http\Controllers\NotificationController::class, 'markAsRead'])->name('notifications.mark-read');
 });
 
 Route::middleware(['auth'])->prefix('pension-calculations')->group(function () {
@@ -31,6 +37,8 @@ Route::middleware(['auth'])->prefix('pension-calculations')->group(function () {
 Route::middleware(['auth'])->prefix('documents')->group(function () {
     Route::get('/', IndexDocumentController::class)->name('documents.index');
     Route::post('/upload', UploadDocumentController::class)->name('documents.upload');
+    Route::post('/tax-histories', \App\Http\Controllers\Document\StoreTaxHistoryController::class)->name('documents.tax-histories.store');
+    Route::delete('/tax-histories/{id}', \App\Http\Controllers\Document\DeleteTaxHistoryController::class)->name('documents.tax-histories.destroy');
     Route::get('/{id}', ShowDocumentController::class)->name('documents.show');
     Route::delete('/{id}', DeleteDocumentController::class)->name('documents.destroy');
 });

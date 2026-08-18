@@ -1,47 +1,119 @@
 <script setup lang="ts">
+import { ref, computed } from 'vue';
 import { Head } from '@inertiajs/vue3';
-import PlaceholderPattern from '@/components/PlaceholderPattern.vue';
-import { dashboard } from '@/routes';
+import { useI18n } from '@/composables/useI18n';
+import DashboardHeader from '@/components/dashboard/organisms/DashboardHeader.vue';
+import DashboardTabBar from '@/components/dashboard/organisms/DashboardTabBar.vue';
+import SectionPensionCalc from '@/components/dashboard/organisms/SectionPensionCalc.vue';
+import SectionDocuments from '@/components/dashboard/organisms/SectionDocuments.vue';
+import SectionUserDetails from '@/components/dashboard/organisms/SectionUserDetails.vue';
+import { Calculator, FileText, User } from '@lucide/vue';
 
-defineOptions({
-    layout: {
-        breadcrumbs: [
-            {
-                title: 'Dashboard',
-                href: dashboard(),
-            },
-        ],
-    },
+defineProps<{
+    initialCalculations?: any[];
+    initialDocuments?: any[];
+    initialTaxHistories?: any[];
+}>();
+
+const { t } = useI18n();
+
+const tabs = computed(() => [
+    { id: 'pension_calc', label: t('dashboard.tabs.pensionCalc'), icon: Calculator },
+    { id: 'documents', label: t('dashboard.tabs.documents'), icon: FileText },
+    { id: 'profile_details', label: t('dashboard.tabs.profileDetails'), icon: User },
+]);
+
+const activeTabIndex = ref(0);
+const previousTabIndex = ref(0);
+
+const currentTabComponent = computed(() => {
+    switch (tabs.value[activeTabIndex.value].id) {
+        case 'pension_calc':
+            return SectionPensionCalc;
+        case 'documents':
+            return SectionDocuments;
+        case 'profile_details':
+            return SectionUserDetails;
+        default:
+            return SectionPensionCalc;
+    }
 });
+
+const transitionName = computed(() => {
+    return activeTabIndex.value > previousTabIndex.value ? 'slide-left' : 'slide-right';
+});
+
+function switchTab(index: number) {
+    if (index === activeTabIndex.value) return;
+    previousTabIndex.value = activeTabIndex.value;
+    activeTabIndex.value = index;
+}
+
+function handleGoToSection(sectionId: string) {
+    const targetIndex = tabs.value.findIndex((tItem) => tItem.id === sectionId);
+    if (targetIndex >= 0) {
+        switchTab(targetIndex);
+    }
+}
 </script>
 
 <template>
-    <Head title="Dashboard" />
+    <Head :title="t('dashboard.title')" />
 
-    <div
-        class="flex h-full flex-1 flex-col gap-4 overflow-x-auto rounded-xl p-4"
-    >
-        <div class="grid auto-rows-min gap-4 md:grid-cols-3">
-            <div
-                class="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border"
-            >
-                <PlaceholderPattern />
-            </div>
-            <div
-                class="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border"
-            >
-                <PlaceholderPattern />
-            </div>
-            <div
-                class="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border"
-            >
-                <PlaceholderPattern />
-            </div>
-        </div>
-        <div
-            class="relative min-h-[100vh] flex-1 rounded-xl border border-sidebar-border/70 md:min-h-min dark:border-sidebar-border"
-        >
-            <PlaceholderPattern />
-        </div>
+    <div class="min-h-screen bg-slate-50 font-sans text-slate-900 selection:bg-main selection:text-slate-950 dark:bg-black dark:text-slate-100 flex flex-col">
+        
+        <!-- Standalone Single Header -->
+        <DashboardHeader />
+
+        <!-- Horizontal Tab Bar with Active Line Indicator -->
+        <DashboardTabBar
+            :tabs="tabs"
+            :active-tab-index="activeTabIndex"
+            @switch-tab="switchTab"
+        />
+
+        <!-- Main SPA Content Container with Horizontal Slide Transitions -->
+        <main class="flex-1 mx-auto w-full max-w-7xl px-4 py-8 sm:px-6 lg:px-8 overflow-hidden">
+            <Transition :name="transitionName" mode="out-in">
+                <component
+                    :is="currentTabComponent"
+                    :key="activeTabIndex"
+                    :initial-calculations="initialCalculations"
+                    :initial-documents="initialDocuments"
+                    :initial-tax-histories="initialTaxHistories"
+                    @go-to-section="handleGoToSection"
+                />
+            </Transition>
+        </main>
+
     </div>
 </template>
+
+<style scoped>
+/* Horizontal Slide Left */
+.slide-left-enter-active,
+.slide-left-leave-active,
+.slide-right-enter-active,
+.slide-right-leave-active {
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.25s ease-out;
+}
+
+.slide-left-enter-from {
+    opacity: 0;
+    transform: translateX(40px);
+}
+.slide-left-leave-to {
+    opacity: 0;
+    transform: translateX(-40px);
+}
+
+/* Horizontal Slide Right */
+.slide-right-enter-from {
+    opacity: 0;
+    transform: translateX(-40px);
+}
+.slide-right-leave-to {
+    opacity: 0;
+    transform: translateX(40px);
+}
+</style>

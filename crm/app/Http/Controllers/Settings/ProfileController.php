@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Settings;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Settings\ProfileDeleteRequest;
 use App\Http\Requests\Settings\ProfileUpdateRequest;
+use App\Models\AuditLog;
+use App\Models\Notification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -30,17 +32,39 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        $user = $request->user();
+        $changes = array_keys($user->getDirty());
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+        $user->fill($request->validated());
+
+        if ($user->isDirty('email')) {
+            $user->email_verified_at = null;
         }
 
-        $request->user()->save();
+        $user->save();
+
+        // Audit Log Entry
+        AuditLog::create([
+            'user_id' => $user->id,
+            'action' => 'user_profile_updated',
+            'entity_type' => 'User',
+            'entity_id' => $user->id,
+            'payload' => [
+                'updated_fields' => array_keys($user->getChanges()),
+            ],
+            'ip_address' => $request->ip(),
+        ]);
+
+        // Notification Entry
+        Notification::create([
+            'user_id' => $user->id,
+            'type' => 'success',
+            'message' => 'Персональні дані та налаштування профілю успішно оновлено.',
+        ]);
 
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Profile updated.')]);
 
-        return to_route('profile.edit');
+        return redirect()->back(fallback: route('profile.edit'));
     }
 
     /**

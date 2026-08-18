@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Document;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Document\UploadDocumentRequest;
+use App\Models\AuditLog;
 use App\Models\Document;
+use App\Models\Notification;
 use App\Services\DocumentOcrService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
@@ -29,6 +31,23 @@ class UploadDocumentController extends Controller
             'original_filename' => $originalFilename,
             'document_type' => (string) $documentType,
             'status' => 'pending',
+        ]);
+
+        // Audit Log
+        AuditLog::create([
+            'user_id' => $user->id,
+            'action' => 'document_uploaded',
+            'entity_type' => 'Document',
+            'entity_id' => $document->id,
+            'payload' => ['original_filename' => $originalFilename],
+            'ip_address' => $request->ip(),
+        ]);
+
+        // Notification
+        Notification::create([
+            'user_id' => $user->id,
+            'type' => 'success',
+            'message' => "Файл '{$originalFilename}' успішно завантажено та передано на OCR розпізнавання.",
         ]);
 
         $recognized = $ocrService->processDocument($document);

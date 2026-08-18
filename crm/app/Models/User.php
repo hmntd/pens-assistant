@@ -18,7 +18,9 @@ use Spatie\Permission\Traits\HasRoles;
 
 /**
  * @property int $id
- * @property string $name
+ * @property string $first_name
+ * @property string $last_name
+ * @property-read string $name
  * @property string $email
  * @property Carbon|null $email_verified_at
  * @property string $password
@@ -46,6 +48,21 @@ class User extends Authenticatable implements PasskeyUser
      * @var array<int, string>
      */
     protected $guarded = ['id'];
+
+    /**
+     * The accessors to append to the model's array form.
+     *
+     * @var list<string>
+     */
+    protected $appends = ['name'];
+
+    /**
+     * Get the user's full name.
+     */
+    public function getNameAttribute(): string
+    {
+        return trim("{$this->first_name} {$this->last_name}");
+    }
 
     /**
      * The attributes that should be hidden for serialization.
@@ -122,5 +139,13 @@ class User extends Authenticatable implements PasskeyUser
     public function auditLogs(): HasMany
     {
         return $this->hasMany(AuditLog::class);
+    }
+
+    /**
+     * Get the notifications for the user.
+     */
+    public function notifications(): HasMany
+    {
+        return $this->hasMany(Notification::class);
     }
 }

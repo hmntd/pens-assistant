@@ -12,7 +12,7 @@ defineProps<{
 
 <template>
     <header
-        class="sticky top-0 z-50 w-full border-b border-slate-200/50 bg-white/75 backdrop-blur-md transition-all duration-300 dark:border-slate-800/50 dark:bg-slate-950/75"
+        class="sticky top-0 z-50 w-full border-b border-slate-200/50 bg-white/75 backdrop-blur-md transition-all duration-300 dark:border-slate-800/50 dark:bg-black/75"
     >
         <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
             <!-- Brand Logo -->

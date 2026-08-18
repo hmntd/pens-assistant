@@ -6,9 +6,13 @@ import LandingHeader from '@/components/landing/organisms/LandingHeader.vue';
 import HeroSection from '@/components/landing/organisms/HeroSection.vue';
 import FeaturesSection from '@/components/landing/organisms/FeaturesSection.vue';
 import TestimonialsSection from '@/components/landing/organisms/TestimonialsSection.vue';
-import BlogPreviewSection from '@/components/landing/organisms/BlogPreviewSection.vue';
+import BlogPreviewSection, { PfuNewsItem } from '@/components/landing/organisms/BlogPreviewSection.vue';
 import CtaSection from '@/components/landing/organisms/CtaSection.vue';
 import LandingFooter from '@/components/landing/organisms/LandingFooter.vue';
+
+defineProps<{
+    pfuNews?: PfuNewsItem[];
+}>();
 
 const { t } = useI18n();
 
@@ -49,7 +53,7 @@ onUnmounted(() => {
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
     </Head>
 
-    <div class="min-h-screen bg-slate-50 font-sans text-slate-900 selection:bg-[#31DE97] selection:text-slate-950 dark:bg-slate-950 dark:text-slate-100">
+    <div class="min-h-screen bg-slate-50 font-sans text-slate-900 selection:bg-main selection:text-slate-950 dark:bg-black dark:text-slate-100">
         
         <!-- Sticky Header with dynamic floating auth buttons -->
         <LandingHeader :show-auth-buttons="showHeaderAuthButtons" />
@@ -65,7 +69,7 @@ onUnmounted(() => {
             <TestimonialsSection />
 
             <!-- Blog Preview Section -->
-            <BlogPreviewSection />
+            <BlogPreviewSection :news="pfuNews" />
 
             <!-- Adaptive CTA Section -->
             <CtaSection />

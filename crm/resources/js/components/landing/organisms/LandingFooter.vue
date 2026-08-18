@@ -8,7 +8,7 @@ const currentYear = new Date().getFullYear();
 </script>
 
 <template>
-    <footer class="border-t border-slate-200/80 bg-white py-12 text-slate-600 dark:border-slate-800/80 dark:bg-slate-950 dark:text-slate-400">
+    <footer class="border-t border-slate-200/80 bg-white py-12 text-slate-600 dark:border-slate-800/80 dark:bg-black dark:text-slate-400">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             
             <!-- Single Footer Group -->
