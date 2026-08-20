@@ -10,11 +10,12 @@ use Illuminate\Support\Carbon;
 /**
  * @property int $id
  * @property int $user_id
+ * @property int|null $notification_translation_id
  * @property string $type
- * @property string $message
  * @property bool $is_seen
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property NotificationTranslation|null $translation
  */
 class Notification extends Model
 {
@@ -37,6 +38,7 @@ class Notification extends Model
         return [
             'is_seen' => 'boolean',
             'user_id' => 'integer',
+            'notification_translation_id' => 'integer',
         ];
     }
 
@@ -46,5 +48,13 @@ class Notification extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Get the translation associated with the notification.
+     */
+    public function translation(): BelongsTo
+    {
+        return $this->belongsTo(NotificationTranslation::class, 'notification_translation_id');
     }
 }

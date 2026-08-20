@@ -17,6 +17,13 @@ export function initializeI18n(): void {
         const lang = navigator.language.toLowerCase();
         currentLocale.value = lang.startsWith('uk') ? 'uk' : 'en';
     }
+    syncLocaleCookie(currentLocale.value);
+}
+
+function syncLocaleCookie(lang: Locale) {
+    if (typeof document !== 'undefined') {
+        document.cookie = `locale=${lang};path=/;max-age=31536000;SameSite=Lax`;
+    }
 }
 
 export function useI18n() {
@@ -34,6 +41,7 @@ export function useI18n() {
         if (typeof window !== 'undefined') {
             localStorage.setItem('locale', lang);
         }
+        syncLocaleCookie(lang);
     }
 
     function t(path: string): string {

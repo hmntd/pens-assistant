@@ -39,20 +39,22 @@ const selectedDoc = ref<DocumentItem | null>(null);
 
 // Upload form
 const uploadForm = useForm<{
-    document: File | null;
+    file: File | null;
     document_type: string;
 }>({
-    document: null,
-    document_type: 'income_certificate',
+    file: null,
+    document_type: 'trudova_auto',
 });
 
 // Manual tax history form
 const isRangeMode = ref(true);
+const currentYear = new Date().getFullYear();
+
 const manualTaxForm = useForm({
     is_range: true,
-    year: 2024,
+    year: currentYear,
     from_year: 2020,
-    to_year: 2024,
+    to_year: currentYear,
     monthly_salary: 15000,
     months_worked: 12,
 });
@@ -65,13 +67,13 @@ const totalAccumulatedMonthsCount = computed(() => {
 function handleFileSelect(e: Event) {
     const target = e.target as HTMLInputElement;
     if (target.files && target.files[0]) {
-        uploadForm.document = target.files[0];
+        uploadForm.file = target.files[0];
         uploadDocument();
     }
 }
 
 function uploadDocument() {
-    if (!uploadForm.document) return;
+    if (!uploadForm.file) return;
     uploadForm.post('/documents/upload', {
         preserveScroll: true,
         onSuccess: (pageRes) => {

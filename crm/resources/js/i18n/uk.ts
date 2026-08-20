@@ -7,6 +7,7 @@ export default {
         github: 'GitHub',
         title: 'PensAssistant',
         subtitle: 'Пенсійний Асистент',
+        logout: 'Вийти',
     },
     hero: {
         badge: 'Український Пенсійний Калькулятор',

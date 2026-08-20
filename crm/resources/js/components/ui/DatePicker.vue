@@ -186,7 +186,11 @@ function selectYear(y: number) {
 }
 
 function handleClickOutside(e: MouseEvent) {
-    if (containerRef.value && !containerRef.value.contains(e.target as Node)) {
+    const target = e.target as Node | null;
+    if (!target) return;
+    if (!document.contains(target)) return;
+
+    if (containerRef.value && !containerRef.value.contains(target)) {
         isOpen.value = false;
     }
 }

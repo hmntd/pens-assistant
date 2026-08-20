@@ -7,6 +7,7 @@ export default {
         github: 'GitHub',
         title: 'PensAssistant',
         subtitle: 'Pension Assistant',
+        logout: 'Log out',
     },
     hero: {
         badge: 'Ukrainian Pension Assistant',

@@ -55,11 +55,16 @@ class ProfileController extends Controller
             'ip_address' => $request->ip(),
         ]);
 
-        // Notification Entry
+        // Notification Entry with Translations
+        $translation = \App\Models\NotificationTranslation::create([
+            'uk' => 'Персональні дані та налаштування профілю успішно оновлено.',
+            'en' => 'Personal data and profile settings updated successfully.',
+        ]);
+
         Notification::create([
             'user_id' => $user->id,
+            'notification_translation_id' => $translation->id,
             'type' => 'success',
-            'message' => 'Персональні дані та налаштування профілю успішно оновлено.',
         ]);
 
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Profile updated.')]);

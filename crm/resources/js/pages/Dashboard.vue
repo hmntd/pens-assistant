@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import { Head } from '@inertiajs/vue3';
+import { ref, computed, onMounted, watch } from 'vue';
+import { Head, usePage } from '@inertiajs/vue3';
 import { useI18n } from '@/composables/useI18n';
 import DashboardHeader from '@/components/dashboard/organisms/DashboardHeader.vue';
 import DashboardTabBar from '@/components/dashboard/organisms/DashboardTabBar.vue';
@@ -16,6 +16,7 @@ defineProps<{
 }>();
 
 const { t } = useI18n();
+const page = usePage();
 
 const tabs = computed(() => [
     { id: 'pension_calc', label: t('dashboard.tabs.pensionCalc'), icon: Calculator },
@@ -55,6 +56,37 @@ function handleGoToSection(sectionId: string) {
         switchTab(targetIndex);
     }
 }
+
+function syncSectionFromUrl() {
+    if (typeof window === 'undefined') return;
+    const params = new URLSearchParams(window.location.search);
+    const section = params.get('section');
+    if (!section) return;
+
+    let targetId = '';
+    if (section === 'documents' || section === 'document') {
+        targetId = 'documents';
+    } else if (section === 'pension' || section === 'pension_calc' || section === 'pension-calculations') {
+        targetId = 'pension_calc';
+    } else if (section === 'details' || section === 'profile' || section === 'profile_details') {
+        targetId = 'profile_details';
+    }
+
+    if (targetId) {
+        handleGoToSection(targetId);
+    }
+}
+
+onMounted(() => {
+    syncSectionFromUrl();
+});
+
+watch(
+    () => page.url,
+    () => {
+        syncSectionFromUrl();
+    }
+);
 </script>
 
 <template>

@@ -134,7 +134,7 @@ function saveDetails() {
                     <select
                         id="disability_group"
                         v-model="form.disability_group"
-                        class="flex h-11 w-full rounded-xl border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 dark:bg-zinc-900 dark:border-zinc-800 font-semibold"
+                        class="flex h-11 w-full rounded-xl border border-input bg-background px-3 py-2 text-sm hover:border-main focus:border-main focus-visible:border-main focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-main dark:bg-zinc-900 dark:border-zinc-800 font-semibold transition-all"
                     >
                         <option value="none">{{ t('profileDetails.optNone') }}</option>
                         <option value="group_1">{{ t('profileDetails.optGroup1') }}</option>

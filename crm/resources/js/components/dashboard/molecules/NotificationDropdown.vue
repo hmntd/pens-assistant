@@ -13,55 +13,26 @@ export interface DbNotificationItem {
     id: number;
     user_id: number;
     type: 'success' | 'error' | 'info' | 'warning' | string;
-    message: string;
     is_seen: boolean;
     created_at?: string;
+    translations?: {
+        uk: string;
+        en: string;
+    };
 }
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
 
-const defaultSystemNotifications: DbNotificationItem[] = [
-    {
-        id: 991,
-        user_id: 0,
-        type: 'document',
-        message: 'Довідка про доходи за 2024 рік успішно пройшла перевірку',
-        is_seen: false,
-        created_at: new Date(Date.now() - 10 * 60 * 1000).toISOString(),
-    },
-    {
-        id: 992,
-        user_id: 0,
-        type: 'calculation',
-        message: 'Розраховано коефіцієнт страхового стажу та коефіцієнт заробітної плати',
-        is_seen: false,
-        created_at: new Date(Date.now() - 60 * 60 * 1000).toISOString(),
-    },
-    {
-        id: 993,
-        user_id: 0,
-        type: 'info',
-        message: 'Останні новини Пенсійного фонду України завантажено в систему',
-        is_seen: true,
-        created_at: new Date(Date.now() - 3 * 3600 * 1000).toISOString(),
-    },
-];
-
-const notifications = ref<DbNotificationItem[]>(defaultSystemNotifications);
-const unreadCount = ref(2);
+const notifications = ref<DbNotificationItem[]>([]);
+const unreadCount = ref(0);
 
 async function fetchNotifications() {
     try {
         const response = await fetch('/notifications');
         if (response.ok) {
             const data = await response.json();
-            if (data.notifications && data.notifications.length > 0) {
-                notifications.value = data.notifications;
-                unreadCount.value = data.unread_count || 0;
-            } else {
-                notifications.value = defaultSystemNotifications;
-                unreadCount.value = defaultSystemNotifications.filter(n => !n.is_seen).length;
-            }
+            notifications.value = data.notifications || [];
+            unreadCount.value = data.unread_count || 0;
         }
     } catch (e) {
         console.error('Failed to fetch notifications', e);
@@ -88,18 +59,16 @@ async function toggleRead(item: DbNotificationItem) {
     if (item.is_seen) return;
     item.is_seen = true;
     unreadCount.value = Math.max(0, unreadCount.value - 1);
-    if (item.user_id > 0) {
-        try {
-            await fetch(`/notifications/${item.id}/mark-read`, {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement)?.content || '',
-                    'Accept': 'application/json',
-                },
-            });
-        } catch (e) {
-            // silent fallback
-        }
+    try {
+        await fetch(`/notifications/${item.id}/mark-read`, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement)?.content || '',
+                'Accept': 'application/json',
+            },
+        });
+    } catch (e) {
+        // silent fallback
     }
 }
 
@@ -202,12 +171,12 @@ onUnmounted(() => {
                                     class="text-xs font-semibold truncate capitalize"
                                     :class="item.is_seen ? 'text-slate-700 dark:text-zinc-300' : 'text-slate-900 dark:text-white font-bold'"
                                 >
-                                    {{ item.type === 'success' ? 'Успішно' : 'Сповіщення' }}
+                                    {{ item.type === 'success' ? t('notifications.title') : t('notifications.title') }}
                                 </h4>
                                 <span class="text-[10px] text-slate-400 dark:text-zinc-500 shrink-0">{{ formatTime(item.created_at) }}</span>
                             </div>
                             <p class="mt-0.5 text-xs text-slate-600 dark:text-zinc-400 line-clamp-2 leading-relaxed">
-                                {{ item.message }}
+                                {{ item.translations?.[locale] || item.translations?.['uk'] || '' }}
                             </p>
                         </div>
 
@@ -215,7 +184,7 @@ onUnmounted(() => {
                     </div>
                 </template>
                 <template v-else>
-                    <div class="p-6 text-center text-xs text-slate-500 dark:text-zinc-400">
+                    <div class="p-6 text-center text-xs text-slate-500 dark:text-zinc-400 font-medium">
                         {{ t('notifications.empty') }}
                     </div>
                 </template>

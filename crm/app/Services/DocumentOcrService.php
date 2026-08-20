@@ -79,8 +79,10 @@ class DocumentOcrService
         if (isset($extractedData['document_subtype'])) {
             $document->document_type = $extractedData['document_subtype'];
 
-            if ($extractedData['document_subtype'] === 'trudova_records' && isset($extractedData['table_records'])) {
-                $extractedData['table_records'] = json_decode((string) $extractedData['table_records'], true);
+            if (in_array($extractedData['document_subtype'], ['trudova_records', 'ok5'], true) && isset($extractedData['table_records'])) {
+                if (is_string($extractedData['table_records'])) {
+                    $extractedData['table_records'] = json_decode($extractedData['table_records'], true) ?? [];
+                }
             }
         }
 
@@ -99,7 +101,39 @@ class DocumentOcrService
 
         event(new DocumentStatusUpdated($document, 'completed'));
 
-        if (isset($extractedData['year'], $extractedData['annual_income'])) {
+        if (isset($extractedData['document_subtype']) && $extractedData['document_subtype'] === 'ok5' && is_array($extractedData['table_records'] ?? null)) {
+            $byYear = [];
+            foreach ($extractedData['table_records'] as $rec) {
+                if (!empty($rec['year']) && !empty($rec['salary_amount'])) {
+                    $yr = (int) $rec['year'];
+                    $salary = (float) preg_replace('/[^\d.]/', '', (string) $rec['salary_amount']);
+                    if ($yr > 1950 && $salary > 0) {
+                        if (!isset($byYear[$yr])) {
+                            $byYear[$yr] = ['annual_income' => 0.0, 'months_worked' => 0];
+                        }
+                        $byYear[$yr]['annual_income'] += $salary;
+                        $byYear[$yr]['months_worked'] += 1;
+                    }
+                }
+            }
+
+            foreach ($byYear as $yr => $data) {
+                $annualIncome = $data['annual_income'];
+                $monthsWorked = min(12, max(1, $data['months_worked']));
+                TaxHistory::updateOrCreate(
+                    [
+                        'user_id' => $document->user_id,
+                        'year' => $yr,
+                    ],
+                    [
+                        'document_id' => $document->id,
+                        'annual_income' => $annualIncome,
+                        'tax_paid' => $annualIncome * 0.18,
+                        'months_worked' => $monthsWorked,
+                    ]
+                );
+            }
+        } elseif (isset($extractedData['year'], $extractedData['annual_income'])) {
             TaxHistory::updateOrCreate(
                 [
                     'user_id' => $document->user_id,

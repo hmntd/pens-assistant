@@ -1,12 +1,22 @@
 <?php
 
+use App\Http\Controllers\Admin\DeleteSubsistenceMinimumController;
 use App\Http\Controllers\Admin\Document\AdminIndexDocumentController;
 use App\Http\Controllers\Admin\Document\AdminIndexDocumentStatusesController;
 use App\Http\Controllers\Admin\Document\AdminShowDocumentController;
+use App\Http\Controllers\Admin\IndexSubsistenceMinimumController;
+use App\Http\Controllers\Admin\StoreSubsistenceMinimumController;
+use App\Http\Controllers\Admin\UpdateSubsistenceMinimumController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Document\DeleteDocumentController;
+use App\Http\Controllers\Document\DeleteTaxHistoryController;
 use App\Http\Controllers\Document\IndexDocumentController;
 use App\Http\Controllers\Document\ShowDocumentController;
+use App\Http\Controllers\Document\StoreTaxHistoryController;
 use App\Http\Controllers\Document\UploadDocumentController;
+use App\Http\Controllers\Notification\IndexNotificationController;
+use App\Http\Controllers\Notification\MarkAllNotificationsAsReadController;
+use App\Http\Controllers\Notification\MarkNotificationAsReadController;
 use App\Http\Controllers\PensionCoefficient\DeletePensionCoefficientController;
 use App\Http\Controllers\PensionCoefficient\IndexPensionCoefficientController;
 use App\Http\Controllers\PensionCoefficient\StorePensionCoefficientController;
@@ -14,18 +24,19 @@ use App\Http\Controllers\PensionCoefficient\UpdatePensionCoefficientController;
 use App\Http\Controllers\PensionCalculation\IndexPensionCalculationController;
 use App\Http\Controllers\PensionCalculation\ShowPensionCalculationController;
 use App\Http\Controllers\PensionCalculation\StorePensionCalculationController;
+use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', \App\Http\Controllers\WelcomeController::class)->name('home');
+Route::get('/', WelcomeController::class)->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', \App\Http\Controllers\DashboardController::class)->name('dashboard');
+    Route::get('/dashboard', DashboardController::class)->name('dashboard');
 });
 
 Route::middleware(['auth'])->prefix('notifications')->group(function () {
-    Route::get('/', [\App\Http\Controllers\NotificationController::class, 'index'])->name('notifications.index');
-    Route::post('/mark-all-read', [\App\Http\Controllers\NotificationController::class, 'markAllAsRead'])->name('notifications.mark-all-read');
-    Route::post('/{notification}/mark-read', [\App\Http\Controllers\NotificationController::class, 'markAsRead'])->name('notifications.mark-read');
+    Route::get('/', IndexNotificationController::class)->name('notifications.index');
+    Route::post('/mark-all-read', MarkAllNotificationsAsReadController::class)->name('notifications.mark-all-read');
+    Route::post('/{notification}/mark-read', MarkNotificationAsReadController::class)->name('notifications.mark-read');
 });
 
 Route::middleware(['auth'])->prefix('pension-calculations')->group(function () {
@@ -37,8 +48,8 @@ Route::middleware(['auth'])->prefix('pension-calculations')->group(function () {
 Route::middleware(['auth'])->prefix('documents')->group(function () {
     Route::get('/', IndexDocumentController::class)->name('documents.index');
     Route::post('/upload', UploadDocumentController::class)->name('documents.upload');
-    Route::post('/tax-histories', \App\Http\Controllers\Document\StoreTaxHistoryController::class)->name('documents.tax-histories.store');
-    Route::delete('/tax-histories/{id}', \App\Http\Controllers\Document\DeleteTaxHistoryController::class)->name('documents.tax-histories.destroy');
+    Route::post('/tax-histories', StoreTaxHistoryController::class)->name('documents.tax-histories.store');
+    Route::delete('/tax-histories/{id}', DeleteTaxHistoryController::class)->name('documents.tax-histories.destroy');
     Route::get('/{id}', ShowDocumentController::class)->name('documents.show');
     Route::delete('/{id}', DeleteDocumentController::class)->name('documents.destroy');
 });
@@ -57,81 +68,10 @@ Route::middleware(['auth', 'admin'])->prefix('pension-coefficients')->group(func
 });
 
 Route::middleware(['auth', 'admin'])->prefix('admin/subsistence-minimums')->group(function () {
-    Route::get('/', \App\Http\Controllers\Admin\IndexSubsistenceMinimumController::class)->name('admin.subsistence-minimums.index');
-    Route::post('/', \App\Http\Controllers\Admin\StoreSubsistenceMinimumController::class)->name('admin.subsistence-minimums.store');
-    Route::put('/{id}', \App\Http\Controllers\Admin\UpdateSubsistenceMinimumController::class)->name('admin.subsistence-minimums.update');
-    Route::delete('/{id}', \App\Http\Controllers\Admin\DeleteSubsistenceMinimumController::class)->name('admin.subsistence-minimums.destroy');
-});
-
-Route::get('/grpc-test', function () {
-    $ocrClient = new \Ocr\OcrServiceClient('ocr:50052', [
-        'credentials' => \Grpc\ChannelCredentials::createInsecure(),
-    ]);
-
-    $ocrRequest = new \Ocr\OcrRequest();
-    $ocrRequest->setFileContent('...simulated raw PDF byte stream...');
-    $ocrRequest->setFileExtension('pdf');
-    $ocrRequest->setDocumentType('income_certificate');
-
-    /** @var \Ocr\OcrResponse $ocrResponse */
-    list($ocrResponse, $ocrStatus) = $ocrClient->RecognizeTaxDocument($ocrRequest)->wait();
-
-    $ocrResult = [];
-    if ($ocrStatus->code === \Grpc\STATUS_OK && $ocrResponse && $ocrResponse->getSuccess()) {
-        $ocrResult = [
-            'status' => 'success',
-            'raw_text' => $ocrResponse->getRawText(),
-            'confidence' => $ocrResponse->getConfidence(),
-            'extracted_data' => iterator_to_array($ocrResponse->getData()),
-        ];
-    } else {
-        $ocrResult = ['status' => 'error', 'message' => $ocrResponse ? $ocrResponse->getErrorMessage() : ($ocrStatus->details ?? 'Connection failed')];
-    }
-
-    $calcClient = new \Calc\CalcServiceClient('calc:50051', [
-        'credentials' => \Grpc\ChannelCredentials::createInsecure(),
-    ]);
-
-    $calcRequest = new \Calc\CalculatePensionRequest();
-    $calcRequest->setCustomerId('user-999');
-    $calcRequest->setBirthYear(1990);
-    $calcRequest->setTargetRetirementYear(2055);
-
-    // Create mock tax records for the 'repeated' history field
-    $record2024 = new \Calc\TaxRecord();
-    $record2024->setYear(2024);
-    $record2024->setAnnualIncome(50000.0);
-    $record2024->setTaxPaid(10000.0);
-    $record2024->setMonthsWorked(12);
-
-    $record2025 = new \Calc\TaxRecord();
-    $record2025->setYear(2025);
-    $record2025->setAnnualIncome(55000.0);
-    $record2025->setTaxPaid(11000.0);
-    $record2025->setMonthsWorked(12);
-
-    // Pass the array of TaxRecord objects into the request
-    $calcRequest->setHistory([$record2024, $record2025]);
-
-    /** @var \Calc\CalculatePensionResponse $calcResponse */
-    list($calcResponse, $calcStatus) = $calcClient->CalculatePension($calcRequest)->wait();
-
-    $calcResult = [];
-    if ($calcStatus->code === \Grpc\STATUS_OK && $calcResponse && $calcResponse->getSuccess()) {
-        $calcResult = [
-            'status' => 'success',
-            'final_pension' => $calcResponse->getFinalPension(),
-            'base_pension' => $calcResponse->getBasePension(),
-            'logs' => iterator_to_array($calcResponse->getCalculationLogs()),
-        ];
-    } else {
-        $calcResult = ['status' => 'error', 'message' => $calcResponse ? $calcResponse->getErrorMessage() : ($calcStatus->details ?? 'Connection failed')];
-    }
-
-    return response()->json([
-        'ocr_service' => $ocrResult,
-        'calc_service' => $calcResult,
-    ]);
+    Route::get('/', IndexSubsistenceMinimumController::class)->name('admin.subsistence-minimums.index');
+    Route::post('/', StoreSubsistenceMinimumController::class)->name('admin.subsistence-minimums.store');
+    Route::put('/{id}', UpdateSubsistenceMinimumController::class)->name('admin.subsistence-minimums.update');
+    Route::delete('/{id}', DeleteSubsistenceMinimumController::class)->name('admin.subsistence-minimums.destroy');
 });
 
 require __DIR__ . '/settings.php';

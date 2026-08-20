@@ -50,11 +50,14 @@ class StoreTaxHistoryController extends Controller
                 );
             }
 
+            $period = "{$fromYear}-{$toYear}";
             $auditMsg = "Внесено стаж за період {$fromYear}-{$toYear} рр.";
         } else {
             $year = (int) $validated['year'];
-            $annualIncome = $monthlySalary * $monthsWorked;
+            $monthlySalary = (float) $validated['monthly_salary'];
+            $annualIncome = $monthlySalary * 12;
             $taxPaid = $annualIncome * 0.18;
+            $monthsWorked = 12;
 
             TaxHistory::updateOrCreate(
                 [
@@ -68,6 +71,7 @@ class StoreTaxHistoryController extends Controller
                 ]
             );
 
+            $period = "{$year}";
             $auditMsg = "Внесено стаж за {$year} рік.";
         }
 
@@ -84,10 +88,15 @@ class StoreTaxHistoryController extends Controller
         ]);
 
         // Notification
+        $translation = \App\Models\NotificationTranslation::create([
+            'uk' => "Запис про страховий стаж за {$period} успішно додано.",
+            'en' => "Insurance service record for {$period} added successfully.",
+        ]);
+
         Notification::create([
             'user_id' => $user->id,
+            'notification_translation_id' => $translation->id,
             'type' => 'success',
-            'message' => "Успішно оновлено історію страхового стажу: {$auditMsg}",
         ]);
 
         $allHistories = TaxHistory::where('user_id', $user->id)

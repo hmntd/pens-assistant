@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { Link } from '@inertiajs/vue3';
+import { computed } from 'vue';
+import { Link, usePage } from '@inertiajs/vue3';
 import { useI18n } from '@/composables/useI18n';
 import AppLogo from '@/components/AppLogo.vue';
 import NotificationDropdown from '../molecules/NotificationDropdown.vue';
@@ -10,6 +11,10 @@ import { Toaster } from '@/components/ui/sonner';
 import { dashboard, home } from '@/routes';
 
 const { t } = useI18n();
+const page = usePage();
+
+const isHomeActive = computed(() => page.url === '/' || page.url === '');
+const isDashboardActive = computed(() => page.url.startsWith('/dashboard'));
 </script>
 
 <template>
@@ -28,13 +33,15 @@ const { t } = useI18n();
                 <nav class="hidden sm:flex items-center gap-4 border-l border-slate-200/80 dark:border-zinc-800/80 pl-6">
                     <Link
                         :href="home()"
-                        class="text-xs font-extrabold text-slate-600 hover:text-slate-900 dark:text-zinc-400 dark:hover:text-white transition-colors"
+                        class="text-xs font-extrabold transition-all"
+                        :class="isHomeActive ? 'text-main dark:text-main font-black underline underline-offset-4 decoration-2' : 'text-slate-600 hover:text-slate-900 dark:text-zinc-400 dark:hover:text-white'"
                     >
                         {{ t('header.home') }}
                     </Link>
                     <Link
                         :href="dashboard()"
-                        class="text-xs font-extrabold text-slate-600 hover:text-slate-900 dark:text-zinc-400 dark:hover:text-white transition-colors"
+                        class="text-xs font-extrabold transition-all"
+                        :class="isDashboardActive ? 'text-main dark:text-main font-black underline underline-offset-4 decoration-2' : 'text-slate-600 hover:text-slate-900 dark:text-zinc-400 dark:hover:text-white'"
                     >
                         {{ t('header.dashboard') }}
                     </Link>

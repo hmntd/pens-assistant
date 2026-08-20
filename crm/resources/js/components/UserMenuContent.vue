@@ -51,7 +51,7 @@ defineProps<Props>();
             data-test="logout-button"
         >
             <LogOut class="mr-2 h-4 w-4" />
-            {{ t('header.logout') || 'Вийти' }}
+            {{ t('header.logout') }}
         </Link>
     </DropdownMenuItem>
 </template>

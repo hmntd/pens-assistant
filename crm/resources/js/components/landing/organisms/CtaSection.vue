@@ -26,17 +26,17 @@ const defaultItems = computed<CtaLinkItem[]>(() => [
     {
         title: t('cta.link1Title'),
         description: t('cta.link1Desc'),
-        href: '/pension-calculations',
+        href: '/dashboard?section=pension',
     },
     {
         title: t('cta.link2Title'),
         description: t('cta.link2Desc'),
-        href: '/documents',
+        href: '/dashboard?section=documents',
     },
     {
         title: t('cta.link5Title'),
         description: t('cta.link5Desc'),
-        href: '/settings/profile',
+        href: '/dashboard?section=details',
     },
 ]);
 
