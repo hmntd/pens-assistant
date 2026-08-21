@@ -173,6 +173,12 @@ export default {
         close: '✕ Закрити',
         deleteConfirmDoc: 'Ви дійсно бажаєте видалити цей документ?',
         deleteConfirmTax: 'Видалити цей запис стажу?',
+        editMonthlySalary: 'Редагувати місячні доходи',
+        editSalaryTitle: 'Редагування зарплати за :year рік',
+        editSalarySubtitle: 'Вкажіть розмір доходу окремо для кожного місяця року',
+        totalAnnualIncome: 'Загальний річний дохід:',
+        cancelBtn: 'Скасувати',
+        saveBtn: 'Зберегти',
     },
     profileDetails: {
         title: 'Особисті Дані та Група Інвалідності',
@@ -245,5 +251,9 @@ export default {
         newCount: 'нових',
         markAllRead: 'Прочитати все',
         empty: 'Немає сповіщень',
+        ocrSuccessToast: "Документ ':file' успішно розпізнано та дані внесені до страхового стажу!",
+        ocrFailedToast: "Не вдалося розпізнати документ ':file'",
+        pensionCalculationStartedToast: "Розрахунок пенсії розпочато. Ви можете продовжувати користуватися системою.",
+        pensionCalculationSuccessToast: "Розрахунок пенсії успішно завершено!",
     },
 };

@@ -51,6 +51,7 @@ namespace calc
             std::optional<CoefficientRecord> update(int id, int year, int month, double coefficient, const std::string &description);
             bool remove(int id);
             double getAverageSalary(int year, int month) const;
+            double getMacroeconomicAverageSalary(int retirement_year) const;
             bool upsertAverageSalary(int year, int month, double amount);
             service::SubsistenceLimits getSubsistenceLimits(int year) const;
             bool upsertSubsistenceLimits(int year, double for_disabled, double general, double age_surcharge_cap = 10340.35);

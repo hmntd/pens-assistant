@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import { Link, usePage } from '@inertiajs/vue3';
 import { useI18n } from '@/composables/useI18n';
+import { useDocumentNotifier } from '@/composables/useDocumentNotifier';
 import AppLogo from '@/components/AppLogo.vue';
 import NotificationDropdown from '../molecules/NotificationDropdown.vue';
 import UserAvatarMenu from '../molecules/UserAvatarMenu.vue';
@@ -12,6 +13,9 @@ import { dashboard, home } from '@/routes';
 
 const { t } = useI18n();
 const page = usePage();
+
+// Initialize document notifier on DashboardHeader so every dashboard page gets real-time toasts and notification updates
+useDocumentNotifier();
 
 const isHomeActive = computed(() => page.url === '/' || page.url === '');
 const isDashboardActive = computed(() => page.url.startsWith('/dashboard'));

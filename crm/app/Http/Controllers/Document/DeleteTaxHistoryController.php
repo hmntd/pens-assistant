@@ -6,12 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Models\AuditLog;
 use App\Models\TaxHistory;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Inertia\Inertia;
+use Symfony\Component\HttpFoundation\Response;
 
 class DeleteTaxHistoryController extends Controller
 {
-    public function __invoke(Request $request, int $id): JsonResponse
+    public function __invoke(Request $request, int $id): JsonResponse|RedirectResponse
     {
         $user = $request->user();
         $taxHistory = TaxHistory::where('user_id', $user->id)
@@ -29,6 +31,14 @@ class DeleteTaxHistoryController extends Controller
             'payload' => ['year' => $year],
             'ip_address' => $request->ip(),
         ]);
+
+        if ($request->header('X-Inertia')) {
+            Inertia::flash('toast', [
+                'type' => 'success',
+                'message' => __('Service history record deleted.'),
+            ]);
+            return redirect()->back();
+        }
 
         return response()->json([
             'message' => 'Запис страхового стажу видалено.',

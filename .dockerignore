@@ -1,0 +1,7 @@
+crm/storage
+crm/vendor
+crm/node_modules
+crm/public/build
+.git
+.idea
+.vscode

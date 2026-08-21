@@ -16,6 +16,7 @@ use Illuminate\Support\Carbon;
  * @property float $annual_income
  * @property float $tax_paid
  * @property int $months_worked
+ * @property array|null $monthly_breakdown
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Carbon|null $deleted_at
@@ -39,6 +40,24 @@ class TaxHistory extends Model
     protected $guarded = ['id'];
 
     /**
+     * The "booted" method of the model.
+     */
+    protected static function booted(): void
+    {
+        static::saving(function (TaxHistory $taxHistory) {
+            if (empty($taxHistory->monthly_breakdown) && (float) $taxHistory->annual_income > 0) {
+                $monthsWorked = min(12, max(1, (int) ($taxHistory->months_worked ?: 12)));
+                $monthlyAvg = (float) $taxHistory->annual_income / $monthsWorked;
+                $breakdown = [];
+                for ($m = 1; $m <= 12; $m++) {
+                    $breakdown[$m] = $m <= $monthsWorked ? round($monthlyAvg, 2) : 0.0;
+                }
+                $taxHistory->monthly_breakdown = $breakdown;
+            }
+        });
+    }
+
+    /**
      * Get the attributes that should be cast.
      *
      * @return array<string, string>
@@ -50,6 +69,7 @@ class TaxHistory extends Model
             'annual_income' => 'decimal:2',
             'tax_paid' => 'decimal:2',
             'months_worked' => 'integer',
+            'monthly_breakdown' => 'array',
         ];
     }
 

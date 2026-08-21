@@ -16,16 +16,21 @@ class IndexDocumentController extends Controller
         $user = $request->user();
 
         $page = max(1, (int) $request->input('page', 1));
-        $perPage = max(1, min(100, (int) $request->input('per_page', 15)));
+        $perPage = max(1, min(100, (int) $request->input('per_page', 100)));
 
         $documents = Document::where('user_id', $user->id)
             ->with(['recognizedDocument', 'taxHistories'])
             ->orderByDesc('id')
             ->paginate($perPage, ['*'], 'page', $page);
 
+        $taxHistories = $user->taxHistories()
+            ->orderBy('year', 'asc')
+            ->get();
+
         return response()->json([
             'status' => 'success',
             'data' => $documents->items(),
+            'tax_histories' => $taxHistories,
             'meta' => [
                 'current_page' => $documents->currentPage(),
                 'per_page' => $documents->perPage(),

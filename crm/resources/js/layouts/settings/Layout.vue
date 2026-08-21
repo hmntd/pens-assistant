@@ -67,14 +67,6 @@ const { isCurrentOrParentUrl } = useCurrentUrl();
                             ></div>
                         </Link>
                     </nav>
-
-                    <Link
-                        href="/dashboard"
-                        class="hidden sm:inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-900 dark:text-zinc-400 dark:hover:text-white transition-colors"
-                    >
-                        <ArrowLeft class="h-3.5 w-3.5" />
-                        {{ t('settings.nav.backToDashboard') }}
-                    </Link>
                 </div>
             </div>
         </div>

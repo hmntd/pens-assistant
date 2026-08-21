@@ -89,12 +89,20 @@ namespace calc
             return total_months;
         }
 
+        struct MonthRatioItem
+        {
+            int year;
+            int month;
+            double ratio;
+            bool is_special_period;
+        };
+
         double PensionCalculator::calculateWageCoefficientKz(
             const calc::CalculatePensionRequest *request,
             std::vector<std::string> &logs,
             std::string &error_message) const
         {
-            std::vector<double> ratios;
+            std::vector<MonthRatioItem> items;
 
             if (request->salary_history_size() > 0)
             {
@@ -116,7 +124,29 @@ namespace calc
                     }
 
                     double ratio = rec.amount() / avg_national;
-                    ratios.push_back(ratio);
+
+                    // Statutory special periods (Law 1058-IV Art. 40):
+                    // 1) Explicit special flag (conscription, study, child care under 3 yrs)
+                    // 2) COVID-19 Quarantine: March 2020 - June 2023
+                    // 3) Martial Law (Воєнний стан): February 2022 onwards
+                    bool is_special = rec.is_special_period();
+                    if (!is_special)
+                    {
+                        int yr = rec.year();
+                        int mo = rec.month();
+                        // COVID-19 Quarantine
+                        if ((yr == 2020 && mo >= 3) || yr == 2021 || yr == 2022 || (yr == 2023 && mo <= 6))
+                        {
+                            is_special = true;
+                        }
+                        // Martial Law
+                        if ((yr == 2022 && mo >= 2) || yr >= 2023)
+                        {
+                            is_special = true;
+                        }
+                    }
+
+                    items.push_back({rec.year(), rec.month(), ratio, is_special});
                 }
             }
             else if (request->history_size() > 0)
@@ -147,9 +177,12 @@ namespace calc
                     double monthly_income = rec.annual_income() / rec.months_worked();
                     double ratio = monthly_income / avg_national;
 
-                    for (int m = 0; m < rec.months_worked(); ++m)
+                    int yr = rec.year();
+                    bool is_special = (yr >= 2020);
+
+                    for (int m = 1; m <= rec.months_worked(); ++m)
                     {
-                        ratios.push_back(ratio);
+                        items.push_back({yr, m, ratio, is_special});
                     }
                 }
             }
@@ -159,34 +192,87 @@ namespace calc
                 return -1.0;
             }
 
-            double initial_sum = std::accumulate(ratios.begin(), ratios.end(), 0.0);
-            double initial_kz = initial_sum / ratios.size();
-
-            if (request->enable_optimization_rule() && ratios.size() >= 10)
+            if (items.empty())
             {
-                std::sort(ratios.begin(), ratios.end());
-                size_t drop_count = ratios.size() * 0.10; // Drop worst 10%
+                error_message = "Salary items vector is empty";
+                return -1.0;
+            }
 
-                if (drop_count > 0 && drop_count < ratios.size())
+            double initial_sum = 0.0;
+            for (const auto &it : items)
+            {
+                initial_sum += it.ratio;
+            }
+            double initial_kz = initial_sum / items.size();
+            size_t total_months = items.size();
+
+            if (request->enable_optimization_rule())
+            {
+                size_t max_total_droppable = (total_months > 60) ? (total_months - 60) : 0;
+                size_t max_10pct_droppable = std::min(static_cast<size_t>(std::floor(total_months * 0.10)), max_total_droppable);
+
+                if (max_total_droppable > 0)
                 {
-                    std::vector<double> optimized_ratios(ratios.begin() + drop_count, ratios.end());
-                    double opt_sum = std::accumulate(optimized_ratios.begin(), optimized_ratios.end(), 0.0);
-                    double opt_kz = opt_sum / optimized_ratios.size();
+                    // Sort items by ratio ascending to consider worst months first
+                    std::vector<MonthRatioItem> sorted_items = items;
+                    std::sort(sorted_items.begin(), sorted_items.end(), [](const MonthRatioItem &a, const MonthRatioItem &b)
+                              { return a.ratio < b.ratio; });
 
-                    if (opt_kz > initial_kz)
+                    std::vector<MonthRatioItem> remaining_items;
+                    size_t total_dropped = 0;
+                    size_t pct10_dropped = 0;
+                    size_t special_dropped = 0;
+                    double current_sum = initial_sum;
+                    size_t current_count = total_months;
+
+                    for (const auto &it : sorted_items)
                     {
-                        std::ostringstream ss;
-                        ss << "Optimization Rule Applied: Dropped worst " << drop_count
-                           << " salary months. Kz improved from " << std::fixed << std::setprecision(4)
-                           << initial_kz << " to " << opt_kz;
-                        logs.push_back(ss.str());
-                        return opt_kz;
+                        double current_kz = current_sum / current_count;
+
+                        // Only consider dropping if ratio is below current Kz average
+                        if (it.ratio < current_kz && total_dropped < max_total_droppable)
+                        {
+                            if (it.is_special_period)
+                            {
+                                current_sum -= it.ratio;
+                                current_count--;
+                                total_dropped++;
+                                special_dropped++;
+                                continue;
+                            }
+                            else if (pct10_dropped < max_10pct_droppable)
+                            {
+                                current_sum -= it.ratio;
+                                current_count--;
+                                total_dropped++;
+                                pct10_dropped++;
+                                continue;
+                            }
+                        }
+
+                        remaining_items.push_back(it);
+                    }
+
+                    if (total_dropped > 0 && current_count >= 60)
+                    {
+                        double opt_kz = current_sum / current_count;
+                        if (opt_kz > initial_kz)
+                        {
+                            std::ostringstream ss;
+                            ss << "Optimization Rule Applied (Law 1058-IV Art. 40): Dropped " << total_dropped
+                               << " worst salary months (" << special_dropped << " special statutory period months, "
+                               << pct10_dropped << " under 10% rule). Remaining evaluated period: " << current_count
+                               << " months (min 60 months floor maintained). Kz improved from "
+                               << std::fixed << std::setprecision(4) << initial_kz << " to " << opt_kz;
+                            logs.push_back(ss.str());
+                            return opt_kz;
+                        }
                     }
                 }
             }
 
             std::ostringstream ss;
-            ss << "Wage coefficient Kz calculated over " << ratios.size() << " months: "
+            ss << "Wage coefficient Kz calculated over " << items.size() << " months: "
                << std::fixed << std::setprecision(4) << initial_kz;
             logs.push_back(ss.str());
 
@@ -390,16 +476,6 @@ namespace calc
             std::cout << "[Calc Engine] Executing 5-Stage Pension Calculation for Customer: " << request->customer_id() << std::endl;
             logs.push_back("Starting Pension Calculation Pipeline for Customer: " + request->customer_id());
 
-            // STAGE 1: BASE CALCULATION
-            // Macroeconomic Average Zp must be provided and > 0.0
-            double zp = request->zp_macroeconomic_average();
-            if (zp <= 0.0)
-            {
-                res.success = false;
-                res.error_message = "Macroeconomic average salary (Zp) is required and must be greater than 0.0";
-                return res;
-            }
-
             int retirement_year;
             if (request->retirement_date().length() >= 4)
             {
@@ -423,6 +499,21 @@ namespace calc
                 res.success = false;
                 res.error_message = "Either retirement_date or target_retirement_year is required to determine "
                                     "the applicable subsistence minimums";
+                return res;
+            }
+
+            // STAGE 1: BASE CALCULATION
+            // Macroeconomic Average Zp: if missing or <= 0.0, query DB for 3-year prior national average
+            double zp = request->zp_macroeconomic_average();
+            if (zp <= 0.0)
+            {
+                zp = repo_.getMacroeconomicAverageSalary(retirement_year);
+            }
+
+            if (zp <= 0.0)
+            {
+                res.success = false;
+                res.error_message = "Macroeconomic average salary (Zp) is required and no average salary data exists in DB for prior years";
                 return res;
             }
 

@@ -3,6 +3,7 @@ import AppContent from '@/components/AppContent.vue';
 import AppHeader from '@/components/AppHeader.vue';
 import AppShell from '@/components/AppShell.vue';
 import { Toaster } from '@/components/ui/sonner';
+import { useDocumentNotifier } from '@/composables/useDocumentNotifier';
 import type { BreadcrumbItem } from '@/types';
 
 type Props = {
@@ -12,6 +13,8 @@ type Props = {
 withDefaults(defineProps<Props>(), {
     breadcrumbs: () => [],
 });
+
+useDocumentNotifier();
 </script>
 
 <template>

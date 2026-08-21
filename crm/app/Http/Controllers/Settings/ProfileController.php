@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers\Settings;
 
+use App\Events\UserProfileUpdated;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Settings\ProfileDeleteRequest;
 use App\Http\Requests\Settings\ProfileUpdateRequest;
 use App\Models\AuditLog;
-use App\Models\Notification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -32,8 +30,8 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
+        /** @var \App\Models\User $user */
         $user = $request->user();
-        $changes = array_keys($user->getDirty());
 
         $user->fill($request->validated());
 
@@ -43,10 +41,10 @@ class ProfileController extends Controller
 
         $user->save();
 
-        // Audit Log Entry
+        // Audit Log
         AuditLog::create([
             'user_id' => $user->id,
-            'action' => 'user_profile_updated',
+            'action' => 'profile_updated',
             'entity_type' => 'User',
             'entity_id' => $user->id,
             'payload' => [
@@ -55,17 +53,8 @@ class ProfileController extends Controller
             'ip_address' => $request->ip(),
         ]);
 
-        // Notification Entry with Translations
-        $translation = \App\Models\NotificationTranslation::create([
-            'uk' => 'Персональні дані та налаштування профілю успішно оновлено.',
-            'en' => 'Personal data and profile settings updated successfully.',
-        ]);
-
-        Notification::create([
-            'user_id' => $user->id,
-            'notification_translation_id' => $translation->id,
-            'type' => 'success',
-        ]);
+        // Dispatch domain event for notification handling
+        event(new UserProfileUpdated($user));
 
         Inertia::flash('toast', ['type' => 'success', 'message' => __('Profile updated.')]);
 
@@ -73,13 +62,17 @@ class ProfileController extends Controller
     }
 
     /**
-     * Delete the user's profile.
+     * Delete the user's account.
      */
-    public function destroy(ProfileDeleteRequest $request): RedirectResponse
+    public function destroy(Request $request): RedirectResponse
     {
+        $request->validate([
+            'password' => ['required', 'current_password'],
+        ]);
+
         $user = $request->user();
 
-        Auth::logout();
+        auth()->logout();
 
         $user->delete();
 

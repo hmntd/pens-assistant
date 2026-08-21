@@ -9,6 +9,7 @@ use App\Models\Document;
 use App\Models\RecognizedDocument;
 use App\Models\TaxHistory;
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class DocumentOcrService
@@ -104,22 +105,55 @@ class DocumentOcrService
         if (isset($extractedData['document_subtype']) && $extractedData['document_subtype'] === 'ok5' && is_array($extractedData['table_records'] ?? null)) {
             $byYear = [];
             foreach ($extractedData['table_records'] as $rec) {
-                if (!empty($rec['year']) && !empty($rec['salary_amount'])) {
+                if (!empty($rec['year'])) {
                     $yr = (int) $rec['year'];
-                    $salary = (float) preg_replace('/[^\d.]/', '', (string) $rec['salary_amount']);
-                    if ($yr > 1950 && $salary > 0) {
+                    $salaryRaw = (string) ($rec['salary_amount'] ?? '0');
+                    $salary = (float) preg_replace('/[^\d.]/', '', $salaryRaw);
+                    $month = !empty($rec['month']) ? (int) $rec['month'] : null;
+
+                    if ($yr > 1950) {
                         if (!isset($byYear[$yr])) {
-                            $byYear[$yr] = ['annual_income' => 0.0, 'months_worked' => 0];
+                            $byYear[$yr] = [
+                                'annual_income' => 0.0,
+                                'months_worked' => 0,
+                                'monthly_breakdown' => [],
+                                'has_explicit_months' => false,
+                            ];
                         }
-                        $byYear[$yr]['annual_income'] += $salary;
-                        $byYear[$yr]['months_worked'] += 1;
+                        if ($month && $month >= 1 && $month <= 12) {
+                            $byYear[$yr]['monthly_breakdown'][$month] = $salary;
+                            $byYear[$yr]['has_explicit_months'] = true;
+                            if ($salary > 0) {
+                                $byYear[$yr]['annual_income'] += $salary;
+                                $byYear[$yr]['months_worked'] += 1;
+                            }
+                        } else {
+                            if ($salary > 0) {
+                                $byYear[$yr]['annual_income'] += $salary;
+                                $byYear[$yr]['months_worked'] += 1;
+                            }
+                        }
                     }
                 }
             }
 
             foreach ($byYear as $yr => $data) {
-                $annualIncome = $data['annual_income'];
-                $monthsWorked = min(12, max(1, $data['months_worked']));
+                $annualIncome = (float) $data['annual_income'];
+                $monthsWorked = min(12, max(0, (int) $data['months_worked']));
+                $monthlyBreakdown = [];
+
+                if ($data['has_explicit_months']) {
+                    for ($m = 1; $m <= 12; $m++) {
+                        $monthlyBreakdown[$m] = (float) ($data['monthly_breakdown'][$m] ?? 0.0);
+                    }
+                } else {
+                    $effectiveMonths = max(1, $monthsWorked);
+                    $avgSalary = $annualIncome / $effectiveMonths;
+                    for ($m = 1; $m <= 12; $m++) {
+                        $monthlyBreakdown[$m] = $m <= $effectiveMonths ? round($avgSalary, 2) : 0.0;
+                    }
+                }
+
                 TaxHistory::updateOrCreate(
                     [
                         'user_id' => $document->user_id,
@@ -129,11 +163,20 @@ class DocumentOcrService
                         'document_id' => $document->id,
                         'annual_income' => $annualIncome,
                         'tax_paid' => $annualIncome * 0.18,
-                        'months_worked' => $monthsWorked,
+                        'months_worked' => max(1, $monthsWorked),
+                        'monthly_breakdown' => $monthlyBreakdown,
                     ]
                 );
             }
         } elseif (isset($extractedData['year'], $extractedData['annual_income'])) {
+            $annualIncome = (float) $extractedData['annual_income'];
+            $monthsWorked = 12;
+            $avgSalary = $annualIncome / $monthsWorked;
+            $monthlyBreakdown = [];
+            for ($m = 1; $m <= 12; $m++) {
+                $monthlyBreakdown[$m] = round($avgSalary, 2);
+            }
+
             TaxHistory::updateOrCreate(
                 [
                     'user_id' => $document->user_id,
@@ -141,15 +184,16 @@ class DocumentOcrService
                 ],
                 [
                     'document_id' => $document->id,
-                    'annual_income' => (float) $extractedData['annual_income'],
-                    'tax_paid' => isset($extractedData['tax_paid']) ? (float) $extractedData['tax_paid'] : ((float) $extractedData['annual_income'] * 0.18),
-                    'months_worked' => 12,
+                    'annual_income' => $annualIncome,
+                    'tax_paid' => isset($extractedData['tax_paid']) ? (float) $extractedData['tax_paid'] : ($annualIncome * 0.18),
+                    'months_worked' => $monthsWorked,
+                    'monthly_breakdown' => $monthlyBreakdown,
                 ]
             );
         }
 
         if ($document->user instanceof User) {
-            $this->calculatePensionForUser($document->user);
+            \App\Jobs\CalculateUserPensionJob::dispatch($document->user);
         }
 
         return $recognized;
@@ -165,16 +209,7 @@ class DocumentOcrService
             $calcService = app(PensionCalculatorService::class);
             return $calcService->calculateAndSave($user, []);
         } catch (\Throwable $e) {
-            if (app()->environment('testing')) {
-                $pension = CalculatedPension::create([
-                    'user_id' => $user->id,
-                    'estimated_monthly_pension' => 1250.00,
-                    'total_accumulated_capital' => 21000.00,
-                    'calculation_breakdown' => ['fallback' => true],
-                ]);
-                event(new PensionCalculated($user, $pension));
-                return $pension;
-            }
+            Log::warning('Failed to trigger pension calculation for user: ' . $e->getMessage());
             return null;
         }
     }

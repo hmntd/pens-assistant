@@ -93,6 +93,11 @@ function formatTime(dateStr?: string) {
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 }
 
+function getNotificationText(item: DbNotificationItem): string {
+    const currentLang = (locale.value || 'uk') as 'uk' | 'en';
+    return item.translations?.[currentLang] || item.translations?.['uk'] || '';
+}
+
 onMounted(() => {
     fetchNotifications();
     window.addEventListener('notification-created', fetchNotifications);
@@ -141,7 +146,8 @@ onUnmounted(() => {
                 </button>
             </div>
 
-            <div class="max-h-80 overflow-y-auto divide-y divide-slate-100 dark:divide-zinc-800/40">
+            <!-- Scrollbar container with transparent background -->
+            <div class="max-h-80 overflow-y-auto divide-y divide-slate-100 dark:divide-zinc-800/40 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-slate-300 dark:[&::-webkit-scrollbar-thumb]:bg-zinc-800 [&::-webkit-scrollbar-thumb]:rounded-full">
                 <template v-if="notifications.length > 0">
                     <div
                         v-for="item in notifications"
@@ -171,12 +177,12 @@ onUnmounted(() => {
                                     class="text-xs font-semibold truncate capitalize"
                                     :class="item.is_seen ? 'text-slate-700 dark:text-zinc-300' : 'text-slate-900 dark:text-white font-bold'"
                                 >
-                                    {{ item.type === 'success' ? t('notifications.title') : t('notifications.title') }}
+                                    {{ t('notifications.title') }}
                                 </h4>
                                 <span class="text-[10px] text-slate-400 dark:text-zinc-500 shrink-0">{{ formatTime(item.created_at) }}</span>
                             </div>
                             <p class="mt-0.5 text-xs text-slate-600 dark:text-zinc-400 line-clamp-2 leading-relaxed">
-                                {{ item.translations?.[locale] || item.translations?.['uk'] || '' }}
+                                {{ getNotificationText(item) }}
                             </p>
                         </div>
 

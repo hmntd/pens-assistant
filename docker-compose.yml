@@ -1,4 +1,4 @@
-version: "3.9"
+name: pens-assistant
 
 services:
   webserver:
@@ -9,7 +9,7 @@ services:
       - "80:80"
     volumes:
       - ./crm:/var/www
-      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
     depends_on:
       - crm
     networks:
@@ -32,11 +32,17 @@ services:
       DB_DATABASE: crm_db
       DB_USERNAME: postgres
       DB_PASSWORD: password
+      QUEUE_CONNECTION: redis
+      REDIS_CLIENT: predis
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
       CALC_GRPC_HOST: calc:50051
       OCR_GRPC_HOST: ocr:50052
     depends_on:
       crm_db:
         condition: service_healthy
+      redis:
+        condition: service_started
       calc:
         condition: service_started
       ocr:
@@ -44,39 +50,44 @@ services:
     networks:
       - pens_net
 
-  calc:
+  crm_horizon:
     build:
       context: .
-      dockerfile: calc/Dockerfile
-    container_name: pens_calc
+      dockerfile: crm/Dockerfile
+    container_name: pens_crm_horizon
     restart: unless-stopped
-    ports:
-      - "50051:50051"
+    working_dir: /var/www
+    command: php artisan horizon
     volumes:
-      - ./calc/src:/app/src
-      - ./calc/tests:/app/tests
+      - ./crm:/var/www
+      - ./protos:/var/www/protos
     environment:
-      DB_HOST: calc_db
+      DB_CONNECTION: pgsql
+      DB_HOST: crm_db
       DB_PORT: 5432
-      DB_NAME: calc_db
-      DB_USER: postgres
+      DB_DATABASE: crm_db
+      DB_USERNAME: postgres
       DB_PASSWORD: password
+      QUEUE_CONNECTION: redis
+      REDIS_CLIENT: predis
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      CALC_GRPC_HOST: calc:50051
+      OCR_GRPC_HOST: ocr:50052
     depends_on:
-      calc_db:
-        condition: service_healthy
+      crm:
+        condition: service_started
+      redis:
+        condition: service_started
     networks:
       - pens_net
 
-  ocr:
-    build:
-      context: .
-      dockerfile: ocr/Dockerfile
-    container_name: pens_ocr
+  redis:
+    image: redis:alpine
+    container_name: pens_redis
     restart: unless-stopped
     ports:
-      - "50052:50052"
-    volumes:
-      - ./ocr:/app/ocr
+      - "6379:6379"
     networks:
       - pens_net
 
@@ -100,6 +111,22 @@ services:
     networks:
       - pens_net
 
+  calc:
+    build:
+      context: .
+      dockerfile: calc/Dockerfile
+    container_name: pens_calc
+    restart: unless-stopped
+    ports:
+      - "50051:50051"
+    environment:
+      DB_CONNECTION_STRING: "host=calc_db port=5432 user=postgres password=password dbname=calc_db sslmode=disable"
+    depends_on:
+      calc_db:
+        condition: service_healthy
+    networks:
+      - pens_net
+
   calc_db:
     image: postgres:16-alpine
     container_name: pens_calc_db
@@ -112,6 +139,7 @@ services:
       - "5433:5432"
     volumes:
       - calc_db_data:/var/lib/postgresql/data
+      - ./calc/db/init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d calc_db"]
       interval: 5s
@@ -120,10 +148,21 @@ services:
     networks:
       - pens_net
 
-volumes:
-  crm_db_data:
-  calc_db_data:
+  ocr:
+    build:
+      context: .
+      dockerfile: ocr/Dockerfile
+    container_name: pens_ocr
+    restart: unless-stopped
+    ports:
+      - "50052:50052"
+    networks:
+      - pens_net
 
 networks:
   pens_net:
     driver: bridge
+
+volumes:
+  crm_db_data:
+  calc_db_data:

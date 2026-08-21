@@ -2,36 +2,43 @@
 
 namespace App\Http\Controllers\Document;
 
+use App\Events\DocumentUploaded;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Document\UploadDocumentRequest;
+use App\Jobs\ProcessDocumentOcrJob;
 use App\Models\AuditLog;
 use App\Models\Document;
-use App\Models\Notification;
-use App\Services\DocumentOcrService;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Inertia\Inertia;
 
 class UploadDocumentController extends Controller
 {
-    public function __invoke(UploadDocumentRequest $request, DocumentOcrService $ocrService): JsonResponse|RedirectResponse
+    public function __invoke(Request $request)
     {
-        /** @var \Illuminate\Http\UploadedFile $file */
-        $file = $request->file('file') ?? $request->file('document');
         /** @var \App\Models\User $user */
         $user = $request->user();
 
-        $originalFilename = $file->getClientOriginalName();
-        $documentType = $request->input('document_type', 'income_certificate');
+        $request->validate([
+            'file' => ['required', 'file', 'mimes:pdf,png,jpg,jpeg', 'max:10240'],
+            'document_type' => ['nullable', 'string', 'max:50'],
+        ]);
 
-        $path = $file->store('documents', 'local');
+        $file = $request->file('file');
+        if (!$file) {
+            if ($request->wantsJson()) {
+                return response()->json(['message' => 'Файл не завантажено.'], Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+            return redirect()->back()->withErrors(['file' => 'Файл не завантажено.']);
+        }
+
+        $originalFilename = $file->getClientOriginalName();
+        $storedPath = $file->store('documents/' . $user->id, 'local');
 
         $document = Document::create([
             'user_id' => $user->id,
-            'file_path' => (string) $path,
+            'file_path' => $storedPath,
             'original_filename' => $originalFilename,
-            'document_type' => (string) $documentType,
+            'document_type' => $request->input('document_type', 'trudova_auto'),
             'status' => 'pending',
         ]);
 
@@ -45,44 +52,34 @@ class UploadDocumentController extends Controller
             'ip_address' => $request->ip(),
         ]);
 
-        // Notification
-        $translation = \App\Models\NotificationTranslation::create([
-            'uk' => "Файл '{$originalFilename}' успішно завантажено та передано на OCR розпізнавання.",
-            'en' => "File '{$originalFilename}' successfully uploaded and sent for OCR recognition.",
-        ]);
+        // Dispatch domain event for notification handling
+        event(new DocumentUploaded($document));
 
-        Notification::create([
-            'user_id' => $user->id,
-            'notification_translation_id' => $translation->id,
-            'type' => 'success',
-        ]);
+        // Dispatch queue job for asynchronous processing
+        if (app()->environment('testing')) {
+            ProcessDocumentOcrJob::dispatchSync($document);
+        } else {
+            ProcessDocumentOcrJob::dispatch($document);
+        }
 
-        $recognized = $ocrService->processDocument($document);
+        $document->refresh();
+        /** @var \App\Models\RecognizedDocument|null $recognizedDoc */
+        $recognizedDoc = $document->recognizedDocument;
 
-        Inertia::flash('toast', [
-            'type' => 'success',
-            'message' => __("Document ':file' uploaded successfully and sent for OCR.", ['file' => $originalFilename]),
-        ]);
-
-        if ($request->wantsJson() && !$request->header('X-Inertia')) {
+        if ($request->wantsJson()) {
             return response()->json([
                 'status' => 'success',
                 'data' => [
-                    'document' => [
-                        'id' => $document->id,
-                        'original_filename' => $document->original_filename,
-                        'status' => $document->status,
-                    ],
-                    'recognized' => [
-                        'status' => $recognized->status,
-                        'raw_text' => $recognized->raw_text,
-                        'extracted_data' => $recognized->extracted_data,
-                        'confidence_score' => $recognized->confidence_score,
-                    ],
-                    'calculated_pension' => $user->latestCalculatedPension,
+                    'document' => $document,
+                    'recognized' => $recognizedDoc,
                 ],
             ], Response::HTTP_CREATED);
         }
+
+        Inertia::flash('toast', [
+            'type' => 'success',
+            'message' => __("Document ':file' uploaded successfully and queued for processing.", ['file' => $originalFilename]),
+        ]);
 
         return redirect()->back();
     }

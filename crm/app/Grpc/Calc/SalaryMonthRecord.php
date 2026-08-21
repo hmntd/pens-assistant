@@ -25,6 +25,12 @@ class SalaryMonthRecord extends \Google\Protobuf\Internal\Message
      * Generated from protobuf field <code>double amount = 3;</code>
      */
     protected $amount = 0.0;
+    /**
+     * Conscription, study, child care < 3 yrs, martial law, quarantine
+     *
+     * Generated from protobuf field <code>bool is_special_period = 4;</code>
+     */
+    protected $is_special_period = false;
 
     /**
      * Constructor.
@@ -35,6 +41,8 @@ class SalaryMonthRecord extends \Google\Protobuf\Internal\Message
      *     @type int $year
      *     @type int $month
      *     @type float $amount
+     *     @type bool $is_special_period
+     *           Conscription, study, child care < 3 yrs, martial law, quarantine
      * }
      */
     public function __construct($data = NULL) {
@@ -104,6 +112,32 @@ class SalaryMonthRecord extends \Google\Protobuf\Internal\Message
     {
         GPBUtil::checkDouble($var);
         $this->amount = $var;
+
+        return $this;
+    }
+
+    /**
+     * Conscription, study, child care < 3 yrs, martial law, quarantine
+     *
+     * Generated from protobuf field <code>bool is_special_period = 4;</code>
+     * @return bool
+     */
+    public function getIsSpecialPeriod()
+    {
+        return $this->is_special_period;
+    }
+
+    /**
+     * Conscription, study, child care < 3 yrs, martial law, quarantine
+     *
+     * Generated from protobuf field <code>bool is_special_period = 4;</code>
+     * @param bool $var
+     * @return $this
+     */
+    public function setIsSpecialPeriod($var)
+    {
+        GPBUtil::checkBool($var);
+        $this->is_special_period = $var;
 
         return $this;
     }

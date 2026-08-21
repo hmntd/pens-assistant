@@ -2,80 +2,95 @@
 
 namespace App\Http\Controllers\Document;
 
+use App\Events\TaxHistoryAdded;
 use App\Http\Controllers\Controller;
 use App\Models\AuditLog;
-use App\Models\Notification;
 use App\Models\TaxHistory;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Inertia\Inertia;
+use Symfony\Component\HttpFoundation\Response;
 
 class StoreTaxHistoryController extends Controller
 {
-    public function __invoke(Request $request): JsonResponse
+    public function __invoke(Request $request): JsonResponse|RedirectResponse
     {
+        /** @var \App\Models\User $user */
         $user = $request->user();
 
         $validated = $request->validate([
-            'is_range' => 'nullable|boolean',
-            'year' => 'required_without:is_range|nullable|integer|between:1950,2099',
-            'from_year' => 'required_if:is_range,true|nullable|integer|between:1950,2099',
-            'to_year' => 'required_if:is_range,true|nullable|integer|between:1950,2099|gte:from_year',
-            'monthly_salary' => 'required|numeric|min:0',
-            'months_worked' => 'nullable|integer|between:1,12',
+            'is_range' => ['nullable', 'boolean'],
+            'year' => ['nullable', 'integer', 'min:1950', 'max:2099'],
+            'from_year' => ['nullable', 'integer', 'min:1950', 'max:2099'],
+            'to_year' => ['nullable', 'integer', 'min:1950', 'max:2099'],
+            'monthly_salary' => ['required', 'numeric', 'min:0'],
+            'months_worked' => ['required', 'integer', 'min:1', 'max:12'],
         ]);
 
-        $isRange = ! empty($validated['is_range']);
+        $isRange = (bool) ($validated['is_range'] ?? false);
         $monthlySalary = (float) $validated['monthly_salary'];
-        $monthsWorked = (int) ($validated['months_worked'] ?? 12);
+        $monthsWorked = (int) $validated['months_worked'];
+
+        $createdYears = [];
 
         if ($isRange) {
-            $fromYear = (int) $validated['from_year'];
-            $toYear = (int) $validated['to_year'];
+            $fromYear = (int) ($validated['from_year'] ?? 2020);
+            $toYear = (int) ($validated['to_year'] ?? date('Y'));
 
-            for ($y = $fromYear; $y <= $toYear; $y++) {
+            if ($fromYear > $toYear) {
+                list($fromYear, $toYear) = [$toYear, $fromYear];
+            }
+
+            for ($yr = $fromYear; $yr <= $toYear; $yr++) {
                 $annualIncome = $monthlySalary * $monthsWorked;
                 $taxPaid = $annualIncome * 0.18;
+                $monthlyBreakdown = [];
+                for ($m = 1; $m <= 12; $m++) {
+                    $monthlyBreakdown[$m] = $m <= $monthsWorked ? $monthlySalary : 0.0;
+                }
 
                 TaxHistory::updateOrCreate(
                     [
                         'user_id' => $user->id,
-                        'year' => $y,
+                        'year' => $yr,
                     ],
                     [
                         'annual_income' => $annualIncome,
                         'tax_paid' => $taxPaid,
                         'months_worked' => $monthsWorked,
+                        'monthly_breakdown' => $monthlyBreakdown,
                     ]
                 );
+                $createdYears[] = $yr;
             }
-
             $period = "{$fromYear}-{$toYear}";
-            $auditMsg = "Внесено стаж за період {$fromYear}-{$toYear} рр.";
         } else {
-            $year = (int) $validated['year'];
-            $monthlySalary = (float) $validated['monthly_salary'];
-            $annualIncome = $monthlySalary * 12;
+            $yr = (int) ($validated['year'] ?? date('Y'));
+            $annualIncome = $monthlySalary * $monthsWorked;
             $taxPaid = $annualIncome * 0.18;
-            $monthsWorked = 12;
+            $monthlyBreakdown = [];
+            for ($m = 1; $m <= 12; $m++) {
+                $monthlyBreakdown[$m] = $m <= $monthsWorked ? $monthlySalary : 0.0;
+            }
 
             TaxHistory::updateOrCreate(
                 [
                     'user_id' => $user->id,
-                    'year' => $year,
+                    'year' => $yr,
                 ],
                 [
                     'annual_income' => $annualIncome,
                     'tax_paid' => $taxPaid,
                     'months_worked' => $monthsWorked,
+                    'monthly_breakdown' => $monthlyBreakdown,
                 ]
             );
-
-            $period = "{$year}";
-            $auditMsg = "Внесено стаж за {$year} рік.";
+            $createdYears[] = $yr;
+            $period = (string) $yr;
         }
 
-        // Audit log
+        // Audit Log
         AuditLog::create([
             'user_id' => $user->id,
             'action' => 'tax_history_stored',
@@ -87,17 +102,16 @@ class StoreTaxHistoryController extends Controller
             'ip_address' => $request->ip(),
         ]);
 
-        // Notification
-        $translation = \App\Models\NotificationTranslation::create([
-            'uk' => "Запис про страховий стаж за {$period} успішно додано.",
-            'en' => "Insurance service record for {$period} added successfully.",
-        ]);
+        // Dispatch domain event for notification handling
+        event(new TaxHistoryAdded($user, $period));
 
-        Notification::create([
-            'user_id' => $user->id,
-            'notification_translation_id' => $translation->id,
-            'type' => 'success',
-        ]);
+        if ($request->header('X-Inertia')) {
+            Inertia::flash('toast', [
+                'type' => 'success',
+                'message' => __('Insurance service record for :period added successfully.', ['period' => $period]),
+            ]);
+            return redirect()->back();
+        }
 
         $allHistories = TaxHistory::where('user_id', $user->id)
             ->orderBy('year', 'asc')

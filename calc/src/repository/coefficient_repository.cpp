@@ -190,6 +190,49 @@ namespace calc
             return 0.0;
         }
 
+        double CoefficientRepository::getMacroeconomicAverageSalary(int retirement_year) const
+        {
+            if (mock_mode_)
+            {
+                return 16008.03;
+            }
+
+            try
+            {
+                pqxx::connection conn(db::DbConfig::getConnectionString());
+                if (!conn.is_open())
+                {
+                    return 0.0;
+                }
+
+                pqxx::work txn(conn);
+                int start_year = std::max(2000, retirement_year - 3);
+                int end_year = std::max(2000, retirement_year - 1);
+
+                pqxx::result res = txn.exec_params(
+                    "SELECT AVG(amount) FROM pfu_average_salaries WHERE year >= $1 AND year <= $2",
+                    start_year, end_year);
+
+                if (!res.empty() && !res[0][0].is_null())
+                {
+                    double avg = res[0][0].as<double>();
+                    if (avg > 0.0) return avg;
+                }
+
+                pqxx::result res_all = txn.exec("SELECT AVG(amount) FROM pfu_average_salaries");
+                if (!res_all.empty() && !res_all[0][0].is_null())
+                {
+                    double avg_all = res_all[0][0].as<double>();
+                    if (avg_all > 0.0) return avg_all;
+                }
+            }
+            catch (const std::exception &e)
+            {
+                std::cerr << "[Calc DB Exception getMacroeconomicAverageSalary] " << e.what() << std::endl;
+            }
+            return 0.0;
+        }
+
         bool CoefficientRepository::upsertAverageSalary(int year, int month, double amount)
         {
             mock_salaries_[{year, month}] = amount;

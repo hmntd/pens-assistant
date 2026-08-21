@@ -8,13 +8,15 @@ use App\Models\CalculatedPension;
 use App\Models\User;
 use App\Services\PensionCalculatorService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\ValidationException;
+use Inertia\Inertia;
 
 class StorePensionCalculationController extends Controller
 {
-    public function __invoke(StorePensionCalculationRequest $request, PensionCalculatorService $service): JsonResponse
+    public function __invoke(StorePensionCalculationRequest $request, PensionCalculatorService $service): JsonResponse|RedirectResponse
     {
         $user = $request->user();
         $targetUser = $user;
@@ -51,6 +53,14 @@ class StorePensionCalculationController extends Controller
         }
 
         $calculatedPension = $service->calculateAndSave($targetUser, $request->validated());
+
+        if ($request->header('X-Inertia')) {
+            Inertia::flash('toast', [
+                'type' => 'success',
+                'message' => __('Pension calculation completed successfully.'),
+            ]);
+            return redirect()->back();
+        }
 
         return response()->json([
             'message' => 'Pension calculated and saved successfully.',

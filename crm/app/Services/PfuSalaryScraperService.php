@@ -204,14 +204,7 @@ class PfuSalaryScraperService
             Log::warning('PFU main page fetch failed: ' . $e->getMessage());
         }
 
-        if (empty($records) || app()->environment('testing')) {
-            $records = [
-                ['year' => $prevYear, 'month' => 11, 'amount' => 17150.80],
-                ['year' => $prevYear, 'month' => 12, 'amount' => 18200.50],
-                ['year' => $currentYear, 'month' => 1, 'amount' => 18950.00],
-                ['year' => $currentYear, 'month' => 2, 'amount' => 19300.25],
-            ];
-        }
+
 
         $calcClient = new \Calc\CalcServiceClient('calc:50051', [
             'credentials' => \Grpc\ChannelCredentials::createInsecure(),

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Events\PensionCalculated;
 use App\Models\CalculatedPension;
 use App\Models\User;
 use Calc\BenefitType;
@@ -14,6 +15,7 @@ use Calc\Gender;
 use Calc\PensionType;
 use Calc\SalaryMonthRecord;
 use Calc\SubsistenceMinimums;
+use Calc\TaxRecord;
 use Grpc\ChannelCredentials;
 use Illuminate\Support\Facades\Log;
 
@@ -55,8 +57,14 @@ class PensionCalculatorService
         // Date of Birth: input override -> user profile
         $userDob = $user->date_of_birth ? $user->date_of_birth->format('Y-m-d') : null;
         $dobStr = (string) ($data['date_of_birth'] ?? $userDob);
+        if (empty($dobStr)) {
+            throw new \InvalidArgumentException('Дата народження не вказана у профілі користувача.');
+        }
         $request->setDateOfBirth($dobStr);
-        $request->setRetirementDate((string) ($data['retirement_date'] ?? now()->format('Y-m-d')));
+
+        $retirementYear = (int) ($data['target_retirement_year'] ?? $user->target_retirement_year ?? date('Y'));
+        $retirementDate = (string) ($data['retirement_date'] ?? "{$retirementYear}-01-01");
+        $request->setRetirementDate($retirementDate);
 
         // Pension Type
         $pensionTypeStr = strtoupper((string) ($data['pension_type'] ?? 'OLD_AGE'));
@@ -81,13 +89,17 @@ class PensionCalculatorService
         $request->setDependentsCount((int) ($data['dependents_count'] ?? 0));
         $request->setEnableOptimizationRule((bool) ($data['enable_optimization_rule'] ?? true));
 
+        // Zp Macroeconomic average salary (set if provided in input)
         if (!empty($data['zp_macroeconomic_average'])) {
             $request->setZpMacroeconomicAverage((float) $data['zp_macroeconomic_average']);
         }
 
+        // Fetch User Tax Histories once for auto-deriving employment, salary, and legacy history if missing
+        $taxHistories = $user->taxHistories()->orderBy('year')->get();
+
         // Employment History
+        $employmentPeriods = [];
         if (!empty($data['employment_history']) && is_array($data['employment_history'])) {
-            $employmentPeriods = [];
             foreach ($data['employment_history'] as $period) {
                 $ep = new EmploymentPeriod();
                 $ep->setStartDate($period['start_date']);
@@ -95,37 +107,82 @@ class PensionCalculatorService
                 $ep->setMultiplier((float) ($period['multiplier'] ?? 1.0));
                 $employmentPeriods[] = $ep;
             }
+        } else {
+            // Auto-generate employment periods from user's tax histories
+            foreach ($taxHistories as $th) {
+                /** @var \App\Models\TaxHistory $th */
+                $months = max(1, min(12, (int) ($th->months_worked ?: 12)));
+                $endMonthStr = str_pad((string) $months, 2, '0', STR_PAD_LEFT);
+                $endDay = match ($endMonthStr) {
+                    '02' => '28',
+                    '04', '06', '09', '11' => '30',
+                    default => '31',
+                };
+                $ep = new EmploymentPeriod();
+                $ep->setStartDate("{$th->year}-01-01");
+                $ep->setEndDate("{$th->year}-{$endMonthStr}-{$endDay}");
+                $ep->setMultiplier(1.0);
+                $employmentPeriods[] = $ep;
+            }
+        }
+        if (!empty($employmentPeriods)) {
             $request->setEmploymentHistory($employmentPeriods);
         }
 
-        // Salary History: input payload -> fallback to user tax histories (from uploaded document OCR)
+        // Salary History & Legacy Tax Records
         $salaryRecords = [];
+        $legacyTaxRecords = [];
+
         if (!empty($data['salary_history']) && is_array($data['salary_history'])) {
             foreach ($data['salary_history'] as $sal) {
                 $sr = new SalaryMonthRecord();
                 $sr->setYear((int) $sal['year']);
                 $sr->setMonth((int) $sal['month']);
                 $sr->setAmount((float) $sal['amount']);
+                if (isset($sal['is_special_period'])) {
+                    $sr->setIsSpecialPeriod((bool) $sal['is_special_period']);
+                }
                 $salaryRecords[] = $sr;
             }
         } else {
-            // Auto-load salary history from OCR document tax histories
-            $taxHistories = $user->taxHistories()->orderBy('year')->get();
+            // Auto-load salary history from user tax histories
             foreach ($taxHistories as $th) {
                 /** @var \App\Models\TaxHistory $th */
                 $months = max(1, min(12, (int) ($th->months_worked ?: 12)));
-                $monthlyAmount = (float) $th->annual_income / $months;
-                for ($m = 1; $m <= $months; $m++) {
-                    $sr = new SalaryMonthRecord();
-                    $sr->setYear((int) $th->year);
-                    $sr->setMonth($m);
-                    $sr->setAmount($monthlyAmount);
-                    $salaryRecords[] = $sr;
+                $breakdown = $th->monthly_breakdown ?: [];
+                $fallbackMonthly = (float) $th->annual_income / $months;
+
+                for ($m = 1; $m <= 12; $m++) {
+                    $amount = isset($breakdown[$m]) && is_numeric($breakdown[$m])
+                        ? (float) $breakdown[$m]
+                        : (isset($breakdown[(string) $m]) && is_numeric($breakdown[(string) $m])
+                            ? (float) $breakdown[(string) $m]
+                            : ($m <= $months ? $fallbackMonthly : 0.0));
+
+                    if ($amount > 0) {
+                        $sr = new SalaryMonthRecord();
+                        $sr->setYear((int) $th->year);
+                        $sr->setMonth($m);
+                        $sr->setAmount($amount);
+                        $salaryRecords[] = $sr;
+                    }
                 }
+
+                $tr = new TaxRecord();
+                $tr->setYear((int) $th->year);
+                $tr->setAnnualIncome((float) $th->annual_income);
+                $tr->setTaxPaid((float) $th->tax_paid);
+                $tr->setMonthsWorked($months);
+                $legacyTaxRecords[] = $tr;
             }
         }
+
         if (!empty($salaryRecords)) {
             $request->setSalaryHistory($salaryRecords);
+        }
+
+        if (!empty($legacyTaxRecords)) {
+            $request->setHistory($legacyTaxRecords);
         }
 
         // Benefits: input override -> user profile -> empty array
@@ -178,8 +235,7 @@ class PensionCalculatorService
 
         $logs = iterator_to_array($response->getCalculationLogs());
 
-        // Save to Database
-        return CalculatedPension::create([
+        $calculatedPension = CalculatedPension::create([
             'user_id' => $user->id,
             'final_pension' => $response->getFinalPension(),
             'base_pension' => $response->getBasePension(),
@@ -201,5 +257,9 @@ class PensionCalculatorService
                 'is_max_clamped' => $response->getIsMaximumClamped(),
             ],
         ]);
+
+        event(new PensionCalculated($user, $calculatedPension));
+
+        return $calculatedPension;
     }
 }

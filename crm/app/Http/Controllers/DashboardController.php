@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\CalculatedPension;
 use App\Models\Document;
-
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -23,6 +22,7 @@ class DashboardController extends Controller
             ->get();
 
         $documents = Document::where('user_id', $user->id)
+            ->with(['recognizedDocument'])
             ->latest()
             ->get();
 
