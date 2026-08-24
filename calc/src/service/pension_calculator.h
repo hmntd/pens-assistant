@@ -30,6 +30,8 @@ namespace calc
             std::vector<SurchargeResult> applied_benefits;
             std::vector<std::string> calculation_logs;
             std::string error_message;
+            bool is_hypothetical{false};
+            std::string hypothetical_disclaimer;
 
             // Legacy compatibility helpers
             double estimated_monthly_pension{0.0};
@@ -49,6 +51,7 @@ namespace calc
             double calculateExtraServiceAllowance(const calc::CalculatePensionRequest *request, int total_months, double base_pension, const SubsistenceLimits &limits, std::vector<std::string> &logs) const;
             int calculateAgeInYears(const std::string &date_of_birth, const std::string &retirement_date) const;
             double calculateAgeSurcharge(const calc::CalculatePensionRequest *request, double pre_age_pension, const SubsistenceLimits &limits, std::vector<std::string> &logs, SurchargeResult &out_surcharge) const;
+            int getCurrentYear() const;
 
         public:
             explicit PensionCalculator(repository::CoefficientRepository repo = repository::CoefficientRepository());

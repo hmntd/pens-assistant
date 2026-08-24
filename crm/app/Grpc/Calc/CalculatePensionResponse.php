@@ -95,6 +95,18 @@ class CalculatePensionResponse extends \Google\Protobuf\Internal\Message
      * Generated from protobuf field <code>string error_message = 16;</code>
      */
     protected $error_message = '';
+    /**
+     * True if calculation is theoretical/projected for future retirement
+     *
+     * Generated from protobuf field <code>bool is_hypothetical = 17;</code>
+     */
+    protected $is_hypothetical = false;
+    /**
+     * Detailed explanation of projection assumptions
+     *
+     * Generated from protobuf field <code>string hypothetical_disclaimer = 18;</code>
+     */
+    protected $hypothetical_disclaimer = '';
 
     /**
      * Constructor.
@@ -127,6 +139,10 @@ class CalculatePensionResponse extends \Google\Protobuf\Internal\Message
      *     @type array<\Calc\BenefitSurchargeDetail>|\Google\Protobuf\Internal\RepeatedField $applied_benefits
      *     @type array<string>|\Google\Protobuf\Internal\RepeatedField $calculation_logs
      *     @type string $error_message
+     *     @type bool $is_hypothetical
+     *           True if calculation is theoretical/projected for future retirement
+     *     @type string $hypothetical_disclaimer
+     *           Detailed explanation of projection assumptions
      * }
      */
     public function __construct($data = NULL) {
@@ -518,6 +534,58 @@ class CalculatePensionResponse extends \Google\Protobuf\Internal\Message
     {
         GPBUtil::checkString($var, True);
         $this->error_message = $var;
+
+        return $this;
+    }
+
+    /**
+     * True if calculation is theoretical/projected for future retirement
+     *
+     * Generated from protobuf field <code>bool is_hypothetical = 17;</code>
+     * @return bool
+     */
+    public function getIsHypothetical()
+    {
+        return $this->is_hypothetical;
+    }
+
+    /**
+     * True if calculation is theoretical/projected for future retirement
+     *
+     * Generated from protobuf field <code>bool is_hypothetical = 17;</code>
+     * @param bool $var
+     * @return $this
+     */
+    public function setIsHypothetical($var)
+    {
+        GPBUtil::checkBool($var);
+        $this->is_hypothetical = $var;
+
+        return $this;
+    }
+
+    /**
+     * Detailed explanation of projection assumptions
+     *
+     * Generated from protobuf field <code>string hypothetical_disclaimer = 18;</code>
+     * @return string
+     */
+    public function getHypotheticalDisclaimer()
+    {
+        return $this->hypothetical_disclaimer;
+    }
+
+    /**
+     * Detailed explanation of projection assumptions
+     *
+     * Generated from protobuf field <code>string hypothetical_disclaimer = 18;</code>
+     * @param string $var
+     * @return $this
+     */
+    public function setHypotheticalDisclaimer($var)
+    {
+        GPBUtil::checkString($var, True);
+        $this->hypothetical_disclaimer = $var;
 
         return $this;
     }

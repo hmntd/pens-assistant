@@ -16,6 +16,7 @@ use App\Http\Controllers\Document\ShowDocumentController;
 use App\Http\Controllers\Document\StoreTaxHistoryController;
 use App\Http\Controllers\Document\UpdateTaxHistoryController;
 use App\Http\Controllers\Document\UploadDocumentController;
+use App\Http\Controllers\FallbackController;
 use App\Http\Controllers\Notification\IndexNotificationController;
 use App\Http\Controllers\Notification\MarkAllNotificationsAsReadController;
 use App\Http\Controllers\Notification\MarkNotificationAsReadController;
@@ -26,16 +27,10 @@ use App\Http\Controllers\PensionCoefficient\DeletePensionCoefficientController;
 use App\Http\Controllers\PensionCoefficient\IndexPensionCoefficientController;
 use App\Http\Controllers\PensionCoefficient\StorePensionCoefficientController;
 use App\Http\Controllers\PensionCoefficient\UpdatePensionCoefficientController;
-use App\Models\PfuNews;
+use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
-Route::get('/', function () {
-    $pfuNews = PfuNews::latest()->take(3)->get();
-    return Inertia::render('Welcome', [
-        'pfuNews' => $pfuNews,
-    ]);
-})->name('home');
+Route::get('/', WelcomeController::class)->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
@@ -85,3 +80,5 @@ Route::middleware(['auth', 'admin'])->prefix('pension-coefficients')->group(func
 });
 
 require __DIR__.'/settings.php';
+
+Route::fallback(FallbackController::class);

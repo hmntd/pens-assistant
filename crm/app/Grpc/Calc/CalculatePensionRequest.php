@@ -93,6 +93,12 @@ class CalculatePensionRequest extends \Google\Protobuf\Internal\Message
      * Generated from protobuf field <code>int32 target_retirement_year = 16;</code>
      */
     protected $target_retirement_year = 0;
+    /**
+     * Flag to enable future salary & service projection
+     *
+     * Generated from protobuf field <code>bool enable_hypothetical_projection = 17;</code>
+     */
+    protected $enable_hypothetical_projection = false;
 
     /**
      * Constructor.
@@ -124,6 +130,8 @@ class CalculatePensionRequest extends \Google\Protobuf\Internal\Message
      *           Backward compatibility
      *     @type int $target_retirement_year
      *           Backward compatibility
+     *     @type bool $enable_hypothetical_projection
+     *           Flag to enable future salary & service projection
      * }
      */
     public function __construct($data = NULL) {
@@ -521,6 +529,32 @@ class CalculatePensionRequest extends \Google\Protobuf\Internal\Message
     {
         GPBUtil::checkInt32($var);
         $this->target_retirement_year = $var;
+
+        return $this;
+    }
+
+    /**
+     * Flag to enable future salary & service projection
+     *
+     * Generated from protobuf field <code>bool enable_hypothetical_projection = 17;</code>
+     * @return bool
+     */
+    public function getEnableHypotheticalProjection()
+    {
+        return $this->enable_hypothetical_projection;
+    }
+
+    /**
+     * Flag to enable future salary & service projection
+     *
+     * Generated from protobuf field <code>bool enable_hypothetical_projection = 17;</code>
+     * @param bool $var
+     * @return $this
+     */
+    public function setEnableHypotheticalProjection($var)
+    {
+        GPBUtil::checkBool($var);
+        $this->enable_hypothetical_projection = $var;
 
         return $this;
     }

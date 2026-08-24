@@ -39,6 +39,8 @@ class StorePensionCalculationRequest extends FormRequest
             'benefits' => 'nullable|array',
             'benefits.*' => 'string|in:combat_veteran,honorary_donor,chornobyl_liquidator,disabled_child_care,age_supplement,COMBAT_VETERAN,HONORARY_DONOR,CHORNOBYL_LIQUIDATOR,DISABLED_CHILD_CARE,AGE_SUPPLEMENT',
             'enable_optimization_rule' => 'nullable|boolean',
+            'enable_hypothetical_projection' => 'nullable|boolean',
+            'is_hypothetical_projection' => 'nullable|boolean',
             'zp_macroeconomic_average' => 'nullable|numeric|min:0',
             'target_user_id' => 'nullable|integer|exists:users,id',
         ];

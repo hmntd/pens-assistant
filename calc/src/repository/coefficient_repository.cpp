@@ -178,9 +178,20 @@ namespace calc
                 pqxx::result res = txn.exec_params(
                     "SELECT amount FROM pfu_average_salaries WHERE year = $1 AND month = $2",
                     year, month);
-                if (!res.empty())
+                if (!res.empty() && !res[0][0].is_null())
                 {
-                    return res[0][0].as<double>();
+                    double amount = res[0][0].as<double>();
+                    if (amount > 0.0) return amount;
+                }
+
+                // Fallback: If PFU has not yet published national average data for this specific month,
+                // use the latest available published monthly average salary from the database
+                pqxx::result res_latest = txn.exec(
+                    "SELECT amount FROM pfu_average_salaries ORDER BY year DESC, month DESC LIMIT 1");
+                if (!res_latest.empty() && !res_latest[0][0].is_null())
+                {
+                    double latest_amount = res_latest[0][0].as<double>();
+                    if (latest_amount > 0.0) return latest_amount;
                 }
             }
             catch (const std::exception &e)

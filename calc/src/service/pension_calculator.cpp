@@ -6,6 +6,8 @@
 #include <sstream>
 #include <iomanip>
 #include <stdexcept>
+#include <chrono>
+#include <ctime>
 
 namespace calc
 {
@@ -468,6 +470,19 @@ namespace calc
             return amount;
         }
 
+        int PensionCalculator::getCurrentYear() const
+        {
+            std::time_t t = std::time(nullptr);
+            std::tm tm_now{};
+            #if defined(_WIN32) || defined(_WIN64)
+                localtime_s(&tm_now, &t);
+            #else
+                localtime_r(&t, &tm_now);
+            #endif
+
+            return tm_now.tm_year + 1900;
+        }
+
         CalculationResult PensionCalculator::calculate(const calc::CalculatePensionRequest *request)
         {
             CalculationResult res;
@@ -666,6 +681,29 @@ namespace calc
             res.pre_clamped_pension = pre_clamped;
             res.is_minimum_clamped = is_min_clamped;
             res.is_maximum_clamped = is_max_clamped;
+
+            int current_year = getCurrentYear();
+            int client_age = calculateAgeInYears(request->date_of_birth(), request->retirement_date());
+            bool is_hypo = request->enable_hypothetical_projection() && ((retirement_year > current_year) || (client_age < 60) || (total_months < 420));
+
+            if (is_hypo)
+            {
+                res.is_hypothetical = true;
+                std::ostringstream ss_hypo;
+                ss_hypo << "Notice: Theoretical (projected) pension calculation for target retirement year "
+                        << retirement_year << ". Statutory requirements not yet met. Assumptions: "
+                        << "1) Continuous employment at current salary level; "
+                        << "2) Latest PFU national average baseline Zp (" << std::fixed << std::setprecision(2) << zp << " UAH); "
+                        << "3) Unadjusted for future inflation or statutory indexation.";
+                res.hypothetical_disclaimer = ss_hypo.str();
+                logs.push_back("Theoretical Projection: Calculation flagged as hypothetical for target retirement year " + std::to_string(retirement_year));
+            }
+            else
+            {
+                res.is_hypothetical = false;
+                res.hypothetical_disclaimer = "";
+            }
+
             res.applied_benefits = surcharges;
             res.calculation_logs = logs;
             res.error_message = "";

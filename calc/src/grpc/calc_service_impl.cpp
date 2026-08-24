@@ -26,6 +26,8 @@ CalcServiceImpl::CalcServiceImpl(bool mock_mode)
     reply->set_pre_clamped_pension(result.pre_clamped_pension);
     reply->set_is_minimum_clamped(result.is_minimum_clamped);
     reply->set_is_maximum_clamped(result.is_maximum_clamped);
+    reply->set_is_hypothetical(result.is_hypothetical);
+    reply->set_hypothetical_disclaimer(result.hypothetical_disclaimer);
 
     for (const auto& b : result.applied_benefits) {
         auto* detail = reply->add_applied_benefits();

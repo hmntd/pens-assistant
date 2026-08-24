@@ -85,6 +85,7 @@ message CalculatePensionRequest {
     repeated TaxRecord history = 14;         // Backward compatibility
     int32 birth_year = 15;                  // Backward compatibility
     int32 target_retirement_year = 16;       // Backward compatibility
+    bool enable_hypothetical_projection = 17; // Flag to enable future salary & service projection
 }
 
 message BenefitSurchargeDetail {
@@ -110,6 +111,8 @@ message CalculatePensionResponse {
     repeated BenefitSurchargeDetail applied_benefits = 14;
     repeated string calculation_logs = 15;
     string error_message = 16;
+    bool is_hypothetical = 17;               // True if calculation is theoretical/projected for future retirement
+    string hypothetical_disclaimer = 18;     // Detailed explanation of projection assumptions
 }
 
 message PensionRequest {

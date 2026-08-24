@@ -177,6 +177,60 @@ class PensionCalculatorService
             }
         }
 
+        $enableHypothetical = (bool) ($data['enable_hypothetical_projection'] ?? $data['is_hypothetical_projection'] ?? false);
+        $request->setEnableHypotheticalProjection($enableHypothetical);
+
+        $latestRecordedYear = 0;
+        $latestMonthlySalary = 0.0;
+
+        foreach ($salaryRecords as $sr) {
+            /** @var SalaryMonthRecord $sr */
+            if ($sr->getYear() > $latestRecordedYear) {
+                $latestRecordedYear = $sr->getYear();
+            }
+        }
+
+        if ($latestRecordedYear > 0) {
+            foreach ($salaryRecords as $sr) {
+                /** @var SalaryMonthRecord $sr */
+                if ($sr->getYear() === $latestRecordedYear && $sr->getAmount() > 0) {
+                    $latestMonthlySalary = $sr->getAmount();
+                }
+            }
+        }
+
+        if ($latestMonthlySalary <= 0.0 && $taxHistories->isNotEmpty()) {
+            /** @var \App\Models\TaxHistory|null $latestTh */
+            $latestTh = $taxHistories->sortByDesc('year')->first();
+            if ($latestTh && $latestTh->annual_income > 0) {
+                $latestRecordedYear = (int) $latestTh->year;
+                $monthsWorked = max(1, (int) ($latestTh->months_worked ?: 12));
+                $latestMonthlySalary = (float) $latestTh->annual_income / $monthsWorked;
+            }
+        }
+
+        if ($enableHypothetical && $retirementYear > $latestRecordedYear && $latestMonthlySalary > 0) {
+            for ($futureYear = $latestRecordedYear + 1; $futureYear <= $retirementYear; $futureYear++) {
+                $ep = new EmploymentPeriod();
+                $ep->setStartDate("{$futureYear}-01-01");
+                $ep->setEndDate("{$futureYear}-12-31");
+                $ep->setMultiplier(1.0);
+                $employmentPeriods[] = $ep;
+
+                for ($m = 1; $m <= 12; $m++) {
+                    $sr = new SalaryMonthRecord();
+                    $sr->setYear($futureYear);
+                    $sr->setMonth($m);
+                    $sr->setAmount($latestMonthlySalary);
+                    $salaryRecords[] = $sr;
+                }
+            }
+        }
+
+        if (!empty($employmentPeriods)) {
+            $request->setEmploymentHistory($employmentPeriods);
+        }
+
         if (!empty($salaryRecords)) {
             $request->setSalaryHistory($salaryRecords);
         }
@@ -235,6 +289,9 @@ class PensionCalculatorService
 
         $logs = iterator_to_array($response->getCalculationLogs());
 
+        $isHypothetical = method_exists($response, 'getIsHypothetical') ? $response->getIsHypothetical() : false;
+        $hypotheticalDisclaimer = method_exists($response, 'getHypotheticalDisclaimer') ? $response->getHypotheticalDisclaimer() : '';
+
         $calculatedPension = CalculatedPension::create([
             'user_id' => $user->id,
             'final_pension' => $response->getFinalPension(),
@@ -255,6 +312,8 @@ class PensionCalculatorService
                 'pre_clamped' => $response->getPreClampedPension(),
                 'is_min_clamped' => $response->getIsMinimumClamped(),
                 'is_max_clamped' => $response->getIsMaximumClamped(),
+                'is_hypothetical' => $isHypothetical,
+                'hypothetical_disclaimer' => $hypotheticalDisclaimer,
             ],
         ]);
 

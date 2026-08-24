@@ -2,9 +2,17 @@
 import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 import { useForm, usePage } from '@inertiajs/vue3';
 import { useI18n } from '@/composables/useI18n';
-import { Calculator, ArrowUpRight, CheckCircle2, History, TrendingUp, UserCheck, AlertCircle } from '@lucide/vue';
+import { Calculator, ArrowUpRight, CheckCircle2, History, TrendingUp, UserCheck, AlertCircle, AlertTriangle, Info, Sparkles } from '@lucide/vue';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from '@/components/ui/dialog';
 import MissingDataHighlight from '../atoms/MissingDataHighlight.vue';
 
 import { toast } from 'vue-sonner';
@@ -17,6 +25,14 @@ export interface CalculationItem {
     coefficient_multiplier?: number;
     disability_group?: string | null;
     created_at?: string;
+    calculation_breakdown?: {
+        is_hypothetical?: boolean;
+        hypothetical_disclaimer?: string;
+        logs?: string[];
+        pre_clamped?: number;
+        is_min_clamped?: boolean;
+        is_max_clamped?: boolean;
+    };
 }
 
 export interface TaxHistoryItem {
@@ -40,6 +56,7 @@ const page = usePage();
 const user = computed(() => page.props.auth?.user);
 
 const isSectionLoading = ref(true);
+const showHypotheticalModal = ref(false);
 
 const calculationsList = ref<CalculationItem[]>(props.initialCalculations || []);
 const activeResult = ref<CalculationItem | null>(calculationsList.value[0] || null);
@@ -60,6 +77,7 @@ const form = useForm({
     target_retirement_year: user.value?.target_retirement_year || null,
     disability_group: user.value?.disability_group || 'none',
     service_years: 35,
+    enable_hypothetical_projection: false,
 });
 
 const isRetirementYearMissing = computed(() => !user.value?.target_retirement_year);
@@ -68,6 +86,16 @@ const isInsuranceServiceMissing = computed(() => !taxHistoriesList.value || taxH
 const totalYearsWorked = computed(() => {
     if (!taxHistoriesList.value) return 0;
     return taxHistoriesList.value.length;
+});
+
+const currentYear = new Date().getFullYear();
+
+const isHypothetical = computed(() => {
+    if (activeResult.value?.calculation_breakdown?.is_hypothetical !== undefined) {
+        return Boolean(activeResult.value.calculation_breakdown.is_hypothetical);
+    }
+    const targetYr = user.value?.target_retirement_year;
+    return Boolean(targetYr && targetYr > currentYear) || totalYearsWorked.value < 35;
 });
 
 const isCalculationBlocked = computed(() => isRetirementYearMissing.value || isInsuranceServiceMissing.value);
@@ -304,10 +332,30 @@ function runCalculation() {
                         </div>
                     </div>
 
+                    <!-- Hypothetical Calculation Flag Toggle -->
+                    <div class="pt-3 border-t border-slate-100 dark:border-zinc-800/80">
+                        <label class="flex items-start justify-between gap-3 p-3 rounded-xl border border-slate-200/80 bg-slate-50/70 hover:bg-slate-100/80 dark:border-zinc-800 dark:bg-zinc-900/60 dark:hover:bg-zinc-900 transition-colors cursor-pointer group">
+                            <div class="space-y-0.5 min-w-0">
+                                <span class="text-xs font-bold text-slate-900 dark:text-zinc-200 group-hover:text-main-dark dark:group-hover:text-main transition-colors flex items-center gap-1.5">
+                                    <Sparkles class="h-3.5 w-3.5 text-amber-500 shrink-0" />
+                                    {{ t('dashboard.overview.enableHypotheticalLabel') }}
+                                </span>
+                                <p class="text-[11px] text-slate-500 dark:text-zinc-400 leading-snug">
+                                    {{ t('dashboard.overview.enableHypotheticalDesc') }}
+                                </p>
+                            </div>
+                            <input
+                                v-model="form.enable_hypothetical_projection"
+                                type="checkbox"
+                                class="mt-0.5 h-4 w-4 rounded border-slate-300 text-main focus:ring-main dark:border-zinc-700 dark:bg-zinc-800 cursor-pointer shrink-0"
+                            />
+                        </label>
+                    </div>
+
                     <!-- Run Calculation Button -->
                     <div class="pt-2 space-y-2">
                         <Button @click="runCalculation" type="button"
-                            class="w-full bg-main text-slate-950 hover:bg-main-dark font-bold shadow-md h-11 disabled:opacity-50 disabled:cursor-not-allowed"
+                            class="w-full bg-main text-slate-950 hover:bg-main-dark font-bold shadow-md h-11 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                             :disabled="form.processing || isCalculationBlocked">
                             <Calculator class="mr-2 h-4 w-4" />
                             {{ form.processing ? t('dashboard.overview.calculatingBtn') :
@@ -325,6 +373,43 @@ function runCalculation() {
                 <!-- Right: Calculation Results & Breakdown -->
                 <div class="lg:col-span-7 space-y-6">
                     <template v-if="activeResult">
+                        <!-- Theoretical (Projected) Calculation Warning Banner -->
+                        <div
+                            v-if="isHypothetical"
+                            class="rounded-2xl border border-amber-500/40 bg-gradient-to-r from-amber-500/15 via-amber-500/10 to-transparent p-5 shadow-sm backdrop-blur-md dark:border-amber-500/30 dark:bg-amber-950/40 text-amber-950 dark:text-amber-100 relative overflow-hidden transition-all duration-300"
+                        >
+                            <div class="flex items-start justify-between gap-4">
+                                <div class="flex items-start gap-3.5 min-w-0">
+                                    <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-amber-500/20 text-amber-600 dark:text-amber-400 mt-0.5 shadow-inner">
+                                        <AlertTriangle class="h-5 w-5" />
+                                    </div>
+                                    <div class="space-y-1">
+                                        <div class="flex flex-wrap items-center gap-2">
+                                            <span class="text-xs font-black uppercase tracking-wider text-amber-800 dark:text-amber-300">
+                                                {{ t('dashboard.overview.hypotheticalTitle') }}
+                                            </span>
+                                            <span v-if="user?.target_retirement_year" class="px-2 py-0.5 rounded-md bg-amber-500/25 text-[10px] font-extrabold text-amber-900 dark:text-amber-200">
+                                                {{ user.target_retirement_year }} {{ t('dashboard.overview.yearUnit') }}
+                                            </span>
+                                        </div>
+                                        <p class="text-xs text-amber-900/90 dark:text-amber-200/90 leading-relaxed font-medium">
+                                            {{ t('dashboard.overview.hypotheticalDesc').replace(':year', String(user?.target_retirement_year || currentYear)) }}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- Interactive Info Icon Button (i) -->
+                                <button
+                                    @click="showHypotheticalModal = true"
+                                    type="button"
+                                    class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-amber-500/20 text-amber-700 dark:text-amber-300 hover:bg-amber-500/30 dark:hover:bg-amber-500/40 transition-colors cursor-pointer"
+                                    :title="t('dashboard.overview.hypotheticalInfoTooltip')"
+                                >
+                                    <Info class="h-5 w-5" />
+                                </button>
+                            </div>
+                        </div>
+
                         <div
                             class="rounded-2xl border border-main/30 bg-gradient-to-br from-main/10 via-emerald-500/5 to-transparent p-6 shadow-md backdrop-blur-md dark:border-main/20 dark:bg-zinc-950/90 relative overflow-hidden">
                             <div class="absolute -right-6 -bottom-6 opacity-10 pointer-events-none">
@@ -405,5 +490,66 @@ function runCalculation() {
                 </div>
             </div>
         </div>
+
+        <!-- Hypothetical Projection Explanation Modal Dialog -->
+        <Dialog :open="showHypotheticalModal" @update:open="showHypotheticalModal = $event">
+            <DialogContent class="sm:max-w-lg rounded-3xl border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 p-6 shadow-2xl">
+                <DialogHeader class="space-y-2">
+                    <div class="flex items-center gap-2 text-amber-600 dark:text-amber-400">
+                        <Info class="h-6 w-6" />
+                        <DialogTitle class="text-lg font-extrabold text-slate-900 dark:text-white">
+                            {{ t('dashboard.overview.hypotheticalModalTitle') }}
+                        </DialogTitle>
+                    </div>
+                    <DialogDescription class="text-xs text-slate-500 dark:text-zinc-400">
+                        Детальний алгоритм прогностичного розрахунку для майбутніх років пенсії.
+                    </DialogDescription>
+                </DialogHeader>
+
+                <div class="mt-4 space-y-3.5 text-xs">
+                    <div class="rounded-2xl bg-slate-50 dark:bg-zinc-900/60 p-4 border border-slate-100 dark:border-zinc-800 space-y-1">
+                        <h5 class="font-bold text-slate-900 dark:text-amber-300">
+                            {{ t('dashboard.overview.hypotheticalStep1Title') }}
+                        </h5>
+                        <p class="text-slate-600 dark:text-zinc-300 leading-relaxed">
+                            {{ t('dashboard.overview.hypotheticalStep1Desc').replace(':year', String(user?.target_retirement_year || currentYear)) }}
+                        </p>
+                    </div>
+
+                    <div class="rounded-2xl bg-slate-50 dark:bg-zinc-900/60 p-4 border border-slate-100 dark:border-zinc-800 space-y-1">
+                        <h5 class="font-bold text-slate-900 dark:text-amber-300">
+                            {{ t('dashboard.overview.hypotheticalStep2Title') }}
+                        </h5>
+                        <p class="text-slate-600 dark:text-zinc-300 leading-relaxed">
+                            {{ t('dashboard.overview.hypotheticalStep2Desc') }}
+                        </p>
+                    </div>
+
+                    <div class="rounded-2xl bg-slate-50 dark:bg-zinc-900/60 p-4 border border-slate-100 dark:border-zinc-800 space-y-1">
+                        <h5 class="font-bold text-slate-900 dark:text-amber-300">
+                            {{ t('dashboard.overview.hypotheticalStep3Title') }}
+                        </h5>
+                        <p class="text-slate-600 dark:text-zinc-300 leading-relaxed">
+                            {{ t('dashboard.overview.hypotheticalStep3Desc') }}
+                        </p>
+                    </div>
+
+                    <div class="rounded-2xl bg-slate-50 dark:bg-zinc-900/60 p-4 border border-slate-100 dark:border-zinc-800 space-y-1">
+                        <h5 class="font-bold text-slate-900 dark:text-amber-300">
+                            {{ t('dashboard.overview.hypotheticalStep4Title') }}
+                        </h5>
+                        <p class="text-slate-600 dark:text-zinc-300 leading-relaxed">
+                            {{ t('dashboard.overview.hypotheticalStep4Desc') }}
+                        </p>
+                    </div>
+                </div>
+
+                <DialogFooter class="mt-6">
+                    <Button @click="showHypotheticalModal = false" type="button" class="w-full bg-main text-slate-950 font-bold hover:bg-main-dark rounded-xl h-10 cursor-pointer">
+                        {{ t('dashboard.overview.closeModal') }}
+                    </Button>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
     </div>
 </template>

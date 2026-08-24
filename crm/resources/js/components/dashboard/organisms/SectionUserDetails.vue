@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import DatePicker from '@/components/ui/DatePicker.vue';
 import YearPicker from '@/components/ui/YearPicker.vue';
+import DisabilityGroupSelect from '@/components/ui/DisabilityGroupSelect.vue';
 
 const { t } = useI18n();
 const page = usePage();
@@ -131,16 +132,10 @@ function saveDetails() {
                 <!-- Disability Group Selection -->
                 <div class="grid gap-2">
                     <Label for="disability_group" class="font-bold">{{ t('profileDetails.disabilityGroupLabel') }}</Label>
-                    <select
+                    <DisabilityGroupSelect
                         id="disability_group"
                         v-model="form.disability_group"
-                        class="flex h-11 w-full rounded-xl border border-input bg-background px-3 py-2 text-sm hover:border-main focus:border-main focus-visible:border-main focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-main dark:bg-zinc-900 dark:border-zinc-800 font-semibold transition-all"
-                    >
-                        <option value="none">{{ t('profileDetails.optNone') }}</option>
-                        <option value="group_1">{{ t('profileDetails.optGroup1') }}</option>
-                        <option value="group_2">{{ t('profileDetails.optGroup2') }}</option>
-                        <option value="group_3">{{ t('profileDetails.optGroup3') }}</option>
-                    </select>
+                    />
                 </div>
 
                 <!-- Benefits Checkboxes -->

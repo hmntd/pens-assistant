@@ -113,10 +113,10 @@ onUnmounted(() => {
         <DropdownMenuTrigger as-child>
             <button
                 type="button"
-                class="relative flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200/80 bg-white/70 text-slate-700 shadow-sm backdrop-blur-md transition-all duration-200 hover:bg-slate-100 hover:text-slate-900 dark:border-zinc-800/80 dark:bg-zinc-900/70 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-white cursor-pointer"
+                class="relative inline-flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 shadow-sm transition-colors hover:bg-slate-100 hover:text-slate-900 dark:border-zinc-800 dark:bg-black dark:text-slate-400 dark:hover:bg-zinc-900 dark:hover:text-slate-100 cursor-pointer"
                 :aria-label="t('notifications.title')"
             >
-                <Bell class="h-5 w-5" />
+                <Bell class="h-4 w-4" />
                 <NotificationBadge :count="unreadCount" />
             </button>
         </DropdownMenuTrigger>
