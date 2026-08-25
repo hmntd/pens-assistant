@@ -1,17 +1,23 @@
 <script setup lang="ts">
-import { Form, Head } from '@inertiajs/vue3';
+import { computed, watchEffect } from 'vue';
+import { Form, Head, setLayoutProps } from '@inertiajs/vue3';
+import { useI18n } from '@/composables/useI18n';
 import TextLink from '@/components/TextLink.vue';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import { logout } from '@/routes';
 import { send } from '@/routes/verification';
 
-defineOptions({
-    layout: {
-        title: 'Email verification',
-        description:
-            'Please verify your email address by clicking on the link we just emailed to you.',
-    },
+const { t } = useI18n();
+
+const title = computed(() => t('auth.verifyTitle'));
+const description = computed(() => t('auth.verifyDesc'));
+
+watchEffect(() => {
+    setLayoutProps({
+        title: title.value,
+        description: description.value,
+    });
 });
 
 defineProps<{
@@ -20,14 +26,13 @@ defineProps<{
 </script>
 
 <template>
-    <Head title="Email verification" />
+    <Head :title="t('auth.verifyTitle')" />
 
     <div
         v-if="status === 'verification-link-sent'"
-        class="mb-4 text-center text-sm font-medium text-green-600"
+        class="mb-4 text-center text-sm font-medium text-green-600 dark:text-green-400"
     >
-        A new verification link has been sent to the email address you provided
-        during registration.
+        {{ t('auth.verifySentSuccess') }}
     </div>
 
     <Form
@@ -35,13 +40,13 @@ defineProps<{
         class="space-y-6 text-center"
         v-slot="{ processing }"
     >
-        <Button :disabled="processing" variant="secondary">
+        <Button :disabled="processing" variant="secondary" class="w-full font-bold">
             <Spinner v-if="processing" />
-            Resend verification email
+            {{ t('auth.resendVerifyBtn') }}
         </Button>
 
         <TextLink :href="logout()" as="button" class="mx-auto block text-sm">
-            Log out
+            {{ t('auth.logoutLink') }}
         </TextLink>
     </Form>
 </template>

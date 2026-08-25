@@ -31,6 +31,7 @@ namespace calc
             std::vector<std::string> calculation_logs;
             std::string error_message;
             bool is_hypothetical{false};
+            bool criteria_met{false};
             std::string hypothetical_disclaimer;
 
             // Legacy compatibility helpers
@@ -45,8 +46,8 @@ namespace calc
             repository::CoefficientRepository repo_;
             BenefitRulesEngine benefit_engine_;
 
-            int calculateTotalServiceMonths(const calc::CalculatePensionRequest *request, std::vector<std::string> &logs, std::string &error_message) const;
-            double calculateWageCoefficientKz(const calc::CalculatePensionRequest *request, std::vector<std::string> &logs, std::string &error_message) const;
+            int calculateTotalServiceMonths(const calc::CalculatePensionRequest *request, int effective_retirement_year, bool is_hypothetical_mode, std::vector<std::string> &logs, std::string &error_message) const;
+            double calculateWageCoefficientKz(const calc::CalculatePensionRequest *request, int effective_retirement_year, bool is_hypothetical_mode, std::vector<std::string> &logs, std::string &error_message) const;
             double calculatePensionTypeModifier(const calc::CalculatePensionRequest *request, std::vector<std::string> &logs, std::string &error_message) const;
             double calculateExtraServiceAllowance(const calc::CalculatePensionRequest *request, int total_months, double base_pension, const SubsistenceLimits &limits, std::vector<std::string> &logs) const;
             int calculateAgeInYears(const std::string &date_of_birth, const std::string &retirement_date) const;

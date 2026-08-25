@@ -29,11 +29,13 @@ class StorePensionCalculationController extends Controller
 
         $errors = [];
 
-        // Validate target retirement year / date of birth / retirement date
+        $dobYear = $targetUser->date_of_birth ? (int) $targetUser->date_of_birth->format('Y') : 0;
+        $fallbackRetirementYear = $dobYear > 0 ? ($dobYear + 60) : null;
+
         $targetRetirementYear = $request->input('target_retirement_year')
             ?? $request->input('retirement_date')
             ?? $targetUser->target_retirement_year
-            ?? $targetUser->date_of_birth;
+            ?? $fallbackRetirementYear;
 
         if (empty($targetRetirementYear)) {
             $errors['target_retirement_year'] = ['Плановий рік виходу на пенсію не вказано в профілі.'];

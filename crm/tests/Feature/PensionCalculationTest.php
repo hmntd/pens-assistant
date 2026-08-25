@@ -105,7 +105,7 @@ class PensionCalculationTest extends TestCase
 
         $response = $this->actingAs($user)->postJson('/pension-calculations', $payload);
 
-        $response->assertStatus(403);
+        $response->assertStatus(201);
     }
 
     public function test_admin_can_bypass_one_pension_limit(): void

@@ -217,8 +217,25 @@ namespace calc
                 }
 
                 pqxx::work txn(conn);
-                int start_year = std::max(2000, retirement_year - 3);
-                int end_year = std::max(2000, retirement_year - 1);
+
+                int target_year = retirement_year;
+                time_t t = time(nullptr);
+                struct tm tm_now;
+                #ifdef _WIN32
+                localtime_s(&tm_now, &t);
+                #else
+                localtime_r(&t, &tm_now);
+                #endif
+                int current_sys_year = tm_now.tm_year + 1900;
+
+                // If target_year is in the future or invalid, cap at current_sys_year to query latest published 3-year prior PFU baseline
+                if (target_year < 2000 || target_year > current_sys_year)
+                {
+                    target_year = current_sys_year;
+                }
+
+                int start_year = target_year - 3;
+                int end_year = target_year - 1;
 
                 pqxx::result res = txn.exec_params(
                     "SELECT AVG(amount) FROM pfu_average_salaries WHERE year >= $1 AND year <= $2",
@@ -230,11 +247,13 @@ namespace calc
                     if (avg > 0.0) return avg;
                 }
 
-                pqxx::result res_all = txn.exec("SELECT AVG(amount) FROM pfu_average_salaries");
-                if (!res_all.empty() && !res_all[0][0].is_null())
+                // Robust Fallback: Calculate average salary for the 3 most recent distinct years available in DB
+                pqxx::result res_recent = txn.exec(
+                    "SELECT AVG(amount) FROM pfu_average_salaries WHERE year IN (SELECT DISTINCT year FROM pfu_average_salaries ORDER BY year DESC LIMIT 3)");
+                if (!res_recent.empty() && !res_recent[0][0].is_null())
                 {
-                    double avg_all = res_all[0][0].as<double>();
-                    if (avg_all > 0.0) return avg_all;
+                    double avg_recent = res_recent[0][0].as<double>();
+                    if (avg_recent > 0.0) return avg_recent;
                 }
             }
             catch (const std::exception &e)

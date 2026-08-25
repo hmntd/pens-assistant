@@ -349,8 +349,8 @@ function getExtractedData(doc: DocumentItem): any {
                 <Skeleton class="h-8 w-48 rounded-full" />
             </div>
 
-            <div class="grid grid-cols-1 gap-8 lg:grid-cols-12">
-                <div class="lg:col-span-5 space-y-6">
+            <div class="grid grid-cols-1 gap-8 lg:grid-cols-12 items-start">
+                <div class="lg:col-span-5 space-y-6 self-start h-fit">
                     <div class="rounded-2xl border border-slate-200/80 bg-white/70 p-6 dark:border-zinc-800/80 dark:bg-zinc-950/80 space-y-4">
                         <Skeleton class="h-5 w-40 rounded-lg" />
                         <Skeleton class="h-36 w-full rounded-2xl" />
@@ -413,9 +413,9 @@ function getExtractedData(doc: DocumentItem): any {
                 </span>
             </div>
 
-            <div class="grid grid-cols-1 gap-8 lg:grid-cols-12">
+            <div class="grid grid-cols-1 gap-8 lg:grid-cols-12 items-start">
                 <!-- Left: Document Upload Dropzone & Manual Service Entry -->
-                <div class="lg:col-span-5 space-y-6">
+                <div class="lg:col-span-5 space-y-6 self-start h-fit">
                     <!-- Dropzone Section -->
                     <div class="rounded-2xl border border-slate-200/80 bg-white/70 p-6 shadow-sm backdrop-blur-md dark:border-zinc-800/80 dark:bg-zinc-950/80 space-y-4">
                         <h3 class="text-base font-bold text-slate-900 dark:text-white border-b border-slate-100 dark:border-zinc-800/60 pb-3 flex items-center justify-between">

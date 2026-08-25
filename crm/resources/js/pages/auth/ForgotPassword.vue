@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { Form, Head } from '@inertiajs/vue3';
+import { computed, watchEffect } from 'vue';
+import { Form, Head, setLayoutProps } from '@inertiajs/vue3';
+import { useI18n } from '@/composables/useI18n';
 import InputError from '@/components/InputError.vue';
 import TextLink from '@/components/TextLink.vue';
 import { Button } from '@/components/ui/button';
@@ -9,11 +11,16 @@ import { Spinner } from '@/components/ui/spinner';
 import { login } from '@/routes';
 import { email } from '@/routes/password';
 
-defineOptions({
-    layout: {
-        title: 'Forgot password',
-        description: 'Enter your email to receive a password reset link',
-    },
+const { t } = useI18n();
+
+const title = computed(() => t('auth.forgotTitle'));
+const description = computed(() => t('auth.forgotDesc'));
+
+watchEffect(() => {
+    setLayoutProps({
+        title: title.value,
+        description: description.value,
+    });
 });
 
 defineProps<{
@@ -22,11 +29,11 @@ defineProps<{
 </script>
 
 <template>
-    <Head title="Forgot password" />
+    <Head :title="t('auth.forgotTitle')" />
 
     <div
         v-if="status"
-        class="mb-4 text-center text-sm font-medium text-green-600"
+        class="mb-4 text-center text-sm font-medium text-green-600 dark:text-green-400"
     >
         {{ status }}
     </div>
@@ -34,7 +41,7 @@ defineProps<{
     <div class="space-y-6">
         <Form v-bind="email.form()" v-slot="{ errors, processing }">
             <div class="grid gap-2">
-                <Label for="email">Email address</Label>
+                <Label for="email">{{ t('auth.emailLabel') }}</Label>
                 <Input
                     id="email"
                     type="email"
@@ -48,19 +55,19 @@ defineProps<{
 
             <div class="my-6 flex items-center justify-start">
                 <Button
-                    class="w-full"
+                    class="w-full bg-main text-slate-950 hover:bg-main-dark font-bold"
                     :disabled="processing"
                     data-test="email-password-reset-link-button"
                 >
                     <Spinner v-if="processing" />
-                    Email password reset link
+                    {{ t('auth.sendResetLinkBtn') }}
                 </Button>
             </div>
         </Form>
 
         <div class="space-x-1 text-center text-sm text-muted-foreground">
-            <span>Or, return to</span>
-            <TextLink :href="login()">log in</TextLink>
+            <span>{{ t('auth.orReturnTo') }}</span>
+            <TextLink :href="login()">{{ t('auth.loginLink') }}</TextLink>
         </div>
     </div>
 </template>

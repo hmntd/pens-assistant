@@ -36,9 +36,9 @@ class PensionCalculationPolicy
             return Response::allow();
         }
 
-        if ($subjectUser->calculatedPensions()->exists()) {
-            return Response::deny('User has already performed a pension calculation. Only 1 calculation per user is allowed.');
-        }
+        // if ($subjectUser->calculatedPensions()->exists()) {
+        //     return Response::deny('User has already performed a pension calculation. Only 1 calculation per user is allowed.');
+        // }
 
         return Response::allow();
     }

@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { Form, Head } from '@inertiajs/vue3';
+import { computed, watchEffect } from 'vue';
+import { Form, Head, setLayoutProps } from '@inertiajs/vue3';
+import { useI18n } from '@/composables/useI18n';
 import {
     index as confirmOptions,
     store as confirmStore,
@@ -12,17 +14,21 @@ import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import { store } from '@/routes/password/confirm';
 
-defineOptions({
-    layout: {
-        title: 'Confirm password',
-        description:
-            'This is a secure area of the application. Please confirm your password before continuing.',
-    },
+const { t } = useI18n();
+
+const title = computed(() => t('auth.confirmTitle'));
+const description = computed(() => t('auth.confirmDesc'));
+
+watchEffect(() => {
+    setLayoutProps({
+        title: title.value,
+        description: description.value,
+    });
 });
 </script>
 
 <template>
-    <Head title="Confirm password" />
+    <Head :title="t('auth.confirmTitle')" />
 
     <PasskeyVerify
         :routes="{
@@ -41,7 +47,7 @@ defineOptions({
     >
         <div class="space-y-6">
             <div class="grid gap-2">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password">{{ t('auth.passwordLabel') }}</Label>
                 <PasswordInput
                     id="password"
                     name="password"
@@ -56,12 +62,12 @@ defineOptions({
 
             <div class="flex items-center">
                 <Button
-                    class="w-full"
+                    class="w-full bg-main text-slate-950 hover:bg-main-dark font-bold"
                     :disabled="processing"
                     data-test="confirm-password-button"
                 >
                     <Spinner v-if="processing" />
-                    Confirm password
+                    {{ t('auth.confirmBtn') }}
                 </Button>
             </div>
         </div>

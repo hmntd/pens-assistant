@@ -62,9 +62,23 @@ class PensionCalculatorService
         }
         $request->setDateOfBirth($dobStr);
 
-        $retirementYear = (int) ($data['target_retirement_year'] ?? $user->target_retirement_year ?? date('Y'));
+        $enableHypothetical = (bool) ($data['enable_hypothetical_projection'] ?? false);
+        $request->setEnableHypotheticalProjection($enableHypothetical);
+
+        $currentYear = (int) date('Y');
+        $rawRetirementYear = (int) ($data['target_retirement_year'] ?? $user->target_retirement_year ?? $currentYear);
+
+        // If target_retirement_year is in the future and hypothetical projection is false,
+        // force fallback of target_retirement_year to current_year
+        if ($rawRetirementYear > $currentYear && ! $enableHypothetical) {
+            $retirementYear = $currentYear;
+        } else {
+            $retirementYear = $rawRetirementYear;
+        }
+
         $retirementDate = (string) ($data['retirement_date'] ?? "{$retirementYear}-01-01");
         $request->setRetirementDate($retirementDate);
+        $request->setTargetRetirementYear($retirementYear);
 
         // Pension Type
         $pensionTypeStr = strtoupper((string) ($data['pension_type'] ?? 'OLD_AGE'));
@@ -89,9 +103,11 @@ class PensionCalculatorService
         $request->setDependentsCount((int) ($data['dependents_count'] ?? 0));
         $request->setEnableOptimizationRule((bool) ($data['enable_optimization_rule'] ?? true));
 
-        // Zp Macroeconomic average salary (set if provided in input)
-        if (!empty($data['zp_macroeconomic_average'])) {
+        // Zp Macroeconomic average salary (delegate to C++ engine unless explicit admin override is provided)
+        if (!empty($data['zp_macroeconomic_average']) && (float) $data['zp_macroeconomic_average'] > 0.0) {
             $request->setZpMacroeconomicAverage((float) $data['zp_macroeconomic_average']);
+        } else {
+            $request->setZpMacroeconomicAverage(0.0);
         }
 
         // Fetch User Tax Histories once for auto-deriving employment, salary, and legacy history if missing
@@ -292,6 +308,12 @@ class PensionCalculatorService
         $isHypothetical = method_exists($response, 'getIsHypothetical') ? $response->getIsHypothetical() : false;
         $hypotheticalDisclaimer = method_exists($response, 'getHypotheticalDisclaimer') ? $response->getHypotheticalDisclaimer() : '';
 
+        $userAge = $user->date_of_birth ? $user->date_of_birth->age : 0;
+        $currentYear = (int) date('Y');
+        $targetRetinementYear = (int) ($data['target_retirement_year'] ?? $user->target_retirement_year ?? $currentYear);
+        $totalMonths = (int) $response->getTotalServiceMonths();
+        $criteriaMet = ($targetRetinementYear <= $currentYear) && ($userAge >= 60) && ($totalMonths >= 420);
+
         $calculatedPension = CalculatedPension::create([
             'user_id' => $user->id,
             'final_pension' => $response->getFinalPension(),
@@ -313,6 +335,7 @@ class PensionCalculatorService
                 'is_min_clamped' => $response->getIsMinimumClamped(),
                 'is_max_clamped' => $response->getIsMaximumClamped(),
                 'is_hypothetical' => $isHypothetical,
+                'criteria_met' => $criteriaMet,
                 'hypothetical_disclaimer' => $hypotheticalDisclaimer,
             ],
         ]);

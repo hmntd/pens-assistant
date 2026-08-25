@@ -16,7 +16,10 @@ void test_coefficient_repository_defaults()
 void test_upsert_average_salary_graceful_handling()
 {
     std::cout << "[Unit Test] Running test_upsert_average_salary_graceful_handling..." << std::endl;
-    calc::repository::CoefficientRepository repo;
+    calc::repository::CoefficientRepository repo(false);
+
+    double zp_macro = repo.getMacroeconomicAverageSalary(2026);
+    std::cout << "  [Macro Zp 2026] Evaluated Zp = " << zp_macro << " UAH" << std::endl;
 
     bool ok = repo.upsertAverageSalary(2026, 1, 21876.06);
     if (ok)

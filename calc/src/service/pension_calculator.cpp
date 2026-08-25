@@ -19,10 +19,14 @@ namespace calc
 
         int PensionCalculator::calculateTotalServiceMonths(
             const calc::CalculatePensionRequest *request,
+            int effective_retirement_year,
+            bool is_hypothetical_mode,
             std::vector<std::string> &logs,
             std::string &error_message) const
         {
             int total_months = 0;
+            int last_year = 0;
+            int last_month = 0;
 
             if (request->employment_history_size() > 0)
             {
@@ -67,6 +71,12 @@ namespace calc
 
                     double mult = period.multiplier() > 0.0 ? period.multiplier() : 1.0;
                     total_months += static_cast<int>(std::round(months * mult));
+
+                    if (end_year > last_year || (end_year == last_year && end_month > last_month))
+                    {
+                        last_year = end_year;
+                        last_month = end_month;
+                    }
                 }
             }
             else if (request->history_size() > 0)
@@ -80,12 +90,48 @@ namespace calc
                         return -1;
                     }
                     total_months += rec.months_worked();
+
+                    if (rec.year() > last_year)
+                    {
+                        last_year = rec.year();
+                        last_month = std::min(12, rec.months_worked());
+                    }
                 }
             }
             else
             {
                 error_message = "No employment_history or legacy history provided; cannot determine insurance experience";
                 return -1;
+            }
+
+            if (is_hypothetical_mode && effective_retirement_year > getCurrentYear())
+            {
+                if (last_year == 0)
+                {
+                    last_year = getCurrentYear();
+                    last_month = 1;
+                }
+
+                int target_end_year = effective_retirement_year;
+                int target_end_month = 12;
+                if (request->retirement_date().length() >= 7)
+                {
+                    try
+                    {
+                        target_end_month = std::stoi(request->retirement_date().substr(5, 2));
+                    }
+                    catch (const std::exception &)
+                    {
+                    }
+                }
+
+                int future_proj_months = (target_end_year - last_year) * 12 + (target_end_month - last_month);
+                if (future_proj_months > 0)
+                {
+                    total_months += future_proj_months;
+                    logs.push_back("Hypothetical Projection: Added " + std::to_string(future_proj_months) +
+                                   " projected working months up to target retirement year " + std::to_string(target_end_year));
+                }
             }
 
             return total_months;
@@ -101,10 +147,15 @@ namespace calc
 
         double PensionCalculator::calculateWageCoefficientKz(
             const calc::CalculatePensionRequest *request,
+            int effective_retirement_year,
+            bool is_hypothetical_mode,
             std::vector<std::string> &logs,
             std::string &error_message) const
         {
             std::vector<MonthRatioItem> items;
+            int last_year = 0;
+            int last_month = 0;
+            double last_monthly_income = 0.0;
 
             if (request->salary_history_size() > 0)
             {
@@ -127,21 +178,15 @@ namespace calc
 
                     double ratio = rec.amount() / avg_national;
 
-                    // Statutory special periods (Law 1058-IV Art. 40):
-                    // 1) Explicit special flag (conscription, study, child care under 3 yrs)
-                    // 2) COVID-19 Quarantine: March 2020 - June 2023
-                    // 3) Martial Law (Воєнний стан): February 2022 onwards
                     bool is_special = rec.is_special_period();
                     if (!is_special)
                     {
                         int yr = rec.year();
                         int mo = rec.month();
-                        // COVID-19 Quarantine
                         if ((yr == 2020 && mo >= 3) || yr == 2021 || yr == 2022 || (yr == 2023 && mo <= 6))
                         {
                             is_special = true;
                         }
-                        // Martial Law
                         if ((yr == 2022 && mo >= 2) || yr >= 2023)
                         {
                             is_special = true;
@@ -149,6 +194,13 @@ namespace calc
                     }
 
                     items.push_back({rec.year(), rec.month(), ratio, is_special});
+
+                    if (rec.year() > last_year || (rec.year() == last_year && rec.month() > last_month))
+                    {
+                        last_year = rec.year();
+                        last_month = rec.month();
+                        last_monthly_income = rec.amount();
+                    }
                 }
             }
             else if (request->history_size() > 0)
@@ -186,12 +238,73 @@ namespace calc
                     {
                         items.push_back({yr, m, ratio, is_special});
                     }
+
+                    if (rec.year() > last_year)
+                    {
+                        last_year = rec.year();
+                        last_month = std::min(12, rec.months_worked());
+                        last_monthly_income = monthly_income;
+                    }
                 }
             }
             else
             {
                 error_message = "No salary_history or legacy history provided; cannot calculate wage coefficient Kz";
                 return -1.0;
+            }
+
+            if (is_hypothetical_mode && effective_retirement_year > getCurrentYear() && last_monthly_income > 0.0)
+            {
+                int current_yr = getCurrentYear();
+                double latest_national_avg = repo_.getAverageSalary(current_yr, 1);
+                if (latest_national_avg <= 0.0)
+                {
+                    latest_national_avg = 20000.0;
+                }
+
+                double proj_ratio = last_monthly_income / latest_national_avg;
+
+                int target_end_year = effective_retirement_year;
+                int target_end_month = 12;
+                if (request->retirement_date().length() >= 7)
+                {
+                    try
+                    {
+                        target_end_month = std::stoi(request->retirement_date().substr(5, 2));
+                    }
+                    catch (const std::exception &)
+                    {
+                    }
+                }
+
+                int curr_y = last_year;
+                int curr_m = last_month + 1;
+                if (curr_m > 12)
+                {
+                    curr_m = 1;
+                    curr_y++;
+                }
+
+                int proj_count = 0;
+                while (curr_y < target_end_year || (curr_y == target_end_year && curr_m <= target_end_month))
+                {
+                    items.push_back({curr_y, curr_m, proj_ratio, true});
+                    proj_count++;
+
+                    curr_m++;
+                    if (curr_m > 12)
+                    {
+                        curr_m = 1;
+                        curr_y++;
+                    }
+                }
+
+                if (proj_count > 0)
+                {
+                    logs.push_back("Hypothetical Projection: Projected " + std::to_string(proj_count) +
+                                   " future monthly salary records at last known income (" +
+                                   std::to_string(static_cast<int>(last_monthly_income)) + " UAH/mo)");
+                }
             }
 
             if (items.empty())
@@ -215,7 +328,6 @@ namespace calc
 
                 if (max_total_droppable > 0)
                 {
-                    // Sort items by ratio ascending to consider worst months first
                     std::vector<MonthRatioItem> sorted_items = items;
                     std::sort(sorted_items.begin(), sorted_items.end(), [](const MonthRatioItem &a, const MonthRatioItem &b)
                               { return a.ratio < b.ratio; });
@@ -231,7 +343,6 @@ namespace calc
                     {
                         double current_kz = current_sum / current_count;
 
-                        // Only consider dropping if ratio is below current Kz average
                         if (it.ratio < current_kz && total_dropped < max_total_droppable)
                         {
                             if (it.is_special_period)
@@ -366,15 +477,14 @@ namespace calc
             int extra_full_years = extra_months / 12;
             if (extra_full_years <= 0)
             {
+                logs.push_back("Extra Service Allowance: 0 UAH (less than 1 full extra year over 35 yrs)");
                 return 0.0;
             }
 
-            // 1% of Base Pension per extra full year, capped at 1% of subsistence minimum for disabled
-            double percent_of_base = base_pension * 0.01;
-            double max_allowed_per_year = limits.for_disabled_persons * 0.01;
-            double allowance_per_year = std::min(percent_of_base, max_allowed_per_year);
-
-            double total_allowance = allowance_per_year * extra_full_years;
+            double min_limit = limits.for_disabled_persons;
+            double base_for_allowance = std::min(base_pension, min_limit);
+            double allowance_per_year = 0.01 * base_for_allowance;
+            double total_allowance = extra_full_years * allowance_per_year;
 
             std::ostringstream ss;
             ss << "Extra Service Allowance: " << extra_full_years << " extra years over norm (35 yrs / 420 months). Allowance = "
@@ -458,27 +568,33 @@ namespace calc
                 bracket_name = "Вікова надбавка до пенсії (70-74 років) [+300.00 грн]";
             }
 
+            double final_amount = amount;
+            if (pre_age_pension + amount > age_surcharge_cap)
+            {
+                final_amount = age_surcharge_cap - pre_age_pension;
+            }
+
             out_surcharge.type = calc::BenefitType::AGE_SUPPLEMENT;
             out_surcharge.name = bracket_name;
-            out_surcharge.amount = amount;
+            out_surcharge.amount = final_amount;
 
             std::ostringstream ss;
-            ss << "Stage 4 [Age Surcharge Applied]: " << bracket_name << " = +"
-               << std::fixed << std::setprecision(2) << amount << " UAH";
+            ss << "Stage 4 [Age Surcharge Applied]: Citizen age " << age << " yrs. Supplement = +"
+               << std::fixed << std::setprecision(2) << final_amount << " UAH";
             logs.push_back(ss.str());
 
-            return amount;
+            return final_amount;
         }
 
         int PensionCalculator::getCurrentYear() const
         {
-            std::time_t t = std::time(nullptr);
-            std::tm tm_now{};
-            #if defined(_WIN32) || defined(_WIN64)
-                localtime_s(&tm_now, &t);
-            #else
-                localtime_r(&t, &tm_now);
-            #endif
+            time_t t = time(nullptr);
+            struct tm tm_now;
+#ifdef _WIN32
+            localtime_s(&tm_now, &t);
+#else
+            localtime_r(&t, &tm_now);
+#endif
 
             return tm_now.tm_year + 1900;
         }
@@ -491,12 +607,14 @@ namespace calc
             std::cout << "[Calc Engine] Executing 5-Stage Pension Calculation for Customer: " << request->customer_id() << std::endl;
             logs.push_back("Starting Pension Calculation Pipeline for Customer: " + request->customer_id());
 
-            int retirement_year;
+            int current_year = getCurrentYear();
+            int requested_retirement_year;
+
             if (request->retirement_date().length() >= 4)
             {
                 try
                 {
-                    retirement_year = std::stoi(request->retirement_date().substr(0, 4));
+                    requested_retirement_year = std::stoi(request->retirement_date().substr(0, 4));
                 }
                 catch (const std::exception &)
                 {
@@ -507,7 +625,7 @@ namespace calc
             }
             else if (request->target_retirement_year() > 0)
             {
-                retirement_year = request->target_retirement_year();
+                requested_retirement_year = request->target_retirement_year();
             }
             else
             {
@@ -517,12 +635,42 @@ namespace calc
                 return res;
             }
 
+            bool is_future_target = (requested_retirement_year > current_year);
+            bool enable_hypo_flag = request->enable_hypothetical_projection();
+
+            int retirement_year;
+            bool is_hypothetical_mode;
+
+            if (is_future_target)
+            {
+                if (enable_hypo_flag)
+                {
+                    retirement_year = requested_retirement_year;
+                    is_hypothetical_mode = true;
+                    logs.push_back("Target retirement year " + std::to_string(requested_retirement_year) +
+                                   " is in the future and hypothetical projection is ENABLED.");
+                }
+                else
+                {
+                    retirement_year = current_year;
+                    is_hypothetical_mode = false;
+                    logs.push_back("Target retirement year " + std::to_string(requested_retirement_year) +
+                                   " is in the future, but hypothetical projection is DISABLED. Calculating for current year " +
+                                   std::to_string(current_year) + ".");
+                }
+            }
+            else
+            {
+                retirement_year = requested_retirement_year;
+                is_hypothetical_mode = false;
+            }
+
             // STAGE 1: BASE CALCULATION
-            // Macroeconomic Average Zp: if missing or <= 0.0, query DB for 3-year prior national average
             double zp = request->zp_macroeconomic_average();
             if (zp <= 0.0)
             {
-                zp = repo_.getMacroeconomicAverageSalary(retirement_year);
+                int macro_year = is_future_target ? current_year : retirement_year;
+                zp = repo_.getMacroeconomicAverageSalary(macro_year);
             }
 
             if (zp <= 0.0)
@@ -542,7 +690,8 @@ namespace calc
             }
             else
             {
-                limits = repo_.getSubsistenceLimits(retirement_year);
+                int limits_year = is_future_target ? current_year : retirement_year;
+                limits = repo_.getSubsistenceLimits(limits_year);
             }
 
             if (limits.for_disabled_persons <= 0.0 || limits.general_minimum <= 0.0)
@@ -554,7 +703,7 @@ namespace calc
 
             // 1. Calculate Ks (Service Coefficient)
             std::string months_error;
-            int total_months = calculateTotalServiceMonths(request, logs, months_error);
+            int total_months = calculateTotalServiceMonths(request, retirement_year, is_hypothetical_mode, logs, months_error);
             if (total_months < 0)
             {
                 res.success = false;
@@ -571,7 +720,7 @@ namespace calc
 
             // 2. Calculate Kz (Wage Coefficient)
             std::string kz_error;
-            double kz = calculateWageCoefficientKz(request, logs, kz_error);
+            double kz = calculateWageCoefficientKz(request, retirement_year, is_hypothetical_mode, logs, kz_error);
             if (kz < 0.0)
             {
                 res.success = false;
@@ -682,21 +831,21 @@ namespace calc
             res.is_minimum_clamped = is_min_clamped;
             res.is_maximum_clamped = is_max_clamped;
 
-            int current_year = getCurrentYear();
             int client_age = calculateAgeInYears(request->date_of_birth(), request->retirement_date());
-            bool is_hypo = request->enable_hypothetical_projection() && ((retirement_year > current_year) || (client_age < 60) || (total_months < 420));
+            bool criteria_met = (requested_retirement_year <= current_year) && (client_age >= 60) && (total_months >= 420);
+            res.criteria_met = criteria_met;
 
-            if (is_hypo)
+            if (is_hypothetical_mode)
             {
                 res.is_hypothetical = true;
                 std::ostringstream ss_hypo;
                 ss_hypo << "Notice: Theoretical (projected) pension calculation for target retirement year "
-                        << retirement_year << ". Statutory requirements not yet met. Assumptions: "
+                        << requested_retirement_year << ". Statutory requirements not yet met. Assumptions: "
                         << "1) Continuous employment at current salary level; "
                         << "2) Latest PFU national average baseline Zp (" << std::fixed << std::setprecision(2) << zp << " UAH); "
                         << "3) Unadjusted for future inflation or statutory indexation.";
                 res.hypothetical_disclaimer = ss_hypo.str();
-                logs.push_back("Theoretical Projection: Calculation flagged as hypothetical for target retirement year " + std::to_string(retirement_year));
+                logs.push_back("Theoretical Projection: Calculation flagged as hypothetical for target retirement year " + std::to_string(requested_retirement_year));
             }
             else
             {
@@ -708,7 +857,6 @@ namespace calc
             res.calculation_logs = logs;
             res.error_message = "";
 
-            // Legacy compatibility fields
             res.estimated_monthly_pension = final_pension;
             res.total_accumulated_capital = base_pension * 12.0 * 20.0;
             res.breakdown = logs.empty() ? "" : logs.back();

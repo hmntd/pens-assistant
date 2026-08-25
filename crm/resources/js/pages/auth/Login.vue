@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { Form, Head } from '@inertiajs/vue3';
+import { computed, watchEffect } from 'vue';
+import { Form, Head, setLayoutProps } from '@inertiajs/vue3';
+import { useI18n } from '@/composables/useI18n';
 import InputError from '@/components/InputError.vue';
 import PasskeyVerify from '@/components/PasskeyVerify.vue';
 import PasswordInput from '@/components/PasswordInput.vue';
@@ -13,11 +15,16 @@ import { register } from '@/routes';
 import { store } from '@/routes/login';
 import { request } from '@/routes/password';
 
-defineOptions({
-    layout: {
-        title: 'Log in to your account',
-        description: 'Enter your email and password below to log in',
-    },
+const { t } = useI18n();
+
+const title = computed(() => t('auth.loginTitle'));
+const description = computed(() => t('auth.loginDesc'));
+
+watchEffect(() => {
+    setLayoutProps({
+        title: title.value,
+        description: description.value,
+    });
 });
 
 defineProps<{
@@ -27,11 +34,11 @@ defineProps<{
 </script>
 
 <template>
-    <Head title="Log in" />
+    <Head :title="t('auth.loginTitle')" />
 
     <div
         v-if="status"
-        class="mb-4 text-center text-sm font-medium text-green-600"
+        class="mb-4 text-center text-sm font-medium text-green-600 dark:text-green-400"
     >
         {{ status }}
     </div>
@@ -46,7 +53,7 @@ defineProps<{
     >
         <div class="grid gap-6">
             <div class="grid gap-2">
-                <Label for="email">Email address</Label>
+                <Label for="email">{{ t('auth.emailLabel') }}</Label>
                 <Input
                     id="email"
                     type="email"
@@ -62,14 +69,14 @@ defineProps<{
 
             <div class="grid gap-2">
                 <div class="flex items-center justify-between">
-                    <Label for="password">Password</Label>
+                    <Label for="password">{{ t('auth.passwordLabel') }}</Label>
                     <TextLink
                         v-if="canResetPassword"
                         :href="request()"
                         class="text-sm"
                         :tabindex="5"
                     >
-                        Forgot your password?
+                        {{ t('auth.forgotPasswordLink') }}
                     </TextLink>
                 </div>
                 <PasswordInput
@@ -78,7 +85,7 @@ defineProps<{
                     required
                     :tabindex="2"
                     autocomplete="current-password"
-                    placeholder="Password"
+                    :placeholder="t('auth.passwordLabel')"
                 />
                 <InputError :message="errors.password" />
             </div>
@@ -86,25 +93,25 @@ defineProps<{
             <div class="flex items-center justify-between">
                 <Label for="remember" class="flex items-center space-x-3">
                     <Checkbox id="remember" name="remember" :tabindex="3" />
-                    <span>Remember me</span>
+                    <span>{{ t('auth.rememberMe') }}</span>
                 </Label>
             </div>
 
             <Button
                 type="submit"
-                class="mt-4 w-full"
+                class="mt-4 w-full bg-main text-slate-950 hover:bg-main-dark font-bold"
                 :tabindex="4"
                 :disabled="processing"
                 data-test="login-button"
             >
                 <Spinner v-if="processing" />
-                Log in
+                {{ t('auth.loginBtn') }}
             </Button>
         </div>
 
         <div class="text-center text-sm text-muted-foreground">
-            Don't have an account?
-            <TextLink :href="register()" :tabindex="5">Sign up</TextLink>
+            {{ t('auth.noAccount') }}
+            <TextLink :href="register()" :tabindex="5">{{ t('auth.signUpLink') }}</TextLink>
         </div>
     </Form>
 </template>

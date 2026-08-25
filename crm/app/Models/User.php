@@ -54,7 +54,7 @@ class User extends Authenticatable implements PasskeyUser
      *
      * @var list<string>
      */
-    protected $appends = ['name'];
+    protected $appends = ['name', 'is_admin'];
 
     /**
      * Get the user's full name.
@@ -62,6 +62,14 @@ class User extends Authenticatable implements PasskeyUser
     public function getNameAttribute(): string
     {
         return trim("{$this->first_name} {$this->last_name}");
+    }
+
+    /**
+     * Check if the user is an admin.
+     */
+    public function getIsAdminAttribute(): bool
+    {
+        return $this->isAdmin();
     }
 
     /**

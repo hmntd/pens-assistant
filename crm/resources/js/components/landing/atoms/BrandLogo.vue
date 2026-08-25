@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import AppLogo from '@/components/AppLogo.vue';
+import { Link } from '@inertiajs/vue3';
+import { home } from '@/routes';
 </script>
 
 <template>
-    <div class="flex items-center gap-2 transition-transform duration-200 hover:scale-[1.02]">
+    <Link :href="home()" class="flex items-center gap-2 transition-transform duration-200 cursor-pointer">
         <AppLogo />
-    </div>
+    </Link>
 </template>
