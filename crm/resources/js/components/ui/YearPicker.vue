@@ -17,8 +17,8 @@ const emit = defineEmits<{
 const isOpen = ref(false);
 const containerRef = ref<HTMLDivElement | null>(null);
 
-const min = props.minYear || 1950;
-const max = props.maxYear || 2099;
+const min = computed(() => props.minYear ?? 1950);
+const max = computed(() => props.maxYear ?? 2099);
 
 const selectedYear = computed(() => {
     if (!props.modelValue) return null;
@@ -42,7 +42,7 @@ const yearsGrid = computed(() => {
     const list = [];
     for (let i = 0; i < 12; i++) {
         const yr = currentDecadeStart.value + i;
-        if (yr >= min && yr <= max) {
+        if (yr >= min.value && yr <= max.value) {
             list.push(yr);
         }
     }

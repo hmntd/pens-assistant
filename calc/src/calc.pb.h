@@ -80,6 +80,12 @@ extern DeleteSubsistenceMinimumResponseDefaultTypeInternal _DeleteSubsistenceMin
 class EmploymentPeriod;
 struct EmploymentPeriodDefaultTypeInternal;
 extern EmploymentPeriodDefaultTypeInternal _EmploymentPeriod_default_instance_;
+class GetAverageSalariesRequest;
+struct GetAverageSalariesRequestDefaultTypeInternal;
+extern GetAverageSalariesRequestDefaultTypeInternal _GetAverageSalariesRequest_default_instance_;
+class GetAverageSalariesResponse;
+struct GetAverageSalariesResponseDefaultTypeInternal;
+extern GetAverageSalariesResponseDefaultTypeInternal _GetAverageSalariesResponse_default_instance_;
 class ListCoefficientsRequest;
 struct ListCoefficientsRequestDefaultTypeInternal;
 extern ListCoefficientsRequestDefaultTypeInternal _ListCoefficientsRequest_default_instance_;
@@ -150,6 +156,8 @@ template<> ::calc::DeleteCoefficientResponse* Arena::CreateMaybeMessage<::calc::
 template<> ::calc::DeleteSubsistenceMinimumRequest* Arena::CreateMaybeMessage<::calc::DeleteSubsistenceMinimumRequest>(Arena*);
 template<> ::calc::DeleteSubsistenceMinimumResponse* Arena::CreateMaybeMessage<::calc::DeleteSubsistenceMinimumResponse>(Arena*);
 template<> ::calc::EmploymentPeriod* Arena::CreateMaybeMessage<::calc::EmploymentPeriod>(Arena*);
+template<> ::calc::GetAverageSalariesRequest* Arena::CreateMaybeMessage<::calc::GetAverageSalariesRequest>(Arena*);
+template<> ::calc::GetAverageSalariesResponse* Arena::CreateMaybeMessage<::calc::GetAverageSalariesResponse>(Arena*);
 template<> ::calc::ListCoefficientsRequest* Arena::CreateMaybeMessage<::calc::ListCoefficientsRequest>(Arena*);
 template<> ::calc::ListCoefficientsResponse* Arena::CreateMaybeMessage<::calc::ListCoefficientsResponse>(Arena*);
 template<> ::calc::ListSubsistenceMinimumsRequest* Arena::CreateMaybeMessage<::calc::ListSubsistenceMinimumsRequest>(Arena*);
@@ -585,6 +593,7 @@ class SalaryMonthRecord final :
     kYearFieldNumber = 1,
     kMonthFieldNumber = 2,
     kAmountFieldNumber = 3,
+    kIsSpecialPeriodFieldNumber = 4,
   };
   // int32 year = 1;
   void clear_year();
@@ -613,6 +622,15 @@ class SalaryMonthRecord final :
   void _internal_set_amount(double value);
   public:
 
+  // bool is_special_period = 4;
+  void clear_is_special_period();
+  bool is_special_period() const;
+  void set_is_special_period(bool value);
+  private:
+  bool _internal_is_special_period() const;
+  void _internal_set_is_special_period(bool value);
+  public:
+
   // @@protoc_insertion_point(class_scope:calc.SalaryMonthRecord)
  private:
   class _Internal;
@@ -624,6 +642,7 @@ class SalaryMonthRecord final :
     int32_t year_;
     int32_t month_;
     double amount_;
+    bool is_special_period_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -1117,6 +1136,7 @@ class CalculatePensionRequest final :
     kDependentsCountFieldNumber = 7,
     kZpMacroeconomicAverageFieldNumber = 13,
     kEnableOptimizationRuleFieldNumber = 12,
+    kEnableHypotheticalProjectionFieldNumber = 17,
     kBirthYearFieldNumber = 15,
     kTargetRetirementYearFieldNumber = 16,
   };
@@ -1305,6 +1325,15 @@ class CalculatePensionRequest final :
   void _internal_set_enable_optimization_rule(bool value);
   public:
 
+  // bool enable_hypothetical_projection = 17;
+  void clear_enable_hypothetical_projection();
+  bool enable_hypothetical_projection() const;
+  void set_enable_hypothetical_projection(bool value);
+  private:
+  bool _internal_enable_hypothetical_projection() const;
+  void _internal_set_enable_hypothetical_projection(bool value);
+  public:
+
   // int32 birth_year = 15;
   void clear_birth_year();
   int32_t birth_year() const;
@@ -1346,6 +1375,7 @@ class CalculatePensionRequest final :
     int32_t dependents_count_;
     double zp_macroeconomic_average_;
     bool enable_optimization_rule_;
+    bool enable_hypothetical_projection_;
     int32_t birth_year_;
     int32_t target_retirement_year_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
@@ -1654,18 +1684,20 @@ class CalculatePensionResponse final :
     kAppliedBenefitsFieldNumber = 14,
     kCalculationLogsFieldNumber = 15,
     kErrorMessageFieldNumber = 16,
+    kHypotheticalDisclaimerFieldNumber = 18,
     kFinalPensionFieldNumber = 2,
     kBasePensionFieldNumber = 3,
     kZpMacroeconomicAverageFieldNumber = 4,
     kKzWageCoefficientFieldNumber = 5,
     kKsServiceCoefficientFieldNumber = 6,
     kPensionTypeModifierFieldNumber = 8,
+    kExtraServiceAllowanceFieldNumber = 9,
+    kTotalBenefitSurchargesFieldNumber = 10,
     kTotalServiceMonthsFieldNumber = 7,
     kSuccessFieldNumber = 1,
     kIsMinimumClampedFieldNumber = 12,
     kIsMaximumClampedFieldNumber = 13,
-    kExtraServiceAllowanceFieldNumber = 9,
-    kTotalBenefitSurchargesFieldNumber = 10,
+    kIsHypotheticalFieldNumber = 17,
     kPreClampedPensionFieldNumber = 11,
   };
   // repeated .calc.BenefitSurchargeDetail applied_benefits = 14;
@@ -1724,6 +1756,20 @@ class CalculatePensionResponse final :
   std::string* _internal_mutable_error_message();
   public:
 
+  // string hypothetical_disclaimer = 18;
+  void clear_hypothetical_disclaimer();
+  const std::string& hypothetical_disclaimer() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_hypothetical_disclaimer(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_hypothetical_disclaimer();
+  PROTOBUF_NODISCARD std::string* release_hypothetical_disclaimer();
+  void set_allocated_hypothetical_disclaimer(std::string* hypothetical_disclaimer);
+  private:
+  const std::string& _internal_hypothetical_disclaimer() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_hypothetical_disclaimer(const std::string& value);
+  std::string* _internal_mutable_hypothetical_disclaimer();
+  public:
+
   // double final_pension = 2;
   void clear_final_pension();
   double final_pension() const;
@@ -1778,6 +1824,24 @@ class CalculatePensionResponse final :
   void _internal_set_pension_type_modifier(double value);
   public:
 
+  // double extra_service_allowance = 9;
+  void clear_extra_service_allowance();
+  double extra_service_allowance() const;
+  void set_extra_service_allowance(double value);
+  private:
+  double _internal_extra_service_allowance() const;
+  void _internal_set_extra_service_allowance(double value);
+  public:
+
+  // double total_benefit_surcharges = 10;
+  void clear_total_benefit_surcharges();
+  double total_benefit_surcharges() const;
+  void set_total_benefit_surcharges(double value);
+  private:
+  double _internal_total_benefit_surcharges() const;
+  void _internal_set_total_benefit_surcharges(double value);
+  public:
+
   // int32 total_service_months = 7;
   void clear_total_service_months();
   int32_t total_service_months() const;
@@ -1814,22 +1878,13 @@ class CalculatePensionResponse final :
   void _internal_set_is_maximum_clamped(bool value);
   public:
 
-  // double extra_service_allowance = 9;
-  void clear_extra_service_allowance();
-  double extra_service_allowance() const;
-  void set_extra_service_allowance(double value);
+  // bool is_hypothetical = 17;
+  void clear_is_hypothetical();
+  bool is_hypothetical() const;
+  void set_is_hypothetical(bool value);
   private:
-  double _internal_extra_service_allowance() const;
-  void _internal_set_extra_service_allowance(double value);
-  public:
-
-  // double total_benefit_surcharges = 10;
-  void clear_total_benefit_surcharges();
-  double total_benefit_surcharges() const;
-  void set_total_benefit_surcharges(double value);
-  private:
-  double _internal_total_benefit_surcharges() const;
-  void _internal_set_total_benefit_surcharges(double value);
+  bool _internal_is_hypothetical() const;
+  void _internal_set_is_hypothetical(bool value);
   public:
 
   // double pre_clamped_pension = 11;
@@ -1852,18 +1907,20 @@ class CalculatePensionResponse final :
     ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::calc::BenefitSurchargeDetail > applied_benefits_;
     ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> calculation_logs_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr error_message_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr hypothetical_disclaimer_;
     double final_pension_;
     double base_pension_;
     double zp_macroeconomic_average_;
     double kz_wage_coefficient_;
     double ks_service_coefficient_;
     double pension_type_modifier_;
+    double extra_service_allowance_;
+    double total_benefit_surcharges_;
     int32_t total_service_months_;
     bool success_;
     bool is_minimum_clamped_;
     bool is_maximum_clamped_;
-    double extra_service_allowance_;
-    double total_benefit_surcharges_;
+    bool is_hypothetical_;
     double pre_clamped_pension_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
@@ -4333,6 +4390,352 @@ class SyncAverageSalariesResponse final :
 };
 // -------------------------------------------------------------------
 
+class GetAverageSalariesRequest final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:calc.GetAverageSalariesRequest) */ {
+ public:
+  inline GetAverageSalariesRequest() : GetAverageSalariesRequest(nullptr) {}
+  ~GetAverageSalariesRequest() override;
+  explicit PROTOBUF_CONSTEXPR GetAverageSalariesRequest(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  GetAverageSalariesRequest(const GetAverageSalariesRequest& from);
+  GetAverageSalariesRequest(GetAverageSalariesRequest&& from) noexcept
+    : GetAverageSalariesRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline GetAverageSalariesRequest& operator=(const GetAverageSalariesRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline GetAverageSalariesRequest& operator=(GetAverageSalariesRequest&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const GetAverageSalariesRequest& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const GetAverageSalariesRequest* internal_default_instance() {
+    return reinterpret_cast<const GetAverageSalariesRequest*>(
+               &_GetAverageSalariesRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    21;
+
+  friend void swap(GetAverageSalariesRequest& a, GetAverageSalariesRequest& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(GetAverageSalariesRequest* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(GetAverageSalariesRequest* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  GetAverageSalariesRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<GetAverageSalariesRequest>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const GetAverageSalariesRequest& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const GetAverageSalariesRequest& from) {
+    GetAverageSalariesRequest::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(GetAverageSalariesRequest* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "calc.GetAverageSalariesRequest";
+  }
+  protected:
+  explicit GetAverageSalariesRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kYearsFieldNumber = 1,
+  };
+  // repeated int32 years = 1;
+  int years_size() const;
+  private:
+  int _internal_years_size() const;
+  public:
+  void clear_years();
+  private:
+  int32_t _internal_years(int index) const;
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+      _internal_years() const;
+  void _internal_add_years(int32_t value);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+      _internal_mutable_years();
+  public:
+  int32_t years(int index) const;
+  void set_years(int index, int32_t value);
+  void add_years(int32_t value);
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+      years() const;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+      mutable_years();
+
+  // @@protoc_insertion_point(class_scope:calc.GetAverageSalariesRequest)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t > years_;
+    mutable std::atomic<int> _years_cached_byte_size_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_calc_2eproto;
+};
+// -------------------------------------------------------------------
+
+class GetAverageSalariesResponse final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:calc.GetAverageSalariesResponse) */ {
+ public:
+  inline GetAverageSalariesResponse() : GetAverageSalariesResponse(nullptr) {}
+  ~GetAverageSalariesResponse() override;
+  explicit PROTOBUF_CONSTEXPR GetAverageSalariesResponse(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  GetAverageSalariesResponse(const GetAverageSalariesResponse& from);
+  GetAverageSalariesResponse(GetAverageSalariesResponse&& from) noexcept
+    : GetAverageSalariesResponse() {
+    *this = ::std::move(from);
+  }
+
+  inline GetAverageSalariesResponse& operator=(const GetAverageSalariesResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline GetAverageSalariesResponse& operator=(GetAverageSalariesResponse&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const GetAverageSalariesResponse& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const GetAverageSalariesResponse* internal_default_instance() {
+    return reinterpret_cast<const GetAverageSalariesResponse*>(
+               &_GetAverageSalariesResponse_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    22;
+
+  friend void swap(GetAverageSalariesResponse& a, GetAverageSalariesResponse& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(GetAverageSalariesResponse* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(GetAverageSalariesResponse* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  GetAverageSalariesResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<GetAverageSalariesResponse>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const GetAverageSalariesResponse& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const GetAverageSalariesResponse& from) {
+    GetAverageSalariesResponse::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(GetAverageSalariesResponse* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "calc.GetAverageSalariesResponse";
+  }
+  protected:
+  explicit GetAverageSalariesResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kSalariesFieldNumber = 2,
+    kErrorMessageFieldNumber = 3,
+    kSuccessFieldNumber = 1,
+  };
+  // repeated .calc.AverageSalaryRecord salaries = 2;
+  int salaries_size() const;
+  private:
+  int _internal_salaries_size() const;
+  public:
+  void clear_salaries();
+  ::calc::AverageSalaryRecord* mutable_salaries(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::calc::AverageSalaryRecord >*
+      mutable_salaries();
+  private:
+  const ::calc::AverageSalaryRecord& _internal_salaries(int index) const;
+  ::calc::AverageSalaryRecord* _internal_add_salaries();
+  public:
+  const ::calc::AverageSalaryRecord& salaries(int index) const;
+  ::calc::AverageSalaryRecord* add_salaries();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::calc::AverageSalaryRecord >&
+      salaries() const;
+
+  // string error_message = 3;
+  void clear_error_message();
+  const std::string& error_message() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_error_message(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_error_message();
+  PROTOBUF_NODISCARD std::string* release_error_message();
+  void set_allocated_error_message(std::string* error_message);
+  private:
+  const std::string& _internal_error_message() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_error_message(const std::string& value);
+  std::string* _internal_mutable_error_message();
+  public:
+
+  // bool success = 1;
+  void clear_success();
+  bool success() const;
+  void set_success(bool value);
+  private:
+  bool _internal_success() const;
+  void _internal_set_success(bool value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:calc.GetAverageSalariesResponse)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::calc::AverageSalaryRecord > salaries_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr error_message_;
+    bool success_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_calc_2eproto;
+};
+// -------------------------------------------------------------------
+
 class UpsertSubsistenceMinimumRequest final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:calc.UpsertSubsistenceMinimumRequest) */ {
  public:
@@ -4381,7 +4784,7 @@ class UpsertSubsistenceMinimumRequest final :
                &_UpsertSubsistenceMinimumRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    21;
+    23;
 
   friend void swap(UpsertSubsistenceMinimumRequest& a, UpsertSubsistenceMinimumRequest& b) {
     a.Swap(&b);
@@ -4562,7 +4965,7 @@ class UpsertSubsistenceMinimumResponse final :
                &_UpsertSubsistenceMinimumResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    22;
+    24;
 
   friend void swap(UpsertSubsistenceMinimumResponse& a, UpsertSubsistenceMinimumResponse& b) {
     a.Swap(&b);
@@ -4741,7 +5144,7 @@ class ListSubsistenceMinimumsRequest final :
                &_ListSubsistenceMinimumsRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    23;
+    25;
 
   friend void swap(ListSubsistenceMinimumsRequest& a, ListSubsistenceMinimumsRequest& b) {
     a.Swap(&b);
@@ -4860,7 +5263,7 @@ class SubsistenceMinimumRecord final :
                &_SubsistenceMinimumRecord_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    24;
+    26;
 
   friend void swap(SubsistenceMinimumRecord& a, SubsistenceMinimumRecord& b) {
     a.Swap(&b);
@@ -5052,7 +5455,7 @@ class ListSubsistenceMinimumsResponse final :
                &_ListSubsistenceMinimumsResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    25;
+    27;
 
   friend void swap(ListSubsistenceMinimumsResponse& a, ListSubsistenceMinimumsResponse& b) {
     a.Swap(&b);
@@ -5236,7 +5639,7 @@ class UpdateSubsistenceMinimumRequest final :
                &_UpdateSubsistenceMinimumRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    26;
+    28;
 
   friend void swap(UpdateSubsistenceMinimumRequest& a, UpdateSubsistenceMinimumRequest& b) {
     a.Swap(&b);
@@ -5428,7 +5831,7 @@ class UpdateSubsistenceMinimumResponse final :
                &_UpdateSubsistenceMinimumResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    27;
+    29;
 
   friend void swap(UpdateSubsistenceMinimumResponse& a, UpdateSubsistenceMinimumResponse& b) {
     a.Swap(&b);
@@ -5612,7 +6015,7 @@ class DeleteSubsistenceMinimumRequest final :
                &_DeleteSubsistenceMinimumRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    28;
+    30;
 
   friend void swap(DeleteSubsistenceMinimumRequest& a, DeleteSubsistenceMinimumRequest& b) {
     a.Swap(&b);
@@ -5760,7 +6163,7 @@ class DeleteSubsistenceMinimumResponse final :
                &_DeleteSubsistenceMinimumResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    29;
+    31;
 
   friend void swap(DeleteSubsistenceMinimumResponse& a, DeleteSubsistenceMinimumResponse& b) {
     a.Swap(&b);
@@ -6067,6 +6470,26 @@ inline void SalaryMonthRecord::_internal_set_amount(double value) {
 inline void SalaryMonthRecord::set_amount(double value) {
   _internal_set_amount(value);
   // @@protoc_insertion_point(field_set:calc.SalaryMonthRecord.amount)
+}
+
+// bool is_special_period = 4;
+inline void SalaryMonthRecord::clear_is_special_period() {
+  _impl_.is_special_period_ = false;
+}
+inline bool SalaryMonthRecord::_internal_is_special_period() const {
+  return _impl_.is_special_period_;
+}
+inline bool SalaryMonthRecord::is_special_period() const {
+  // @@protoc_insertion_point(field_get:calc.SalaryMonthRecord.is_special_period)
+  return _internal_is_special_period();
+}
+inline void SalaryMonthRecord::_internal_set_is_special_period(bool value) {
+  
+  _impl_.is_special_period_ = value;
+}
+inline void SalaryMonthRecord::set_is_special_period(bool value) {
+  _internal_set_is_special_period(value);
+  // @@protoc_insertion_point(field_set:calc.SalaryMonthRecord.is_special_period)
 }
 
 // -------------------------------------------------------------------
@@ -6784,6 +7207,26 @@ inline void CalculatePensionRequest::set_target_retirement_year(int32_t value) {
   // @@protoc_insertion_point(field_set:calc.CalculatePensionRequest.target_retirement_year)
 }
 
+// bool enable_hypothetical_projection = 17;
+inline void CalculatePensionRequest::clear_enable_hypothetical_projection() {
+  _impl_.enable_hypothetical_projection_ = false;
+}
+inline bool CalculatePensionRequest::_internal_enable_hypothetical_projection() const {
+  return _impl_.enable_hypothetical_projection_;
+}
+inline bool CalculatePensionRequest::enable_hypothetical_projection() const {
+  // @@protoc_insertion_point(field_get:calc.CalculatePensionRequest.enable_hypothetical_projection)
+  return _internal_enable_hypothetical_projection();
+}
+inline void CalculatePensionRequest::_internal_set_enable_hypothetical_projection(bool value) {
+  
+  _impl_.enable_hypothetical_projection_ = value;
+}
+inline void CalculatePensionRequest::set_enable_hypothetical_projection(bool value) {
+  _internal_set_enable_hypothetical_projection(value);
+  // @@protoc_insertion_point(field_set:calc.CalculatePensionRequest.enable_hypothetical_projection)
+}
+
 // -------------------------------------------------------------------
 
 // BenefitSurchargeDetail
@@ -7305,6 +7748,76 @@ inline void CalculatePensionResponse::set_allocated_error_message(std::string* e
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   // @@protoc_insertion_point(field_set_allocated:calc.CalculatePensionResponse.error_message)
+}
+
+// bool is_hypothetical = 17;
+inline void CalculatePensionResponse::clear_is_hypothetical() {
+  _impl_.is_hypothetical_ = false;
+}
+inline bool CalculatePensionResponse::_internal_is_hypothetical() const {
+  return _impl_.is_hypothetical_;
+}
+inline bool CalculatePensionResponse::is_hypothetical() const {
+  // @@protoc_insertion_point(field_get:calc.CalculatePensionResponse.is_hypothetical)
+  return _internal_is_hypothetical();
+}
+inline void CalculatePensionResponse::_internal_set_is_hypothetical(bool value) {
+  
+  _impl_.is_hypothetical_ = value;
+}
+inline void CalculatePensionResponse::set_is_hypothetical(bool value) {
+  _internal_set_is_hypothetical(value);
+  // @@protoc_insertion_point(field_set:calc.CalculatePensionResponse.is_hypothetical)
+}
+
+// string hypothetical_disclaimer = 18;
+inline void CalculatePensionResponse::clear_hypothetical_disclaimer() {
+  _impl_.hypothetical_disclaimer_.ClearToEmpty();
+}
+inline const std::string& CalculatePensionResponse::hypothetical_disclaimer() const {
+  // @@protoc_insertion_point(field_get:calc.CalculatePensionResponse.hypothetical_disclaimer)
+  return _internal_hypothetical_disclaimer();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void CalculatePensionResponse::set_hypothetical_disclaimer(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.hypothetical_disclaimer_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:calc.CalculatePensionResponse.hypothetical_disclaimer)
+}
+inline std::string* CalculatePensionResponse::mutable_hypothetical_disclaimer() {
+  std::string* _s = _internal_mutable_hypothetical_disclaimer();
+  // @@protoc_insertion_point(field_mutable:calc.CalculatePensionResponse.hypothetical_disclaimer)
+  return _s;
+}
+inline const std::string& CalculatePensionResponse::_internal_hypothetical_disclaimer() const {
+  return _impl_.hypothetical_disclaimer_.Get();
+}
+inline void CalculatePensionResponse::_internal_set_hypothetical_disclaimer(const std::string& value) {
+  
+  _impl_.hypothetical_disclaimer_.Set(value, GetArenaForAllocation());
+}
+inline std::string* CalculatePensionResponse::_internal_mutable_hypothetical_disclaimer() {
+  
+  return _impl_.hypothetical_disclaimer_.Mutable(GetArenaForAllocation());
+}
+inline std::string* CalculatePensionResponse::release_hypothetical_disclaimer() {
+  // @@protoc_insertion_point(field_release:calc.CalculatePensionResponse.hypothetical_disclaimer)
+  return _impl_.hypothetical_disclaimer_.Release();
+}
+inline void CalculatePensionResponse::set_allocated_hypothetical_disclaimer(std::string* hypothetical_disclaimer) {
+  if (hypothetical_disclaimer != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.hypothetical_disclaimer_.SetAllocated(hypothetical_disclaimer, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.hypothetical_disclaimer_.IsDefault()) {
+    _impl_.hypothetical_disclaimer_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:calc.CalculatePensionResponse.hypothetical_disclaimer)
 }
 
 // -------------------------------------------------------------------
@@ -8735,6 +9248,171 @@ inline void SyncAverageSalariesResponse::set_allocated_error_message(std::string
 
 // -------------------------------------------------------------------
 
+// GetAverageSalariesRequest
+
+// repeated int32 years = 1;
+inline int GetAverageSalariesRequest::_internal_years_size() const {
+  return _impl_.years_.size();
+}
+inline int GetAverageSalariesRequest::years_size() const {
+  return _internal_years_size();
+}
+inline void GetAverageSalariesRequest::clear_years() {
+  _impl_.years_.Clear();
+}
+inline int32_t GetAverageSalariesRequest::_internal_years(int index) const {
+  return _impl_.years_.Get(index);
+}
+inline int32_t GetAverageSalariesRequest::years(int index) const {
+  // @@protoc_insertion_point(field_get:calc.GetAverageSalariesRequest.years)
+  return _internal_years(index);
+}
+inline void GetAverageSalariesRequest::set_years(int index, int32_t value) {
+  _impl_.years_.Set(index, value);
+  // @@protoc_insertion_point(field_set:calc.GetAverageSalariesRequest.years)
+}
+inline void GetAverageSalariesRequest::_internal_add_years(int32_t value) {
+  _impl_.years_.Add(value);
+}
+inline void GetAverageSalariesRequest::add_years(int32_t value) {
+  _internal_add_years(value);
+  // @@protoc_insertion_point(field_add:calc.GetAverageSalariesRequest.years)
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+GetAverageSalariesRequest::_internal_years() const {
+  return _impl_.years_;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >&
+GetAverageSalariesRequest::years() const {
+  // @@protoc_insertion_point(field_list:calc.GetAverageSalariesRequest.years)
+  return _internal_years();
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+GetAverageSalariesRequest::_internal_mutable_years() {
+  return &_impl_.years_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedField< int32_t >*
+GetAverageSalariesRequest::mutable_years() {
+  // @@protoc_insertion_point(field_mutable_list:calc.GetAverageSalariesRequest.years)
+  return _internal_mutable_years();
+}
+
+// -------------------------------------------------------------------
+
+// GetAverageSalariesResponse
+
+// bool success = 1;
+inline void GetAverageSalariesResponse::clear_success() {
+  _impl_.success_ = false;
+}
+inline bool GetAverageSalariesResponse::_internal_success() const {
+  return _impl_.success_;
+}
+inline bool GetAverageSalariesResponse::success() const {
+  // @@protoc_insertion_point(field_get:calc.GetAverageSalariesResponse.success)
+  return _internal_success();
+}
+inline void GetAverageSalariesResponse::_internal_set_success(bool value) {
+  
+  _impl_.success_ = value;
+}
+inline void GetAverageSalariesResponse::set_success(bool value) {
+  _internal_set_success(value);
+  // @@protoc_insertion_point(field_set:calc.GetAverageSalariesResponse.success)
+}
+
+// repeated .calc.AverageSalaryRecord salaries = 2;
+inline int GetAverageSalariesResponse::_internal_salaries_size() const {
+  return _impl_.salaries_.size();
+}
+inline int GetAverageSalariesResponse::salaries_size() const {
+  return _internal_salaries_size();
+}
+inline void GetAverageSalariesResponse::clear_salaries() {
+  _impl_.salaries_.Clear();
+}
+inline ::calc::AverageSalaryRecord* GetAverageSalariesResponse::mutable_salaries(int index) {
+  // @@protoc_insertion_point(field_mutable:calc.GetAverageSalariesResponse.salaries)
+  return _impl_.salaries_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::calc::AverageSalaryRecord >*
+GetAverageSalariesResponse::mutable_salaries() {
+  // @@protoc_insertion_point(field_mutable_list:calc.GetAverageSalariesResponse.salaries)
+  return &_impl_.salaries_;
+}
+inline const ::calc::AverageSalaryRecord& GetAverageSalariesResponse::_internal_salaries(int index) const {
+  return _impl_.salaries_.Get(index);
+}
+inline const ::calc::AverageSalaryRecord& GetAverageSalariesResponse::salaries(int index) const {
+  // @@protoc_insertion_point(field_get:calc.GetAverageSalariesResponse.salaries)
+  return _internal_salaries(index);
+}
+inline ::calc::AverageSalaryRecord* GetAverageSalariesResponse::_internal_add_salaries() {
+  return _impl_.salaries_.Add();
+}
+inline ::calc::AverageSalaryRecord* GetAverageSalariesResponse::add_salaries() {
+  ::calc::AverageSalaryRecord* _add = _internal_add_salaries();
+  // @@protoc_insertion_point(field_add:calc.GetAverageSalariesResponse.salaries)
+  return _add;
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::calc::AverageSalaryRecord >&
+GetAverageSalariesResponse::salaries() const {
+  // @@protoc_insertion_point(field_list:calc.GetAverageSalariesResponse.salaries)
+  return _impl_.salaries_;
+}
+
+// string error_message = 3;
+inline void GetAverageSalariesResponse::clear_error_message() {
+  _impl_.error_message_.ClearToEmpty();
+}
+inline const std::string& GetAverageSalariesResponse::error_message() const {
+  // @@protoc_insertion_point(field_get:calc.GetAverageSalariesResponse.error_message)
+  return _internal_error_message();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void GetAverageSalariesResponse::set_error_message(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.error_message_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:calc.GetAverageSalariesResponse.error_message)
+}
+inline std::string* GetAverageSalariesResponse::mutable_error_message() {
+  std::string* _s = _internal_mutable_error_message();
+  // @@protoc_insertion_point(field_mutable:calc.GetAverageSalariesResponse.error_message)
+  return _s;
+}
+inline const std::string& GetAverageSalariesResponse::_internal_error_message() const {
+  return _impl_.error_message_.Get();
+}
+inline void GetAverageSalariesResponse::_internal_set_error_message(const std::string& value) {
+  
+  _impl_.error_message_.Set(value, GetArenaForAllocation());
+}
+inline std::string* GetAverageSalariesResponse::_internal_mutable_error_message() {
+  
+  return _impl_.error_message_.Mutable(GetArenaForAllocation());
+}
+inline std::string* GetAverageSalariesResponse::release_error_message() {
+  // @@protoc_insertion_point(field_release:calc.GetAverageSalariesResponse.error_message)
+  return _impl_.error_message_.Release();
+}
+inline void GetAverageSalariesResponse::set_allocated_error_message(std::string* error_message) {
+  if (error_message != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.error_message_.SetAllocated(error_message, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.error_message_.IsDefault()) {
+    _impl_.error_message_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:calc.GetAverageSalariesResponse.error_message)
+}
+
+// -------------------------------------------------------------------
+
 // UpsertSubsistenceMinimumRequest
 
 // int32 year = 1;
@@ -9532,6 +10210,10 @@ inline void DeleteSubsistenceMinimumResponse::set_allocated_error_message(std::s
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

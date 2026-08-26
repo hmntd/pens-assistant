@@ -9,6 +9,7 @@ service CalcService {
     rpc UpdateCoefficient (UpdateCoefficientRequest) returns (UpdateCoefficientResponse);
     rpc DeleteCoefficient (DeleteCoefficientRequest) returns (DeleteCoefficientResponse);
     rpc SyncAverageSalaries (SyncAverageSalariesRequest) returns (SyncAverageSalariesResponse);
+    rpc GetAverageSalaries (GetAverageSalariesRequest) returns (GetAverageSalariesResponse);
     rpc UpsertSubsistenceMinimum (UpsertSubsistenceMinimumRequest) returns (UpsertSubsistenceMinimumResponse);
     rpc ListSubsistenceMinimums (ListSubsistenceMinimumsRequest) returns (ListSubsistenceMinimumsResponse);
     rpc UpdateSubsistenceMinimum (UpdateSubsistenceMinimumRequest) returns (UpdateSubsistenceMinimumResponse);
@@ -195,6 +196,16 @@ message SyncAverageSalariesRequest {
 message SyncAverageSalariesResponse {
     bool success = 1;
     int32 processed_count = 2;
+    string error_message = 3;
+}
+
+message GetAverageSalariesRequest {
+    repeated int32 years = 1;
+}
+
+message GetAverageSalariesResponse {
+    bool success = 1;
+    repeated AverageSalaryRecord salaries = 2;
     string error_message = 3;
 }
 

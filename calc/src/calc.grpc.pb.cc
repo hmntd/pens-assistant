@@ -28,6 +28,7 @@ static const char* CalcService_method_names[] = {
   "/calc.CalcService/UpdateCoefficient",
   "/calc.CalcService/DeleteCoefficient",
   "/calc.CalcService/SyncAverageSalaries",
+  "/calc.CalcService/GetAverageSalaries",
   "/calc.CalcService/UpsertSubsistenceMinimum",
   "/calc.CalcService/ListSubsistenceMinimums",
   "/calc.CalcService/UpdateSubsistenceMinimum",
@@ -47,10 +48,11 @@ CalcService::Stub::Stub(const std::shared_ptr< ::grpc::ChannelInterface>& channe
   , rpcmethod_UpdateCoefficient_(CalcService_method_names[3], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_DeleteCoefficient_(CalcService_method_names[4], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   , rpcmethod_SyncAverageSalaries_(CalcService_method_names[5], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_UpsertSubsistenceMinimum_(CalcService_method_names[6], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_ListSubsistenceMinimums_(CalcService_method_names[7], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_UpdateSubsistenceMinimum_(CalcService_method_names[8], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
-  , rpcmethod_DeleteSubsistenceMinimum_(CalcService_method_names[9], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_GetAverageSalaries_(CalcService_method_names[6], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_UpsertSubsistenceMinimum_(CalcService_method_names[7], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_ListSubsistenceMinimums_(CalcService_method_names[8], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_UpdateSubsistenceMinimum_(CalcService_method_names[9], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
+  , rpcmethod_DeleteSubsistenceMinimum_(CalcService_method_names[10], options.suffix_for_stats(),::grpc::internal::RpcMethod::NORMAL_RPC, channel)
   {}
 
 ::grpc::Status CalcService::Stub::CalculatePension(::grpc::ClientContext* context, const ::calc::CalculatePensionRequest& request, ::calc::CalculatePensionResponse* response) {
@@ -187,6 +189,29 @@ void CalcService::Stub::async::SyncAverageSalaries(::grpc::ClientContext* contex
 ::grpc::ClientAsyncResponseReader< ::calc::SyncAverageSalariesResponse>* CalcService::Stub::AsyncSyncAverageSalariesRaw(::grpc::ClientContext* context, const ::calc::SyncAverageSalariesRequest& request, ::grpc::CompletionQueue* cq) {
   auto* result =
     this->PrepareAsyncSyncAverageSalariesRaw(context, request, cq);
+  result->StartCall();
+  return result;
+}
+
+::grpc::Status CalcService::Stub::GetAverageSalaries(::grpc::ClientContext* context, const ::calc::GetAverageSalariesRequest& request, ::calc::GetAverageSalariesResponse* response) {
+  return ::grpc::internal::BlockingUnaryCall< ::calc::GetAverageSalariesRequest, ::calc::GetAverageSalariesResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), rpcmethod_GetAverageSalaries_, context, request, response);
+}
+
+void CalcService::Stub::async::GetAverageSalaries(::grpc::ClientContext* context, const ::calc::GetAverageSalariesRequest* request, ::calc::GetAverageSalariesResponse* response, std::function<void(::grpc::Status)> f) {
+  ::grpc::internal::CallbackUnaryCall< ::calc::GetAverageSalariesRequest, ::calc::GetAverageSalariesResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_GetAverageSalaries_, context, request, response, std::move(f));
+}
+
+void CalcService::Stub::async::GetAverageSalaries(::grpc::ClientContext* context, const ::calc::GetAverageSalariesRequest* request, ::calc::GetAverageSalariesResponse* response, ::grpc::ClientUnaryReactor* reactor) {
+  ::grpc::internal::ClientCallbackUnaryFactory::Create< ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(stub_->channel_.get(), stub_->rpcmethod_GetAverageSalaries_, context, request, response, reactor);
+}
+
+::grpc::ClientAsyncResponseReader< ::calc::GetAverageSalariesResponse>* CalcService::Stub::PrepareAsyncGetAverageSalariesRaw(::grpc::ClientContext* context, const ::calc::GetAverageSalariesRequest& request, ::grpc::CompletionQueue* cq) {
+  return ::grpc::internal::ClientAsyncResponseReaderHelper::Create< ::calc::GetAverageSalariesResponse, ::calc::GetAverageSalariesRequest, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(channel_.get(), cq, rpcmethod_GetAverageSalaries_, context, request);
+}
+
+::grpc::ClientAsyncResponseReader< ::calc::GetAverageSalariesResponse>* CalcService::Stub::AsyncGetAverageSalariesRaw(::grpc::ClientContext* context, const ::calc::GetAverageSalariesRequest& request, ::grpc::CompletionQueue* cq) {
+  auto* result =
+    this->PrepareAsyncGetAverageSalariesRaw(context, request, cq);
   result->StartCall();
   return result;
 }
@@ -347,6 +372,16 @@ CalcService::Service::Service() {
   AddMethod(new ::grpc::internal::RpcServiceMethod(
       CalcService_method_names[6],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
+      new ::grpc::internal::RpcMethodHandler< CalcService::Service, ::calc::GetAverageSalariesRequest, ::calc::GetAverageSalariesResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
+          [](CalcService::Service* service,
+             ::grpc::ServerContext* ctx,
+             const ::calc::GetAverageSalariesRequest* req,
+             ::calc::GetAverageSalariesResponse* resp) {
+               return service->GetAverageSalaries(ctx, req, resp);
+             }, this)));
+  AddMethod(new ::grpc::internal::RpcServiceMethod(
+      CalcService_method_names[7],
+      ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< CalcService::Service, ::calc::UpsertSubsistenceMinimumRequest, ::calc::UpsertSubsistenceMinimumResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](CalcService::Service* service,
              ::grpc::ServerContext* ctx,
@@ -355,7 +390,7 @@ CalcService::Service::Service() {
                return service->UpsertSubsistenceMinimum(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      CalcService_method_names[7],
+      CalcService_method_names[8],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< CalcService::Service, ::calc::ListSubsistenceMinimumsRequest, ::calc::ListSubsistenceMinimumsResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](CalcService::Service* service,
@@ -365,7 +400,7 @@ CalcService::Service::Service() {
                return service->ListSubsistenceMinimums(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      CalcService_method_names[8],
+      CalcService_method_names[9],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< CalcService::Service, ::calc::UpdateSubsistenceMinimumRequest, ::calc::UpdateSubsistenceMinimumResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](CalcService::Service* service,
@@ -375,7 +410,7 @@ CalcService::Service::Service() {
                return service->UpdateSubsistenceMinimum(ctx, req, resp);
              }, this)));
   AddMethod(new ::grpc::internal::RpcServiceMethod(
-      CalcService_method_names[9],
+      CalcService_method_names[10],
       ::grpc::internal::RpcMethod::NORMAL_RPC,
       new ::grpc::internal::RpcMethodHandler< CalcService::Service, ::calc::DeleteSubsistenceMinimumRequest, ::calc::DeleteSubsistenceMinimumResponse, ::grpc::protobuf::MessageLite, ::grpc::protobuf::MessageLite>(
           [](CalcService::Service* service,
@@ -425,6 +460,13 @@ CalcService::Service::~Service() {
 }
 
 ::grpc::Status CalcService::Service::SyncAverageSalaries(::grpc::ServerContext* context, const ::calc::SyncAverageSalariesRequest* request, ::calc::SyncAverageSalariesResponse* response) {
+  (void) context;
+  (void) request;
+  (void) response;
+  return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+}
+
+::grpc::Status CalcService::Service::GetAverageSalaries(::grpc::ServerContext* context, const ::calc::GetAverageSalariesRequest* request, ::calc::GetAverageSalariesResponse* response) {
   (void) context;
   (void) request;
   (void) response;

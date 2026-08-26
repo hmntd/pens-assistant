@@ -24,6 +24,7 @@ public:
     ::grpc::Status UpdateCoefficient(::grpc::ServerContext* context, const ::calc::UpdateCoefficientRequest* request, ::calc::UpdateCoefficientResponse* reply) override;
     ::grpc::Status DeleteCoefficient(::grpc::ServerContext* context, const ::calc::DeleteCoefficientRequest* request, ::calc::DeleteCoefficientResponse* reply) override;
     ::grpc::Status SyncAverageSalaries(::grpc::ServerContext* context, const ::calc::SyncAverageSalariesRequest* request, ::calc::SyncAverageSalariesResponse* reply) override;
+    ::grpc::Status GetAverageSalaries(::grpc::ServerContext* context, const ::calc::GetAverageSalariesRequest* request, ::calc::GetAverageSalariesResponse* reply) override;
     ::grpc::Status UpsertSubsistenceMinimum(::grpc::ServerContext* context, const ::calc::UpsertSubsistenceMinimumRequest* request, ::calc::UpsertSubsistenceMinimumResponse* reply) override;
     ::grpc::Status ListSubsistenceMinimums(::grpc::ServerContext* context, const ::calc::ListSubsistenceMinimumsRequest* request, ::calc::ListSubsistenceMinimumsResponse* reply) override;
     ::grpc::Status UpdateSubsistenceMinimum(::grpc::ServerContext* context, const ::calc::UpdateSubsistenceMinimumRequest* request, ::calc::UpdateSubsistenceMinimumResponse* reply) override;

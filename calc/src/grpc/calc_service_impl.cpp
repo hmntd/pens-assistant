@@ -121,6 +121,24 @@ CalcServiceImpl::CalcServiceImpl(bool mock_mode)
     return ::grpc::Status::OK;
 }
 
+::grpc::Status CalcServiceImpl::GetAverageSalaries(::grpc::ServerContext* context, const ::calc::GetAverageSalariesRequest* request, ::calc::GetAverageSalariesResponse* reply) {
+    std::vector<int> requestedYears;
+    for (int i = 0; i < request->years_size(); ++i) {
+        requestedYears.push_back(request->years(i));
+    }
+
+    auto items = repo_.getAverageSalariesForYears(requestedYears);
+    for (const auto& item : items) {
+        auto* rec = reply->add_salaries();
+        rec->set_year(item.year);
+        rec->set_month(item.month);
+        rec->set_amount(item.amount);
+    }
+    reply->set_success(true);
+    reply->set_error_message("");
+    return ::grpc::Status::OK;
+}
+
 ::grpc::Status CalcServiceImpl::UpsertSubsistenceMinimum(::grpc::ServerContext* context, const ::calc::UpsertSubsistenceMinimumRequest* request, ::calc::UpsertSubsistenceMinimumResponse* reply) {
     double cap = request->age_surcharge_cap() > 0.0 ? request->age_surcharge_cap() : 10340.35;
     bool ok = repo_.upsertSubsistenceLimits(request->year(), request->for_disabled_persons(), request->general_minimum(), cap);

@@ -152,7 +152,8 @@ namespace calc
             std::vector<std::string> &logs,
             std::string &error_message) const
         {
-            std::vector<MonthRatioItem> items;
+            std::vector<MonthRatioItem> raw_pre_2000_items;
+            std::vector<MonthRatioItem> post_2000_items;
             int last_year = 0;
             int last_month = 0;
             double last_monthly_income = 0.0;
@@ -171,9 +172,8 @@ namespace calc
 
                     if (rec.amount() <= 0.0)
                     {
-                        error_message = "Salary history record for year " + std::to_string(rec.year()) +
-                                        ", month " + std::to_string(rec.month()) + " has a non-positive amount";
-                        return -1.0;
+                        // Skip zero-amount or service-only salary entries from Kz ratio calculation
+                        continue;
                     }
 
                     double ratio = rec.amount() / avg_national;
@@ -193,7 +193,16 @@ namespace calc
                         }
                     }
 
-                    items.push_back({rec.year(), rec.month(), ratio, is_special});
+                    MonthRatioItem item{rec.year(), rec.month(), ratio, is_special};
+
+                    if (rec.year() < 2000 || (rec.year() == 2000 && rec.month() <= 6))
+                    {
+                        raw_pre_2000_items.push_back(item);
+                    }
+                    else
+                    {
+                        post_2000_items.push_back(item);
+                    }
 
                     if (rec.year() > last_year || (rec.year() == last_year && rec.month() > last_month))
                     {
@@ -223,9 +232,8 @@ namespace calc
 
                     if (rec.annual_income() <= 0.0)
                     {
-                        error_message = "History record for year " + std::to_string(rec.year()) +
-                                        " has a non-positive annual_income";
-                        return -1.0;
+                        // Skip zero-income or service-only records from Kz ratio calculation
+                        continue;
                     }
 
                     double monthly_income = rec.annual_income() / rec.months_worked();
@@ -236,7 +244,15 @@ namespace calc
 
                     for (int m = 1; m <= rec.months_worked(); ++m)
                     {
-                        items.push_back({yr, m, ratio, is_special});
+                        MonthRatioItem item{yr, m, ratio, is_special};
+                        if (yr < 2000 || (yr == 2000 && m <= 6))
+                        {
+                            raw_pre_2000_items.push_back(item);
+                        }
+                        else
+                        {
+                            post_2000_items.push_back(item);
+                        }
                     }
 
                     if (rec.year() > last_year)
@@ -288,7 +304,7 @@ namespace calc
                 int proj_count = 0;
                 while (curr_y < target_end_year || (curr_y == target_end_year && curr_m <= target_end_month))
                 {
-                    items.push_back({curr_y, curr_m, proj_ratio, true});
+                    post_2000_items.push_back({curr_y, curr_m, proj_ratio, true});
                     proj_count++;
 
                     curr_m++;
@@ -307,10 +323,80 @@ namespace calc
                 }
             }
 
+            std::vector<MonthRatioItem> items;
+            std::vector<MonthRatioItem> selected_pre_2000_items;
+
+            if (!raw_pre_2000_items.empty())
+            {
+                std::sort(raw_pre_2000_items.begin(), raw_pre_2000_items.end(),
+                          [](const MonthRatioItem &a, const MonthRatioItem &b)
+                          {
+                              if (a.year != b.year)
+                                  return a.year < b.year;
+                              return a.month < b.month;
+                          });
+
+                bool include_pre_2000 = (post_2000_items.size() < 60) || (raw_pre_2000_items.size() >= 60);
+
+                if (include_pre_2000)
+                {
+                    if (raw_pre_2000_items.size() <= 60)
+                    {
+                        selected_pre_2000_items = raw_pre_2000_items;
+                        std::ostringstream ss;
+                        ss << "Stage 2 [Kz Art. 40 Law 1058-IV]: Included all " << selected_pre_2000_items.size()
+                           << " pre-July 1, 2000 salary months.";
+                        logs.push_back(ss.str());
+                    }
+                    else
+                    {
+                        size_t best_start = 0;
+                        double max_window_sum = -1.0;
+                        for (size_t i = 0; i <= raw_pre_2000_items.size() - 60; ++i)
+                        {
+                            double w_sum = 0.0;
+                            for (size_t j = i; j < i + 60; ++j)
+                            {
+                                w_sum += raw_pre_2000_items[j].ratio;
+                            }
+                            if (w_sum > max_window_sum)
+                            {
+                                max_window_sum = w_sum;
+                                best_start = i;
+                            }
+                        }
+
+                        selected_pre_2000_items.assign(
+                            raw_pre_2000_items.begin() + best_start,
+                            raw_pre_2000_items.begin() + best_start + 60);
+
+                        std::ostringstream ss;
+                        ss << "Stage 2 [Kz Art. 40 Law 1058-IV]: Selected optimal 60 consecutive pre-July 1, 2000 salary months (from "
+                           << raw_pre_2000_items[best_start].year << "-"
+                           << (raw_pre_2000_items[best_start].month < 10 ? "0" : "") << raw_pre_2000_items[best_start].month
+                           << " to " << raw_pre_2000_items[best_start + 59].year << "-"
+                           << (raw_pre_2000_items[best_start + 59].month < 10 ? "0" : "") << raw_pre_2000_items[best_start + 59].month
+                           << ") out of " << raw_pre_2000_items.size() << " available pre-2000 months.";
+                        logs.push_back(ss.str());
+                    }
+                }
+                else
+                {
+                    std::ostringstream ss;
+                    ss << "Stage 2 [Kz Art. 40 Law 1058-IV]: Pre-July 1, 2000 salary history omitted from Kz calculation "
+                       << "(has " << raw_pre_2000_items.size() << " pre-2000 salary months; Art. 40 requires 60 consecutive months of salary history when post-2000 experience is >= 60 months). "
+                       << "Pre-2000 period counted towards insurance service Ks.";
+                    logs.push_back(ss.str());
+                }
+            }
+
+            items.insert(items.end(), selected_pre_2000_items.begin(), selected_pre_2000_items.end());
+            items.insert(items.end(), post_2000_items.begin(), post_2000_items.end());
+
             if (items.empty())
             {
-                error_message = "Salary items vector is empty";
-                return -1.0;
+                logs.push_back("Stage 2 [Kz Wage Coefficient]: Service-only history provided without salary entries. Defaulting Kz = 1.0000.");
+                return 1.0;
             }
 
             double initial_sum = 0.0;
@@ -465,19 +551,47 @@ namespace calc
             const SubsistenceLimits &limits,
             std::vector<std::string> &logs) const
         {
-            int required_months = 420;
+            // Check if pension was assigned before October 1, 2011 (Law 1058-IV Art. 28)
+            bool is_legacy_pre_2011 = false;
+            if (request->retirement_date().length() >= 10)
+            {
+                if (request->retirement_date() < "2011-10-01")
+                {
+                    is_legacy_pre_2011 = true;
+                }
+            }
+
+            int required_years = 35;
+            if (request->gender() == calc::Gender::FEMALE)
+            {
+                required_years = is_legacy_pre_2011 ? 20 : 30;
+            }
+            else
+            {
+                required_years = is_legacy_pre_2011 ? 25 : 35;
+            }
+
+            int required_months = required_years * 12;
             int extra_months = total_months - required_months;
 
             if (extra_months <= 0)
             {
-                logs.push_back("Extra Service Allowance: 0 UAH (service requirements met)");
+                std::ostringstream ss;
+                ss << "Stage 3 [Overtime Allowance Art. 28]: 0.00 UAH (service experience "
+                   << (total_months / 12) << " yrs (" << total_months << " mos) does not exceed statutory norm of "
+                   << required_years << " yrs (" << required_months << " mos) for "
+                   << (request->gender() == calc::Gender::FEMALE ? "Women" : "Men") << ")";
+                logs.push_back(ss.str());
                 return 0.0;
             }
 
             int extra_full_years = extra_months / 12;
             if (extra_full_years <= 0)
             {
-                logs.push_back("Extra Service Allowance: 0 UAH (less than 1 full extra year over 35 yrs)");
+                std::ostringstream ss;
+                ss << "Stage 3 [Overtime Allowance Art. 28]: 0.00 UAH (less than 1 full extra year over statutory norm of "
+                   << required_years << " yrs)";
+                logs.push_back(ss.str());
                 return 0.0;
             }
 
@@ -487,8 +601,11 @@ namespace calc
             double total_allowance = extra_full_years * allowance_per_year;
 
             std::ostringstream ss;
-            ss << "Extra Service Allowance: " << extra_full_years << " extra years over norm (35 yrs / 420 months). Allowance = "
-               << std::fixed << std::setprecision(2) << total_allowance << " UAH";
+            ss << "Stage 3 [Overtime Allowance Art. 28]: " << extra_full_years << " full extra year(s) over statutory norm of "
+               << required_years << " yrs (" << required_months << " mos) for "
+               << (request->gender() == calc::Gender::FEMALE ? "Women" : "Men")
+               << ". 1% per year capped at 1% of subsistence min (" << std::fixed << std::setprecision(2) << min_limit
+               << " UAH). Total Overtime Allowance = +" << total_allowance << " UAH";
             logs.push_back(ss.str());
 
             return total_allowance;

@@ -77,6 +77,13 @@ class CalcService final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::SyncAverageSalariesResponse>> PrepareAsyncSyncAverageSalaries(::grpc::ClientContext* context, const ::calc::SyncAverageSalariesRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::SyncAverageSalariesResponse>>(PrepareAsyncSyncAverageSalariesRaw(context, request, cq));
     }
+    virtual ::grpc::Status GetAverageSalaries(::grpc::ClientContext* context, const ::calc::GetAverageSalariesRequest& request, ::calc::GetAverageSalariesResponse* response) = 0;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::GetAverageSalariesResponse>> AsyncGetAverageSalaries(::grpc::ClientContext* context, const ::calc::GetAverageSalariesRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::GetAverageSalariesResponse>>(AsyncGetAverageSalariesRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::GetAverageSalariesResponse>> PrepareAsyncGetAverageSalaries(::grpc::ClientContext* context, const ::calc::GetAverageSalariesRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::GetAverageSalariesResponse>>(PrepareAsyncGetAverageSalariesRaw(context, request, cq));
+    }
     virtual ::grpc::Status UpsertSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::UpsertSubsistenceMinimumRequest& request, ::calc::UpsertSubsistenceMinimumResponse* response) = 0;
     std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::UpsertSubsistenceMinimumResponse>> AsyncUpsertSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::UpsertSubsistenceMinimumRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReaderInterface< ::calc::UpsertSubsistenceMinimumResponse>>(AsyncUpsertSubsistenceMinimumRaw(context, request, cq));
@@ -120,6 +127,8 @@ class CalcService final {
       virtual void DeleteCoefficient(::grpc::ClientContext* context, const ::calc::DeleteCoefficientRequest* request, ::calc::DeleteCoefficientResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       virtual void SyncAverageSalaries(::grpc::ClientContext* context, const ::calc::SyncAverageSalariesRequest* request, ::calc::SyncAverageSalariesResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void SyncAverageSalaries(::grpc::ClientContext* context, const ::calc::SyncAverageSalariesRequest* request, ::calc::SyncAverageSalariesResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
+      virtual void GetAverageSalaries(::grpc::ClientContext* context, const ::calc::GetAverageSalariesRequest* request, ::calc::GetAverageSalariesResponse* response, std::function<void(::grpc::Status)>) = 0;
+      virtual void GetAverageSalaries(::grpc::ClientContext* context, const ::calc::GetAverageSalariesRequest* request, ::calc::GetAverageSalariesResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       virtual void UpsertSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::UpsertSubsistenceMinimumRequest* request, ::calc::UpsertSubsistenceMinimumResponse* response, std::function<void(::grpc::Status)>) = 0;
       virtual void UpsertSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::UpsertSubsistenceMinimumRequest* request, ::calc::UpsertSubsistenceMinimumResponse* response, ::grpc::ClientUnaryReactor* reactor) = 0;
       virtual void ListSubsistenceMinimums(::grpc::ClientContext* context, const ::calc::ListSubsistenceMinimumsRequest* request, ::calc::ListSubsistenceMinimumsResponse* response, std::function<void(::grpc::Status)>) = 0;
@@ -145,6 +154,8 @@ class CalcService final {
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::calc::DeleteCoefficientResponse>* PrepareAsyncDeleteCoefficientRaw(::grpc::ClientContext* context, const ::calc::DeleteCoefficientRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::calc::SyncAverageSalariesResponse>* AsyncSyncAverageSalariesRaw(::grpc::ClientContext* context, const ::calc::SyncAverageSalariesRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::calc::SyncAverageSalariesResponse>* PrepareAsyncSyncAverageSalariesRaw(::grpc::ClientContext* context, const ::calc::SyncAverageSalariesRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::calc::GetAverageSalariesResponse>* AsyncGetAverageSalariesRaw(::grpc::ClientContext* context, const ::calc::GetAverageSalariesRequest& request, ::grpc::CompletionQueue* cq) = 0;
+    virtual ::grpc::ClientAsyncResponseReaderInterface< ::calc::GetAverageSalariesResponse>* PrepareAsyncGetAverageSalariesRaw(::grpc::ClientContext* context, const ::calc::GetAverageSalariesRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::calc::UpsertSubsistenceMinimumResponse>* AsyncUpsertSubsistenceMinimumRaw(::grpc::ClientContext* context, const ::calc::UpsertSubsistenceMinimumRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::calc::UpsertSubsistenceMinimumResponse>* PrepareAsyncUpsertSubsistenceMinimumRaw(::grpc::ClientContext* context, const ::calc::UpsertSubsistenceMinimumRequest& request, ::grpc::CompletionQueue* cq) = 0;
     virtual ::grpc::ClientAsyncResponseReaderInterface< ::calc::ListSubsistenceMinimumsResponse>* AsyncListSubsistenceMinimumsRaw(::grpc::ClientContext* context, const ::calc::ListSubsistenceMinimumsRequest& request, ::grpc::CompletionQueue* cq) = 0;
@@ -199,6 +210,13 @@ class CalcService final {
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::SyncAverageSalariesResponse>> PrepareAsyncSyncAverageSalaries(::grpc::ClientContext* context, const ::calc::SyncAverageSalariesRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::SyncAverageSalariesResponse>>(PrepareAsyncSyncAverageSalariesRaw(context, request, cq));
     }
+    ::grpc::Status GetAverageSalaries(::grpc::ClientContext* context, const ::calc::GetAverageSalariesRequest& request, ::calc::GetAverageSalariesResponse* response) override;
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::GetAverageSalariesResponse>> AsyncGetAverageSalaries(::grpc::ClientContext* context, const ::calc::GetAverageSalariesRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::GetAverageSalariesResponse>>(AsyncGetAverageSalariesRaw(context, request, cq));
+    }
+    std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::GetAverageSalariesResponse>> PrepareAsyncGetAverageSalaries(::grpc::ClientContext* context, const ::calc::GetAverageSalariesRequest& request, ::grpc::CompletionQueue* cq) {
+      return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::GetAverageSalariesResponse>>(PrepareAsyncGetAverageSalariesRaw(context, request, cq));
+    }
     ::grpc::Status UpsertSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::UpsertSubsistenceMinimumRequest& request, ::calc::UpsertSubsistenceMinimumResponse* response) override;
     std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::UpsertSubsistenceMinimumResponse>> AsyncUpsertSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::UpsertSubsistenceMinimumRequest& request, ::grpc::CompletionQueue* cq) {
       return std::unique_ptr< ::grpc::ClientAsyncResponseReader< ::calc::UpsertSubsistenceMinimumResponse>>(AsyncUpsertSubsistenceMinimumRaw(context, request, cq));
@@ -242,6 +260,8 @@ class CalcService final {
       void DeleteCoefficient(::grpc::ClientContext* context, const ::calc::DeleteCoefficientRequest* request, ::calc::DeleteCoefficientResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
       void SyncAverageSalaries(::grpc::ClientContext* context, const ::calc::SyncAverageSalariesRequest* request, ::calc::SyncAverageSalariesResponse* response, std::function<void(::grpc::Status)>) override;
       void SyncAverageSalaries(::grpc::ClientContext* context, const ::calc::SyncAverageSalariesRequest* request, ::calc::SyncAverageSalariesResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
+      void GetAverageSalaries(::grpc::ClientContext* context, const ::calc::GetAverageSalariesRequest* request, ::calc::GetAverageSalariesResponse* response, std::function<void(::grpc::Status)>) override;
+      void GetAverageSalaries(::grpc::ClientContext* context, const ::calc::GetAverageSalariesRequest* request, ::calc::GetAverageSalariesResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
       void UpsertSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::UpsertSubsistenceMinimumRequest* request, ::calc::UpsertSubsistenceMinimumResponse* response, std::function<void(::grpc::Status)>) override;
       void UpsertSubsistenceMinimum(::grpc::ClientContext* context, const ::calc::UpsertSubsistenceMinimumRequest* request, ::calc::UpsertSubsistenceMinimumResponse* response, ::grpc::ClientUnaryReactor* reactor) override;
       void ListSubsistenceMinimums(::grpc::ClientContext* context, const ::calc::ListSubsistenceMinimumsRequest* request, ::calc::ListSubsistenceMinimumsResponse* response, std::function<void(::grpc::Status)>) override;
@@ -273,6 +293,8 @@ class CalcService final {
     ::grpc::ClientAsyncResponseReader< ::calc::DeleteCoefficientResponse>* PrepareAsyncDeleteCoefficientRaw(::grpc::ClientContext* context, const ::calc::DeleteCoefficientRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::calc::SyncAverageSalariesResponse>* AsyncSyncAverageSalariesRaw(::grpc::ClientContext* context, const ::calc::SyncAverageSalariesRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::calc::SyncAverageSalariesResponse>* PrepareAsyncSyncAverageSalariesRaw(::grpc::ClientContext* context, const ::calc::SyncAverageSalariesRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::calc::GetAverageSalariesResponse>* AsyncGetAverageSalariesRaw(::grpc::ClientContext* context, const ::calc::GetAverageSalariesRequest& request, ::grpc::CompletionQueue* cq) override;
+    ::grpc::ClientAsyncResponseReader< ::calc::GetAverageSalariesResponse>* PrepareAsyncGetAverageSalariesRaw(::grpc::ClientContext* context, const ::calc::GetAverageSalariesRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::calc::UpsertSubsistenceMinimumResponse>* AsyncUpsertSubsistenceMinimumRaw(::grpc::ClientContext* context, const ::calc::UpsertSubsistenceMinimumRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::calc::UpsertSubsistenceMinimumResponse>* PrepareAsyncUpsertSubsistenceMinimumRaw(::grpc::ClientContext* context, const ::calc::UpsertSubsistenceMinimumRequest& request, ::grpc::CompletionQueue* cq) override;
     ::grpc::ClientAsyncResponseReader< ::calc::ListSubsistenceMinimumsResponse>* AsyncListSubsistenceMinimumsRaw(::grpc::ClientContext* context, const ::calc::ListSubsistenceMinimumsRequest& request, ::grpc::CompletionQueue* cq) override;
@@ -287,6 +309,7 @@ class CalcService final {
     const ::grpc::internal::RpcMethod rpcmethod_UpdateCoefficient_;
     const ::grpc::internal::RpcMethod rpcmethod_DeleteCoefficient_;
     const ::grpc::internal::RpcMethod rpcmethod_SyncAverageSalaries_;
+    const ::grpc::internal::RpcMethod rpcmethod_GetAverageSalaries_;
     const ::grpc::internal::RpcMethod rpcmethod_UpsertSubsistenceMinimum_;
     const ::grpc::internal::RpcMethod rpcmethod_ListSubsistenceMinimums_;
     const ::grpc::internal::RpcMethod rpcmethod_UpdateSubsistenceMinimum_;
@@ -304,6 +327,7 @@ class CalcService final {
     virtual ::grpc::Status UpdateCoefficient(::grpc::ServerContext* context, const ::calc::UpdateCoefficientRequest* request, ::calc::UpdateCoefficientResponse* response);
     virtual ::grpc::Status DeleteCoefficient(::grpc::ServerContext* context, const ::calc::DeleteCoefficientRequest* request, ::calc::DeleteCoefficientResponse* response);
     virtual ::grpc::Status SyncAverageSalaries(::grpc::ServerContext* context, const ::calc::SyncAverageSalariesRequest* request, ::calc::SyncAverageSalariesResponse* response);
+    virtual ::grpc::Status GetAverageSalaries(::grpc::ServerContext* context, const ::calc::GetAverageSalariesRequest* request, ::calc::GetAverageSalariesResponse* response);
     virtual ::grpc::Status UpsertSubsistenceMinimum(::grpc::ServerContext* context, const ::calc::UpsertSubsistenceMinimumRequest* request, ::calc::UpsertSubsistenceMinimumResponse* response);
     virtual ::grpc::Status ListSubsistenceMinimums(::grpc::ServerContext* context, const ::calc::ListSubsistenceMinimumsRequest* request, ::calc::ListSubsistenceMinimumsResponse* response);
     virtual ::grpc::Status UpdateSubsistenceMinimum(::grpc::ServerContext* context, const ::calc::UpdateSubsistenceMinimumRequest* request, ::calc::UpdateSubsistenceMinimumResponse* response);
@@ -430,12 +454,32 @@ class CalcService final {
     }
   };
   template <class BaseClass>
+  class WithAsyncMethod_GetAverageSalaries : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithAsyncMethod_GetAverageSalaries() {
+      ::grpc::Service::MarkMethodAsync(6);
+    }
+    ~WithAsyncMethod_GetAverageSalaries() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetAverageSalaries(::grpc::ServerContext* /*context*/, const ::calc::GetAverageSalariesRequest* /*request*/, ::calc::GetAverageSalariesResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestGetAverageSalaries(::grpc::ServerContext* context, ::calc::GetAverageSalariesRequest* request, ::grpc::ServerAsyncResponseWriter< ::calc::GetAverageSalariesResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
   class WithAsyncMethod_UpsertSubsistenceMinimum : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_UpsertSubsistenceMinimum() {
-      ::grpc::Service::MarkMethodAsync(6);
+      ::grpc::Service::MarkMethodAsync(7);
     }
     ~WithAsyncMethod_UpsertSubsistenceMinimum() override {
       BaseClassMustBeDerivedFromService(this);
@@ -446,7 +490,7 @@ class CalcService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestUpsertSubsistenceMinimum(::grpc::ServerContext* context, ::calc::UpsertSubsistenceMinimumRequest* request, ::grpc::ServerAsyncResponseWriter< ::calc::UpsertSubsistenceMinimumResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -455,7 +499,7 @@ class CalcService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_ListSubsistenceMinimums() {
-      ::grpc::Service::MarkMethodAsync(7);
+      ::grpc::Service::MarkMethodAsync(8);
     }
     ~WithAsyncMethod_ListSubsistenceMinimums() override {
       BaseClassMustBeDerivedFromService(this);
@@ -466,7 +510,7 @@ class CalcService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListSubsistenceMinimums(::grpc::ServerContext* context, ::calc::ListSubsistenceMinimumsRequest* request, ::grpc::ServerAsyncResponseWriter< ::calc::ListSubsistenceMinimumsResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(8, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -475,7 +519,7 @@ class CalcService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_UpdateSubsistenceMinimum() {
-      ::grpc::Service::MarkMethodAsync(8);
+      ::grpc::Service::MarkMethodAsync(9);
     }
     ~WithAsyncMethod_UpdateSubsistenceMinimum() override {
       BaseClassMustBeDerivedFromService(this);
@@ -486,7 +530,7 @@ class CalcService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestUpdateSubsistenceMinimum(::grpc::ServerContext* context, ::calc::UpdateSubsistenceMinimumRequest* request, ::grpc::ServerAsyncResponseWriter< ::calc::UpdateSubsistenceMinimumResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(8, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(9, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -495,7 +539,7 @@ class CalcService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithAsyncMethod_DeleteSubsistenceMinimum() {
-      ::grpc::Service::MarkMethodAsync(9);
+      ::grpc::Service::MarkMethodAsync(10);
     }
     ~WithAsyncMethod_DeleteSubsistenceMinimum() override {
       BaseClassMustBeDerivedFromService(this);
@@ -506,10 +550,10 @@ class CalcService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestDeleteSubsistenceMinimum(::grpc::ServerContext* context, ::calc::DeleteSubsistenceMinimumRequest* request, ::grpc::ServerAsyncResponseWriter< ::calc::DeleteSubsistenceMinimumResponse>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(9, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(10, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
-  typedef WithAsyncMethod_CalculatePension<WithAsyncMethod_ListCoefficients<WithAsyncMethod_AddCoefficient<WithAsyncMethod_UpdateCoefficient<WithAsyncMethod_DeleteCoefficient<WithAsyncMethod_SyncAverageSalaries<WithAsyncMethod_UpsertSubsistenceMinimum<WithAsyncMethod_ListSubsistenceMinimums<WithAsyncMethod_UpdateSubsistenceMinimum<WithAsyncMethod_DeleteSubsistenceMinimum<Service > > > > > > > > > > AsyncService;
+  typedef WithAsyncMethod_CalculatePension<WithAsyncMethod_ListCoefficients<WithAsyncMethod_AddCoefficient<WithAsyncMethod_UpdateCoefficient<WithAsyncMethod_DeleteCoefficient<WithAsyncMethod_SyncAverageSalaries<WithAsyncMethod_GetAverageSalaries<WithAsyncMethod_UpsertSubsistenceMinimum<WithAsyncMethod_ListSubsistenceMinimums<WithAsyncMethod_UpdateSubsistenceMinimum<WithAsyncMethod_DeleteSubsistenceMinimum<Service > > > > > > > > > > > AsyncService;
   template <class BaseClass>
   class WithCallbackMethod_CalculatePension : public BaseClass {
    private:
@@ -673,18 +717,45 @@ class CalcService final {
       ::grpc::CallbackServerContext* /*context*/, const ::calc::SyncAverageSalariesRequest* /*request*/, ::calc::SyncAverageSalariesResponse* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
+  class WithCallbackMethod_GetAverageSalaries : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithCallbackMethod_GetAverageSalaries() {
+      ::grpc::Service::MarkMethodCallback(6,
+          new ::grpc::internal::CallbackUnaryHandler< ::calc::GetAverageSalariesRequest, ::calc::GetAverageSalariesResponse>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::calc::GetAverageSalariesRequest* request, ::calc::GetAverageSalariesResponse* response) { return this->GetAverageSalaries(context, request, response); }));}
+    void SetMessageAllocatorFor_GetAverageSalaries(
+        ::grpc::MessageAllocator< ::calc::GetAverageSalariesRequest, ::calc::GetAverageSalariesResponse>* allocator) {
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(6);
+      static_cast<::grpc::internal::CallbackUnaryHandler< ::calc::GetAverageSalariesRequest, ::calc::GetAverageSalariesResponse>*>(handler)
+              ->SetMessageAllocator(allocator);
+    }
+    ~WithCallbackMethod_GetAverageSalaries() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetAverageSalaries(::grpc::ServerContext* /*context*/, const ::calc::GetAverageSalariesRequest* /*request*/, ::calc::GetAverageSalariesResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* GetAverageSalaries(
+      ::grpc::CallbackServerContext* /*context*/, const ::calc::GetAverageSalariesRequest* /*request*/, ::calc::GetAverageSalariesResponse* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
   class WithCallbackMethod_UpsertSubsistenceMinimum : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_UpsertSubsistenceMinimum() {
-      ::grpc::Service::MarkMethodCallback(6,
+      ::grpc::Service::MarkMethodCallback(7,
           new ::grpc::internal::CallbackUnaryHandler< ::calc::UpsertSubsistenceMinimumRequest, ::calc::UpsertSubsistenceMinimumResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::calc::UpsertSubsistenceMinimumRequest* request, ::calc::UpsertSubsistenceMinimumResponse* response) { return this->UpsertSubsistenceMinimum(context, request, response); }));}
     void SetMessageAllocatorFor_UpsertSubsistenceMinimum(
         ::grpc::MessageAllocator< ::calc::UpsertSubsistenceMinimumRequest, ::calc::UpsertSubsistenceMinimumResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(6);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(7);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::calc::UpsertSubsistenceMinimumRequest, ::calc::UpsertSubsistenceMinimumResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -705,13 +776,13 @@ class CalcService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_ListSubsistenceMinimums() {
-      ::grpc::Service::MarkMethodCallback(7,
+      ::grpc::Service::MarkMethodCallback(8,
           new ::grpc::internal::CallbackUnaryHandler< ::calc::ListSubsistenceMinimumsRequest, ::calc::ListSubsistenceMinimumsResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::calc::ListSubsistenceMinimumsRequest* request, ::calc::ListSubsistenceMinimumsResponse* response) { return this->ListSubsistenceMinimums(context, request, response); }));}
     void SetMessageAllocatorFor_ListSubsistenceMinimums(
         ::grpc::MessageAllocator< ::calc::ListSubsistenceMinimumsRequest, ::calc::ListSubsistenceMinimumsResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(7);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(8);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::calc::ListSubsistenceMinimumsRequest, ::calc::ListSubsistenceMinimumsResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -732,13 +803,13 @@ class CalcService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_UpdateSubsistenceMinimum() {
-      ::grpc::Service::MarkMethodCallback(8,
+      ::grpc::Service::MarkMethodCallback(9,
           new ::grpc::internal::CallbackUnaryHandler< ::calc::UpdateSubsistenceMinimumRequest, ::calc::UpdateSubsistenceMinimumResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::calc::UpdateSubsistenceMinimumRequest* request, ::calc::UpdateSubsistenceMinimumResponse* response) { return this->UpdateSubsistenceMinimum(context, request, response); }));}
     void SetMessageAllocatorFor_UpdateSubsistenceMinimum(
         ::grpc::MessageAllocator< ::calc::UpdateSubsistenceMinimumRequest, ::calc::UpdateSubsistenceMinimumResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(8);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(9);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::calc::UpdateSubsistenceMinimumRequest, ::calc::UpdateSubsistenceMinimumResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -759,13 +830,13 @@ class CalcService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithCallbackMethod_DeleteSubsistenceMinimum() {
-      ::grpc::Service::MarkMethodCallback(9,
+      ::grpc::Service::MarkMethodCallback(10,
           new ::grpc::internal::CallbackUnaryHandler< ::calc::DeleteSubsistenceMinimumRequest, ::calc::DeleteSubsistenceMinimumResponse>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::calc::DeleteSubsistenceMinimumRequest* request, ::calc::DeleteSubsistenceMinimumResponse* response) { return this->DeleteSubsistenceMinimum(context, request, response); }));}
     void SetMessageAllocatorFor_DeleteSubsistenceMinimum(
         ::grpc::MessageAllocator< ::calc::DeleteSubsistenceMinimumRequest, ::calc::DeleteSubsistenceMinimumResponse>* allocator) {
-      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(9);
+      ::grpc::internal::MethodHandler* const handler = ::grpc::Service::GetHandler(10);
       static_cast<::grpc::internal::CallbackUnaryHandler< ::calc::DeleteSubsistenceMinimumRequest, ::calc::DeleteSubsistenceMinimumResponse>*>(handler)
               ->SetMessageAllocator(allocator);
     }
@@ -780,7 +851,7 @@ class CalcService final {
     virtual ::grpc::ServerUnaryReactor* DeleteSubsistenceMinimum(
       ::grpc::CallbackServerContext* /*context*/, const ::calc::DeleteSubsistenceMinimumRequest* /*request*/, ::calc::DeleteSubsistenceMinimumResponse* /*response*/)  { return nullptr; }
   };
-  typedef WithCallbackMethod_CalculatePension<WithCallbackMethod_ListCoefficients<WithCallbackMethod_AddCoefficient<WithCallbackMethod_UpdateCoefficient<WithCallbackMethod_DeleteCoefficient<WithCallbackMethod_SyncAverageSalaries<WithCallbackMethod_UpsertSubsistenceMinimum<WithCallbackMethod_ListSubsistenceMinimums<WithCallbackMethod_UpdateSubsistenceMinimum<WithCallbackMethod_DeleteSubsistenceMinimum<Service > > > > > > > > > > CallbackService;
+  typedef WithCallbackMethod_CalculatePension<WithCallbackMethod_ListCoefficients<WithCallbackMethod_AddCoefficient<WithCallbackMethod_UpdateCoefficient<WithCallbackMethod_DeleteCoefficient<WithCallbackMethod_SyncAverageSalaries<WithCallbackMethod_GetAverageSalaries<WithCallbackMethod_UpsertSubsistenceMinimum<WithCallbackMethod_ListSubsistenceMinimums<WithCallbackMethod_UpdateSubsistenceMinimum<WithCallbackMethod_DeleteSubsistenceMinimum<Service > > > > > > > > > > > CallbackService;
   typedef CallbackService ExperimentalCallbackService;
   template <class BaseClass>
   class WithGenericMethod_CalculatePension : public BaseClass {
@@ -885,12 +956,29 @@ class CalcService final {
     }
   };
   template <class BaseClass>
+  class WithGenericMethod_GetAverageSalaries : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithGenericMethod_GetAverageSalaries() {
+      ::grpc::Service::MarkMethodGeneric(6);
+    }
+    ~WithGenericMethod_GetAverageSalaries() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetAverageSalaries(::grpc::ServerContext* /*context*/, const ::calc::GetAverageSalariesRequest* /*request*/, ::calc::GetAverageSalariesResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+  };
+  template <class BaseClass>
   class WithGenericMethod_UpsertSubsistenceMinimum : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_UpsertSubsistenceMinimum() {
-      ::grpc::Service::MarkMethodGeneric(6);
+      ::grpc::Service::MarkMethodGeneric(7);
     }
     ~WithGenericMethod_UpsertSubsistenceMinimum() override {
       BaseClassMustBeDerivedFromService(this);
@@ -907,7 +995,7 @@ class CalcService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_ListSubsistenceMinimums() {
-      ::grpc::Service::MarkMethodGeneric(7);
+      ::grpc::Service::MarkMethodGeneric(8);
     }
     ~WithGenericMethod_ListSubsistenceMinimums() override {
       BaseClassMustBeDerivedFromService(this);
@@ -924,7 +1012,7 @@ class CalcService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_UpdateSubsistenceMinimum() {
-      ::grpc::Service::MarkMethodGeneric(8);
+      ::grpc::Service::MarkMethodGeneric(9);
     }
     ~WithGenericMethod_UpdateSubsistenceMinimum() override {
       BaseClassMustBeDerivedFromService(this);
@@ -941,7 +1029,7 @@ class CalcService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithGenericMethod_DeleteSubsistenceMinimum() {
-      ::grpc::Service::MarkMethodGeneric(9);
+      ::grpc::Service::MarkMethodGeneric(10);
     }
     ~WithGenericMethod_DeleteSubsistenceMinimum() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1073,12 +1161,32 @@ class CalcService final {
     }
   };
   template <class BaseClass>
+  class WithRawMethod_GetAverageSalaries : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawMethod_GetAverageSalaries() {
+      ::grpc::Service::MarkMethodRaw(6);
+    }
+    ~WithRawMethod_GetAverageSalaries() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetAverageSalaries(::grpc::ServerContext* /*context*/, const ::calc::GetAverageSalariesRequest* /*request*/, ::calc::GetAverageSalariesResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    void RequestGetAverageSalaries(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
+      ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
+    }
+  };
+  template <class BaseClass>
   class WithRawMethod_UpsertSubsistenceMinimum : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_UpsertSubsistenceMinimum() {
-      ::grpc::Service::MarkMethodRaw(6);
+      ::grpc::Service::MarkMethodRaw(7);
     }
     ~WithRawMethod_UpsertSubsistenceMinimum() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1089,7 +1197,7 @@ class CalcService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestUpsertSubsistenceMinimum(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(6, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1098,7 +1206,7 @@ class CalcService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_ListSubsistenceMinimums() {
-      ::grpc::Service::MarkMethodRaw(7);
+      ::grpc::Service::MarkMethodRaw(8);
     }
     ~WithRawMethod_ListSubsistenceMinimums() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1109,7 +1217,7 @@ class CalcService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestListSubsistenceMinimums(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(7, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(8, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1118,7 +1226,7 @@ class CalcService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_UpdateSubsistenceMinimum() {
-      ::grpc::Service::MarkMethodRaw(8);
+      ::grpc::Service::MarkMethodRaw(9);
     }
     ~WithRawMethod_UpdateSubsistenceMinimum() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1129,7 +1237,7 @@ class CalcService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestUpdateSubsistenceMinimum(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(8, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(9, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1138,7 +1246,7 @@ class CalcService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawMethod_DeleteSubsistenceMinimum() {
-      ::grpc::Service::MarkMethodRaw(9);
+      ::grpc::Service::MarkMethodRaw(10);
     }
     ~WithRawMethod_DeleteSubsistenceMinimum() override {
       BaseClassMustBeDerivedFromService(this);
@@ -1149,7 +1257,7 @@ class CalcService final {
       return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
     }
     void RequestDeleteSubsistenceMinimum(::grpc::ServerContext* context, ::grpc::ByteBuffer* request, ::grpc::ServerAsyncResponseWriter< ::grpc::ByteBuffer>* response, ::grpc::CompletionQueue* new_call_cq, ::grpc::ServerCompletionQueue* notification_cq, void *tag) {
-      ::grpc::Service::RequestAsyncUnary(9, context, request, response, new_call_cq, notification_cq, tag);
+      ::grpc::Service::RequestAsyncUnary(10, context, request, response, new_call_cq, notification_cq, tag);
     }
   };
   template <class BaseClass>
@@ -1285,12 +1393,34 @@ class CalcService final {
       ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
   };
   template <class BaseClass>
+  class WithRawCallbackMethod_GetAverageSalaries : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithRawCallbackMethod_GetAverageSalaries() {
+      ::grpc::Service::MarkMethodRawCallback(6,
+          new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
+            [this](
+                   ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->GetAverageSalaries(context, request, response); }));
+    }
+    ~WithRawCallbackMethod_GetAverageSalaries() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable synchronous version of this method
+    ::grpc::Status GetAverageSalaries(::grpc::ServerContext* /*context*/, const ::calc::GetAverageSalariesRequest* /*request*/, ::calc::GetAverageSalariesResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    virtual ::grpc::ServerUnaryReactor* GetAverageSalaries(
+      ::grpc::CallbackServerContext* /*context*/, const ::grpc::ByteBuffer* /*request*/, ::grpc::ByteBuffer* /*response*/)  { return nullptr; }
+  };
+  template <class BaseClass>
   class WithRawCallbackMethod_UpsertSubsistenceMinimum : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_UpsertSubsistenceMinimum() {
-      ::grpc::Service::MarkMethodRawCallback(6,
+      ::grpc::Service::MarkMethodRawCallback(7,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->UpsertSubsistenceMinimum(context, request, response); }));
@@ -1312,7 +1442,7 @@ class CalcService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_ListSubsistenceMinimums() {
-      ::grpc::Service::MarkMethodRawCallback(7,
+      ::grpc::Service::MarkMethodRawCallback(8,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->ListSubsistenceMinimums(context, request, response); }));
@@ -1334,7 +1464,7 @@ class CalcService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_UpdateSubsistenceMinimum() {
-      ::grpc::Service::MarkMethodRawCallback(8,
+      ::grpc::Service::MarkMethodRawCallback(9,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->UpdateSubsistenceMinimum(context, request, response); }));
@@ -1356,7 +1486,7 @@ class CalcService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithRawCallbackMethod_DeleteSubsistenceMinimum() {
-      ::grpc::Service::MarkMethodRawCallback(9,
+      ::grpc::Service::MarkMethodRawCallback(10,
           new ::grpc::internal::CallbackUnaryHandler< ::grpc::ByteBuffer, ::grpc::ByteBuffer>(
             [this](
                    ::grpc::CallbackServerContext* context, const ::grpc::ByteBuffer* request, ::grpc::ByteBuffer* response) { return this->DeleteSubsistenceMinimum(context, request, response); }));
@@ -1535,12 +1665,39 @@ class CalcService final {
     virtual ::grpc::Status StreamedSyncAverageSalaries(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::calc::SyncAverageSalariesRequest,::calc::SyncAverageSalariesResponse>* server_unary_streamer) = 0;
   };
   template <class BaseClass>
+  class WithStreamedUnaryMethod_GetAverageSalaries : public BaseClass {
+   private:
+    void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
+   public:
+    WithStreamedUnaryMethod_GetAverageSalaries() {
+      ::grpc::Service::MarkMethodStreamed(6,
+        new ::grpc::internal::StreamedUnaryHandler<
+          ::calc::GetAverageSalariesRequest, ::calc::GetAverageSalariesResponse>(
+            [this](::grpc::ServerContext* context,
+                   ::grpc::ServerUnaryStreamer<
+                     ::calc::GetAverageSalariesRequest, ::calc::GetAverageSalariesResponse>* streamer) {
+                       return this->StreamedGetAverageSalaries(context,
+                         streamer);
+                  }));
+    }
+    ~WithStreamedUnaryMethod_GetAverageSalaries() override {
+      BaseClassMustBeDerivedFromService(this);
+    }
+    // disable regular version of this method
+    ::grpc::Status GetAverageSalaries(::grpc::ServerContext* /*context*/, const ::calc::GetAverageSalariesRequest* /*request*/, ::calc::GetAverageSalariesResponse* /*response*/) override {
+      abort();
+      return ::grpc::Status(::grpc::StatusCode::UNIMPLEMENTED, "");
+    }
+    // replace default version of method with streamed unary
+    virtual ::grpc::Status StreamedGetAverageSalaries(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::calc::GetAverageSalariesRequest,::calc::GetAverageSalariesResponse>* server_unary_streamer) = 0;
+  };
+  template <class BaseClass>
   class WithStreamedUnaryMethod_UpsertSubsistenceMinimum : public BaseClass {
    private:
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_UpsertSubsistenceMinimum() {
-      ::grpc::Service::MarkMethodStreamed(6,
+      ::grpc::Service::MarkMethodStreamed(7,
         new ::grpc::internal::StreamedUnaryHandler<
           ::calc::UpsertSubsistenceMinimumRequest, ::calc::UpsertSubsistenceMinimumResponse>(
             [this](::grpc::ServerContext* context,
@@ -1567,7 +1724,7 @@ class CalcService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_ListSubsistenceMinimums() {
-      ::grpc::Service::MarkMethodStreamed(7,
+      ::grpc::Service::MarkMethodStreamed(8,
         new ::grpc::internal::StreamedUnaryHandler<
           ::calc::ListSubsistenceMinimumsRequest, ::calc::ListSubsistenceMinimumsResponse>(
             [this](::grpc::ServerContext* context,
@@ -1594,7 +1751,7 @@ class CalcService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_UpdateSubsistenceMinimum() {
-      ::grpc::Service::MarkMethodStreamed(8,
+      ::grpc::Service::MarkMethodStreamed(9,
         new ::grpc::internal::StreamedUnaryHandler<
           ::calc::UpdateSubsistenceMinimumRequest, ::calc::UpdateSubsistenceMinimumResponse>(
             [this](::grpc::ServerContext* context,
@@ -1621,7 +1778,7 @@ class CalcService final {
     void BaseClassMustBeDerivedFromService(const Service* /*service*/) {}
    public:
     WithStreamedUnaryMethod_DeleteSubsistenceMinimum() {
-      ::grpc::Service::MarkMethodStreamed(9,
+      ::grpc::Service::MarkMethodStreamed(10,
         new ::grpc::internal::StreamedUnaryHandler<
           ::calc::DeleteSubsistenceMinimumRequest, ::calc::DeleteSubsistenceMinimumResponse>(
             [this](::grpc::ServerContext* context,
@@ -1642,9 +1799,9 @@ class CalcService final {
     // replace default version of method with streamed unary
     virtual ::grpc::Status StreamedDeleteSubsistenceMinimum(::grpc::ServerContext* context, ::grpc::ServerUnaryStreamer< ::calc::DeleteSubsistenceMinimumRequest,::calc::DeleteSubsistenceMinimumResponse>* server_unary_streamer) = 0;
   };
-  typedef WithStreamedUnaryMethod_CalculatePension<WithStreamedUnaryMethod_ListCoefficients<WithStreamedUnaryMethod_AddCoefficient<WithStreamedUnaryMethod_UpdateCoefficient<WithStreamedUnaryMethod_DeleteCoefficient<WithStreamedUnaryMethod_SyncAverageSalaries<WithStreamedUnaryMethod_UpsertSubsistenceMinimum<WithStreamedUnaryMethod_ListSubsistenceMinimums<WithStreamedUnaryMethod_UpdateSubsistenceMinimum<WithStreamedUnaryMethod_DeleteSubsistenceMinimum<Service > > > > > > > > > > StreamedUnaryService;
+  typedef WithStreamedUnaryMethod_CalculatePension<WithStreamedUnaryMethod_ListCoefficients<WithStreamedUnaryMethod_AddCoefficient<WithStreamedUnaryMethod_UpdateCoefficient<WithStreamedUnaryMethod_DeleteCoefficient<WithStreamedUnaryMethod_SyncAverageSalaries<WithStreamedUnaryMethod_GetAverageSalaries<WithStreamedUnaryMethod_UpsertSubsistenceMinimum<WithStreamedUnaryMethod_ListSubsistenceMinimums<WithStreamedUnaryMethod_UpdateSubsistenceMinimum<WithStreamedUnaryMethod_DeleteSubsistenceMinimum<Service > > > > > > > > > > > StreamedUnaryService;
   typedef Service SplitStreamedService;
-  typedef WithStreamedUnaryMethod_CalculatePension<WithStreamedUnaryMethod_ListCoefficients<WithStreamedUnaryMethod_AddCoefficient<WithStreamedUnaryMethod_UpdateCoefficient<WithStreamedUnaryMethod_DeleteCoefficient<WithStreamedUnaryMethod_SyncAverageSalaries<WithStreamedUnaryMethod_UpsertSubsistenceMinimum<WithStreamedUnaryMethod_ListSubsistenceMinimums<WithStreamedUnaryMethod_UpdateSubsistenceMinimum<WithStreamedUnaryMethod_DeleteSubsistenceMinimum<Service > > > > > > > > > > StreamedService;
+  typedef WithStreamedUnaryMethod_CalculatePension<WithStreamedUnaryMethod_ListCoefficients<WithStreamedUnaryMethod_AddCoefficient<WithStreamedUnaryMethod_UpdateCoefficient<WithStreamedUnaryMethod_DeleteCoefficient<WithStreamedUnaryMethod_SyncAverageSalaries<WithStreamedUnaryMethod_GetAverageSalaries<WithStreamedUnaryMethod_UpsertSubsistenceMinimum<WithStreamedUnaryMethod_ListSubsistenceMinimums<WithStreamedUnaryMethod_UpdateSubsistenceMinimum<WithStreamedUnaryMethod_DeleteSubsistenceMinimum<Service > > > > > > > > > > > StreamedService;
 };
 
 }  // namespace calc

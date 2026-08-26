@@ -19,6 +19,7 @@ trait ProfileValidationRules
             'first_name' => $this->firstNameRules(),
             'last_name' => $this->lastNameRules(),
             'email' => $this->emailRules($userId),
+            'gender' => ['nullable', 'string', 'in:MALE,FEMALE,male,female'],
             'date_of_birth' => ['nullable', 'date', 'before:today'],
             'disability_group' => ['nullable', 'string', 'in:none,group_1,group_2,group_3'],
             'target_retirement_year' => ['nullable', 'integer', 'min:1950', 'max:2099'],

@@ -50,6 +50,13 @@ class CalcServiceClient extends \Grpc\BaseStub {
             $metadata, $options);
     }
 
+    public function GetAverageSalaries(\Calc\GetAverageSalariesRequest $argument, $metadata = [], $options = []) {
+        return $this->_simpleRequest('/calc.CalcService/GetAverageSalaries',
+            $argument,
+            ['\Calc\GetAverageSalariesResponse', 'decode'],
+            $metadata, $options);
+    }
+
     public function UpsertSubsistenceMinimum(\Calc\UpsertSubsistenceMinimumRequest $argument, $metadata = [], $options = []) {
         return $this->_simpleRequest('/calc.CalcService/UpsertSubsistenceMinimum',
             $argument,

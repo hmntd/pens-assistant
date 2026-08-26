@@ -23,14 +23,15 @@ class UploadDocumentController extends Controller
             'document_type' => ['nullable', 'string', 'max:50'],
         ]);
 
-        $file = $request->file('file');
-        if (!$file) {
+        if (! $request->hasFile('file') || ! $request->file('file')->isValid()) {
             if ($request->wantsJson()) {
-                return response()->json(['message' => 'Файл не завантажено.'], Response::HTTP_UNPROCESSABLE_ENTITY);
+                return response()->json(['message' => 'File not uploaded.'], Response::HTTP_UNPROCESSABLE_ENTITY);
             }
-            return redirect()->back()->withErrors(['file' => 'Файл не завантажено.']);
+
+            return redirect()->back()->withErrors(['file' => 'File not uploaded.']);
         }
 
+        $file = $request->file('file');
         $originalFilename = $file->getClientOriginalName();
         $storedPath = $file->store('documents/' . $user->id, 'local');
 

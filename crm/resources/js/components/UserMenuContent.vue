@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Link, router } from '@inertiajs/vue3';
-import { LogOut, Settings } from '@lucide/vue';
+import { LogOut, Settings, Shield } from '@lucide/vue';
 import { useI18n } from '@/composables/useI18n';
 import {
     DropdownMenuGroup,
@@ -34,6 +34,12 @@ defineProps<Props>();
     </DropdownMenuLabel>
     <DropdownMenuSeparator class="bg-slate-100 dark:bg-zinc-800" />
     <DropdownMenuGroup>
+        <DropdownMenuItem v-if="user.is_admin" :as-child="true" class="cursor-pointer text-slate-800 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-zinc-800 focus:bg-slate-100 dark:focus:bg-zinc-800 focus:text-slate-900 dark:focus:text-white font-bold text-amber-600 dark:text-amber-400">
+            <Link class="flex items-center w-full px-2 py-1.5" href="/admin">
+                <Shield class="mr-2 h-4 w-4 text-amber-500" />
+                Панель адміна
+            </Link>
+        </DropdownMenuItem>
         <DropdownMenuItem :as-child="true" class="cursor-pointer text-slate-800 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-zinc-800 focus:bg-slate-100 dark:focus:bg-zinc-800 focus:text-slate-900 dark:focus:text-white font-medium">
             <Link class="flex items-center w-full px-2 py-1.5" :href="edit()" prefetch>
                 <Settings class="mr-2 h-4 w-4 text-main" />

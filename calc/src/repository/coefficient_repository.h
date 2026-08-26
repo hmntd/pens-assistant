@@ -32,6 +32,13 @@ namespace calc
             double age_surcharge_cap{0.0};
         };
 
+        struct AverageSalaryData
+        {
+            int year{0};
+            int month{0};
+            double amount{0.0};
+        };
+
         class CoefficientRepository
         {
         private:
@@ -53,6 +60,7 @@ namespace calc
             double getAverageSalary(int year, int month) const;
             double getMacroeconomicAverageSalary(int retirement_year) const;
             bool upsertAverageSalary(int year, int month, double amount);
+            std::vector<AverageSalaryData> getAverageSalariesForYears(const std::vector<int> &years) const;
             service::SubsistenceLimits getSubsistenceLimits(int year) const;
             bool upsertSubsistenceLimits(int year, double for_disabled, double general, double age_surcharge_cap = 10340.35);
             std::vector<SubsistenceMinimumRecord> listSubsistenceMinimums() const;

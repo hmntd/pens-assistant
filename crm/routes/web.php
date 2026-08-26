@@ -1,12 +1,26 @@
 <?php
 
 use App\Http\Controllers\Admin\DeleteSubsistenceMinimumController;
+use App\Http\Controllers\Admin\Document\AdminDeleteDocumentController;
+use App\Http\Controllers\Admin\Document\AdminDownloadDocumentController;
 use App\Http\Controllers\Admin\Document\AdminIndexDocumentController;
 use App\Http\Controllers\Admin\Document\AdminIndexDocumentStatusesController;
 use App\Http\Controllers\Admin\Document\AdminShowDocumentController;
 use App\Http\Controllers\Admin\IndexSubsistenceMinimumController;
+use App\Http\Controllers\Admin\PensionCalculation\AdminDeletePensionCalculationController;
+use App\Http\Controllers\Admin\PensionCalculation\AdminIndexPensionCalculationController;
+use App\Http\Controllers\Admin\PensionCalculation\AdminShowPensionCalculationController;
 use App\Http\Controllers\Admin\StoreSubsistenceMinimumController;
+use App\Http\Controllers\Admin\Translation\AdminIndexTranslationController;
+use App\Http\Controllers\Admin\Translation\AdminStoreTranslationController;
+use App\Http\Controllers\Admin\Translation\AdminUpdateTranslationController;
 use App\Http\Controllers\Admin\UpdateSubsistenceMinimumController;
+use App\Http\Controllers\Admin\User\AdminDeleteUserController;
+use App\Http\Controllers\Admin\User\AdminIndexUserController;
+use App\Http\Controllers\Admin\User\AdminRestoreUserController;
+use App\Http\Controllers\Admin\User\AdminShowUserController;
+use App\Http\Controllers\Admin\User\AdminToggleUserSuspendController;
+use App\Http\Controllers\Admin\User\AdminUpdateUserRoleController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Document\DeleteDocumentController;
 use App\Http\Controllers\Document\DeleteTaxHistoryController;
@@ -46,6 +60,7 @@ Route::middleware(['auth'])->prefix('pension-calculations')->group(function () {
     Route::get('/', IndexPensionCalculationController::class)->name('pension-calculations.index');
     Route::post('/', StorePensionCalculationController::class)->name('pension-calculations.store');
     Route::get('/{id}', ShowPensionCalculationController::class)->name('pension-calculations.show');
+    Route::get('/{id}/breakdown', \App\Http\Controllers\PensionCalculationBreakdownController::class)->name('pension-calculations.breakdown');
 });
 
 Route::middleware(['auth'])->prefix('documents')->group(function () {
@@ -59,17 +74,41 @@ Route::middleware(['auth'])->prefix('documents')->group(function () {
     Route::delete('/{id}', DeleteDocumentController::class)->name('documents.destroy');
 });
 
-Route::middleware(['auth', 'admin'])->prefix('admin/documents')->group(function () {
-    Route::get('/', AdminIndexDocumentController::class)->name('admin.documents.index');
-    Route::get('/statuses', AdminIndexDocumentStatusesController::class)->name('admin.documents.statuses');
-    Route::get('/{id}', AdminShowDocumentController::class)->name('admin.documents.show');
-});
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/', function () {
+        return \Inertia\Inertia::render('admin/AdminDashboard');
+    })->name('dashboard');
 
-Route::middleware(['auth', 'admin'])->prefix('admin/subsistence-minimums')->group(function () {
-    Route::get('/', IndexSubsistenceMinimumController::class)->name('admin.subsistence-minimums.index');
-    Route::post('/', StoreSubsistenceMinimumController::class)->name('admin.subsistence-minimums.store');
-    Route::put('/{id}', UpdateSubsistenceMinimumController::class)->name('admin.subsistence-minimums.update');
-    Route::delete('/{id}', DeleteSubsistenceMinimumController::class)->name('admin.subsistence-minimums.destroy');
+    // Section 1: User Management
+    Route::get('/users', AdminIndexUserController::class)->name('users.index');
+    Route::get('/users/{id}', AdminShowUserController::class)->name('users.show');
+    Route::put('/users/{id}/role', AdminUpdateUserRoleController::class)->name('users.update-role');
+    Route::post('/users/{id}/toggle-suspend', AdminToggleUserSuspendController::class)->name('users.toggle-suspend');
+    Route::delete('/users/{id}', AdminDeleteUserController::class)->name('users.destroy');
+    Route::post('/users/{id}/restore', AdminRestoreUserController::class)->name('users.restore');
+
+    // Section 2: Calculation Results History
+    Route::get('/pension-calculations', AdminIndexPensionCalculationController::class)->name('pension-calculations.index');
+    Route::get('/pension-calculations/{id}', AdminShowPensionCalculationController::class)->name('pension-calculations.show');
+    Route::delete('/pension-calculations/{id}', AdminDeletePensionCalculationController::class)->name('pension-calculations.destroy');
+
+    // Section 3: Documents Management
+    Route::get('/documents', AdminIndexDocumentController::class)->name('documents.index');
+    Route::get('/documents/statuses', AdminIndexDocumentStatusesController::class)->name('documents.statuses');
+    Route::get('/documents/{id}', AdminShowDocumentController::class)->name('documents.show');
+    Route::get('/documents/{id}/download', AdminDownloadDocumentController::class)->name('documents.download');
+    Route::delete('/documents/{id}', AdminDeleteDocumentController::class)->name('documents.destroy');
+
+    // Section 4: Translation (i18n) Manager
+    Route::get('/translations', AdminIndexTranslationController::class)->name('translations.index');
+    Route::post('/translations', AdminStoreTranslationController::class)->name('translations.store');
+    Route::put('/translations', AdminUpdateTranslationController::class)->name('translations.update');
+
+    // Subsistence Minimums
+    Route::get('/subsistence-minimums', IndexSubsistenceMinimumController::class)->name('subsistence-minimums.index');
+    Route::post('/subsistence-minimums', StoreSubsistenceMinimumController::class)->name('subsistence-minimums.store');
+    Route::put('/subsistence-minimums/{id}', UpdateSubsistenceMinimumController::class)->name('subsistence-minimums.update');
+    Route::delete('/subsistence-minimums/{id}', DeleteSubsistenceMinimumController::class)->name('subsistence-minimums.destroy');
 });
 
 Route::middleware(['auth', 'admin'])->prefix('pension-coefficients')->group(function () {

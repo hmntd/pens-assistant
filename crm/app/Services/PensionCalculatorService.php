@@ -47,10 +47,14 @@ class PensionCalculatorService
 
         // Gender: input override -> user profile
         $rawGender = $data['gender'] ?? $user->gender;
+        if (empty($rawGender)) {
+            throw new \InvalidArgumentException('Gender is not specified.');
+        }
         $genderStr = strtoupper((string) $rawGender);
         $genderVal = match ($genderStr) {
             'FEMALE' => Gender::FEMALE,
-            default => Gender::MALE,
+            'MALE' => Gender::MALE,
+            default => throw new \InvalidArgumentException('Invalid gender.'),
         };
         $request->setGender($genderVal);
 
@@ -58,7 +62,7 @@ class PensionCalculatorService
         $userDob = $user->date_of_birth ? $user->date_of_birth->format('Y-m-d') : null;
         $dobStr = (string) ($data['date_of_birth'] ?? $userDob);
         if (empty($dobStr)) {
-            throw new \InvalidArgumentException('Дата народження не вказана у профілі користувача.');
+            throw new \InvalidArgumentException('Date of birth is not specified.');
         }
         $request->setDateOfBirth($dobStr);
 

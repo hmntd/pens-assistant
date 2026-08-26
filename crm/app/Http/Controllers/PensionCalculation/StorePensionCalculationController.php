@@ -38,7 +38,12 @@ class StorePensionCalculationController extends Controller
             ?? $fallbackRetirementYear;
 
         if (empty($targetRetirementYear)) {
-            $errors['target_retirement_year'] = ['Плановий рік виходу на пенсію не вказано в профілі.'];
+            $errors['target_retirement_year'] = ['Target retirement year is not specified in profile.'];
+        }
+
+        $gender = $request->input('gender') ?? $targetUser->gender;
+        if (empty($gender)) {
+            $errors['gender'] = ['Gender is not specified in user profile. Select a gender for calculation.'];
         }
 
         // Validate insurance service (salary history, employment history, tax history, or full profile dates)
@@ -47,7 +52,7 @@ class StorePensionCalculationController extends Controller
             || $targetUser->taxHistories()->count() > 0;
 
         if (! $hasSalaryOrService) {
-            $errors['insurance_service'] = ['Історія страхового стажу порожня. Завантажте документи або введіть стаж вручну.'];
+            $errors['insurance_service'] = ['Insurance service history is empty. Upload documents or enter service manually.'];
         }
 
         if (! empty($errors)) {

@@ -72,7 +72,7 @@ class UpdateTaxHistoryController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'message' => 'Історію місячних зарплат за рік збережено.',
+            'message' => 'Monthly salary history for year saved successfully.',
             'data' => $taxHistory,
         ], Response::HTTP_OK);
     }

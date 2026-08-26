@@ -61,6 +61,57 @@ class TaxHistoryManagementTest extends TestCase
         ]);
     }
 
+    public function test_cannot_store_tax_history_for_future_years(): void
+    {
+        $user = User::factory()->create();
+        $futureYear = (int) date('Y') + 1;
+
+        $response = $this->actingAs($user)->postJson(route('documents.tax-histories.store'), [
+            'is_range' => false,
+            'year' => $futureYear,
+            'monthly_salary' => 15000,
+            'months_worked' => 12,
+        ]);
+
+        $response->assertStatus(422);
+    }
+
+    public function test_cannot_store_tax_history_range_where_from_year_is_greater_than_or_equal_to_to_year(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->postJson(route('documents.tax-histories.store'), [
+            'is_range' => true,
+            'from_year' => 2024,
+            'to_year' => 2020,
+            'monthly_salary' => 15000,
+            'months_worked' => 12,
+        ]);
+
+        $response->assertStatus(422);
+    }
+
+    public function test_can_store_pre_2000_tax_history_without_salary(): void
+    {
+        $user = User::factory()->create();
+
+        $response = $this->actingAs($user)->post(route('documents.tax-histories.store'), [
+            'is_range' => false,
+            'year' => 1995,
+            'monthly_salary' => 0,
+            'months_worked' => 12,
+        ]);
+
+        $response->assertCreated();
+
+        $this->assertDatabaseHas('tax_histories', [
+            'user_id' => $user->id,
+            'year' => 1995,
+            'annual_income' => 0.00,
+            'months_worked' => 12,
+        ]);
+    }
+
     public function test_calculation_restricted_when_user_data_is_missing(): void
     {
         $user = User::factory()->create([
@@ -77,6 +128,8 @@ class TaxHistoryManagementTest extends TestCase
     public function test_calculation_allowed_when_user_data_is_provided(): void
     {
         $user = User::factory()->create([
+            'gender' => 'MALE',
+            'date_of_birth' => '1970-01-01',
             'target_retirement_year' => 2035,
         ]);
 

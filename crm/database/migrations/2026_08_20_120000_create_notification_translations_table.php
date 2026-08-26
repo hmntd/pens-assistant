@@ -59,8 +59,9 @@ return new class extends Migration
         $notifications = DB::table('notifications')->get();
         foreach ($notifications as $notif) {
             if ($notif->notification_translation_id) {
+                /** @var stdClass|null $trans */
                 $trans = DB::table('notification_translations')->find($notif->notification_translation_id);
-                if ($trans) {
+                if ($trans && property_exists($trans, 'uk')) {
                     DB::table('notifications')
                         ->where('id', $notif->id)
                         ->update(['message' => $trans->uk]);

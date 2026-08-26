@@ -154,6 +154,142 @@ void test_age_based_surcharges()
     std::cout << "  ✓ test_age_based_surcharges passed! (Verified +300, +456, +570 UAH brackets and 10,340.35 UAH cap)" << std::endl;
 }
 
+void test_pre_2000_salary_history_law_1058_art40()
+{
+    std::cout << "[Unit Test] Running test_pre_2000_salary_history_law_1058_art40..." << std::endl;
+    calc::repository::CoefficientRepository repo(true);
+
+    for (int y = 1985; y <= 1989; ++y)
+    {
+        repo.upsertAverageSalary(y, 0, 173.95);
+    }
+
+    calc::service::PensionCalculator calculator(repo);
+
+    calc::CalculatePensionRequest request;
+    request.set_customer_id("pre-2000-user");
+    request.set_gender(calc::Gender::MALE);
+    request.set_date_of_birth("1960-01-01");
+    request.set_retirement_date("2024-06-01");
+    request.set_pension_type(calc::PensionType::OLD_AGE);
+    request.set_zp_macroeconomic_average(13559.41);
+
+    auto *period = request.add_employment_history();
+    period->set_start_date("1985-01-01");
+    period->set_end_date("1989-12-31");
+    period->set_multiplier(1.0);
+
+    for (int y = 1985; y <= 1989; ++y)
+    {
+        for (int m = 1; m <= 12; ++m)
+        {
+            auto *s = request.add_salary_history();
+            s->set_year(y);
+            s->set_month(m);
+            s->set_amount(200.0);
+        }
+    }
+
+    auto res = calculator.calculate(&request);
+    assert(res.success == true);
+    assert(res.total_service_months == 60);
+    assert(res.kz_wage_coefficient > 1.0 && res.kz_wage_coefficient < 1.30);
+
+    std::cout << "  ✓ test_pre_2000_salary_history_law_1058_art40 passed! (Kz = " << res.kz_wage_coefficient << ")" << std::endl;
+}
+
+void test_pre_2000_zero_salary_service_only()
+{
+    std::cout << "[TEST] Running test_pre_2000_zero_salary_service_only..." << std::endl;
+
+    calc::repository::CoefficientRepository repo(true);
+    calc::service::PensionCalculator calculator(repo);
+
+    calc::CalculatePensionRequest request;
+    request.set_customer_id("pre-2000-zero-salary-user");
+    request.set_gender(calc::Gender::MALE);
+    request.set_date_of_birth("1960-01-01");
+    request.set_retirement_date("2025-01-01");
+    request.set_pension_type(calc::PensionType::OLD_AGE);
+    request.set_enable_hypothetical_projection(false);
+
+    // 1) 5 years pre-2000 service (1990-1994) -> 60 months service, 0 salary records
+    auto ep_pre = request.add_employment_history();
+    ep_pre->set_start_date("1990-01-01");
+    ep_pre->set_end_date("1994-12-31");
+    ep_pre->set_multiplier(1.0);
+
+    // 2) 5 years post-2000 service with salary (2015-2019) -> 60 months service & salary
+    auto ep_post = request.add_employment_history();
+    ep_post->set_start_date("2015-01-01");
+    ep_post->set_end_date("2019-12-31");
+    ep_post->set_multiplier(1.0);
+
+    for (int y = 2015; y <= 2019; ++y)
+    {
+        for (int m = 1; m <= 12; ++m)
+        {
+            repo.upsertAverageSalary(y, m, 10000.0);
+            auto *s = request.add_salary_history();
+            s->set_year(y);
+            s->set_month(m);
+            s->set_amount(15000.0);
+        }
+    }
+
+    auto res = calculator.calculate(&request);
+
+    assert(res.success == true);
+    assert(res.total_service_months == 120);
+    assert(res.kz_wage_coefficient > 1.4 && res.kz_wage_coefficient < 1.6); // 15000 / 10000 = 1.5
+
+    std::cout << "  ✓ test_pre_2000_zero_salary_service_only passed! (Total months = "
+              << res.total_service_months << ", Kz = " << res.kz_wage_coefficient << ")" << std::endl;
+}
+
+void test_women_overtime_service_allowance()
+{
+    std::cout << "[TEST] Running test_women_overtime_service_allowance..." << std::endl;
+
+    calc::repository::CoefficientRepository repo(true);
+    calc::service::PensionCalculator calculator(repo);
+
+    calc::CalculatePensionRequest request;
+    request.set_customer_id("women-overtime-user");
+    request.set_gender(calc::Gender::FEMALE);
+    request.set_date_of_birth("1964-01-01");
+    request.set_retirement_date("2024-06-01");
+    request.set_pension_type(calc::PensionType::OLD_AGE);
+    request.set_zp_macroeconomic_average(13559.41);
+    request.mutable_subsistence_minimums()->set_for_disabled_persons(2361.0);
+    request.mutable_subsistence_minimums()->set_general_minimum(2920.0);
+
+    // 34 years of service (408 months) -> 4 extra years over 30 years threshold for women
+    auto ep = request.add_employment_history();
+    ep->set_start_date("1990-01-01");
+    ep->set_end_date("2023-12-31");
+    ep->set_multiplier(1.0);
+
+    for (int m = 1; m <= 12; ++m)
+    {
+        repo.upsertAverageSalary(2023, m, 18000.0);
+        auto *s = request.add_salary_history();
+        s->set_year(2023);
+        s->set_month(m);
+        s->set_amount(25000.0);
+    }
+
+    auto res = calculator.calculate(&request);
+
+    assert(res.success == true);
+    assert(res.total_service_months == 408);
+    // 4 extra years * 1% of min(base_pension, 2361.0) = 4 * 23.61 = 94.44 UAH
+    assert(res.extra_service_allowance > 90.0 && res.extra_service_allowance < 100.0);
+
+    std::cout << "  ✓ test_women_overtime_service_allowance passed! (Extra Allowance: "
+              << res.extra_service_allowance << " UAH)" << std::endl;
+}
+
 int main()
 {
     std::cout << "=========================================" << std::endl;
@@ -163,6 +299,9 @@ int main()
     test_solidarity_pension_pipeline_stage1_to_5();
     test_disability_pension_modifiers();
     test_age_based_surcharges();
+    test_pre_2000_salary_history_law_1058_art40();
+    test_pre_2000_zero_salary_service_only();
+    test_women_overtime_service_allowance();
 
     std::cout << "=========================================" << std::endl;
     std::cout << "✅ All Ukrainian Pension Calculator Unit Tests Passed!" << std::endl;

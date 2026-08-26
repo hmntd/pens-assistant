@@ -19,11 +19,13 @@ class StoreTaxHistoryController extends Controller
         /** @var \App\Models\User $user */
         $user = $request->user();
 
+        $currentYear = (int) date('Y');
+
         $validated = $request->validate([
             'is_range' => ['nullable', 'boolean'],
-            'year' => ['nullable', 'integer', 'min:1950', 'max:2099'],
-            'from_year' => ['nullable', 'integer', 'min:1950', 'max:2099'],
-            'to_year' => ['nullable', 'integer', 'min:1950', 'max:2099'],
+            'year' => ['nullable', 'integer', 'min:1950', "max:{$currentYear}"],
+            'from_year' => ['nullable', 'integer', 'min:1950', "max:{$currentYear}"],
+            'to_year' => ['nullable', 'integer', 'min:1950', "max:{$currentYear}"],
             'monthly_salary' => ['required', 'numeric', 'min:0'],
             'months_worked' => ['required', 'integer', 'min:1', 'max:12'],
         ]);
@@ -36,10 +38,16 @@ class StoreTaxHistoryController extends Controller
 
         if ($isRange) {
             $fromYear = (int) ($validated['from_year'] ?? 2020);
-            $toYear = (int) ($validated['to_year'] ?? date('Y'));
+            $toYear = (int) ($validated['to_year'] ?? $currentYear);
 
             if ($fromYear > $toYear) {
-                list($fromYear, $toYear) = [$toYear, $fromYear];
+                if ($request->wantsJson()) {
+                    return response()->json([
+                        'message' => 'From year must be less than or equal to to year.',
+                        'errors' => ['from_year' => ['From year must be less than or equal to to year.']],
+                    ], Response::HTTP_UNPROCESSABLE_ENTITY);
+                }
+                return back()->withErrors(['from_year' => 'From year must be less than or equal to to year.']);
             }
 
             for ($yr = $fromYear; $yr <= $toYear; $yr++) {
@@ -118,7 +126,8 @@ class StoreTaxHistoryController extends Controller
             ->get();
 
         return response()->json([
-            'message' => 'Історію страхового стажу збережено.',
+            'status' => 'success',
+            'message' => 'Insurance service history saved successfully.',
             'data' => $allHistories,
         ], Response::HTTP_CREATED);
     }

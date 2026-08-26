@@ -41,6 +41,7 @@ PROTOBUF_CONSTEXPR SalaryMonthRecord::SalaryMonthRecord(
     /*decltype(_impl_.year_)*/0
   , /*decltype(_impl_.month_)*/0
   , /*decltype(_impl_.amount_)*/0
+  , /*decltype(_impl_.is_special_period_)*/false
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct SalaryMonthRecordDefaultTypeInternal {
   PROTOBUF_CONSTEXPR SalaryMonthRecordDefaultTypeInternal()
@@ -99,6 +100,7 @@ PROTOBUF_CONSTEXPR CalculatePensionRequest::CalculatePensionRequest(
   , /*decltype(_impl_.dependents_count_)*/0
   , /*decltype(_impl_.zp_macroeconomic_average_)*/0
   , /*decltype(_impl_.enable_optimization_rule_)*/false
+  , /*decltype(_impl_.enable_hypothetical_projection_)*/false
   , /*decltype(_impl_.birth_year_)*/0
   , /*decltype(_impl_.target_retirement_year_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
@@ -131,18 +133,20 @@ PROTOBUF_CONSTEXPR CalculatePensionResponse::CalculatePensionResponse(
     /*decltype(_impl_.applied_benefits_)*/{}
   , /*decltype(_impl_.calculation_logs_)*/{}
   , /*decltype(_impl_.error_message_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.hypothetical_disclaimer_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.final_pension_)*/0
   , /*decltype(_impl_.base_pension_)*/0
   , /*decltype(_impl_.zp_macroeconomic_average_)*/0
   , /*decltype(_impl_.kz_wage_coefficient_)*/0
   , /*decltype(_impl_.ks_service_coefficient_)*/0
   , /*decltype(_impl_.pension_type_modifier_)*/0
+  , /*decltype(_impl_.extra_service_allowance_)*/0
+  , /*decltype(_impl_.total_benefit_surcharges_)*/0
   , /*decltype(_impl_.total_service_months_)*/0
   , /*decltype(_impl_.success_)*/false
   , /*decltype(_impl_.is_minimum_clamped_)*/false
   , /*decltype(_impl_.is_maximum_clamped_)*/false
-  , /*decltype(_impl_.extra_service_allowance_)*/0
-  , /*decltype(_impl_.total_benefit_surcharges_)*/0
+  , /*decltype(_impl_.is_hypothetical_)*/false
   , /*decltype(_impl_.pre_clamped_pension_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct CalculatePensionResponseDefaultTypeInternal {
@@ -363,6 +367,35 @@ struct SyncAverageSalariesResponseDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 SyncAverageSalariesResponseDefaultTypeInternal _SyncAverageSalariesResponse_default_instance_;
+PROTOBUF_CONSTEXPR GetAverageSalariesRequest::GetAverageSalariesRequest(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.years_)*/{}
+  , /*decltype(_impl_._years_cached_byte_size_)*/{0}
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct GetAverageSalariesRequestDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR GetAverageSalariesRequestDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~GetAverageSalariesRequestDefaultTypeInternal() {}
+  union {
+    GetAverageSalariesRequest _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 GetAverageSalariesRequestDefaultTypeInternal _GetAverageSalariesRequest_default_instance_;
+PROTOBUF_CONSTEXPR GetAverageSalariesResponse::GetAverageSalariesResponse(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.salaries_)*/{}
+  , /*decltype(_impl_.error_message_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.success_)*/false
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct GetAverageSalariesResponseDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR GetAverageSalariesResponseDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~GetAverageSalariesResponseDefaultTypeInternal() {}
+  union {
+    GetAverageSalariesResponse _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 GetAverageSalariesResponseDefaultTypeInternal _GetAverageSalariesResponse_default_instance_;
 PROTOBUF_CONSTEXPR UpsertSubsistenceMinimumRequest::UpsertSubsistenceMinimumRequest(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.for_disabled_persons_)*/0
@@ -497,7 +530,7 @@ struct DeleteSubsistenceMinimumResponseDefaultTypeInternal {
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 DeleteSubsistenceMinimumResponseDefaultTypeInternal _DeleteSubsistenceMinimumResponse_default_instance_;
 }  // namespace calc
-static ::_pb::Metadata file_level_metadata_calc_2eproto[30];
+static ::_pb::Metadata file_level_metadata_calc_2eproto[32];
 static const ::_pb::EnumDescriptor* file_level_enum_descriptors_calc_2eproto[4];
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_calc_2eproto = nullptr;
 
@@ -520,6 +553,7 @@ const uint32_t TableStruct_calc_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(pro
   PROTOBUF_FIELD_OFFSET(::calc::SalaryMonthRecord, _impl_.year_),
   PROTOBUF_FIELD_OFFSET(::calc::SalaryMonthRecord, _impl_.month_),
   PROTOBUF_FIELD_OFFSET(::calc::SalaryMonthRecord, _impl_.amount_),
+  PROTOBUF_FIELD_OFFSET(::calc::SalaryMonthRecord, _impl_.is_special_period_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::calc::SubsistenceMinimums, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -561,6 +595,7 @@ const uint32_t TableStruct_calc_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(pro
   PROTOBUF_FIELD_OFFSET(::calc::CalculatePensionRequest, _impl_.history_),
   PROTOBUF_FIELD_OFFSET(::calc::CalculatePensionRequest, _impl_.birth_year_),
   PROTOBUF_FIELD_OFFSET(::calc::CalculatePensionRequest, _impl_.target_retirement_year_),
+  PROTOBUF_FIELD_OFFSET(::calc::CalculatePensionRequest, _impl_.enable_hypothetical_projection_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::calc::BenefitSurchargeDetail, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -592,6 +627,8 @@ const uint32_t TableStruct_calc_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(pro
   PROTOBUF_FIELD_OFFSET(::calc::CalculatePensionResponse, _impl_.applied_benefits_),
   PROTOBUF_FIELD_OFFSET(::calc::CalculatePensionResponse, _impl_.calculation_logs_),
   PROTOBUF_FIELD_OFFSET(::calc::CalculatePensionResponse, _impl_.error_message_),
+  PROTOBUF_FIELD_OFFSET(::calc::CalculatePensionResponse, _impl_.is_hypothetical_),
+  PROTOBUF_FIELD_OFFSET(::calc::CalculatePensionResponse, _impl_.hypothetical_disclaimer_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::calc::PensionRequest, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -719,6 +756,22 @@ const uint32_t TableStruct_calc_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(pro
   PROTOBUF_FIELD_OFFSET(::calc::SyncAverageSalariesResponse, _impl_.processed_count_),
   PROTOBUF_FIELD_OFFSET(::calc::SyncAverageSalariesResponse, _impl_.error_message_),
   ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::calc::GetAverageSalariesRequest, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::calc::GetAverageSalariesRequest, _impl_.years_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::calc::GetAverageSalariesResponse, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::calc::GetAverageSalariesResponse, _impl_.success_),
+  PROTOBUF_FIELD_OFFSET(::calc::GetAverageSalariesResponse, _impl_.salaries_),
+  PROTOBUF_FIELD_OFFSET(::calc::GetAverageSalariesResponse, _impl_.error_message_),
+  ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::calc::UpsertSubsistenceMinimumRequest, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
@@ -802,34 +855,36 @@ const uint32_t TableStruct_calc_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(pro
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::calc::EmploymentPeriod)},
   { 9, -1, -1, sizeof(::calc::SalaryMonthRecord)},
-  { 18, -1, -1, sizeof(::calc::SubsistenceMinimums)},
-  { 27, -1, -1, sizeof(::calc::TaxRecord)},
-  { 37, -1, -1, sizeof(::calc::CalculatePensionRequest)},
-  { 59, -1, -1, sizeof(::calc::BenefitSurchargeDetail)},
-  { 68, -1, -1, sizeof(::calc::CalculatePensionResponse)},
-  { 90, -1, -1, sizeof(::calc::PensionRequest)},
-  { 100, -1, -1, sizeof(::calc::PensionResponse)},
-  { 111, -1, -1, sizeof(::calc::PensionCoefficient)},
-  { 122, -1, -1, sizeof(::calc::ListCoefficientsRequest)},
-  { 128, -1, -1, sizeof(::calc::ListCoefficientsResponse)},
-  { 137, -1, -1, sizeof(::calc::AddCoefficientRequest)},
-  { 147, -1, -1, sizeof(::calc::AddCoefficientResponse)},
-  { 156, -1, -1, sizeof(::calc::UpdateCoefficientRequest)},
-  { 167, -1, -1, sizeof(::calc::UpdateCoefficientResponse)},
-  { 176, -1, -1, sizeof(::calc::DeleteCoefficientRequest)},
-  { 183, -1, -1, sizeof(::calc::DeleteCoefficientResponse)},
-  { 191, -1, -1, sizeof(::calc::AverageSalaryRecord)},
-  { 200, -1, -1, sizeof(::calc::SyncAverageSalariesRequest)},
-  { 207, -1, -1, sizeof(::calc::SyncAverageSalariesResponse)},
-  { 216, -1, -1, sizeof(::calc::UpsertSubsistenceMinimumRequest)},
-  { 226, -1, -1, sizeof(::calc::UpsertSubsistenceMinimumResponse)},
-  { 235, -1, -1, sizeof(::calc::ListSubsistenceMinimumsRequest)},
-  { 241, -1, -1, sizeof(::calc::SubsistenceMinimumRecord)},
-  { 252, -1, -1, sizeof(::calc::ListSubsistenceMinimumsResponse)},
-  { 261, -1, -1, sizeof(::calc::UpdateSubsistenceMinimumRequest)},
-  { 272, -1, -1, sizeof(::calc::UpdateSubsistenceMinimumResponse)},
-  { 281, -1, -1, sizeof(::calc::DeleteSubsistenceMinimumRequest)},
-  { 288, -1, -1, sizeof(::calc::DeleteSubsistenceMinimumResponse)},
+  { 19, -1, -1, sizeof(::calc::SubsistenceMinimums)},
+  { 28, -1, -1, sizeof(::calc::TaxRecord)},
+  { 38, -1, -1, sizeof(::calc::CalculatePensionRequest)},
+  { 61, -1, -1, sizeof(::calc::BenefitSurchargeDetail)},
+  { 70, -1, -1, sizeof(::calc::CalculatePensionResponse)},
+  { 94, -1, -1, sizeof(::calc::PensionRequest)},
+  { 104, -1, -1, sizeof(::calc::PensionResponse)},
+  { 115, -1, -1, sizeof(::calc::PensionCoefficient)},
+  { 126, -1, -1, sizeof(::calc::ListCoefficientsRequest)},
+  { 132, -1, -1, sizeof(::calc::ListCoefficientsResponse)},
+  { 141, -1, -1, sizeof(::calc::AddCoefficientRequest)},
+  { 151, -1, -1, sizeof(::calc::AddCoefficientResponse)},
+  { 160, -1, -1, sizeof(::calc::UpdateCoefficientRequest)},
+  { 171, -1, -1, sizeof(::calc::UpdateCoefficientResponse)},
+  { 180, -1, -1, sizeof(::calc::DeleteCoefficientRequest)},
+  { 187, -1, -1, sizeof(::calc::DeleteCoefficientResponse)},
+  { 195, -1, -1, sizeof(::calc::AverageSalaryRecord)},
+  { 204, -1, -1, sizeof(::calc::SyncAverageSalariesRequest)},
+  { 211, -1, -1, sizeof(::calc::SyncAverageSalariesResponse)},
+  { 220, -1, -1, sizeof(::calc::GetAverageSalariesRequest)},
+  { 227, -1, -1, sizeof(::calc::GetAverageSalariesResponse)},
+  { 236, -1, -1, sizeof(::calc::UpsertSubsistenceMinimumRequest)},
+  { 246, -1, -1, sizeof(::calc::UpsertSubsistenceMinimumResponse)},
+  { 255, -1, -1, sizeof(::calc::ListSubsistenceMinimumsRequest)},
+  { 261, -1, -1, sizeof(::calc::SubsistenceMinimumRecord)},
+  { 272, -1, -1, sizeof(::calc::ListSubsistenceMinimumsResponse)},
+  { 281, -1, -1, sizeof(::calc::UpdateSubsistenceMinimumRequest)},
+  { 292, -1, -1, sizeof(::calc::UpdateSubsistenceMinimumResponse)},
+  { 301, -1, -1, sizeof(::calc::DeleteSubsistenceMinimumRequest)},
+  { 308, -1, -1, sizeof(::calc::DeleteSubsistenceMinimumResponse)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -854,6 +909,8 @@ static const ::_pb::Message* const file_default_instances[] = {
   &::calc::_AverageSalaryRecord_default_instance_._instance,
   &::calc::_SyncAverageSalariesRequest_default_instance_._instance,
   &::calc::_SyncAverageSalariesResponse_default_instance_._instance,
+  &::calc::_GetAverageSalariesRequest_default_instance_._instance,
+  &::calc::_GetAverageSalariesResponse_default_instance_._instance,
   &::calc::_UpsertSubsistenceMinimumRequest_default_instance_._instance,
   &::calc::_UpsertSubsistenceMinimumResponse_default_instance_._instance,
   &::calc::_ListSubsistenceMinimumsRequest_default_instance_._instance,
@@ -868,137 +925,146 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_calc_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\ncalc.proto\022\004calc\"L\n\020EmploymentPeriod\022\022"
   "\n\nstart_date\030\001 \001(\t\022\020\n\010end_date\030\002 \001(\t\022\022\n\n"
-  "multiplier\030\003 \001(\001\"@\n\021SalaryMonthRecord\022\014\n"
+  "multiplier\030\003 \001(\001\"[\n\021SalaryMonthRecord\022\014\n"
   "\004year\030\001 \001(\005\022\r\n\005month\030\002 \001(\005\022\016\n\006amount\030\003 \001"
-  "(\001\"g\n\023SubsistenceMinimums\022\034\n\024for_disable"
-  "d_persons\030\001 \001(\001\022\027\n\017general_minimum\030\002 \001(\001"
-  "\022\031\n\021age_surcharge_cap\030\003 \001(\001\"Y\n\tTaxRecord"
-  "\022\014\n\004year\030\001 \001(\005\022\025\n\rannual_income\030\002 \001(\001\022\020\n"
-  "\010tax_paid\030\003 \001(\001\022\025\n\rmonths_worked\030\004 \001(\005\"\315"
-  "\004\n\027CalculatePensionRequest\022\023\n\013customer_i"
-  "d\030\001 \001(\t\022\034\n\006gender\030\002 \001(\0162\014.calc.Gender\022\025\n"
-  "\rdate_of_birth\030\003 \001(\t\022\027\n\017retirement_date\030"
-  "\004 \001(\t\022\'\n\014pension_type\030\005 \001(\0162\021.calc.Pensi"
-  "onType\022/\n\020disability_group\030\006 \001(\0162\025.calc."
-  "DisabilityGroup\022\030\n\020dependents_count\030\007 \001("
-  "\005\0222\n\022employment_history\030\010 \003(\0132\026.calc.Emp"
-  "loymentPeriod\022/\n\016salary_history\030\t \003(\0132\027."
-  "calc.SalaryMonthRecord\022#\n\010benefits\030\n \003(\016"
-  "2\021.calc.BenefitType\0227\n\024subsistence_minim"
-  "ums\030\013 \001(\0132\031.calc.SubsistenceMinimums\022 \n\030"
-  "enable_optimization_rule\030\014 \001(\010\022 \n\030zp_mac"
-  "roeconomic_average\030\r \001(\001\022 \n\007history\030\016 \003("
-  "\0132\017.calc.TaxRecord\022\022\n\nbirth_year\030\017 \001(\005\022\036"
-  "\n\026target_retirement_year\030\020 \001(\005\"Z\n\026Benefi"
-  "tSurchargeDetail\022\"\n\007benefit\030\001 \001(\0162\021.calc"
-  ".BenefitType\022\014\n\004name\030\002 \001(\t\022\016\n\006amount\030\003 \001"
-  "(\001\"\365\003\n\030CalculatePensionResponse\022\017\n\007succe"
-  "ss\030\001 \001(\010\022\025\n\rfinal_pension\030\002 \001(\001\022\024\n\014base_"
-  "pension\030\003 \001(\001\022 \n\030zp_macroeconomic_averag"
-  "e\030\004 \001(\001\022\033\n\023kz_wage_coefficient\030\005 \001(\001\022\036\n\026"
-  "ks_service_coefficient\030\006 \001(\001\022\034\n\024total_se"
-  "rvice_months\030\007 \001(\005\022\035\n\025pension_type_modif"
-  "ier\030\010 \001(\001\022\037\n\027extra_service_allowance\030\t \001"
-  "(\001\022 \n\030total_benefit_surcharges\030\n \001(\001\022\033\n\023"
-  "pre_clamped_pension\030\013 \001(\001\022\032\n\022is_minimum_"
-  "clamped\030\014 \001(\010\022\032\n\022is_maximum_clamped\030\r \001("
-  "\010\0226\n\020applied_benefits\030\016 \003(\0132\034.calc.Benef"
-  "itSurchargeDetail\022\030\n\020calculation_logs\030\017 "
-  "\003(\t\022\025\n\rerror_message\030\020 \001(\t\"{\n\016PensionReq"
-  "uest\022\023\n\013customer_id\030\001 \001(\t\022\022\n\nbirth_year\030"
-  "\002 \001(\005\022\036\n\026target_retirement_year\030\003 \001(\005\022 \n"
-  "\007history\030\004 \003(\0132\017.calc.TaxRecord\"\236\001\n\017Pens"
-  "ionResponse\022\017\n\007success\030\001 \001(\010\022!\n\031estimate"
-  "d_monthly_pension\030\002 \001(\001\022!\n\031total_accumul"
-  "ated_capital\030\003 \001(\001\022\035\n\025calculation_breakd"
-  "own\030\004 \001(\t\022\025\n\rerror_message\030\005 \001(\t\"g\n\022Pens"
-  "ionCoefficient\022\n\n\002id\030\001 \001(\005\022\014\n\004year\030\002 \001(\005"
-  "\022\r\n\005month\030\003 \001(\005\022\023\n\013coefficient\030\004 \001(\001\022\023\n\013"
-  "description\030\005 \001(\t\"\031\n\027ListCoefficientsReq"
-  "uest\"r\n\030ListCoefficientsResponse\022\017\n\007succ"
-  "ess\030\001 \001(\010\022.\n\014coefficients\030\002 \003(\0132\030.calc.P"
-  "ensionCoefficient\022\025\n\rerror_message\030\003 \001(\t"
-  "\"^\n\025AddCoefficientRequest\022\014\n\004year\030\001 \001(\005\022"
-  "\r\n\005month\030\002 \001(\005\022\023\n\013coefficient\030\003 \001(\001\022\023\n\013d"
-  "escription\030\004 \001(\t\"o\n\026AddCoefficientRespon"
-  "se\022\017\n\007success\030\001 \001(\010\022-\n\013coefficient\030\002 \001(\013"
-  "2\030.calc.PensionCoefficient\022\025\n\rerror_mess"
-  "age\030\003 \001(\t\"m\n\030UpdateCoefficientRequest\022\n\n"
-  "\002id\030\001 \001(\005\022\014\n\004year\030\002 \001(\005\022\r\n\005month\030\003 \001(\005\022\023"
-  "\n\013coefficient\030\004 \001(\001\022\023\n\013description\030\005 \001(\t"
-  "\"r\n\031UpdateCoefficientResponse\022\017\n\007success"
-  "\030\001 \001(\010\022-\n\013coefficient\030\002 \001(\0132\030.calc.Pensi"
-  "onCoefficient\022\025\n\rerror_message\030\003 \001(\t\"&\n\030"
-  "DeleteCoefficientRequest\022\n\n\002id\030\001 \001(\005\"C\n\031"
-  "DeleteCoefficientResponse\022\017\n\007success\030\001 \001"
-  "(\010\022\025\n\rerror_message\030\002 \001(\t\"B\n\023AverageSala"
-  "ryRecord\022\014\n\004year\030\001 \001(\005\022\r\n\005month\030\002 \001(\005\022\016\n"
-  "\006amount\030\003 \001(\001\"I\n\032SyncAverageSalariesRequ"
-  "est\022+\n\010salaries\030\001 \003(\0132\031.calc.AverageSala"
-  "ryRecord\"^\n\033SyncAverageSalariesResponse\022"
-  "\017\n\007success\030\001 \001(\010\022\027\n\017processed_count\030\002 \001("
-  "\005\022\025\n\rerror_message\030\003 \001(\t\"\201\001\n\037UpsertSubsi"
-  "stenceMinimumRequest\022\014\n\004year\030\001 \001(\005\022\034\n\024fo"
-  "r_disabled_persons\030\002 \001(\001\022\027\n\017general_mini"
-  "mum\030\003 \001(\001\022\031\n\021age_surcharge_cap\030\004 \001(\001\"[\n "
-  "UpsertSubsistenceMinimumResponse\022\017\n\007succ"
-  "ess\030\001 \001(\010\022\017\n\007message\030\002 \001(\t\022\025\n\rerror_mess"
-  "age\030\003 \001(\t\" \n\036ListSubsistenceMinimumsRequ"
-  "est\"\206\001\n\030SubsistenceMinimumRecord\022\n\n\002id\030\001"
-  " \001(\005\022\014\n\004year\030\002 \001(\005\022\034\n\024for_disabled_perso"
-  "ns\030\003 \001(\001\022\027\n\017general_minimum\030\004 \001(\001\022\031\n\021age"
-  "_surcharge_cap\030\005 \001(\001\"z\n\037ListSubsistenceM"
-  "inimumsResponse\022\017\n\007success\030\001 \001(\010\022/\n\007reco"
-  "rds\030\002 \003(\0132\036.calc.SubsistenceMinimumRecor"
-  "d\022\025\n\rerror_message\030\003 \001(\t\"\215\001\n\037UpdateSubsi"
-  "stenceMinimumRequest\022\n\n\002id\030\001 \001(\005\022\014\n\004year"
-  "\030\002 \001(\005\022\034\n\024for_disabled_persons\030\003 \001(\001\022\027\n\017"
-  "general_minimum\030\004 \001(\001\022\031\n\021age_surcharge_c"
-  "ap\030\005 \001(\001\"z\n UpdateSubsistenceMinimumResp"
-  "onse\022\017\n\007success\030\001 \001(\010\022.\n\006record\030\002 \001(\0132\036."
-  "calc.SubsistenceMinimumRecord\022\025\n\rerror_m"
-  "essage\030\003 \001(\t\"-\n\037DeleteSubsistenceMinimum"
-  "Request\022\n\n\002id\030\001 \001(\005\"J\n DeleteSubsistence"
-  "MinimumResponse\022\017\n\007success\030\001 \001(\010\022\025\n\rerro"
-  "r_message\030\002 \001(\t*\036\n\006Gender\022\010\n\004MALE\020\000\022\n\n\006F"
-  "EMALE\020\001*C\n\013PensionType\022\013\n\007OLD_AGE\020\000\022\016\n\nD"
-  "ISABILITY\020\001\022\027\n\023LOSS_OF_BREADWINNER\020\002*M\n\017"
-  "DisabilityGroup\022\023\n\017DISABILITY_NONE\020\000\022\013\n\007"
-  "GROUP_1\020\001\022\013\n\007GROUP_2\020\002\022\013\n\007GROUP_3\020\003*\216\001\n\013"
-  "BenefitType\022\020\n\014BENEFIT_NONE\020\000\022\022\n\016COMBAT_"
-  "VETERAN\020\001\022\022\n\016HONORARY_DONOR\020\002\022\030\n\024CHORNOB"
-  "YL_LIQUIDATOR\020\003\022\027\n\023DISABLED_CHILD_CARE\020\004"
-  "\022\022\n\016AGE_SUPPLEMENT\020\0052\261\007\n\013CalcService\022Q\n\020"
-  "CalculatePension\022\035.calc.CalculatePension"
-  "Request\032\036.calc.CalculatePensionResponse\022"
-  "Q\n\020ListCoefficients\022\035.calc.ListCoefficie"
-  "ntsRequest\032\036.calc.ListCoefficientsRespon"
-  "se\022K\n\016AddCoefficient\022\033.calc.AddCoefficie"
-  "ntRequest\032\034.calc.AddCoefficientResponse\022"
-  "T\n\021UpdateCoefficient\022\036.calc.UpdateCoeffi"
-  "cientRequest\032\037.calc.UpdateCoefficientRes"
-  "ponse\022T\n\021DeleteCoefficient\022\036.calc.Delete"
-  "CoefficientRequest\032\037.calc.DeleteCoeffici"
-  "entResponse\022Z\n\023SyncAverageSalaries\022 .cal"
-  "c.SyncAverageSalariesRequest\032!.calc.Sync"
-  "AverageSalariesResponse\022i\n\030UpsertSubsist"
-  "enceMinimum\022%.calc.UpsertSubsistenceMini"
-  "mumRequest\032&.calc.UpsertSubsistenceMinim"
-  "umResponse\022f\n\027ListSubsistenceMinimums\022$."
-  "calc.ListSubsistenceMinimumsRequest\032%.ca"
-  "lc.ListSubsistenceMinimumsResponse\022i\n\030Up"
-  "dateSubsistenceMinimum\022%.calc.UpdateSubs"
-  "istenceMinimumRequest\032&.calc.UpdateSubsi"
-  "stenceMinimumResponse\022i\n\030DeleteSubsisten"
-  "ceMinimum\022%.calc.DeleteSubsistenceMinimu"
-  "mRequest\032&.calc.DeleteSubsistenceMinimum"
-  "Responseb\006proto3"
+  "(\001\022\031\n\021is_special_period\030\004 \001(\010\"g\n\023Subsist"
+  "enceMinimums\022\034\n\024for_disabled_persons\030\001 \001"
+  "(\001\022\027\n\017general_minimum\030\002 \001(\001\022\031\n\021age_surch"
+  "arge_cap\030\003 \001(\001\"Y\n\tTaxRecord\022\014\n\004year\030\001 \001("
+  "\005\022\025\n\rannual_income\030\002 \001(\001\022\020\n\010tax_paid\030\003 \001"
+  "(\001\022\025\n\rmonths_worked\030\004 \001(\005\"\365\004\n\027CalculateP"
+  "ensionRequest\022\023\n\013customer_id\030\001 \001(\t\022\034\n\006ge"
+  "nder\030\002 \001(\0162\014.calc.Gender\022\025\n\rdate_of_birt"
+  "h\030\003 \001(\t\022\027\n\017retirement_date\030\004 \001(\t\022\'\n\014pens"
+  "ion_type\030\005 \001(\0162\021.calc.PensionType\022/\n\020dis"
+  "ability_group\030\006 \001(\0162\025.calc.DisabilityGro"
+  "up\022\030\n\020dependents_count\030\007 \001(\005\0222\n\022employme"
+  "nt_history\030\010 \003(\0132\026.calc.EmploymentPeriod"
+  "\022/\n\016salary_history\030\t \003(\0132\027.calc.SalaryMo"
+  "nthRecord\022#\n\010benefits\030\n \003(\0162\021.calc.Benef"
+  "itType\0227\n\024subsistence_minimums\030\013 \001(\0132\031.c"
+  "alc.SubsistenceMinimums\022 \n\030enable_optimi"
+  "zation_rule\030\014 \001(\010\022 \n\030zp_macroeconomic_av"
+  "erage\030\r \001(\001\022 \n\007history\030\016 \003(\0132\017.calc.TaxR"
+  "ecord\022\022\n\nbirth_year\030\017 \001(\005\022\036\n\026target_reti"
+  "rement_year\030\020 \001(\005\022&\n\036enable_hypothetical"
+  "_projection\030\021 \001(\010\"Z\n\026BenefitSurchargeDet"
+  "ail\022\"\n\007benefit\030\001 \001(\0162\021.calc.BenefitType\022"
+  "\014\n\004name\030\002 \001(\t\022\016\n\006amount\030\003 \001(\001\"\257\004\n\030Calcul"
+  "atePensionResponse\022\017\n\007success\030\001 \001(\010\022\025\n\rf"
+  "inal_pension\030\002 \001(\001\022\024\n\014base_pension\030\003 \001(\001"
+  "\022 \n\030zp_macroeconomic_average\030\004 \001(\001\022\033\n\023kz"
+  "_wage_coefficient\030\005 \001(\001\022\036\n\026ks_service_co"
+  "efficient\030\006 \001(\001\022\034\n\024total_service_months\030"
+  "\007 \001(\005\022\035\n\025pension_type_modifier\030\010 \001(\001\022\037\n\027"
+  "extra_service_allowance\030\t \001(\001\022 \n\030total_b"
+  "enefit_surcharges\030\n \001(\001\022\033\n\023pre_clamped_p"
+  "ension\030\013 \001(\001\022\032\n\022is_minimum_clamped\030\014 \001(\010"
+  "\022\032\n\022is_maximum_clamped\030\r \001(\010\0226\n\020applied_"
+  "benefits\030\016 \003(\0132\034.calc.BenefitSurchargeDe"
+  "tail\022\030\n\020calculation_logs\030\017 \003(\t\022\025\n\rerror_"
+  "message\030\020 \001(\t\022\027\n\017is_hypothetical\030\021 \001(\010\022\037"
+  "\n\027hypothetical_disclaimer\030\022 \001(\t\"{\n\016Pensi"
+  "onRequest\022\023\n\013customer_id\030\001 \001(\t\022\022\n\nbirth_"
+  "year\030\002 \001(\005\022\036\n\026target_retirement_year\030\003 \001"
+  "(\005\022 \n\007history\030\004 \003(\0132\017.calc.TaxRecord\"\236\001\n"
+  "\017PensionResponse\022\017\n\007success\030\001 \001(\010\022!\n\031est"
+  "imated_monthly_pension\030\002 \001(\001\022!\n\031total_ac"
+  "cumulated_capital\030\003 \001(\001\022\035\n\025calculation_b"
+  "reakdown\030\004 \001(\t\022\025\n\rerror_message\030\005 \001(\t\"g\n"
+  "\022PensionCoefficient\022\n\n\002id\030\001 \001(\005\022\014\n\004year\030"
+  "\002 \001(\005\022\r\n\005month\030\003 \001(\005\022\023\n\013coefficient\030\004 \001("
+  "\001\022\023\n\013description\030\005 \001(\t\"\031\n\027ListCoefficien"
+  "tsRequest\"r\n\030ListCoefficientsResponse\022\017\n"
+  "\007success\030\001 \001(\010\022.\n\014coefficients\030\002 \003(\0132\030.c"
+  "alc.PensionCoefficient\022\025\n\rerror_message\030"
+  "\003 \001(\t\"^\n\025AddCoefficientRequest\022\014\n\004year\030\001"
+  " \001(\005\022\r\n\005month\030\002 \001(\005\022\023\n\013coefficient\030\003 \001(\001"
+  "\022\023\n\013description\030\004 \001(\t\"o\n\026AddCoefficientR"
+  "esponse\022\017\n\007success\030\001 \001(\010\022-\n\013coefficient\030"
+  "\002 \001(\0132\030.calc.PensionCoefficient\022\025\n\rerror"
+  "_message\030\003 \001(\t\"m\n\030UpdateCoefficientReque"
+  "st\022\n\n\002id\030\001 \001(\005\022\014\n\004year\030\002 \001(\005\022\r\n\005month\030\003 "
+  "\001(\005\022\023\n\013coefficient\030\004 \001(\001\022\023\n\013description\030"
+  "\005 \001(\t\"r\n\031UpdateCoefficientResponse\022\017\n\007su"
+  "ccess\030\001 \001(\010\022-\n\013coefficient\030\002 \001(\0132\030.calc."
+  "PensionCoefficient\022\025\n\rerror_message\030\003 \001("
+  "\t\"&\n\030DeleteCoefficientRequest\022\n\n\002id\030\001 \001("
+  "\005\"C\n\031DeleteCoefficientResponse\022\017\n\007succes"
+  "s\030\001 \001(\010\022\025\n\rerror_message\030\002 \001(\t\"B\n\023Averag"
+  "eSalaryRecord\022\014\n\004year\030\001 \001(\005\022\r\n\005month\030\002 \001"
+  "(\005\022\016\n\006amount\030\003 \001(\001\"I\n\032SyncAverageSalarie"
+  "sRequest\022+\n\010salaries\030\001 \003(\0132\031.calc.Averag"
+  "eSalaryRecord\"^\n\033SyncAverageSalariesResp"
+  "onse\022\017\n\007success\030\001 \001(\010\022\027\n\017processed_count"
+  "\030\002 \001(\005\022\025\n\rerror_message\030\003 \001(\t\"*\n\031GetAver"
+  "ageSalariesRequest\022\r\n\005years\030\001 \003(\005\"q\n\032Get"
+  "AverageSalariesResponse\022\017\n\007success\030\001 \001(\010"
+  "\022+\n\010salaries\030\002 \003(\0132\031.calc.AverageSalaryR"
+  "ecord\022\025\n\rerror_message\030\003 \001(\t\"\201\001\n\037UpsertS"
+  "ubsistenceMinimumRequest\022\014\n\004year\030\001 \001(\005\022\034"
+  "\n\024for_disabled_persons\030\002 \001(\001\022\027\n\017general_"
+  "minimum\030\003 \001(\001\022\031\n\021age_surcharge_cap\030\004 \001(\001"
+  "\"[\n UpsertSubsistenceMinimumResponse\022\017\n\007"
+  "success\030\001 \001(\010\022\017\n\007message\030\002 \001(\t\022\025\n\rerror_"
+  "message\030\003 \001(\t\" \n\036ListSubsistenceMinimums"
+  "Request\"\206\001\n\030SubsistenceMinimumRecord\022\n\n\002"
+  "id\030\001 \001(\005\022\014\n\004year\030\002 \001(\005\022\034\n\024for_disabled_p"
+  "ersons\030\003 \001(\001\022\027\n\017general_minimum\030\004 \001(\001\022\031\n"
+  "\021age_surcharge_cap\030\005 \001(\001\"z\n\037ListSubsiste"
+  "nceMinimumsResponse\022\017\n\007success\030\001 \001(\010\022/\n\007"
+  "records\030\002 \003(\0132\036.calc.SubsistenceMinimumR"
+  "ecord\022\025\n\rerror_message\030\003 \001(\t\"\215\001\n\037UpdateS"
+  "ubsistenceMinimumRequest\022\n\n\002id\030\001 \001(\005\022\014\n\004"
+  "year\030\002 \001(\005\022\034\n\024for_disabled_persons\030\003 \001(\001"
+  "\022\027\n\017general_minimum\030\004 \001(\001\022\031\n\021age_surchar"
+  "ge_cap\030\005 \001(\001\"z\n UpdateSubsistenceMinimum"
+  "Response\022\017\n\007success\030\001 \001(\010\022.\n\006record\030\002 \001("
+  "\0132\036.calc.SubsistenceMinimumRecord\022\025\n\rerr"
+  "or_message\030\003 \001(\t\"-\n\037DeleteSubsistenceMin"
+  "imumRequest\022\n\n\002id\030\001 \001(\005\"J\n DeleteSubsist"
+  "enceMinimumResponse\022\017\n\007success\030\001 \001(\010\022\025\n\r"
+  "error_message\030\002 \001(\t*\036\n\006Gender\022\010\n\004MALE\020\000\022"
+  "\n\n\006FEMALE\020\001*C\n\013PensionType\022\013\n\007OLD_AGE\020\000\022"
+  "\016\n\nDISABILITY\020\001\022\027\n\023LOSS_OF_BREADWINNER\020\002"
+  "*M\n\017DisabilityGroup\022\023\n\017DISABILITY_NONE\020\000"
+  "\022\013\n\007GROUP_1\020\001\022\013\n\007GROUP_2\020\002\022\013\n\007GROUP_3\020\003*"
+  "\216\001\n\013BenefitType\022\020\n\014BENEFIT_NONE\020\000\022\022\n\016COM"
+  "BAT_VETERAN\020\001\022\022\n\016HONORARY_DONOR\020\002\022\030\n\024CHO"
+  "RNOBYL_LIQUIDATOR\020\003\022\027\n\023DISABLED_CHILD_CA"
+  "RE\020\004\022\022\n\016AGE_SUPPLEMENT\020\0052\212\010\n\013CalcService"
+  "\022Q\n\020CalculatePension\022\035.calc.CalculatePen"
+  "sionRequest\032\036.calc.CalculatePensionRespo"
+  "nse\022Q\n\020ListCoefficients\022\035.calc.ListCoeff"
+  "icientsRequest\032\036.calc.ListCoefficientsRe"
+  "sponse\022K\n\016AddCoefficient\022\033.calc.AddCoeff"
+  "icientRequest\032\034.calc.AddCoefficientRespo"
+  "nse\022T\n\021UpdateCoefficient\022\036.calc.UpdateCo"
+  "efficientRequest\032\037.calc.UpdateCoefficien"
+  "tResponse\022T\n\021DeleteCoefficient\022\036.calc.De"
+  "leteCoefficientRequest\032\037.calc.DeleteCoef"
+  "ficientResponse\022Z\n\023SyncAverageSalaries\022 "
+  ".calc.SyncAverageSalariesRequest\032!.calc."
+  "SyncAverageSalariesResponse\022W\n\022GetAverag"
+  "eSalaries\022\037.calc.GetAverageSalariesReque"
+  "st\032 .calc.GetAverageSalariesResponse\022i\n\030"
+  "UpsertSubsistenceMinimum\022%.calc.UpsertSu"
+  "bsistenceMinimumRequest\032&.calc.UpsertSub"
+  "sistenceMinimumResponse\022f\n\027ListSubsisten"
+  "ceMinimums\022$.calc.ListSubsistenceMinimum"
+  "sRequest\032%.calc.ListSubsistenceMinimumsR"
+  "esponse\022i\n\030UpdateSubsistenceMinimum\022%.ca"
+  "lc.UpdateSubsistenceMinimumRequest\032&.cal"
+  "c.UpdateSubsistenceMinimumResponse\022i\n\030De"
+  "leteSubsistenceMinimum\022%.calc.DeleteSubs"
+  "istenceMinimumRequest\032&.calc.DeleteSubsi"
+  "stenceMinimumResponseb\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_calc_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_calc_2eproto = {
-    false, false, 5056, descriptor_table_protodef_calc_2eproto,
+    false, false, 5429, descriptor_table_protodef_calc_2eproto,
     "calc.proto",
-    &descriptor_table_calc_2eproto_once, nullptr, 0, 30,
+    &descriptor_table_calc_2eproto_once, nullptr, 0, 32,
     schemas, file_default_instances, TableStruct_calc_2eproto::offsets,
     file_level_metadata_calc_2eproto, file_level_enum_descriptors_calc_2eproto,
     file_level_service_descriptors_calc_2eproto,
@@ -1385,12 +1451,13 @@ SalaryMonthRecord::SalaryMonthRecord(const SalaryMonthRecord& from)
       decltype(_impl_.year_){}
     , decltype(_impl_.month_){}
     , decltype(_impl_.amount_){}
+    , decltype(_impl_.is_special_period_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::memcpy(&_impl_.year_, &from._impl_.year_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.amount_) -
-    reinterpret_cast<char*>(&_impl_.year_)) + sizeof(_impl_.amount_));
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.is_special_period_) -
+    reinterpret_cast<char*>(&_impl_.year_)) + sizeof(_impl_.is_special_period_));
   // @@protoc_insertion_point(copy_constructor:calc.SalaryMonthRecord)
 }
 
@@ -1402,6 +1469,7 @@ inline void SalaryMonthRecord::SharedCtor(
       decltype(_impl_.year_){0}
     , decltype(_impl_.month_){0}
     , decltype(_impl_.amount_){0}
+    , decltype(_impl_.is_special_period_){false}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
@@ -1430,8 +1498,8 @@ void SalaryMonthRecord::Clear() {
   (void) cached_has_bits;
 
   ::memset(&_impl_.year_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.amount_) -
-      reinterpret_cast<char*>(&_impl_.year_)) + sizeof(_impl_.amount_));
+      reinterpret_cast<char*>(&_impl_.is_special_period_) -
+      reinterpret_cast<char*>(&_impl_.year_)) + sizeof(_impl_.is_special_period_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -1462,6 +1530,14 @@ const char* SalaryMonthRecord::_InternalParse(const char* ptr, ::_pbi::ParseCont
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 25)) {
           _impl_.amount_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
           ptr += sizeof(double);
+        } else
+          goto handle_unusual;
+        continue;
+      // bool is_special_period = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
+          _impl_.is_special_period_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
@@ -1516,6 +1592,12 @@ uint8_t* SalaryMonthRecord::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteDoubleToArray(3, this->_internal_amount(), target);
   }
 
+  // bool is_special_period = 4;
+  if (this->_internal_is_special_period() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(4, this->_internal_is_special_period(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -1551,6 +1633,11 @@ size_t SalaryMonthRecord::ByteSizeLong() const {
     total_size += 1 + 8;
   }
 
+  // bool is_special_period = 4;
+  if (this->_internal_is_special_period() != 0) {
+    total_size += 1 + 1;
+  }
+
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -1582,6 +1669,9 @@ void SalaryMonthRecord::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, cons
   if (raw_amount != 0) {
     _this->_internal_set_amount(from._internal_amount());
   }
+  if (from._internal_is_special_period() != 0) {
+    _this->_internal_set_is_special_period(from._internal_is_special_period());
+  }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -1600,8 +1690,8 @@ void SalaryMonthRecord::InternalSwap(SalaryMonthRecord* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(SalaryMonthRecord, _impl_.amount_)
-      + sizeof(SalaryMonthRecord::_impl_.amount_)
+      PROTOBUF_FIELD_OFFSET(SalaryMonthRecord, _impl_.is_special_period_)
+      + sizeof(SalaryMonthRecord::_impl_.is_special_period_)
       - PROTOBUF_FIELD_OFFSET(SalaryMonthRecord, _impl_.year_)>(
           reinterpret_cast<char*>(&_impl_.year_),
           reinterpret_cast<char*>(&other->_impl_.year_));
@@ -2203,6 +2293,7 @@ CalculatePensionRequest::CalculatePensionRequest(const CalculatePensionRequest& 
     , decltype(_impl_.dependents_count_){}
     , decltype(_impl_.zp_macroeconomic_average_){}
     , decltype(_impl_.enable_optimization_rule_){}
+    , decltype(_impl_.enable_hypothetical_projection_){}
     , decltype(_impl_.birth_year_){}
     , decltype(_impl_.target_retirement_year_){}
     , /*decltype(_impl_._cached_size_)*/{}};
@@ -2261,6 +2352,7 @@ inline void CalculatePensionRequest::SharedCtor(
     , decltype(_impl_.dependents_count_){0}
     , decltype(_impl_.zp_macroeconomic_average_){0}
     , decltype(_impl_.enable_optimization_rule_){false}
+    , decltype(_impl_.enable_hypothetical_projection_){false}
     , decltype(_impl_.birth_year_){0}
     , decltype(_impl_.target_retirement_year_){0}
     , /*decltype(_impl_._cached_size_)*/{}
@@ -2489,6 +2581,14 @@ const char* CalculatePensionRequest::_InternalParse(const char* ptr, ::_pbi::Par
         } else
           goto handle_unusual;
         continue;
+      // bool enable_hypothetical_projection = 17;
+      case 17:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 136)) {
+          _impl_.enable_hypothetical_projection_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
       default:
         goto handle_unusual;
     }  // switch
@@ -2643,6 +2743,12 @@ uint8_t* CalculatePensionRequest::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteInt32ToArray(16, this->_internal_target_retirement_year(), target);
   }
 
+  // bool enable_hypothetical_projection = 17;
+  if (this->_internal_enable_hypothetical_projection() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(17, this->_internal_enable_hypothetical_projection(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -2762,6 +2868,11 @@ size_t CalculatePensionRequest::ByteSizeLong() const {
     total_size += 1 + 1;
   }
 
+  // bool enable_hypothetical_projection = 17;
+  if (this->_internal_enable_hypothetical_projection() != 0) {
+    total_size += 2 + 1;
+  }
+
   // int32 birth_year = 15;
   if (this->_internal_birth_year() != 0) {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_birth_year());
@@ -2830,6 +2941,9 @@ void CalculatePensionRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg
   }
   if (from._internal_enable_optimization_rule() != 0) {
     _this->_internal_set_enable_optimization_rule(from._internal_enable_optimization_rule());
+  }
+  if (from._internal_enable_hypothetical_projection() != 0) {
+    _this->_internal_set_enable_hypothetical_projection(from._internal_enable_hypothetical_projection());
   }
   if (from._internal_birth_year() != 0) {
     _this->_internal_set_birth_year(from._internal_birth_year());
@@ -3183,18 +3297,20 @@ CalculatePensionResponse::CalculatePensionResponse(const CalculatePensionRespons
       decltype(_impl_.applied_benefits_){from._impl_.applied_benefits_}
     , decltype(_impl_.calculation_logs_){from._impl_.calculation_logs_}
     , decltype(_impl_.error_message_){}
+    , decltype(_impl_.hypothetical_disclaimer_){}
     , decltype(_impl_.final_pension_){}
     , decltype(_impl_.base_pension_){}
     , decltype(_impl_.zp_macroeconomic_average_){}
     , decltype(_impl_.kz_wage_coefficient_){}
     , decltype(_impl_.ks_service_coefficient_){}
     , decltype(_impl_.pension_type_modifier_){}
+    , decltype(_impl_.extra_service_allowance_){}
+    , decltype(_impl_.total_benefit_surcharges_){}
     , decltype(_impl_.total_service_months_){}
     , decltype(_impl_.success_){}
     , decltype(_impl_.is_minimum_clamped_){}
     , decltype(_impl_.is_maximum_clamped_){}
-    , decltype(_impl_.extra_service_allowance_){}
-    , decltype(_impl_.total_benefit_surcharges_){}
+    , decltype(_impl_.is_hypothetical_){}
     , decltype(_impl_.pre_clamped_pension_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
@@ -3205,6 +3321,14 @@ CalculatePensionResponse::CalculatePensionResponse(const CalculatePensionRespons
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   if (!from._internal_error_message().empty()) {
     _this->_impl_.error_message_.Set(from._internal_error_message(), 
+      _this->GetArenaForAllocation());
+  }
+  _impl_.hypothetical_disclaimer_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.hypothetical_disclaimer_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_hypothetical_disclaimer().empty()) {
+    _this->_impl_.hypothetical_disclaimer_.Set(from._internal_hypothetical_disclaimer(), 
       _this->GetArenaForAllocation());
   }
   ::memcpy(&_impl_.final_pension_, &from._impl_.final_pension_,
@@ -3221,24 +3345,30 @@ inline void CalculatePensionResponse::SharedCtor(
       decltype(_impl_.applied_benefits_){arena}
     , decltype(_impl_.calculation_logs_){arena}
     , decltype(_impl_.error_message_){}
+    , decltype(_impl_.hypothetical_disclaimer_){}
     , decltype(_impl_.final_pension_){0}
     , decltype(_impl_.base_pension_){0}
     , decltype(_impl_.zp_macroeconomic_average_){0}
     , decltype(_impl_.kz_wage_coefficient_){0}
     , decltype(_impl_.ks_service_coefficient_){0}
     , decltype(_impl_.pension_type_modifier_){0}
+    , decltype(_impl_.extra_service_allowance_){0}
+    , decltype(_impl_.total_benefit_surcharges_){0}
     , decltype(_impl_.total_service_months_){0}
     , decltype(_impl_.success_){false}
     , decltype(_impl_.is_minimum_clamped_){false}
     , decltype(_impl_.is_maximum_clamped_){false}
-    , decltype(_impl_.extra_service_allowance_){0}
-    , decltype(_impl_.total_benefit_surcharges_){0}
+    , decltype(_impl_.is_hypothetical_){false}
     , decltype(_impl_.pre_clamped_pension_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
   _impl_.error_message_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.error_message_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.hypothetical_disclaimer_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.hypothetical_disclaimer_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
@@ -3256,6 +3386,7 @@ inline void CalculatePensionResponse::SharedDtor() {
   _impl_.applied_benefits_.~RepeatedPtrField();
   _impl_.calculation_logs_.~RepeatedPtrField();
   _impl_.error_message_.Destroy();
+  _impl_.hypothetical_disclaimer_.Destroy();
 }
 
 void CalculatePensionResponse::SetCachedSize(int size) const {
@@ -3271,6 +3402,7 @@ void CalculatePensionResponse::Clear() {
   _impl_.applied_benefits_.Clear();
   _impl_.calculation_logs_.Clear();
   _impl_.error_message_.ClearToEmpty();
+  _impl_.hypothetical_disclaimer_.ClearToEmpty();
   ::memset(&_impl_.final_pension_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&_impl_.pre_clamped_pension_) -
       reinterpret_cast<char*>(&_impl_.final_pension_)) + sizeof(_impl_.pre_clamped_pension_));
@@ -3422,6 +3554,24 @@ const char* CalculatePensionResponse::_InternalParse(const char* ptr, ::_pbi::Pa
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
           CHK_(::_pbi::VerifyUTF8(str, "calc.CalculatePensionResponse.error_message"));
+        } else
+          goto handle_unusual;
+        continue;
+      // bool is_hypothetical = 17;
+      case 17:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 136)) {
+          _impl_.is_hypothetical_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // string hypothetical_disclaimer = 18;
+      case 18:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 146)) {
+          auto str = _internal_mutable_hypothetical_disclaimer();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "calc.CalculatePensionResponse.hypothetical_disclaimer"));
         } else
           goto handle_unusual;
         continue;
@@ -3596,6 +3746,22 @@ uint8_t* CalculatePensionResponse::_InternalSerialize(
         16, this->_internal_error_message(), target);
   }
 
+  // bool is_hypothetical = 17;
+  if (this->_internal_is_hypothetical() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(17, this->_internal_is_hypothetical(), target);
+  }
+
+  // string hypothetical_disclaimer = 18;
+  if (!this->_internal_hypothetical_disclaimer().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_hypothetical_disclaimer().data(), static_cast<int>(this->_internal_hypothetical_disclaimer().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "calc.CalculatePensionResponse.hypothetical_disclaimer");
+    target = stream->WriteStringMaybeAliased(
+        18, this->_internal_hypothetical_disclaimer(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -3632,6 +3798,13 @@ size_t CalculatePensionResponse::ByteSizeLong() const {
     total_size += 2 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
         this->_internal_error_message());
+  }
+
+  // string hypothetical_disclaimer = 18;
+  if (!this->_internal_hypothetical_disclaimer().empty()) {
+    total_size += 2 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_hypothetical_disclaimer());
   }
 
   // double final_pension = 2;
@@ -3688,6 +3861,24 @@ size_t CalculatePensionResponse::ByteSizeLong() const {
     total_size += 1 + 8;
   }
 
+  // double extra_service_allowance = 9;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_extra_service_allowance = this->_internal_extra_service_allowance();
+  uint64_t raw_extra_service_allowance;
+  memcpy(&raw_extra_service_allowance, &tmp_extra_service_allowance, sizeof(tmp_extra_service_allowance));
+  if (raw_extra_service_allowance != 0) {
+    total_size += 1 + 8;
+  }
+
+  // double total_benefit_surcharges = 10;
+  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
+  double tmp_total_benefit_surcharges = this->_internal_total_benefit_surcharges();
+  uint64_t raw_total_benefit_surcharges;
+  memcpy(&raw_total_benefit_surcharges, &tmp_total_benefit_surcharges, sizeof(tmp_total_benefit_surcharges));
+  if (raw_total_benefit_surcharges != 0) {
+    total_size += 1 + 8;
+  }
+
   // int32 total_service_months = 7;
   if (this->_internal_total_service_months() != 0) {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_total_service_months());
@@ -3708,22 +3899,9 @@ size_t CalculatePensionResponse::ByteSizeLong() const {
     total_size += 1 + 1;
   }
 
-  // double extra_service_allowance = 9;
-  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
-  double tmp_extra_service_allowance = this->_internal_extra_service_allowance();
-  uint64_t raw_extra_service_allowance;
-  memcpy(&raw_extra_service_allowance, &tmp_extra_service_allowance, sizeof(tmp_extra_service_allowance));
-  if (raw_extra_service_allowance != 0) {
-    total_size += 1 + 8;
-  }
-
-  // double total_benefit_surcharges = 10;
-  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
-  double tmp_total_benefit_surcharges = this->_internal_total_benefit_surcharges();
-  uint64_t raw_total_benefit_surcharges;
-  memcpy(&raw_total_benefit_surcharges, &tmp_total_benefit_surcharges, sizeof(tmp_total_benefit_surcharges));
-  if (raw_total_benefit_surcharges != 0) {
-    total_size += 1 + 8;
+  // bool is_hypothetical = 17;
+  if (this->_internal_is_hypothetical() != 0) {
+    total_size += 2 + 1;
   }
 
   // double pre_clamped_pension = 11;
@@ -3757,6 +3935,9 @@ void CalculatePensionResponse::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_ms
   _this->_impl_.calculation_logs_.MergeFrom(from._impl_.calculation_logs_);
   if (!from._internal_error_message().empty()) {
     _this->_internal_set_error_message(from._internal_error_message());
+  }
+  if (!from._internal_hypothetical_disclaimer().empty()) {
+    _this->_internal_set_hypothetical_disclaimer(from._internal_hypothetical_disclaimer());
   }
   static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
   double tmp_final_pension = from._internal_final_pension();
@@ -3800,18 +3981,6 @@ void CalculatePensionResponse::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_ms
   if (raw_pension_type_modifier != 0) {
     _this->_internal_set_pension_type_modifier(from._internal_pension_type_modifier());
   }
-  if (from._internal_total_service_months() != 0) {
-    _this->_internal_set_total_service_months(from._internal_total_service_months());
-  }
-  if (from._internal_success() != 0) {
-    _this->_internal_set_success(from._internal_success());
-  }
-  if (from._internal_is_minimum_clamped() != 0) {
-    _this->_internal_set_is_minimum_clamped(from._internal_is_minimum_clamped());
-  }
-  if (from._internal_is_maximum_clamped() != 0) {
-    _this->_internal_set_is_maximum_clamped(from._internal_is_maximum_clamped());
-  }
   static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
   double tmp_extra_service_allowance = from._internal_extra_service_allowance();
   uint64_t raw_extra_service_allowance;
@@ -3825,6 +3994,21 @@ void CalculatePensionResponse::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_ms
   memcpy(&raw_total_benefit_surcharges, &tmp_total_benefit_surcharges, sizeof(tmp_total_benefit_surcharges));
   if (raw_total_benefit_surcharges != 0) {
     _this->_internal_set_total_benefit_surcharges(from._internal_total_benefit_surcharges());
+  }
+  if (from._internal_total_service_months() != 0) {
+    _this->_internal_set_total_service_months(from._internal_total_service_months());
+  }
+  if (from._internal_success() != 0) {
+    _this->_internal_set_success(from._internal_success());
+  }
+  if (from._internal_is_minimum_clamped() != 0) {
+    _this->_internal_set_is_minimum_clamped(from._internal_is_minimum_clamped());
+  }
+  if (from._internal_is_maximum_clamped() != 0) {
+    _this->_internal_set_is_maximum_clamped(from._internal_is_maximum_clamped());
+  }
+  if (from._internal_is_hypothetical() != 0) {
+    _this->_internal_set_is_hypothetical(from._internal_is_hypothetical());
   }
   static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
   double tmp_pre_clamped_pension = from._internal_pre_clamped_pension();
@@ -3857,6 +4041,10 @@ void CalculatePensionResponse::InternalSwap(CalculatePensionResponse* other) {
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
       &_impl_.error_message_, lhs_arena,
       &other->_impl_.error_message_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.hypothetical_disclaimer_, lhs_arena,
+      &other->_impl_.hypothetical_disclaimer_, rhs_arena
   );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(CalculatePensionResponse, _impl_.pre_clamped_pension_)
@@ -7436,6 +7624,463 @@ void SyncAverageSalariesResponse::InternalSwap(SyncAverageSalariesResponse* othe
 
 // ===================================================================
 
+class GetAverageSalariesRequest::_Internal {
+ public:
+};
+
+GetAverageSalariesRequest::GetAverageSalariesRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:calc.GetAverageSalariesRequest)
+}
+GetAverageSalariesRequest::GetAverageSalariesRequest(const GetAverageSalariesRequest& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  GetAverageSalariesRequest* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.years_){from._impl_.years_}
+    , /*decltype(_impl_._years_cached_byte_size_)*/{0}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:calc.GetAverageSalariesRequest)
+}
+
+inline void GetAverageSalariesRequest::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.years_){arena}
+    , /*decltype(_impl_._years_cached_byte_size_)*/{0}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
+
+GetAverageSalariesRequest::~GetAverageSalariesRequest() {
+  // @@protoc_insertion_point(destructor:calc.GetAverageSalariesRequest)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void GetAverageSalariesRequest::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.years_.~RepeatedField();
+}
+
+void GetAverageSalariesRequest::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void GetAverageSalariesRequest::Clear() {
+// @@protoc_insertion_point(message_clear_start:calc.GetAverageSalariesRequest)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.years_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* GetAverageSalariesRequest::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // repeated int32 years = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::PackedInt32Parser(_internal_mutable_years(), ptr, ctx);
+          CHK_(ptr);
+        } else if (static_cast<uint8_t>(tag) == 8) {
+          _internal_add_years(::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr));
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* GetAverageSalariesRequest::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:calc.GetAverageSalariesRequest)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // repeated int32 years = 1;
+  {
+    int byte_size = _impl_._years_cached_byte_size_.load(std::memory_order_relaxed);
+    if (byte_size > 0) {
+      target = stream->WriteInt32Packed(
+          1, _internal_years(), byte_size, target);
+    }
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:calc.GetAverageSalariesRequest)
+  return target;
+}
+
+size_t GetAverageSalariesRequest::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:calc.GetAverageSalariesRequest)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated int32 years = 1;
+  {
+    size_t data_size = ::_pbi::WireFormatLite::
+      Int32Size(this->_impl_.years_);
+    if (data_size > 0) {
+      total_size += 1 +
+        ::_pbi::WireFormatLite::Int32Size(static_cast<int32_t>(data_size));
+    }
+    int cached_size = ::_pbi::ToCachedSize(data_size);
+    _impl_._years_cached_byte_size_.store(cached_size,
+                                    std::memory_order_relaxed);
+    total_size += data_size;
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData GetAverageSalariesRequest::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    GetAverageSalariesRequest::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetAverageSalariesRequest::GetClassData() const { return &_class_data_; }
+
+
+void GetAverageSalariesRequest::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<GetAverageSalariesRequest*>(&to_msg);
+  auto& from = static_cast<const GetAverageSalariesRequest&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:calc.GetAverageSalariesRequest)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  _this->_impl_.years_.MergeFrom(from._impl_.years_);
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void GetAverageSalariesRequest::CopyFrom(const GetAverageSalariesRequest& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:calc.GetAverageSalariesRequest)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool GetAverageSalariesRequest::IsInitialized() const {
+  return true;
+}
+
+void GetAverageSalariesRequest::InternalSwap(GetAverageSalariesRequest* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  _impl_.years_.InternalSwap(&other->_impl_.years_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata GetAverageSalariesRequest::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_calc_2eproto_getter, &descriptor_table_calc_2eproto_once,
+      file_level_metadata_calc_2eproto[21]);
+}
+
+// ===================================================================
+
+class GetAverageSalariesResponse::_Internal {
+ public:
+};
+
+GetAverageSalariesResponse::GetAverageSalariesResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:calc.GetAverageSalariesResponse)
+}
+GetAverageSalariesResponse::GetAverageSalariesResponse(const GetAverageSalariesResponse& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  GetAverageSalariesResponse* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.salaries_){from._impl_.salaries_}
+    , decltype(_impl_.error_message_){}
+    , decltype(_impl_.success_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.error_message_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.error_message_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_error_message().empty()) {
+    _this->_impl_.error_message_.Set(from._internal_error_message(), 
+      _this->GetArenaForAllocation());
+  }
+  _this->_impl_.success_ = from._impl_.success_;
+  // @@protoc_insertion_point(copy_constructor:calc.GetAverageSalariesResponse)
+}
+
+inline void GetAverageSalariesResponse::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.salaries_){arena}
+    , decltype(_impl_.error_message_){}
+    , decltype(_impl_.success_){false}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+  _impl_.error_message_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.error_message_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+}
+
+GetAverageSalariesResponse::~GetAverageSalariesResponse() {
+  // @@protoc_insertion_point(destructor:calc.GetAverageSalariesResponse)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void GetAverageSalariesResponse::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.salaries_.~RepeatedPtrField();
+  _impl_.error_message_.Destroy();
+}
+
+void GetAverageSalariesResponse::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void GetAverageSalariesResponse::Clear() {
+// @@protoc_insertion_point(message_clear_start:calc.GetAverageSalariesResponse)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  _impl_.salaries_.Clear();
+  _impl_.error_message_.ClearToEmpty();
+  _impl_.success_ = false;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* GetAverageSalariesResponse::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // bool success = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
+          _impl_.success_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // repeated .calc.AverageSalaryRecord salaries = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_salaries(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<18>(ptr));
+        } else
+          goto handle_unusual;
+        continue;
+      // string error_message = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          auto str = _internal_mutable_error_message();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "calc.GetAverageSalariesResponse.error_message"));
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* GetAverageSalariesResponse::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:calc.GetAverageSalariesResponse)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // bool success = 1;
+  if (this->_internal_success() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(1, this->_internal_success(), target);
+  }
+
+  // repeated .calc.AverageSalaryRecord salaries = 2;
+  for (unsigned i = 0,
+      n = static_cast<unsigned>(this->_internal_salaries_size()); i < n; i++) {
+    const auto& repfield = this->_internal_salaries(i);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+        InternalWriteMessage(2, repfield, repfield.GetCachedSize(), target, stream);
+  }
+
+  // string error_message = 3;
+  if (!this->_internal_error_message().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_error_message().data(), static_cast<int>(this->_internal_error_message().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "calc.GetAverageSalariesResponse.error_message");
+    target = stream->WriteStringMaybeAliased(
+        3, this->_internal_error_message(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:calc.GetAverageSalariesResponse)
+  return target;
+}
+
+size_t GetAverageSalariesResponse::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:calc.GetAverageSalariesResponse)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated .calc.AverageSalaryRecord salaries = 2;
+  total_size += 1UL * this->_internal_salaries_size();
+  for (const auto& msg : this->_impl_.salaries_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
+  // string error_message = 3;
+  if (!this->_internal_error_message().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_error_message());
+  }
+
+  // bool success = 1;
+  if (this->_internal_success() != 0) {
+    total_size += 1 + 1;
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData GetAverageSalariesResponse::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    GetAverageSalariesResponse::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetAverageSalariesResponse::GetClassData() const { return &_class_data_; }
+
+
+void GetAverageSalariesResponse::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<GetAverageSalariesResponse*>(&to_msg);
+  auto& from = static_cast<const GetAverageSalariesResponse&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:calc.GetAverageSalariesResponse)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  _this->_impl_.salaries_.MergeFrom(from._impl_.salaries_);
+  if (!from._internal_error_message().empty()) {
+    _this->_internal_set_error_message(from._internal_error_message());
+  }
+  if (from._internal_success() != 0) {
+    _this->_internal_set_success(from._internal_success());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void GetAverageSalariesResponse::CopyFrom(const GetAverageSalariesResponse& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:calc.GetAverageSalariesResponse)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool GetAverageSalariesResponse::IsInitialized() const {
+  return true;
+}
+
+void GetAverageSalariesResponse::InternalSwap(GetAverageSalariesResponse* other) {
+  using std::swap;
+  auto* lhs_arena = GetArenaForAllocation();
+  auto* rhs_arena = other->GetArenaForAllocation();
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  _impl_.salaries_.InternalSwap(&other->_impl_.salaries_);
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.error_message_, lhs_arena,
+      &other->_impl_.error_message_, rhs_arena
+  );
+  swap(_impl_.success_, other->_impl_.success_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata GetAverageSalariesResponse::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_calc_2eproto_getter, &descriptor_table_calc_2eproto_once,
+      file_level_metadata_calc_2eproto[22]);
+}
+
+// ===================================================================
+
 class UpsertSubsistenceMinimumRequest::_Internal {
  public:
 };
@@ -7726,7 +8371,7 @@ void UpsertSubsistenceMinimumRequest::InternalSwap(UpsertSubsistenceMinimumReque
 ::PROTOBUF_NAMESPACE_ID::Metadata UpsertSubsistenceMinimumRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_calc_2eproto_getter, &descriptor_table_calc_2eproto_once,
-      file_level_metadata_calc_2eproto[21]);
+      file_level_metadata_calc_2eproto[23]);
 }
 
 // ===================================================================
@@ -8006,7 +8651,7 @@ void UpsertSubsistenceMinimumResponse::InternalSwap(UpsertSubsistenceMinimumResp
 ::PROTOBUF_NAMESPACE_ID::Metadata UpsertSubsistenceMinimumResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_calc_2eproto_getter, &descriptor_table_calc_2eproto_once,
-      file_level_metadata_calc_2eproto[22]);
+      file_level_metadata_calc_2eproto[24]);
 }
 
 // ===================================================================
@@ -8046,7 +8691,7 @@ const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*ListSubsistenceMinimumsRequest
 ::PROTOBUF_NAMESPACE_ID::Metadata ListSubsistenceMinimumsRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_calc_2eproto_getter, &descriptor_table_calc_2eproto_once,
-      file_level_metadata_calc_2eproto[23]);
+      file_level_metadata_calc_2eproto[25]);
 }
 
 // ===================================================================
@@ -8365,7 +9010,7 @@ void SubsistenceMinimumRecord::InternalSwap(SubsistenceMinimumRecord* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata SubsistenceMinimumRecord::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_calc_2eproto_getter, &descriptor_table_calc_2eproto_once,
-      file_level_metadata_calc_2eproto[24]);
+      file_level_metadata_calc_2eproto[26]);
 }
 
 // ===================================================================
@@ -8629,7 +9274,7 @@ void ListSubsistenceMinimumsResponse::InternalSwap(ListSubsistenceMinimumsRespon
 ::PROTOBUF_NAMESPACE_ID::Metadata ListSubsistenceMinimumsResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_calc_2eproto_getter, &descriptor_table_calc_2eproto_once,
-      file_level_metadata_calc_2eproto[25]);
+      file_level_metadata_calc_2eproto[27]);
 }
 
 // ===================================================================
@@ -8948,7 +9593,7 @@ void UpdateSubsistenceMinimumRequest::InternalSwap(UpdateSubsistenceMinimumReque
 ::PROTOBUF_NAMESPACE_ID::Metadata UpdateSubsistenceMinimumRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_calc_2eproto_getter, &descriptor_table_calc_2eproto_once,
-      file_level_metadata_calc_2eproto[26]);
+      file_level_metadata_calc_2eproto[28]);
 }
 
 // ===================================================================
@@ -9224,7 +9869,7 @@ void UpdateSubsistenceMinimumResponse::InternalSwap(UpdateSubsistenceMinimumResp
 ::PROTOBUF_NAMESPACE_ID::Metadata UpdateSubsistenceMinimumResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_calc_2eproto_getter, &descriptor_table_calc_2eproto_once,
-      file_level_metadata_calc_2eproto[27]);
+      file_level_metadata_calc_2eproto[29]);
 }
 
 // ===================================================================
@@ -9402,7 +10047,7 @@ void DeleteSubsistenceMinimumRequest::InternalSwap(DeleteSubsistenceMinimumReque
 ::PROTOBUF_NAMESPACE_ID::Metadata DeleteSubsistenceMinimumRequest::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_calc_2eproto_getter, &descriptor_table_calc_2eproto_once,
-      file_level_metadata_calc_2eproto[28]);
+      file_level_metadata_calc_2eproto[30]);
 }
 
 // ===================================================================
@@ -9632,7 +10277,7 @@ void DeleteSubsistenceMinimumResponse::InternalSwap(DeleteSubsistenceMinimumResp
 ::PROTOBUF_NAMESPACE_ID::Metadata DeleteSubsistenceMinimumResponse::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_calc_2eproto_getter, &descriptor_table_calc_2eproto_once,
-      file_level_metadata_calc_2eproto[29]);
+      file_level_metadata_calc_2eproto[31]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
@@ -9721,6 +10366,14 @@ Arena::CreateMaybeMessage< ::calc::SyncAverageSalariesRequest >(Arena* arena) {
 template<> PROTOBUF_NOINLINE ::calc::SyncAverageSalariesResponse*
 Arena::CreateMaybeMessage< ::calc::SyncAverageSalariesResponse >(Arena* arena) {
   return Arena::CreateMessageInternal< ::calc::SyncAverageSalariesResponse >(arena);
+}
+template<> PROTOBUF_NOINLINE ::calc::GetAverageSalariesRequest*
+Arena::CreateMaybeMessage< ::calc::GetAverageSalariesRequest >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::calc::GetAverageSalariesRequest >(arena);
+}
+template<> PROTOBUF_NOINLINE ::calc::GetAverageSalariesResponse*
+Arena::CreateMaybeMessage< ::calc::GetAverageSalariesResponse >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::calc::GetAverageSalariesResponse >(arena);
 }
 template<> PROTOBUF_NOINLINE ::calc::UpsertSubsistenceMinimumRequest*
 Arena::CreateMaybeMessage< ::calc::UpsertSubsistenceMinimumRequest >(Arena* arena) {

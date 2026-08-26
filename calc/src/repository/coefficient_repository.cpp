@@ -163,6 +163,11 @@ namespace calc
                 {
                     return it->second;
                 }
+                auto it_year = mock_salaries_.find({year, 0});
+                if (it_year != mock_salaries_.end())
+                {
+                    return it_year->second;
+                }
                 return 18000.0;
             }
 
@@ -182,6 +187,20 @@ namespace calc
                 {
                     double amount = res[0][0].as<double>();
                     if (amount > 0.0) return amount;
+                }
+
+                // If specific month is not found in DB (e.g. pre-1992 yearly average data stored with month = 0),
+                // check for annual average salary for that year (month = 0)
+                if (month != 0)
+                {
+                    pqxx::result res_year = txn.exec_params(
+                        "SELECT amount FROM pfu_average_salaries WHERE year = $1 AND month = 0",
+                        year);
+                    if (!res_year.empty() && !res_year[0][0].is_null())
+                    {
+                        double amount = res_year[0][0].as<double>();
+                        if (amount > 0.0) return amount;
+                    }
                 }
 
                 // Fallback: If PFU has not yet published national average data for this specific month,
@@ -261,6 +280,57 @@ namespace calc
                 std::cerr << "[Calc DB Exception getMacroeconomicAverageSalary] " << e.what() << std::endl;
             }
             return 0.0;
+        }
+
+        std::vector<AverageSalaryData> CoefficientRepository::getAverageSalariesForYears(const std::vector<int> &years) const
+        {
+            std::vector<AverageSalaryData> list;
+            if (mock_mode_)
+            {
+                for (const auto &pair : mock_salaries_)
+                {
+                    if (years.empty() || std::find(years.begin(), years.end(), pair.first.first) != years.end())
+                    {
+                        list.push_back({pair.first.first, pair.first.second, pair.second});
+                    }
+                }
+                return list;
+            }
+
+            try
+            {
+                pqxx::connection conn(db::DbConfig::getConnectionString());
+                if (!conn.is_open()) return list;
+
+                pqxx::work txn(conn);
+                pqxx::result res;
+
+                if (!years.empty())
+                {
+                    std::string query = "SELECT year, month, amount FROM pfu_average_salaries WHERE year IN (";
+                    for (size_t i = 0; i < years.size(); ++i)
+                    {
+                        if (i > 0) query += ",";
+                        query += std::to_string(years[i]);
+                    }
+                    query += ") ORDER BY year ASC, month ASC";
+                    res = txn.exec(query);
+                }
+                else
+                {
+                    res = txn.exec("SELECT year, month, amount FROM pfu_average_salaries ORDER BY year ASC, month ASC");
+                }
+
+                for (const auto &row : res)
+                {
+                    list.push_back({row[0].as<int>(), row[1].as<int>(), row[2].as<double>()});
+                }
+            }
+            catch (const std::exception &e)
+            {
+                std::cerr << "[Calc DB Exception getAverageSalariesForYears] " << e.what() << std::endl;
+            }
+            return list;
         }
 
         bool CoefficientRepository::upsertAverageSalary(int year, int month, double amount)

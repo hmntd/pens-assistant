@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import DatePicker from '@/components/ui/DatePicker.vue';
 import YearPicker from '@/components/ui/YearPicker.vue';
 import DisabilityGroupSelect from '@/components/ui/DisabilityGroupSelect.vue';
+import GenderSelectButton from '@/components/ui/GenderSelectButton.vue';
 
 const { t } = useI18n();
 const page = usePage();
@@ -20,6 +21,7 @@ const form = useForm({
     first_name: user?.first_name || '',
     last_name: user?.last_name || '',
     email: user?.email || '',
+    gender: user?.gender || null,
     date_of_birth: user?.date_of_birth || '',
     disability_group: user?.disability_group || 'none',
     pension_type: 'age',
@@ -72,9 +74,9 @@ function saveDetails() {
             </div>
         </div>
 
-        <form @submit.prevent="saveDetails" class="grid grid-cols-1 gap-8 lg:grid-cols-12">
+        <form @submit.prevent="saveDetails" class="grid grid-cols-1 gap-8 lg:grid-cols-12 items-start">
             <!-- Left Column: Name & Contact Info -->
-            <div class="lg:col-span-6 rounded-2xl border border-slate-200/80 bg-white/70 p-6 shadow-sm backdrop-blur-md dark:border-zinc-800/80 dark:bg-zinc-950/80 space-y-6">
+            <div class="lg:col-span-6 rounded-2xl border border-slate-200/80 bg-white/70 p-6 shadow-sm backdrop-blur-md dark:border-zinc-800/80 dark:bg-zinc-950/80 space-y-6 self-start h-fit">
                 <h3 class="text-base font-bold text-slate-900 dark:text-white border-b border-slate-100 dark:border-zinc-800/60 pb-3 flex items-center gap-2">
                     <User class="h-4 w-4 text-main" />
                     {{ t('profileDetails.mainInfoTitle') }}
@@ -94,6 +96,18 @@ function saveDetails() {
                 <div class="grid gap-2">
                     <Label for="email">{{ t('profileDetails.email') }}</Label>
                     <Input id="email" type="email" v-model="form.email" required />
+                </div>
+
+                <!-- Gender Selection (2 Sectors: Male Left, Female Right) -->
+                <div class="grid gap-2">
+                    <Label for="gender" class="flex items-center justify-between">
+                        <span>{{ t('gender.label') }}</span>
+                        <span v-if="!form.gender" class="text-[10px] text-amber-500 font-bold">{{ t('gender.notSpecified') }}</span>
+                    </Label>
+                    <GenderSelectButton
+                        id="gender"
+                        v-model="form.gender"
+                    />
                 </div>
 
                 <!-- Date of Birth Picker -->
@@ -123,7 +137,7 @@ function saveDetails() {
             </div>
 
             <!-- Right Column: Disability Group & Special Categories -->
-            <div class="lg:col-span-6 rounded-2xl border border-slate-200/80 bg-white/70 p-6 shadow-sm backdrop-blur-md dark:border-zinc-800/80 dark:bg-zinc-950/80 space-y-6">
+            <div class="lg:col-span-6 rounded-2xl border border-slate-200/80 bg-white/70 p-6 shadow-sm backdrop-blur-md dark:border-zinc-800/80 dark:bg-zinc-950/80 space-y-6 self-start h-fit">
                 <h3 class="text-base font-bold text-slate-900 dark:text-white border-b border-slate-100 dark:border-zinc-800/60 pb-3 flex items-center gap-2">
                     <ShieldAlert class="h-4 w-4 text-main" />
                     {{ t('profileDetails.disabilityTitle') }}

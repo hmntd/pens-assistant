@@ -92,6 +92,8 @@ const uploadForm = useForm<{
 const isRangeMode = ref(true);
 const currentYear = new Date().getFullYear();
 
+const passSalaryPre2000 = ref(false);
+
 const manualTaxForm = useForm({
     is_range: true,
     year: currentYear,
@@ -99,6 +101,37 @@ const manualTaxForm = useForm({
     to_year: currentYear,
     monthly_salary: 15000,
     months_worked: 12,
+});
+
+const isPre2000Selected = computed(() => {
+    if (isRangeMode.value) {
+        return Boolean(manualTaxForm.to_year && manualTaxForm.to_year < 2000);
+    }
+    return Boolean(manualTaxForm.year && manualTaxForm.year < 2000);
+});
+
+watch(() => manualTaxForm.from_year, (newFrom) => {
+    if (newFrom >= currentYear) {
+        manualTaxForm.from_year = currentYear - 1;
+    }
+    if (manualTaxForm.to_year <= manualTaxForm.from_year) {
+        manualTaxForm.to_year = Math.min(currentYear, manualTaxForm.from_year + 1);
+    }
+});
+
+watch(() => manualTaxForm.to_year, (newTo) => {
+    if (newTo > currentYear) {
+        manualTaxForm.to_year = currentYear;
+    }
+    if (manualTaxForm.from_year >= manualTaxForm.to_year) {
+        manualTaxForm.from_year = Math.max(1950, manualTaxForm.to_year - 1);
+    }
+});
+
+watch(() => manualTaxForm.year, (newYr) => {
+    if (newYr > currentYear) {
+        manualTaxForm.year = currentYear;
+    }
 });
 
 const totalWorkedYearsCount = computed(() => taxHistoriesList.value.length);
@@ -214,6 +247,9 @@ function uploadDocument() {
 
 function submitManualTaxHistory() {
     manualTaxForm.is_range = isRangeMode.value;
+    if (isPre2000Selected.value && !passSalaryPre2000.value) {
+        manualTaxForm.monthly_salary = 0;
+    }
     manualTaxForm.post('/documents/tax-histories', {
         preserveScroll: true,
         onSuccess: (res: any) => {
@@ -267,6 +303,7 @@ const monthNames = computed(() => locale.value === 'uk' ? ukMonthNames : enMonth
 
 const isEditTaxModalOpen = ref(false);
 const editingTaxHistory = ref<any | null>(null);
+const editPassSalaryPre2000 = ref(false);
 const monthlyBreakdownForm = ref<{ [key: number]: number }>({
     1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0, 9: 0, 10: 0, 11: 0, 12: 0
 });
@@ -278,6 +315,8 @@ function openEditTaxModal(item: any) {
     const avgMonthly = item.annual_income / monthsWorked;
     const breakdown = item.monthly_breakdown || {};
 
+    editPassSalaryPre2000.value = item.year < 2000 ? (item.annual_income > 0) : true;
+
     const initial: { [key: number]: number } = {};
     for (let m = 1; m <= 12; m++) {
         const rawVal = breakdown[m] ?? breakdown[String(m)] ?? (m <= monthsWorked ? avgMonthly : 0);
@@ -287,12 +326,25 @@ function openEditTaxModal(item: any) {
     isEditTaxModalOpen.value = true;
 }
 
+watch(editPassSalaryPre2000, (newVal) => {
+    if (editingTaxHistory.value && editingTaxHistory.value.year < 2000 && !newVal) {
+        for (let m = 1; m <= 12; m++) {
+            monthlyBreakdownForm.value[m] = 0;
+        }
+    }
+});
+
 const calculatedAnnualSum = computed(() => {
     return Object.values(monthlyBreakdownForm.value).reduce((sum, val) => sum + (Number(val) || 0), 0);
 });
 
 function submitEditTaxHistory() {
     if (!editingTaxHistory.value) return;
+    if (editingTaxHistory.value.year < 2000 && !editPassSalaryPre2000.value) {
+        for (let m = 1; m <= 12; m++) {
+            monthlyBreakdownForm.value[m] = 0;
+        }
+    }
     isSubmittingEditTax.value = true;
 
     useForm({
@@ -517,11 +569,11 @@ function getExtractedData(doc: DocumentItem): any {
                                 <div class="grid grid-cols-2 gap-3">
                                     <div class="grid gap-1.5">
                                         <Label for="from_year" class="text-xs">{{ t('documents.fromYear') }}</Label>
-                                        <YearPicker id="from_year" v-model="manualTaxForm.from_year" :min-year="1950" :max-year="2099" />
+                                        <YearPicker id="from_year" v-model="manualTaxForm.from_year" :min-year="1950" :max-year="currentYear - 1" />
                                     </div>
                                     <div class="grid gap-1.5">
                                         <Label for="to_year" class="text-xs">{{ t('documents.toYear') }}</Label>
-                                        <YearPicker id="to_year" v-model="manualTaxForm.to_year" :min-year="1950" :max-year="2099" />
+                                        <YearPicker id="to_year" v-model="manualTaxForm.to_year" :min-year="manualTaxForm.from_year ? manualTaxForm.from_year + 1 : 1951" :max-year="currentYear" />
                                     </div>
                                 </div>
                                 <p class="text-[10px] text-slate-400">
@@ -533,16 +585,40 @@ function getExtractedData(doc: DocumentItem): any {
                             <template v-else>
                                 <div class="grid gap-1.5">
                                     <Label for="single_year" class="text-xs">{{ t('documents.singleYear') }}</Label>
-                                    <YearPicker id="single_year" v-model="manualTaxForm.year" :min-year="1950" :max-year="2099" />
+                                    <YearPicker id="single_year" v-model="manualTaxForm.year" :min-year="1950" :max-year="currentYear" />
                                 </div>
                             </template>
 
-                            <div class="grid grid-cols-2 gap-3">
-                                <div class="grid gap-1.5">
-                                    <Label for="monthly_salary" class="text-xs">{{ t('documents.monthlySalary') }}</Label>
-                                    <Input id="monthly_salary" type="number" step="100" v-model="manualTaxForm.monthly_salary" required />
+                            <!-- Pre-2000 Salary Pass Switch/Toggle -->
+                            <div v-if="isPre2000Selected" class="rounded-xl border border-amber-200/80 bg-amber-50/60 dark:border-amber-900/40 dark:bg-amber-950/30 p-3.5 space-y-2">
+                                <div class="flex items-center justify-between gap-3">
+                                    <Label for="pass_salary_pre_2000" class="text-xs font-bold text-slate-800 dark:text-zinc-200 cursor-pointer">
+                                        {{ t('documents.includePre2000SalaryLabel') }}
+                                    </Label>
+                                    <button
+                                        type="button"
+                                        id="pass_salary_pre_2000"
+                                        @click="passSalaryPre2000 = !passSalaryPre2000"
+                                        class="relative inline-flex h-5 w-10 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none"
+                                        :class="passSalaryPre2000 ? 'bg-main' : 'bg-slate-300 dark:bg-zinc-700'"
+                                    >
+                                        <span
+                                            class="pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out"
+                                            :class="passSalaryPre2000 ? 'translate-x-5' : 'translate-x-0'"
+                                        ></span>
+                                    </button>
                                 </div>
-                                <div class="grid gap-1.5">
+                                <p class="text-[11px] text-amber-800 dark:text-amber-300/90 leading-relaxed">
+                                    {{ passSalaryPre2000 ? t('documents.pre2000SalaryNoticeWith') : t('documents.pre2000SalaryNoticeWithout') }}
+                                </p>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-3">
+                                <div v-if="!isPre2000Selected || passSalaryPre2000" class="grid gap-1.5">
+                                    <Label for="monthly_salary" class="text-xs">{{ t('documents.monthlySalary') }}</Label>
+                                    <Input id="monthly_salary" type="number" step="100" min="0" v-model="manualTaxForm.monthly_salary" required />
+                                </div>
+                                <div :class="(!isPre2000Selected || passSalaryPre2000) ? 'grid gap-1.5' : 'col-span-2 grid gap-1.5'">
                                     <Label for="months_worked" class="text-xs">{{ t('documents.monthsInYear') }}</Label>
                                     <Input id="months_worked" type="number" min="1" max="12" v-model="manualTaxForm.months_worked" required />
                                 </div>
@@ -575,7 +651,7 @@ function getExtractedData(doc: DocumentItem): any {
                         </h3>
 
                         <template v-if="taxHistoriesList.length > 0">
-                            <div class="overflow-x-auto max-h-64 overflow-y-auto">
+                            <div class="overflow-x-auto max-h-64 overflow-y-auto [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-slate-300 dark:[&::-webkit-scrollbar-thumb]:bg-zinc-800 [&::-webkit-scrollbar-thumb]:rounded-full">
                                 <table class="w-full text-left text-xs">
                                     <thead>
                                         <tr class="border-b border-slate-200 dark:border-zinc-800 text-slate-400 font-semibold">
@@ -590,13 +666,25 @@ function getExtractedData(doc: DocumentItem): any {
                                         <tr v-for="item in taxHistoriesList" :key="item.id" class="hover:bg-slate-50/50 dark:hover:bg-zinc-900/50">
                                             <td class="py-2.5 font-bold text-slate-900 dark:text-white">{{ item.year }}</td>
                                             <td class="py-2.5 text-right font-mono text-slate-700 dark:text-zinc-300">
-                                                {{ Number(item.annual_income / (item.months_worked || 12)).toLocaleString('uk-UA', { minimumFractionDigits: 0 }) }} ₴
+                                                <template v-if="item.annual_income > 0">
+                                                    {{ Number(item.annual_income / (item.months_worked || 12)).toLocaleString('uk-UA', { minimumFractionDigits: 0 }) }} ₴
+                                                </template>
+                                                <template v-else>
+                                                    <span class="text-[10px] italic text-amber-700 dark:text-amber-400 font-semibold bg-amber-50 dark:bg-amber-950/40 px-2 py-0.5 rounded-md border border-amber-200/60 dark:border-amber-900/40">
+                                                        {{ t('documents.noSalaryBadge') }}
+                                                    </span>
+                                                </template>
                                             </td>
                                             <td class="py-2.5 text-right font-bold text-slate-600 dark:text-zinc-400">
                                                 {{ item.months_worked || 12 }}
                                             </td>
                                             <td class="py-2.5 text-right font-bold text-main-dark dark:text-main">
-                                                {{ Number(item.annual_income).toLocaleString('uk-UA') }} ₴
+                                                <template v-if="item.annual_income > 0">
+                                                    {{ Number(item.annual_income).toLocaleString('uk-UA') }} ₴
+                                                </template>
+                                                <template v-else>
+                                                    <span class="text-slate-400 font-normal">&mdash;</span>
+                                                </template>
                                             </td>
                                             <td class="py-2.5 text-right">
                                                 <div class="flex items-center justify-end gap-1">
@@ -818,8 +906,32 @@ function getExtractedData(doc: DocumentItem): any {
                 </DialogHeader>
 
                 <form @submit.prevent="submitEditTaxHistory" class="space-y-6 pt-4">
+                    <!-- Pre-2000 Toggle Switch inside Edit Modal -->
+                    <div v-if="editingTaxHistory && editingTaxHistory.year < 2000" class="rounded-xl border border-amber-200/80 bg-amber-50/60 dark:border-amber-900/40 dark:bg-amber-950/30 p-3.5 space-y-2">
+                        <div class="flex items-center justify-between gap-3">
+                            <Label for="edit_pass_salary_toggle" class="text-xs font-bold text-slate-800 dark:text-zinc-200 cursor-pointer">
+                                {{ t('documents.includePre2000SalaryLabel') }}
+                            </Label>
+                            <button
+                                type="button"
+                                id="edit_pass_salary_toggle"
+                                @click="editPassSalaryPre2000 = !editPassSalaryPre2000"
+                                class="relative inline-flex h-5 w-10 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none"
+                                :class="editPassSalaryPre2000 ? 'bg-main' : 'bg-slate-300 dark:bg-zinc-700'"
+                            >
+                                <span
+                                    class="pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out"
+                                    :class="editPassSalaryPre2000 ? 'translate-x-5' : 'translate-x-0'"
+                                ></span>
+                            </button>
+                        </div>
+                        <p class="text-[11px] text-amber-800 dark:text-amber-300/90 leading-relaxed">
+                            {{ editPassSalaryPre2000 ? t('documents.pre2000SalaryNoticeWith') : t('documents.pre2000SalaryNoticeWithout') }}
+                        </p>
+                    </div>
+
                     <!-- 12 Months Grid -->
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[50vh] overflow-y-auto pr-2">
+                    <div v-if="!editingTaxHistory || editingTaxHistory.year >= 2000 || editPassSalaryPre2000" class="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[50vh] overflow-y-auto pr-2">
                         <div v-for="m in 12" :key="m" class="flex items-center justify-between gap-3 p-2.5 rounded-xl border border-slate-200/80 dark:border-zinc-800/80 bg-slate-50/50 dark:bg-zinc-900/50">
                             <span class="text-xs font-semibold text-slate-700 dark:text-zinc-300 w-28 shrink-0 flex items-center gap-1.5">
                                 <span class="w-5 h-5 rounded-full bg-main/20 text-main font-bold text-[10px] flex items-center justify-center">{{ m }}</span>

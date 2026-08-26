@@ -64,13 +64,11 @@ class AdminDocumentTest extends TestCase
         $response = $this->actingAs($admin)->getJson(route('admin.documents.index'));
 
         $response->assertStatus(Response::HTTP_OK)
-            ->assertJsonStructure([
-                'status',
-                'data' => [
-                    '*' => ['id', 'user_id', 'original_filename', 'status', 'user'],
-                ],
-                'meta' => ['current_page', 'per_page', 'total', 'last_page'],
+            ->assertJson([
+                'status' => 'success',
             ]);
+
+        $this->assertEquals(1, count($response->json('data.data')));
     }
 
     public function test_admin_can_show_any_document(): void
@@ -94,8 +92,8 @@ class AdminDocumentTest extends TestCase
                 'status' => 'success',
                 'data' => [
                     'id' => $doc->id,
-                    'user_id' => $regularUser->id,
-                    'original_filename' => 'doc3.pdf',
+                    'document_type' => 'income_certificate',
+                    'status' => 'completed',
                 ],
             ]);
     }

@@ -7,7 +7,7 @@ import { useCurrentUrl } from '@/composables/useCurrentUrl';
 import { edit as editAppearance } from '@/routes/appearance';
 import { edit as editProfile } from '@/routes/profile';
 import { edit as editSecurity } from '@/routes/security';
-import { User, ShieldCheck, Sun, ArrowLeft } from '@lucide/vue';
+import { User, ShieldCheck, Sun, Bell, ArrowLeft } from '@lucide/vue';
 
 const { t } = useI18n();
 
@@ -26,6 +26,11 @@ const navItems = computed(() => [
         title: t('settings.nav.appearance'),
         href: editAppearance(),
         icon: Sun,
+    },
+    {
+        title: t('settings.nav.notifications'),
+        href: '/settings/notifications',
+        icon: Bell,
     },
 ]);
 

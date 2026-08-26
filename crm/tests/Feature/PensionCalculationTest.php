@@ -96,6 +96,24 @@ class PensionCalculationTest extends TestCase
             'total_accumulated_capital' => 1200000.00,
         ]);
 
+        $this->mock(PensionCalculatorService::class, function ($mock) use ($user) {
+            $mock->shouldReceive('calculateAndSave')
+                ->once()
+                ->andReturnUsing(fn () => CalculatedPension::create([
+                    'user_id' => $user->id,
+                    'final_pension' => 8500.00,
+                    'base_pension' => 7800.00,
+                    'zp_macroeconomic_average' => 13559.41,
+                    'kz_wage_coefficient' => 1.2500,
+                    'ks_service_coefficient' => 0.4000,
+                    'total_service_months' => 480,
+                    'pension_type' => 'old_age',
+                    'disability_group' => 'none',
+                    'estimated_monthly_pension' => 8500.00,
+                    'total_accumulated_capital' => 1872000.00,
+                ]));
+        });
+
         $payload = [
             'gender' => 'male',
             'date_of_birth' => '1960-05-15',

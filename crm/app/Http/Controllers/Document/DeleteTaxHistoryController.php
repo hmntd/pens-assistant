@@ -41,7 +41,8 @@ class DeleteTaxHistoryController extends Controller
         }
 
         return response()->json([
-            'message' => 'Запис страхового стажу видалено.',
+            'status' => 'success',
+            'message' => 'Insurance service record deleted successfully.',
         ], Response::HTTP_OK);
     }
 }

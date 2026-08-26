@@ -17,6 +17,8 @@ import {
     Table,
     Clock,
     FileText,
+    ChevronDown,
+    ChevronRight,
 } from '@lucide/vue';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -105,6 +107,7 @@ const form = useForm({
     enable_hypothetical_projection: false,
 });
 
+const isGenderMissing = computed(() => !user.value?.gender);
 const isRetirementYearMissing = computed(() => !user.value?.target_retirement_year);
 const isInsuranceServiceMissing = computed(() => !taxHistoriesList.value || taxHistoriesList.value.length === 0);
 
@@ -145,7 +148,7 @@ const isHypothetical = computed(() => {
     return Boolean(form.enable_hypothetical_projection);
 });
 
-const isCalculationBlocked = computed(() => isRetirementYearMissing.value || isInsuranceServiceMissing.value);
+const isCalculationBlocked = computed(() => isGenderMissing.value || isRetirementYearMissing.value || isInsuranceServiceMissing.value);
 
 const isAdmin = computed(() => {
     return Boolean(
@@ -154,6 +157,37 @@ const isAdmin = computed(() => {
         (Array.isArray(user.value?.roles) && user.value.roles.some((r: any) => (typeof r === 'string' ? r === 'admin' : r.name === 'admin')))
     );
 });
+
+const isLoadingBreakdown = ref(false);
+const detailedBreakdown = ref<any[] | null>(null);
+const expandedYears = ref<{ [key: number]: boolean }>({});
+
+function toggleYearAccordion(year: number) {
+    expandedYears.value[year] = !expandedYears.value[year];
+}
+
+async function fetchDetailedBreakdown(calcId: number) {
+    if (!calcId) return;
+    isLoadingBreakdown.value = true;
+    try {
+        const response = await fetch(`/pension-calculations/${calcId}/breakdown`, {
+            headers: {
+                'Accept': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+            },
+        });
+        if (response.ok) {
+            const json = await response.json();
+            if (json?.success) {
+                detailedBreakdown.value = json.data || [];
+            }
+        }
+    } catch (e) {
+        console.error('Failed to fetch calculation breakdown:', e);
+    } finally {
+        isLoadingBreakdown.value = false;
+    }
+}
 
 function openCalculationDetails(tab: 'kz' | 'zp' | 'ks' | 'logs' = 'kz', item?: CalculationItem) {
     if (item) {
@@ -165,7 +199,17 @@ function openCalculationDetails(tab: 'kz' | 'zp' | 'ks' | 'logs' = 'kz', item?: 
         activeDetailTab.value = tab;
     }
     showDetailsModal.value = true;
+
+    if (activeResult.value?.id) {
+        fetchDetailedBreakdown(activeResult.value.id);
+    }
 }
+
+watch(activeResult, (newRes) => {
+    if (newRes?.id && showDetailsModal.value) {
+        fetchDetailedBreakdown(newRes.id);
+    }
+});
 
 async function refreshTaxHistories() {
     try {
@@ -324,6 +368,11 @@ function runCalculation() {
         <div v-else class="space-y-8">
             <!-- Highlighted Missing Data Alerts -->
             <div class="space-y-3">
+                <MissingDataHighlight v-if="isGenderMissing"
+                    :title="t('gender.requiredTitle')"
+                    :description="t('gender.requiredNotice')"
+                    @click="emit('go-to-section', 'profile_details')" />
+
                 <MissingDataHighlight v-if="isRetirementYearMissing"
                     :title="t('dashboard.alerts.missingRetirementYearTitle')"
                     :description="t('dashboard.alerts.missingRetirementYearDesc')"
@@ -361,6 +410,18 @@ function runCalculation() {
                                 {{ user?.first_name ? `${user.first_name} ${user.last_name || ''}` : (user?.name ||
                                 '---') }}
                             </span>
+                        </div>
+
+                        <div
+                            class="flex items-center justify-between py-2 border-b border-slate-100 dark:border-zinc-900">
+                            <span class="text-slate-500 dark:text-zinc-400">{{ t('gender.label') }}</span>
+                            <span v-if="user?.gender" class="font-bold text-slate-900 dark:text-white">
+                                {{ user.gender === 'MALE' || user.gender === 'male' ? t('gender.male') : t('gender.female') }}
+                            </span>
+                            <button v-else @click="emit('go-to-section', 'profile_details')" type="button"
+                                class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-600 dark:text-amber-400 font-bold hover:underline cursor-pointer">
+                                {{ t('gender.notSpecified') }}
+                            </button>
                         </div>
 
                         <div
@@ -736,175 +797,234 @@ function runCalculation() {
 
         <!-- Calculation Details & Coefficient Formula Breakdown Modal Dialog -->
         <Dialog :open="showDetailsModal" @update:open="showDetailsModal = $event">
-            <DialogContent class="sm:max-w-3xl max-h-[90vh] overflow-y-auto rounded-3xl border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 p-6 shadow-2xl">
-                <DialogHeader class="space-y-2">
+            <DialogContent class="sm:max-w-3xl h-[85vh] max-h-[85vh] w-[95vw] sm:w-full flex flex-col rounded-2xl sm:rounded-3xl border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 p-4 sm:p-6 shadow-2xl overflow-hidden">
+                <DialogHeader class="space-y-1.5 sm:space-y-2 shrink-0">
                     <div class="flex items-center gap-2 text-main-dark dark:text-main">
-                        <Layers class="h-6 w-6 text-main" />
-                        <DialogTitle class="text-lg font-extrabold text-slate-900 dark:text-white">
+                        <Layers class="h-5 w-5 sm:h-6 sm:w-6 text-main shrink-0" />
+                        <DialogTitle class="text-base sm:text-lg font-extrabold text-slate-900 dark:text-white">
                             {{ t('dashboard.details.modalTitle') }}
                         </DialogTitle>
                     </div>
-                    <DialogDescription class="text-xs text-slate-500 dark:text-zinc-400">
+                    <DialogDescription class="text-[11px] sm:text-xs text-slate-500 dark:text-zinc-400">
                         {{ t('dashboard.details.baseFormulaTitle') }}: <span class="font-bold text-slate-900 dark:text-white">{{ t('dashboard.details.formulaExpression') }}</span>
                     </DialogDescription>
                 </DialogHeader>
 
-                <!-- Dynamic Tab Navigation Bar -->
-                <div class="mt-4 flex flex-wrap gap-2 border-b border-slate-100 dark:border-zinc-800 pb-3">
+                <!-- Dynamic Tab Navigation Bar (Scrollable on mobile) -->
+                <div class="mt-3 sm:mt-4 flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-2 sm:pb-3 border-b border-slate-100 dark:border-zinc-800 scrollbar-none shrink-0">
                     <button
                         @click="activeDetailTab = 'kz'"
                         type="button"
-                        class="px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5"
+                        class="px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
                         :class="activeDetailTab === 'kz' ? 'bg-main text-slate-950 shadow-sm' : 'bg-slate-100 text-slate-600 dark:bg-zinc-900 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white'"
                     >
-                        <Table class="h-3.5 w-3.5" />
-                        {{ t('dashboard.details.tabKzTitle') }}
+                        <Table class="h-3.5 w-3.5 shrink-0" />
+                        <span>{{ t('dashboard.details.tabKzTitle') }}</span>
                     </button>
 
                     <button
                         @click="activeDetailTab = 'zp'"
                         type="button"
-                        class="px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5"
+                        class="px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
                         :class="activeDetailTab === 'zp' ? 'bg-main text-slate-950 shadow-sm' : 'bg-slate-100 text-slate-600 dark:bg-zinc-900 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white'"
                     >
-                        <Layers class="h-3.5 w-3.5" />
-                        {{ t('dashboard.details.tabZpTitle') }}
+                        <Layers class="h-3.5 w-3.5 shrink-0" />
+                        <span>{{ t('dashboard.details.tabZpTitle') }}</span>
                     </button>
 
                     <button
                         @click="activeDetailTab = 'ks'"
                         type="button"
-                        class="px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5"
+                        class="px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
                         :class="activeDetailTab === 'ks' ? 'bg-main text-slate-950 shadow-sm' : 'bg-slate-100 text-slate-600 dark:bg-zinc-900 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white'"
                     >
-                        <Clock class="h-3.5 w-3.5" />
-                        {{ t('dashboard.details.tabKsTitle') }}
+                        <Clock class="h-3.5 w-3.5 shrink-0" />
+                        <span>{{ t('dashboard.details.tabKsTitle') }}</span>
                     </button>
 
                     <button
                         v-if="isAdmin"
                         @click="activeDetailTab = 'logs'"
                         type="button"
-                        class="px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5"
+                        class="px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
                         :class="activeDetailTab === 'logs' ? 'bg-main text-slate-950 shadow-sm' : 'bg-slate-100 text-slate-600 dark:bg-zinc-900 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white'"
                     >
-                        <FileText class="h-3.5 w-3.5" />
-                        {{ t('dashboard.details.tabLogsTitle') }}
+                        <FileText class="h-3.5 w-3.5 shrink-0" />
+                        <span>{{ t('dashboard.details.tabLogsTitle') }}</span>
                     </button>
                 </div>
 
-                <!-- Tab 1: Kz Wage Coefficient Table -->
-                <div v-if="activeDetailTab === 'kz'" class="mt-4 space-y-4">
-                    <div class="rounded-2xl border border-slate-100 dark:border-zinc-800 bg-slate-50/60 dark:bg-zinc-900/50 p-4 space-y-2">
-                        <div class="flex items-center justify-between">
-                            <span class="text-xs font-extrabold text-slate-900 dark:text-white">
-                                {{ t('dashboard.details.avgKzTitle') }}
-                            </span>
-                            <span class="text-lg font-black text-main-dark dark:text-main">
-                                {{ Number(activeResult?.kz_wage_coefficient || 1.0).toFixed(4) }}
-                            </span>
+                <!-- Scrollable Tab Content Container -->
+                <div class="mt-3 sm:mt-4 flex-1 overflow-y-auto min-h-0 pr-1 space-y-3 sm:space-y-4 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-slate-300 dark:[&::-webkit-scrollbar-thumb]:bg-zinc-800 [&::-webkit-scrollbar-thumb]:rounded-full">
+                    <!-- Tab 1: Kz Wage Coefficient Table -->
+                    <div v-if="activeDetailTab === 'kz'" class="space-y-3 sm:space-y-4">
+                        <div class="rounded-2xl border border-slate-100 dark:border-zinc-800 bg-slate-50/60 dark:bg-zinc-900/50 p-3.5 sm:p-4 space-y-1.5 sm:space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-extrabold text-slate-900 dark:text-white">
+                                    {{ t('dashboard.details.avgKzTitle') }}
+                                </span>
+                                <span class="text-base sm:text-lg font-black text-main-dark dark:text-main">
+                                    {{ Number(activeResult?.kz_wage_coefficient || 1.0).toFixed(4) }}
+                                </span>
+                            </div>
+                            <p class="text-[11px] text-slate-500 dark:text-zinc-400 leading-relaxed">
+                                {{ t('dashboard.details.kzNoticeText') }}
+                            </p>
                         </div>
-                        <p class="text-[11px] text-slate-500 dark:text-zinc-400 leading-relaxed">
-                            Коефіцієнт Kz обраховується як середньозважене значення співвідношення місячного доходу особи (Mi) до середньої зарплати в Україні (MN) за відповідні роки (Ki = Mi / MN).
-                        </p>
+
+                        <!-- Skeleton Loading State -->
+                        <div v-if="isLoadingBreakdown" class="space-y-3 p-3.5 sm:p-4 rounded-2xl border border-slate-200 dark:border-zinc-800">
+                            <div class="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-zinc-800">
+                                <Skeleton class="h-4 w-32" />
+                                <Skeleton class="h-4 w-24" />
+                            </div>
+                            <div v-for="i in 4" :key="i" class="space-y-2 py-2">
+                                <div class="flex items-center justify-between">
+                                    <Skeleton class="h-4 w-20" />
+                                    <Skeleton class="h-4 w-28" />
+                                    <Skeleton class="h-4 w-28" />
+                                    <Skeleton class="h-4 w-16" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Detailed Accordion Breakdown Table -->
+                        <div v-else-if="detailedBreakdown && detailedBreakdown.length > 0" class="overflow-x-auto rounded-2xl border border-slate-200 dark:border-zinc-800 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-slate-300 dark:[&::-webkit-scrollbar-thumb]:bg-zinc-800 [&::-webkit-scrollbar-thumb]:rounded-full">
+                            <table class="w-full text-left text-[11px] sm:text-xs min-w-[520px] sm:min-w-full">
+                                <thead class="sticky top-0 z-10 bg-slate-100 dark:bg-zinc-900 text-slate-600 dark:text-zinc-300 font-bold uppercase tracking-wider text-[9px] sm:text-[10px] shadow-xs">
+                                    <tr>
+                                        <th class="p-2 sm:p-3">{{ t('dashboard.details.tableYear') }}</th>
+                                        <th class="p-2 sm:p-3">{{ t('dashboard.details.tableUserSalary') }}</th>
+                                        <th class="p-2 sm:p-3">{{ t('dashboard.details.tableNationalSalary') }}</th>
+                                        <th class="p-2 sm:p-3 text-right">{{ t('dashboard.details.tableMonthlyCoeff') }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100 dark:divide-zinc-800/80 font-medium">
+                                    <template v-for="yItem in detailedBreakdown" :key="yItem.year">
+                                        <!-- Year Summary Row (Accordion Trigger) -->
+                                        <tr
+                                            @click="toggleYearAccordion(yItem.year)"
+                                            class="hover:bg-slate-100/80 dark:hover:bg-zinc-900/80 cursor-pointer transition-colors bg-slate-50/50 dark:bg-zinc-900/30"
+                                        >
+                                            <td class="p-2 sm:p-3 font-bold text-slate-900 dark:text-white flex items-center gap-1.5 sm:gap-2">
+                                                <component :is="expandedYears[yItem.year] ? ChevronDown : ChevronRight" class="h-3.5 w-3.5 sm:h-4 sm:w-4 text-main shrink-0 transition-transform" />
+                                                <span>{{ yItem.year }} р.</span>
+                                            </td>
+                                            <td class="p-2 sm:p-3 text-slate-700 dark:text-zinc-300">
+                                                <template v-if="yItem.user_annual_income > 0">
+                                                    <div>{{ Number(yItem.user_avg_monthly_salary).toLocaleString('uk-UA', { minimumFractionDigits: 2 }) }} ₴ /міс</div>
+                                                    <span class="text-[9px] sm:text-[10px] text-slate-400 block">({{ Number(yItem.user_annual_income).toLocaleString('uk-UA') }} ₴ /рік, {{ yItem.months_worked }} міс.)</span>
+                                                </template>
+                                                <template v-else>
+                                                    <span class="text-[9px] sm:text-[10px] italic text-amber-700 dark:text-amber-400 font-semibold bg-amber-50 dark:bg-amber-950/40 px-1.5 py-0.5 rounded-md border border-amber-200/60 dark:border-amber-900/40">
+                                                        {{ t('documents.noSalaryBadge') }}
+                                                    </span>
+                                                </template>
+                                            </td>
+                                            <td class="p-2 sm:p-3 text-slate-700 dark:text-zinc-300 font-semibold">
+                                                {{ Number(yItem.national_avg_salary).toLocaleString('uk-UA', { minimumFractionDigits: 2 }) }} ₴
+                                            </td>
+                                            <td class="p-2 sm:p-3 text-right font-extrabold text-main-dark dark:text-main">
+                                                {{ Number(yItem.yearly_coefficient).toFixed(4) }}
+                                            </td>
+                                        </tr>
+
+                                        <!-- Expanded Monthly Sub-Rows -->
+                                        <template v-if="expandedYears[yItem.year]">
+                                            <tr
+                                                v-for="mRec in yItem.months"
+                                                :key="mRec.month"
+                                                class="bg-slate-100/40 dark:bg-zinc-950/60 hover:bg-slate-100 dark:hover:bg-zinc-900/60 text-[10px] sm:text-[11px]"
+                                            >
+                                                <td class="py-1.5 sm:py-2 px-2 sm:px-3 pl-5 sm:pl-8 text-slate-600 dark:text-zinc-400 font-medium flex items-center gap-1 sm:gap-1.5">
+                                                    <span class="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-main/60 shrink-0"></span>
+                                                    <span>{{ t('monthNames.' + mRec.month) }}</span>
+                                                </td>
+                                                <td class="py-1.5 sm:py-2 px-2 sm:px-3 font-mono text-slate-700 dark:text-zinc-300">
+                                                    {{ Number(mRec.user_salary).toLocaleString('uk-UA', { minimumFractionDigits: 2 }) }} ₴
+                                                </td>
+                                                <td class="py-1.5 sm:py-2 px-2 sm:px-3 font-mono text-slate-600 dark:text-zinc-400">
+                                                    {{ Number(mRec.national_avg_salary).toLocaleString('uk-UA', { minimumFractionDigits: 2 }) }} ₴
+                                                </td>
+                                                <td class="py-1.5 sm:py-2 px-2 sm:px-3 text-right font-mono font-bold text-main-dark dark:text-main">
+                                                    {{ Number(mRec.monthly_coefficient).toFixed(4) }}
+                                                </td>
+                                            </tr>
+                                        </template>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div v-else class="p-4 sm:p-6 text-center text-xs text-slate-400 dark:text-zinc-500 rounded-2xl border border-dashed border-slate-200 dark:border-zinc-800">
+                            {{ t('dashboard.details.noTaxRecordsNotice') }}
+                        </div>
                     </div>
 
-                    <div v-if="taxHistoriesList.length > 0" class="overflow-x-auto rounded-2xl border border-slate-200 dark:border-zinc-800">
-                        <table class="w-full text-left text-xs">
-                            <thead class="bg-slate-100 dark:bg-zinc-900 text-slate-600 dark:text-zinc-300 font-bold uppercase tracking-wider text-[10px]">
-                                <tr>
-                                    <th class="p-3">{{ t('dashboard.details.tableYear') }}</th>
-                                    <th class="p-3">{{ t('dashboard.details.tableUserSalary') }}</th>
-                                    <th class="p-3">{{ t('dashboard.details.tableNationalSalary') }}</th>
-                                    <th class="p-3 text-right">{{ t('dashboard.details.tableMonthlyCoeff') }}</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-slate-100 dark:divide-zinc-800/80 font-medium">
-                                <tr v-for="tItem in taxHistoriesList" :key="tItem.id" class="hover:bg-slate-50 dark:hover:bg-zinc-900/40">
-                                    <td class="p-3 font-bold text-slate-900 dark:text-white">{{ tItem.year }} р.</td>
-                                    <td class="p-3 text-slate-700 dark:text-zinc-300">
-                                        {{ Number(tItem.annual_income / (tItem.months_worked || 12)).toLocaleString('uk-UA', { minimumFractionDigits: 2 }) }} ₴ /міс
-                                        <span class="text-[10px] text-slate-400 block">({{ Number(tItem.annual_income).toLocaleString('uk-UA') }} ₴ /рік, {{ tItem.months_worked || 12 }} міс.)</span>
-                                    </td>
-                                    <td class="p-3 text-slate-700 dark:text-zinc-300">
-                                        {{ Number(activeResult?.zp_macroeconomic_average || 16500).toLocaleString('uk-UA', { minimumFractionDigits: 2 }) }} ₴
-                                    </td>
-                                    <td class="p-3 text-right font-extrabold text-main-dark dark:text-main">
-                                        {{ ((tItem.annual_income / (tItem.months_worked || 12)) / (activeResult?.zp_macroeconomic_average || 16500)).toFixed(4) }}
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <!-- Tab 2: Zp Macroeconomic Salary -->
+                    <div v-if="activeDetailTab === 'zp'" class="space-y-3 sm:space-y-4">
+                        <div class="rounded-2xl border border-slate-100 dark:border-zinc-800 bg-slate-50/60 dark:bg-zinc-900/50 p-4 sm:p-5 space-y-2 sm:space-y-3">
+                            <span class="text-[10px] sm:text-xs font-extrabold uppercase tracking-wider text-slate-500 dark:text-zinc-400">
+                                {{ t('dashboard.details.zpFormulaTitle') }}
+                            </span>
+                            <div class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
+                                {{ Number(activeResult?.zp_macroeconomic_average || 16500).toLocaleString('uk-UA', { minimumFractionDigits: 2 }) }} ₴
+                            </div>
+                            <p class="text-xs text-slate-600 dark:text-zinc-300 leading-relaxed">
+                                {{ t('dashboard.details.zpDescription') }}
+                            </p>
+                        </div>
                     </div>
-                    <div v-else class="p-6 text-center text-xs text-slate-400 dark:text-zinc-500 rounded-2xl border border-dashed border-slate-200 dark:border-zinc-800">
-                        {{ t('dashboard.details.noTaxRecordsNotice') }}
+
+                    <!-- Tab 3: Ks Service Multiplier -->
+                    <div v-if="activeDetailTab === 'ks'" class="space-y-3 sm:space-y-4">
+                        <div class="rounded-2xl border border-slate-100 dark:border-zinc-800 bg-slate-50/60 dark:bg-zinc-900/50 p-4 sm:p-5 space-y-3">
+                            <span class="text-[10px] sm:text-xs font-extrabold uppercase tracking-wider text-slate-500 dark:text-zinc-400">
+                                {{ t('dashboard.details.ksFormulaTitle') }}
+                            </span>
+                            <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
+                                <span class="text-xs text-slate-500 dark:text-zinc-400">{{ t('dashboard.details.ksMonthsLabel') }}:</span>
+                                <span class="text-sm sm:text-base font-bold text-slate-900 dark:text-white">
+                                    {{ activeResult?.total_service_months || (totalYearsWorked * 12) }} {{ t('documents.months') }} ({{ Math.floor((activeResult?.total_service_months || (totalYearsWorked * 12)) / 12) }} {{ t('documents.yrs') }})
+                                </span>
+                            </div>
+                            <div class="flex flex-col sm:flex-row sm:items-baseline justify-between border-t border-slate-200/60 dark:border-zinc-800 pt-3 gap-1">
+                                <span class="text-xs text-slate-500 dark:text-zinc-400">Підсумковий коефіцієнт Ks:</span>
+                                <span class="text-xl sm:text-2xl font-black text-main-dark dark:text-main">
+                                    {{ Number(activeResult?.ks_service_coefficient || activeResult?.coefficient_multiplier || 1.35).toFixed(4) }}
+                                </span>
+                            </div>
+                            <p class="text-[11px] text-slate-500 dark:text-zinc-400 leading-relaxed">
+                                За кожен рік страхового стажу коефіцієнт оцінки стажу становить 1% (0.01). Формула: Ks = Місяці / 1200.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Tab 4: 5-Stage Execution Audit Logs (Admin Only) -->
+                    <div v-if="isAdmin && activeDetailTab === 'logs'" class="space-y-3 sm:space-y-4">
+                        <div class="rounded-2xl border border-slate-100 dark:border-zinc-800 bg-slate-50/60 dark:bg-zinc-900/50 p-3.5 sm:p-4 space-y-1.5 sm:space-y-2">
+                            <h5 class="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                                <FileText class="h-4 w-4 text-main shrink-0" />
+                                {{ t('dashboard.details.logsTitle') }}
+                            </h5>
+                            <p class="text-[11px] text-slate-500 dark:text-zinc-400">
+                                Аудит 5 етапів обчислення пенсійним математичним движком C++ (Закон України № 1058-IV).
+                            </p>
+                        </div>
+
+                        <div v-if="(activeResult?.calculation_logs && activeResult.calculation_logs.length > 0) || (activeResult?.calculation_breakdown?.logs && activeResult.calculation_breakdown.logs.length > 0)"
+                            class="rounded-2xl bg-zinc-950 p-3 sm:p-4 font-mono text-[10px] sm:text-[11px] text-emerald-400 leading-relaxed max-h-60 overflow-y-auto space-y-1 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-slate-300 dark:[&::-webkit-scrollbar-thumb]:bg-zinc-800 [&::-webkit-scrollbar-thumb]:rounded-full">
+                            <div v-for="(logLine, lIdx) in (activeResult?.calculation_logs || activeResult?.calculation_breakdown?.logs || [])" :key="lIdx">
+                                &gt; {{ logLine }}
+                            </div>
+                        </div>
+                        <div v-else class="p-4 sm:p-6 text-center text-xs text-slate-400 dark:text-zinc-500 rounded-2xl border border-dashed border-slate-200 dark:border-zinc-800">
+                            {{ t('dashboard.details.noLogsNotice') }}
+                        </div>
                     </div>
                 </div>
 
-                <!-- Tab 2: Zp Macroeconomic Salary -->
-                <div v-if="activeDetailTab === 'zp'" class="mt-4 space-y-4">
-                    <div class="rounded-2xl border border-slate-100 dark:border-zinc-800 bg-slate-50/60 dark:bg-zinc-900/50 p-5 space-y-3">
-                        <span class="text-xs font-extrabold uppercase tracking-wider text-slate-500 dark:text-zinc-400">
-                            {{ t('dashboard.details.zpFormulaTitle') }}
-                        </span>
-                        <div class="text-3xl font-extrabold text-slate-900 dark:text-white">
-                            {{ Number(activeResult?.zp_macroeconomic_average || 16500).toLocaleString('uk-UA', { minimumFractionDigits: 2 }) }} ₴
-                        </div>
-                        <p class="text-xs text-slate-600 dark:text-zinc-300 leading-relaxed">
-                            {{ t('dashboard.details.zpDescription') }}
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Tab 3: Ks Service Multiplier -->
-                <div v-if="activeDetailTab === 'ks'" class="mt-4 space-y-4">
-                    <div class="rounded-2xl border border-slate-100 dark:border-zinc-800 bg-slate-50/60 dark:bg-zinc-900/50 p-5 space-y-3">
-                        <span class="text-xs font-extrabold uppercase tracking-wider text-slate-500 dark:text-zinc-400">
-                            {{ t('dashboard.details.ksFormulaTitle') }}
-                        </span>
-                        <div class="flex items-baseline justify-between">
-                            <span class="text-xs text-slate-500 dark:text-zinc-400">{{ t('dashboard.details.ksMonthsLabel') }}:</span>
-                            <span class="text-base font-bold text-slate-900 dark:text-white">
-                                {{ activeResult?.total_service_months || (totalYearsWorked * 12) }} {{ t('documents.months') }} ({{ Math.floor((activeResult?.total_service_months || (totalYearsWorked * 12)) / 12) }} {{ t('documents.yrs') }})
-                            </span>
-                        </div>
-                        <div class="flex items-baseline justify-between border-t border-slate-200/60 dark:border-zinc-800 pt-3">
-                            <span class="text-xs text-slate-500 dark:text-zinc-400">Підсумковий коефіцієнт Ks:</span>
-                            <span class="text-2xl font-black text-main-dark dark:text-main">
-                                {{ Number(activeResult?.ks_service_coefficient || activeResult?.coefficient_multiplier || 1.35).toFixed(4) }}
-                            </span>
-                        </div>
-                        <p class="text-[11px] text-slate-500 dark:text-zinc-400 leading-relaxed">
-                            За кожен рік страхового стажу коефіцієнт оцінки стажу становить 1% (0.01). Формула: Ks = Місяці / 1200.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Tab 4: 5-Stage Execution Audit Logs (Admin Only) -->
-                <div v-if="isAdmin && activeDetailTab === 'logs'" class="mt-4 space-y-4">
-                    <div class="rounded-2xl border border-slate-100 dark:border-zinc-800 bg-slate-50/60 dark:bg-zinc-900/50 p-4 space-y-2">
-                        <h5 class="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                            <FileText class="h-4 w-4 text-main" />
-                            {{ t('dashboard.details.logsTitle') }}
-                        </h5>
-                        <p class="text-[11px] text-slate-500 dark:text-zinc-400">
-                            Аудит 5 етапів обчислення пенсійним математичним движком C++ (Закон України № 1058-IV).
-                        </p>
-                    </div>
-
-                    <div v-if="(activeResult?.calculation_logs && activeResult.calculation_logs.length > 0) || (activeResult?.calculation_breakdown?.logs && activeResult.calculation_breakdown.logs.length > 0)"
-                        class="rounded-2xl bg-zinc-950 p-4 font-mono text-[11px] text-emerald-400 leading-relaxed max-h-60 overflow-y-auto space-y-1">
-                        <div v-for="(logLine, lIdx) in (activeResult?.calculation_logs || activeResult?.calculation_breakdown?.logs || [])" :key="lIdx">
-                            &gt; {{ logLine }}
-                        </div>
-                    </div>
-                    <div v-else class="p-6 text-center text-xs text-slate-400 dark:text-zinc-500 rounded-2xl border border-dashed border-slate-200 dark:border-zinc-800">
-                        {{ t('dashboard.details.noLogsNotice') }}
-                    </div>
-                </div>
-
-                <DialogFooter class="mt-6">
-                    <Button @click="showDetailsModal = false" type="button" class="w-full bg-main text-slate-950 font-bold hover:bg-main-dark rounded-xl h-10 cursor-pointer">
+                <DialogFooter class="mt-4 sm:mt-6 shrink-0">
+                    <Button @click="showDetailsModal = false" type="button" class="w-full bg-main text-slate-950 font-bold hover:bg-main-dark rounded-xl h-9 sm:h-10 cursor-pointer text-xs sm:text-sm">
                         {{ t('dashboard.overview.closeModal') }}
                     </Button>
                 </DialogFooter>

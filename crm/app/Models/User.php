@@ -21,6 +21,7 @@ use Spatie\Permission\Traits\HasRoles;
  * @property string $first_name
  * @property string $last_name
  * @property-read string $name
+ * @property-read bool $is_admin
  * @property string $email
  * @property Carbon|null $email_verified_at
  * @property string $password
@@ -98,6 +99,7 @@ class User extends Authenticatable implements PasskeyUser
             'date_of_birth' => 'date:Y-m-d',
             'benefits' => 'array',
             'target_retirement_year' => 'integer',
+            'is_suspended' => 'boolean',
         ];
     }
 
@@ -155,5 +157,35 @@ class User extends Authenticatable implements PasskeyUser
     public function notifications(): HasMany
     {
         return $this->hasMany(Notification::class);
+    }
+
+    /**
+     * Get the notification channel settings for the user.
+     */
+    public function notificationChannel(): HasOne
+    {
+        return $this->hasOne(UserNotificationChannel::class);
+    }
+
+    /**
+     * Get or create the notification channel settings record for the user.
+     */
+    public function getNotificationChannel(): UserNotificationChannel
+    {
+        /** @var UserNotificationChannel $channel */
+        $channel = $this->notificationChannel()->firstOrCreate(
+            ['user_id' => $this->id],
+            [
+                'email_enabled' => false,
+                'telegram_enabled' => false,
+                'sms_enabled' => false,
+                'notify_calc_completed' => true,
+                'notify_document_processed' => true,
+                'notify_system_alerts' => true,
+                'notify_pension_updates' => false,
+            ]
+        );
+
+        return $channel;
     }
 }
