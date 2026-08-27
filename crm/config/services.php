@@ -35,4 +35,35 @@ return [
         ],
     ],
 
+    'google' => [
+        'client_id' => env('GOOGLE_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+        'redirect' => env('GOOGLE_REDIRECT_URI', '/auth/google/callback'),
+    ],
+
+    'linkedin-openid' => [
+        'client_id' => env('LINKEDIN_CLIENT_ID'),
+        'client_secret' => env('LINKEDIN_CLIENT_SECRET'),
+        'redirect' => env('LINKEDIN_REDIRECT_URI', '/auth/linkedin-openid/callback'),
+    ],
+
+    'github' => [
+        'client_id' => env('GITHUB_CLIENT_ID'),
+        'client_secret' => env('GITHUB_CLIENT_SECRET'),
+        'redirect' => env('GITHUB_REDIRECT_URI', '/auth/github/callback'),
+    ],
+
+    'microsoft' => [
+        'client_id' => env('MICROSOFT_CLIENT_ID'),
+        'client_secret' => env('MICROSOFT_CLIENT_SECRET'),
+        'redirect' => env('MICROSOFT_REDIRECT_URI', '/auth/microsoft/callback'),
+    ],
+
+    'azure' => [
+        'client_id' => env('MICROSOFT_CLIENT_ID', env('AZURE_CLIENT_ID')),
+        'client_secret' => env('MICROSOFT_CLIENT_SECRET', env('AZURE_CLIENT_SECRET')),
+        'redirect' => env('MICROSOFT_REDIRECT_URI', env('AZURE_REDIRECT_URI', '/auth/microsoft/callback')),
+        'tenant' => env('AZURE_TENANT_ID', 'common'),
+    ],
+
 ];

@@ -15,6 +15,7 @@ use Illuminate\Support\Carbon;
  * @property int|null $entity_id
  * @property array|null $payload
  * @property string|null $ip_address
+ * @property string|null $user_agent
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */

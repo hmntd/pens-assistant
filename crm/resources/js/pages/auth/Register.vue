@@ -4,6 +4,7 @@ import { Form, Head, setLayoutProps } from '@inertiajs/vue3';
 import { useI18n } from '@/composables/useI18n';
 import InputError from '@/components/InputError.vue';
 import PasswordInput from '@/components/PasswordInput.vue';
+import SocialAuthButtons from '@/components/SocialAuthButtons.vue';
 import TextLink from '@/components/TextLink.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -122,6 +123,8 @@ defineProps<{
                 <Spinner v-if="processing" />
                 {{ t('auth.registerBtn') }}
             </Button>
+
+            <SocialAuthButtons />
         </div>
 
         <div class="text-center text-sm text-muted-foreground">

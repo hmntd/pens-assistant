@@ -1,20 +1,21 @@
 <?php
 
-use App\Http\Controllers\Admin\DeleteSubsistenceMinimumController;
+use App\Http\Controllers\Admin\Analytics\AdminAnalyticsController;
+use App\Http\Controllers\Admin\SubsistenceMinimum\DeleteSubsistenceMinimumController;
 use App\Http\Controllers\Admin\Document\AdminDeleteDocumentController;
 use App\Http\Controllers\Admin\Document\AdminDownloadDocumentController;
 use App\Http\Controllers\Admin\Document\AdminIndexDocumentController;
 use App\Http\Controllers\Admin\Document\AdminIndexDocumentStatusesController;
 use App\Http\Controllers\Admin\Document\AdminShowDocumentController;
-use App\Http\Controllers\Admin\IndexSubsistenceMinimumController;
+use App\Http\Controllers\Admin\SubsistenceMinimum\IndexSubsistenceMinimumController;
 use App\Http\Controllers\Admin\PensionCalculation\AdminDeletePensionCalculationController;
 use App\Http\Controllers\Admin\PensionCalculation\AdminIndexPensionCalculationController;
 use App\Http\Controllers\Admin\PensionCalculation\AdminShowPensionCalculationController;
-use App\Http\Controllers\Admin\StoreSubsistenceMinimumController;
+use App\Http\Controllers\Admin\SubsistenceMinimum\StoreSubsistenceMinimumController;
 use App\Http\Controllers\Admin\Translation\AdminIndexTranslationController;
 use App\Http\Controllers\Admin\Translation\AdminStoreTranslationController;
 use App\Http\Controllers\Admin\Translation\AdminUpdateTranslationController;
-use App\Http\Controllers\Admin\UpdateSubsistenceMinimumController;
+use App\Http\Controllers\Admin\SubsistenceMinimum\UpdateSubsistenceMinimumController;
 use App\Http\Controllers\Admin\User\AdminDeleteUserController;
 use App\Http\Controllers\Admin\User\AdminIndexUserController;
 use App\Http\Controllers\Admin\User\AdminRestoreUserController;
@@ -41,10 +42,18 @@ use App\Http\Controllers\PensionCoefficient\DeletePensionCoefficientController;
 use App\Http\Controllers\PensionCoefficient\IndexPensionCoefficientController;
 use App\Http\Controllers\PensionCoefficient\StorePensionCoefficientController;
 use App\Http\Controllers\PensionCoefficient\UpdatePensionCoefficientController;
+use App\Http\Controllers\Auth\SocialiteCallbackController;
+use App\Http\Controllers\Auth\SocialiteRedirectController;
+use App\Http\Controllers\PensionCalculationBreakdownController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', WelcomeController::class)->name('home');
+
+Route::middleware('guest')->group(function () {
+    Route::get('/auth/{provider}/redirect', SocialiteRedirectController::class)->name('socialite.redirect');
+    Route::get('/auth/{provider}/callback', SocialiteCallbackController::class)->name('socialite.callback');
+});
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
@@ -60,7 +69,7 @@ Route::middleware(['auth'])->prefix('pension-calculations')->group(function () {
     Route::get('/', IndexPensionCalculationController::class)->name('pension-calculations.index');
     Route::post('/', StorePensionCalculationController::class)->name('pension-calculations.store');
     Route::get('/{id}', ShowPensionCalculationController::class)->name('pension-calculations.show');
-    Route::get('/{id}/breakdown', \App\Http\Controllers\PensionCalculationBreakdownController::class)->name('pension-calculations.breakdown');
+    Route::get('/{id}/breakdown', PensionCalculationBreakdownController::class)->name('pension-calculations.breakdown');
 });
 
 Route::middleware(['auth'])->prefix('documents')->group(function () {
@@ -78,6 +87,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/', function () {
         return \Inertia\Inertia::render('admin/AdminDashboard');
     })->name('dashboard');
+
+    // Section 0: Analytics & Insights
+    Route::get('/analytics', AdminAnalyticsController::class)->name('analytics');
 
     // Section 1: User Management
     Route::get('/users', AdminIndexUserController::class)->name('users.index');

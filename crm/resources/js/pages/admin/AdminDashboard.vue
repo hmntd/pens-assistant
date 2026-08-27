@@ -9,6 +9,7 @@ import AdminUserSection from '@/components/admin/AdminUserSection.vue';
 import AdminCalculationSection from '@/components/admin/AdminCalculationSection.vue';
 import AdminDocumentSection from '@/components/admin/AdminDocumentSection.vue';
 import AdminTranslationSection from '@/components/admin/AdminTranslationSection.vue';
+import AdminAnalyticsSection from '@/components/admin/AdminAnalyticsSection.vue';
 import {
     Users,
     Calculator,
@@ -22,9 +23,10 @@ import {
 
 const { t } = useI18n();
 
-const activeSection = ref<'users' | 'calculations' | 'documents' | 'translations'>('users');
+const activeSection = ref<'analytics' | 'users' | 'calculations' | 'documents' | 'translations'>('analytics');
 
 const navItems = [
+    { id: 'analytics', label: 'Аналітика та Статистика', icon: BarChart3, desc: 'Графіки активності, браузерів та розрахунків' },
     { id: 'users', label: 'Управління користувачами', icon: Users, desc: 'Користувачі, ролі, Soft Delete & блокування' },
     { id: 'calculations', label: 'Історія розрахунків', icon: Calculator, desc: 'Протоколи розрахунків пенсій та аудит C++' },
     { id: 'documents', label: 'Управління документами', icon: FileText, desc: 'Файли користувачів, перегляд та завантаження' },
@@ -33,6 +35,8 @@ const navItems = [
 
 const currentSectionComponent = computed(() => {
     switch (activeSection.value) {
+        case 'analytics':
+            return AdminAnalyticsSection;
         case 'users':
             return AdminUserSection;
         case 'calculations':
@@ -42,11 +46,11 @@ const currentSectionComponent = computed(() => {
         case 'translations':
             return AdminTranslationSection;
         default:
-            return AdminUserSection;
+            return AdminAnalyticsSection;
     }
 });
 
-function switchSection(sectionId: 'users' | 'calculations' | 'documents' | 'translations') {
+function switchSection(sectionId: 'analytics' | 'users' | 'calculations' | 'documents' | 'translations') {
     activeSection.value = sectionId;
     if (typeof window !== 'undefined') {
         const url = new URL(window.location.href);
@@ -59,7 +63,7 @@ function syncSectionFromUrl() {
     if (typeof window === 'undefined') return;
     const params = new URLSearchParams(window.location.search);
     const sec = params.get('section');
-    if (sec && ['users', 'calculations', 'documents', 'translations'].includes(sec)) {
+    if (sec && ['analytics', 'users', 'calculations', 'documents', 'translations'].includes(sec)) {
         activeSection.value = sec as any;
     }
 }

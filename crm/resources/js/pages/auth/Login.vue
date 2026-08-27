@@ -5,6 +5,7 @@ import { useI18n } from '@/composables/useI18n';
 import InputError from '@/components/InputError.vue';
 import PasskeyVerify from '@/components/PasskeyVerify.vue';
 import PasswordInput from '@/components/PasswordInput.vue';
+import SocialAuthButtons from '@/components/SocialAuthButtons.vue';
 import TextLink from '@/components/TextLink.vue';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -107,6 +108,8 @@ defineProps<{
                 <Spinner v-if="processing" />
                 {{ t('auth.loginBtn') }}
             </Button>
+
+            <SocialAuthButtons />
         </div>
 
         <div class="text-center text-sm text-muted-foreground">
