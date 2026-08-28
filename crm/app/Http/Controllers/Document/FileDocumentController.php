@@ -26,7 +26,7 @@ class FileDocumentController extends Controller
 
         $document = $query->find($id);
 
-        if (!$document || !Storage::disk('local')->exists($document->file_path)) {
+        if (! $document || ! Storage::disk('local')->exists($document->file_path)) {
             abort(Response::HTTP_NOT_FOUND, 'Document file not found.');
         }
 

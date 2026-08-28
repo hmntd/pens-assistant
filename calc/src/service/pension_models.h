@@ -38,7 +38,7 @@ namespace calc
         {
         public:
             calc::BenefitType getType() const override { return calc::BenefitType::COMBAT_VETERAN; }
-            std::string getName() const override { return "Учасник бойових дій (УБД) [+25% прожиткового мінімуму]"; }
+            std::string getName() const override { return "Combat Veteran (UBD) [+25% subsistence minimum]"; }
             double calculateSurcharge(const SubsistenceLimits &limits) const override
             {
                 return limits.for_disabled_persons * 0.25;
@@ -49,7 +49,7 @@ namespace calc
         {
         public:
             calc::BenefitType getType() const override { return calc::BenefitType::HONORARY_DONOR; }
-            std::string getName() const override { return "Почесний донор України [+10% загального прожиткового мінімуму]"; }
+            std::string getName() const override { return "Honorary Donor of Ukraine [+10% general subsistence minimum]"; }
             double calculateSurcharge(const SubsistenceLimits &limits) const override
             {
                 return limits.general_minimum * 0.10;
@@ -60,7 +60,7 @@ namespace calc
         {
         public:
             calc::BenefitType getType() const override { return calc::BenefitType::CHORNOBYL_LIQUIDATOR; }
-            std::string getName() const override { return "Чорнобилець-ліквідатор [+30% прожиткового мінімуму]"; }
+            std::string getName() const override { return "Chornobyl Liquidator [+30% subsistence minimum]"; }
             double calculateSurcharge(const SubsistenceLimits &limits) const override
             {
                 return limits.for_disabled_persons * 0.30;
@@ -71,7 +71,7 @@ namespace calc
         {
         public:
             calc::BenefitType getType() const override { return calc::BenefitType::DISABLED_CHILD_CARE; }
-            std::string getName() const override { return "Догляд за дитиною з інвалідністю [+10% прожиткового мінімуму]"; }
+            std::string getName() const override { return "Child Care for Child with Disability [+10% subsistence minimum]"; }
             double calculateSurcharge(const SubsistenceLimits &limits) const override
             {
                 return limits.for_disabled_persons * 0.10;

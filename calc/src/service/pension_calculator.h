@@ -3,7 +3,13 @@
 
 #include "../repository/coefficient_repository.h"
 #include "pension_models.h"
+#include "context/pension_calculation_context.h"
+#include "stages/i_pension_calculation_stage.h"
+#include "util/i_clock.h"
+#include "util/i_logger.h"
+#include "adapters/legacy_request_adapter.h"
 #include "calc.pb.h"
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -11,7 +17,6 @@ namespace calc
 {
     namespace service
     {
-
         struct CalculationResult
         {
             bool success{false};
@@ -42,26 +47,30 @@ namespace calc
 
         class PensionCalculator
         {
-        private:
-            repository::CoefficientRepository repo_;
-            BenefitRulesEngine benefit_engine_;
-
-            int calculateTotalServiceMonths(const calc::CalculatePensionRequest *request, int effective_retirement_year, bool is_hypothetical_mode, std::vector<std::string> &logs, std::string &error_message) const;
-            double calculateWageCoefficientKz(const calc::CalculatePensionRequest *request, int effective_retirement_year, bool is_hypothetical_mode, std::vector<std::string> &logs, std::string &error_message) const;
-            double calculatePensionTypeModifier(const calc::CalculatePensionRequest *request, std::vector<std::string> &logs, std::string &error_message) const;
-            double calculateExtraServiceAllowance(const calc::CalculatePensionRequest *request, int total_months, double base_pension, const SubsistenceLimits &limits, std::vector<std::string> &logs) const;
-            int calculateAgeInYears(const std::string &date_of_birth, const std::string &retirement_date) const;
-            double calculateAgeSurcharge(const calc::CalculatePensionRequest *request, double pre_age_pension, const SubsistenceLimits &limits, std::vector<std::string> &logs, SurchargeResult &out_surcharge) const;
-            int getCurrentYear() const;
-
         public:
             explicit PensionCalculator(repository::CoefficientRepository repo = repository::CoefficientRepository());
 
+            PensionCalculator(repository::CoefficientRepository repo,
+                               std::unique_ptr<IClock> clock,
+                               std::unique_ptr<ILogger> logger,
+                               std::vector<std::unique_ptr<IPensionCalculationStage>> stages);
+
             CalculationResult calculate(const calc::CalculatePensionRequest *request);
             CalculationResult calculateLegacy(const calc::PensionRequest *request);
-        };
 
+        private:
+            repository::CoefficientRepository repo_;
+            BenefitRulesEngine benefit_engine_;
+            std::unique_ptr<IClock> clock_;
+            std::unique_ptr<ILogger> logger_;
+            std::vector<std::unique_ptr<IPensionCalculationStage>> stages_;
+            LegacyRequestAdapter legacy_adapter_;
+
+            bool resolveRetirementYear(const calc::CalculatePensionRequest *request,
+                                        int &retirement_year, bool &is_hypothetical_mode,
+                                        int &requested_retirement_year, std::string &error) const;
+        };
     }
 }
 
-#endif
+#endif // PENSION_CALCULATOR_H

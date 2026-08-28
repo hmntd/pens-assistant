@@ -115,13 +115,14 @@ class AdminAnalyticsController extends Controller
             ->latest()
             ->take(15)
             ->get()
-            ->map(function (AuditLog $log) use ($parser) {
+            ->map(function (AuditLog $log) use ($parser): array {
                 $parsed = $parser->parse($log->user_agent);
+                $user = $log->user;
 
                 return [
                     'id' => $log->id,
-                    'user_name' => $log->user ? $log->user->name : 'System / Guest',
-                    'user_email' => $log->user ? $log->user->email : null,
+                    'user_name' => $user !== null ? $user->name : 'System / Guest',
+                    'user_email' => $user !== null ? $user->email : null,
                     'action' => $log->action,
                     'ip_address' => $log->ip_address ?: '127.0.0.1',
                     'browser' => $parsed['browser'],

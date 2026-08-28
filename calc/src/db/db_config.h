@@ -3,15 +3,18 @@
 
 #include <string>
 
-namespace calc {
-namespace db {
+namespace calc
+{
+    namespace db
+    {
 
-class DbConfig {
-public:
-    static std::string getConnectionString();
-};
+        class DbConfig
+        {
+        public:
+            static std::string getConnectionString();
+        };
 
-}
+    }
 }
 
 #endif

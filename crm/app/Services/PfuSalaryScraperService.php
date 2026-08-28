@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Events\PfuSalariesSynced;
+use Exception;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -103,7 +104,7 @@ class PfuSalaryScraperService
                     if (str_contains($text, $yearStr) || str_contains($href, "-za-{$yearStr}-rik") || str_contains($href, "{$yearStr}-rik")) {
                         $fullUrl = str_starts_with($href, 'http') ? $href : 'https://www.pfu.gov.ua' . ltrim($href, '/');
 
-                        if (!in_array($fullUrl, $yearUrls[$year])) {
+                        if (! in_array($fullUrl, $yearUrls[$year])) {
                             if (str_contains($href, 'zarobitnoy') || str_contains($text, 'заробітн')) {
                                 array_unshift($yearUrls[$year], $fullUrl);
                             } else {
@@ -126,7 +127,7 @@ class PfuSalaryScraperService
         $records = [];
         try {
             $response = Http::timeout(10)->get($url);
-            if (!$response->successful()) {
+            if (! $response->successful()) {
                 return $records;
             }
 
@@ -158,7 +159,7 @@ class PfuSalaryScraperService
                     }
                 }
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::warning("Failed to scrape detail page for year {$year} at {$url}: " . $e->getMessage());
         }
 
@@ -192,7 +193,7 @@ class PfuSalaryScraperService
                 foreach ($urls as $url) {
                     $yearRecords = $this->scrapeYearDetailPage($url, $year);
 
-                    if (!empty($yearRecords)) {
+                    if (! empty($yearRecords)) {
                         foreach ($yearRecords as $rec) {
                             $records[] = $rec;
                         }
@@ -200,7 +201,7 @@ class PfuSalaryScraperService
                     }
                 }
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::warning('PFU main page fetch failed: ' . $e->getMessage());
         }
 

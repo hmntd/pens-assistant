@@ -12,7 +12,7 @@ import ocr_pb2_grpc
 
 
 def bytes_to_cv2_image(file_bytes, extension):
-    """Конвертує сирі байти (PDF або Зображення) у формат OpenCV (numpy array)."""
+    """Converts raw bytes (PDF or Image) to OpenCV format (numpy array)."""
     if extension.lower() == "pdf":
         images = convert_from_bytes(file_bytes, dpi=300, first_page=1, last_page=1)
         open_cv_image = np.array(images[0])
@@ -23,7 +23,7 @@ def bytes_to_cv2_image(file_bytes, extension):
 
 
 def detect_template(client_img, templates_dict):
-    """Порівнює клієнтське фото з усіма доступними шаблонами за ключовими точками (ORB)."""
+    """Compares client photo against all available templates using keypoints (ORB)."""
     best_match_count = 0
     best_template_name = None
 
@@ -45,7 +45,7 @@ def detect_template(client_img, templates_dict):
         matches = matcher.match(descsA, descsB, None)
         good_matches = [m for m in matches if m.distance < 50]
 
-        print(f"[Classifier] Шаблон '{name}' дав {len(good_matches)} точок збігу.")
+        print(f"[Classifier] Template '{name}' yielded {len(good_matches)} matching keypoints.")
 
         if len(good_matches) > best_match_count:
             best_match_count = len(good_matches)
@@ -55,7 +55,7 @@ def detect_template(client_img, templates_dict):
 
 
 def align_images(image, template, max_features=5000, keep_percent=0.2):
-    """Вирівнює (натягує) криве фото по ідеальному шаблону."""
+    """Aligns (warps) distorted photo according to the reference template."""
     h, w = template.shape[:2]
     try:
         image_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -116,7 +116,7 @@ def preprocess_roi_image(roi_cropped):
 
 
 def extract_fields_with_ocr(aligned_image, rois):
-    """Вирізає статичні зони (титулка) і читає їх через Tesseract."""
+    """Crops static ROIs (title page) and reads them using Tesseract."""
     extracted_data = {}
     custom_config = r"--oem 3 --psm 7"
 
@@ -130,7 +130,7 @@ def extract_fields_with_ocr(aligned_image, rois):
                 thresh_roi, lang="ukr+eng", config=custom_config
             )
             extracted_data[field_name] = text.strip()
-            print(f"[OCR] Поле '{field_name}': {extracted_data[field_name]}")
+            print(f"[OCR] Field '{field_name}': {extracted_data[field_name]}")
         else:
             extracted_data[field_name] = ""
 
@@ -138,8 +138,8 @@ def extract_fields_with_ocr(aligned_image, rois):
 
 
 def extract_table_records(aligned_image, rois):
-    """Шукає горизонтальні лінії таблиці, розрізає її на рядки та читає комірки."""
-    print("[OCR] Запуск динамічного парсингу таблиці...", flush=True)
+    """Detects horizontal table lines, slices table into rows, and reads cells."""
+    print("[OCR] Starting dynamic table parsing...", flush=True)
     gray = cv2.cvtColor(aligned_image, cv2.COLOR_BGR2GRAY)
     thresh = cv2.adaptiveThreshold(
         gray, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY_INV, 15, -2
@@ -200,7 +200,7 @@ def extract_table_records(aligned_image, rois):
 
         if not is_empty_row:
             records.append(row_data)
-            print(f"[OCR] Знайдено рядок: {row_data}")
+            print(f"[OCR] Row found: {row_data}")
 
     return records
 
@@ -208,7 +208,7 @@ def extract_table_records(aligned_image, rois):
 def extract_line_by_line(image):
     """
     Coordinate-free full-page Tesseract OCR.
-    Parses Ukrainian text line-by-line.
+    Parses document text line-by-line.
     """
     print("[OCR] Running coordinate-free full-page line-by-line OCR...", flush=True)
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
@@ -227,7 +227,7 @@ def extract_line_by_line(image):
 
 def reconcile_year_months(year, candidate_amounts, annual_total):
     """
-    Reconciles extracted month values with the verified official annual total (Усього за рік).
+    Reconciles extracted month values with the verified official annual total (Total for year).
     Preserves exact monthly salary figures (including 0.00 months) for accurate pension indexing.
     """
     if len(candidate_amounts) >= 12:
@@ -332,7 +332,7 @@ def extract_from_year_block(year, year_lines):
 
 def parse_ok5_document(full_text):
     """
-    Parses Ukrainian OK-5 document block-by-block per year (Звітний рік: YYYY).
+    Parses Ukrainian OK-5 document block-by-block per year (Reported year: YYYY).
     Guarantees each year is processed EXACTLY ONCE with 12 clean monthly records.
     """
     lines = [line.strip() for line in full_text.split("\n") if line.strip()]
@@ -386,7 +386,7 @@ def parse_ok5_document(full_text):
 class OcrServicer(ocr_pb2_grpc.OcrServiceServicer):
     def RecognizeTaxDocument(self, request, context):
         print(
-            f"\n[gRPC] Отримано файл. Режим: {request.document_type}, Формат: {request.file_extension}",
+            f"\n[gRPC] Received file. Mode: {request.document_type}, Format: {request.file_extension}",
             flush=True,
         )
 
@@ -399,7 +399,7 @@ class OcrServicer(ocr_pb2_grpc.OcrServiceServicer):
             detected_type = request.document_type
 
             if request.document_type in ["trudova_auto", "auto"]:
-                print("[gRPC] Запуск авто-детекту сторінки...", flush=True)
+                print("[gRPC] Starting page auto-detection...", flush=True)
                 templates = {
                     "trudova_title": cv2.imread(
                         os.path.join(base_dir, "templates", "trudova_title.png")
@@ -413,7 +413,7 @@ class OcrServicer(ocr_pb2_grpc.OcrServiceServicer):
                 detected_type = detect_template(client_img, templates)
                 if detected_type is None:
                     detected_type = "ok5"
-                print(f"[gRPC] Успішно визначено тип: {detected_type}", flush=True)
+                print(f"[gRPC] Successfully detected type: {detected_type}", flush=True)
 
             template_img_path = os.path.join(
                 base_dir, "templates", f"{detected_type}.png"
@@ -433,24 +433,24 @@ class OcrServicer(ocr_pb2_grpc.OcrServiceServicer):
             else:
                 aligned_img = client_img
 
-            print("[gRPC] Запускаю Tesseract OCR...", flush=True)
+            print("[gRPC] Starting Tesseract OCR...", flush=True)
             extracted_data = {}
             extracted_data["document_subtype"] = detected_type
 
             full_text_content, lines = extract_line_by_line(client_img)
 
-            # Обробка Трудової книжки
+            # Employment Record Book (Trudova) processing
             if detected_type == "trudova_records":
                 records_list = extract_table_records(aligned_img, rois)
                 extracted_data["table_records"] = json.dumps(
                     records_list, ensure_ascii=False
                 )
 
-            # Спеціальна обробка матричної таблиці для ОК-5
+            # Special matrix table processing for OK-5
             elif detected_type == "ok5":
                 ok5_records = parse_ok5_document(full_text_content)
 
-                print(f"[OCR] Успішно розпізнано і очищено записів ОК-5: {len(ok5_records)}")
+                print(f"[OCR] Successfully recognized and cleaned OK-5 records: {len(ok5_records)}")
                 extracted_data["table_records"] = json.dumps(
                     ok5_records, ensure_ascii=False
                 )
@@ -459,7 +459,7 @@ class OcrServicer(ocr_pb2_grpc.OcrServiceServicer):
                 static_fields = extract_fields_with_ocr(aligned_img, rois)
                 extracted_data.update(static_fields)
 
-            display_text = f"Автоматично розпізнано як: {detected_type}\n" + (full_text_content[:300] if full_text_content else "")
+            display_text = f"Automatically recognized as: {detected_type}\n" + (full_text_content[:300] if full_text_content else "")
 
             return ocr_pb2.OcrResponse(
                 success=True,
@@ -481,7 +481,7 @@ def serve():
     ocr_pb2_grpc.add_OcrServiceServicer_to_server(OcrServicer(), server)
     server.add_insecure_port("[::]:50052")
     server.start()
-    print("🚀 OCR gRPC Server запущено на порту 50052...", flush=True)
+    print("🚀 OCR gRPC Server started on port 50052...", flush=True)
     server.wait_for_termination()
 
 

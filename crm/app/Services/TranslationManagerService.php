@@ -82,6 +82,7 @@ class TranslationManagerService
         if (! File::exists($path)) {
             return [];
         }
+
         $content = File::get($path);
         $json = json_decode($content, true);
 
@@ -93,6 +94,7 @@ class TranslationManagerService
         if (! File::exists($path)) {
             return [];
         }
+
         $content = File::get($path);
         if (preg_match('/export\s+default\s+(\{[\s\S]*\});?$/', trim($content), $matches)) {
             $jsonLike = $matches[1];
@@ -134,6 +136,7 @@ class TranslationManagerService
                 if (! isset($current[$k]) || ! is_array($current[$k])) {
                     $current[$k] = [];
                 }
+
                 $current = &$current[$k];
             }
         }

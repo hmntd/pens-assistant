@@ -186,7 +186,8 @@ namespace calc
                 if (!res.empty() && !res[0][0].is_null())
                 {
                     double amount = res[0][0].as<double>();
-                    if (amount > 0.0) return amount;
+                    if (amount > 0.0)
+                        return amount;
                 }
 
                 // If specific month is not found in DB (e.g. pre-1992 yearly average data stored with month = 0),
@@ -199,7 +200,8 @@ namespace calc
                     if (!res_year.empty() && !res_year[0][0].is_null())
                     {
                         double amount = res_year[0][0].as<double>();
-                        if (amount > 0.0) return amount;
+                        if (amount > 0.0)
+                            return amount;
                     }
                 }
 
@@ -210,7 +212,8 @@ namespace calc
                 if (!res_latest.empty() && !res_latest[0][0].is_null())
                 {
                     double latest_amount = res_latest[0][0].as<double>();
-                    if (latest_amount > 0.0) return latest_amount;
+                    if (latest_amount > 0.0)
+                        return latest_amount;
                 }
             }
             catch (const std::exception &e)
@@ -240,11 +243,11 @@ namespace calc
                 int target_year = retirement_year;
                 time_t t = time(nullptr);
                 struct tm tm_now;
-                #ifdef _WIN32
+#ifdef _WIN32
                 localtime_s(&tm_now, &t);
-                #else
+#else
                 localtime_r(&t, &tm_now);
-                #endif
+#endif
                 int current_sys_year = tm_now.tm_year + 1900;
 
                 // If target_year is in the future or invalid, cap at current_sys_year to query latest published 3-year prior PFU baseline
@@ -263,7 +266,8 @@ namespace calc
                 if (!res.empty() && !res[0][0].is_null())
                 {
                     double avg = res[0][0].as<double>();
-                    if (avg > 0.0) return avg;
+                    if (avg > 0.0)
+                        return avg;
                 }
 
                 // Robust Fallback: Calculate average salary for the 3 most recent distinct years available in DB
@@ -272,7 +276,8 @@ namespace calc
                 if (!res_recent.empty() && !res_recent[0][0].is_null())
                 {
                     double avg_recent = res_recent[0][0].as<double>();
-                    if (avg_recent > 0.0) return avg_recent;
+                    if (avg_recent > 0.0)
+                        return avg_recent;
                 }
             }
             catch (const std::exception &e)
@@ -300,7 +305,8 @@ namespace calc
             try
             {
                 pqxx::connection conn(db::DbConfig::getConnectionString());
-                if (!conn.is_open()) return list;
+                if (!conn.is_open())
+                    return list;
 
                 pqxx::work txn(conn);
                 pqxx::result res;
@@ -310,7 +316,8 @@ namespace calc
                     std::string query = "SELECT year, month, amount FROM pfu_average_salaries WHERE year IN (";
                     for (size_t i = 0; i < years.size(); ++i)
                     {
-                        if (i > 0) query += ",";
+                        if (i > 0)
+                            query += ",";
                         query += std::to_string(years[i]);
                     }
                     query += ") ORDER BY year ASC, month ASC";

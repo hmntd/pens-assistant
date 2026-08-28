@@ -26,7 +26,7 @@ class StorePensionCoefficientController extends Controller
         /** @var \Calc\AddCoefficientResponse|null $response */
         list($response, $status) = $calcClient->AddCoefficient($grpcRequest)->wait();
 
-        if ($status->code !== \Grpc\STATUS_OK || !$response || !$response->getSuccess()) {
+        if ($status->code !== \Grpc\STATUS_OK || ! $response || ! $response->getSuccess()) {
             if (app()->environment('testing')) {
                 return response()->json([
                     'status' => 'success',

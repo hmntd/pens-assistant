@@ -9,6 +9,7 @@ use Calc\GetAverageSalariesRequest;
 use Grpc\ChannelCredentials;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
 class PensionCalculationBreakdownController extends Controller
@@ -46,7 +47,7 @@ class PensionCalculationBreakdownController extends Controller
             ]);
 
             $grpcReq = new GetAverageSalariesRequest();
-            if (!empty($years)) {
+            if (! empty($years)) {
                 $grpcReq->setYears($years);
             }
 
@@ -63,7 +64,7 @@ class PensionCalculationBreakdownController extends Controller
             }
         } catch (\Throwable $e) {
             // Log fallback if gRPC is unavailable
-            \Log::warning('Failed to fetch detailed average salaries via gRPC: ' . $e->getMessage());
+            Log::warning('Failed to fetch detailed average salaries via gRPC: ' . $e->getMessage());
         }
 
         $yearsData = [];

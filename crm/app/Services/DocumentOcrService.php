@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Events\DocumentStatusUpdated;
-use App\Events\PensionCalculated;
+use App\Jobs\CalculateUserPensionJob;
 use App\Models\CalculatedPension;
 use App\Models\Document;
 use App\Models\RecognizedDocument;
@@ -11,6 +11,7 @@ use App\Models\TaxHistory;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Throwable;
 
 class DocumentOcrService
 {
@@ -42,8 +43,11 @@ class DocumentOcrService
         /** @var \Ocr\OcrResponse|null $ocrResponse */
         list($ocrResponse, $ocrStatus) = $ocrClient->RecognizeTaxDocument($ocrRequest)->wait();
 
-        if ($ocrStatus->code !== \Grpc\STATUS_OK || !$ocrResponse || !$ocrResponse->getSuccess()) {
-            $errorMsg = $ocrResponse ? $ocrResponse->getErrorMessage() : ($ocrStatus->details ?? 'OCR Service Connection Failed');
+        if ($ocrStatus->code !== \Grpc\STATUS_OK || ! $ocrResponse || ! $ocrResponse->getSuccess()) {
+            $errorMsg = $ocrResponse ?
+                $ocrResponse->getErrorMessage() : (
+                    $ocrStatus->details ?? 'OCR Service Connection Failed'
+                );
 
             if (app()->environment('testing')) {
                 $document->update(['status' => 'completed']);
@@ -102,17 +106,24 @@ class DocumentOcrService
 
         event(new DocumentStatusUpdated($document, 'completed'));
 
-        if (isset($extractedData['document_subtype']) && $extractedData['document_subtype'] === 'ok5' && is_array($extractedData['table_records'] ?? null)) {
+        if (
+            isset($extractedData['document_subtype']) &&
+            $extractedData['document_subtype'] === 'ok5' &&
+            is_array(
+                $extractedData['table_records'] ??
+                    null
+            )
+        ) {
             $byYear = [];
             foreach ($extractedData['table_records'] as $rec) {
-                if (!empty($rec['year'])) {
+                if (! empty($rec['year'])) {
                     $yr = (int) $rec['year'];
                     $salaryRaw = (string) ($rec['salary_amount'] ?? '0');
                     $salary = (float) preg_replace('/[^\d.]/', '', $salaryRaw);
                     $month = !empty($rec['month']) ? (int) $rec['month'] : null;
 
                     if ($yr > 1950) {
-                        if (!isset($byYear[$yr])) {
+                        if (! isset($byYear[$yr])) {
                             $byYear[$yr] = [
                                 'annual_income' => 0.0,
                                 'months_worked' => 0,
@@ -193,7 +204,7 @@ class DocumentOcrService
         }
 
         if ($document->user instanceof User) {
-            \App\Jobs\CalculateUserPensionJob::dispatch($document->user);
+            CalculateUserPensionJob::dispatch($document->user);
         }
 
         return $recognized;
@@ -208,7 +219,7 @@ class DocumentOcrService
             /** @var PensionCalculatorService $calcService */
             $calcService = app(PensionCalculatorService::class);
             return $calcService->calculateAndSave($user, []);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             Log::warning('Failed to trigger pension calculation for user: ' . $e->getMessage());
             return null;
         }

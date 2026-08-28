@@ -18,6 +18,7 @@ use Calc\SubsistenceMinimums;
 use Calc\TaxRecord;
 use Grpc\ChannelCredentials;
 use Illuminate\Support\Facades\Log;
+use InvalidArgumentException;
 
 class PensionCalculatorService
 {
@@ -48,13 +49,13 @@ class PensionCalculatorService
         // Gender: input override -> user profile
         $rawGender = $data['gender'] ?? $user->gender;
         if (empty($rawGender)) {
-            throw new \InvalidArgumentException('Gender is not specified.');
+            throw new InvalidArgumentException('Gender is not specified.');
         }
         $genderStr = strtoupper((string) $rawGender);
         $genderVal = match ($genderStr) {
             'FEMALE' => Gender::FEMALE,
             'MALE' => Gender::MALE,
-            default => throw new \InvalidArgumentException('Invalid gender.'),
+            default => throw new InvalidArgumentException('Invalid gender.'),
         };
         $request->setGender($genderVal);
 
@@ -62,7 +63,7 @@ class PensionCalculatorService
         $userDob = $user->date_of_birth ? $user->date_of_birth->format('Y-m-d') : null;
         $dobStr = (string) ($data['date_of_birth'] ?? $userDob);
         if (empty($dobStr)) {
-            throw new \InvalidArgumentException('Date of birth is not specified.');
+            throw new InvalidArgumentException('Date of birth is not specified.');
         }
         $request->setDateOfBirth($dobStr);
 
@@ -119,7 +120,7 @@ class PensionCalculatorService
 
         // Employment History
         $employmentPeriods = [];
-        if (!empty($data['employment_history']) && is_array($data['employment_history'])) {
+        if (! empty($data['employment_history']) && is_array($data['employment_history'])) {
             foreach ($data['employment_history'] as $period) {
                 $ep = new EmploymentPeriod();
                 $ep->setStartDate($period['start_date']);
@@ -145,7 +146,7 @@ class PensionCalculatorService
                 $employmentPeriods[] = $ep;
             }
         }
-        if (!empty($employmentPeriods)) {
+        if (! empty($employmentPeriods)) {
             $request->setEmploymentHistory($employmentPeriods);
         }
 
@@ -153,7 +154,7 @@ class PensionCalculatorService
         $salaryRecords = [];
         $legacyTaxRecords = [];
 
-        if (!empty($data['salary_history']) && is_array($data['salary_history'])) {
+        if (! empty($data['salary_history']) && is_array($data['salary_history'])) {
             foreach ($data['salary_history'] as $sal) {
                 $sr = new SalaryMonthRecord();
                 $sr->setYear((int) $sal['year']);
@@ -247,21 +248,21 @@ class PensionCalculatorService
             }
         }
 
-        if (!empty($employmentPeriods)) {
+        if (! empty($employmentPeriods)) {
             $request->setEmploymentHistory($employmentPeriods);
         }
 
-        if (!empty($salaryRecords)) {
+        if (! empty($salaryRecords)) {
             $request->setSalaryHistory($salaryRecords);
         }
 
-        if (!empty($legacyTaxRecords)) {
+        if (! empty($legacyTaxRecords)) {
             $request->setHistory($legacyTaxRecords);
         }
 
         // Benefits: input override -> user profile -> empty array
         $rawBenefits = $data['benefits'] ?? $user->benefits ?? [];
-        if (!empty($rawBenefits) && is_array($rawBenefits)) {
+        if (! empty($rawBenefits) && is_array($rawBenefits)) {
             $benefitEnums = [];
             foreach ($rawBenefits as $b) {
                 $bStr = strtoupper((string) $b);

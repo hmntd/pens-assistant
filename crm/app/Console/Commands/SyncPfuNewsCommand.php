@@ -7,6 +7,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class SyncPfuNewsCommand extends Command
 {
@@ -74,7 +75,7 @@ class SyncPfuNewsCommand extends Command
 
             $this->info('Successfully updated PFU news table with ' . count($top3) . ' records.');
             return self::SUCCESS;
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             $this->error('Error occurred while syncing PFU news: ' . $e->getMessage());
             Log::error('SyncPfuNewsCommand error: ' . $e->getMessage(), ['exception' => $e]);
             return self::FAILURE;

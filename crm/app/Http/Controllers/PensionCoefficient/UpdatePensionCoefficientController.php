@@ -27,7 +27,7 @@ class UpdatePensionCoefficientController extends Controller
         /** @var \Calc\UpdateCoefficientResponse|null $response */
         list($response, $status) = $calcClient->UpdateCoefficient($grpcRequest)->wait();
 
-        if ($status->code !== \Grpc\STATUS_OK || !$response || !$response->getSuccess()) {
+        if ($status->code !== \Grpc\STATUS_OK || ! $response || ! $response->getSuccess()) {
             if (app()->environment('testing')) {
                 return response()->json([
                     'status' => 'success',

@@ -24,7 +24,7 @@ class IndexPensionCoefficientController extends Controller
         /** @var \Calc\ListCoefficientsResponse|null $response */
         list($response, $status) = $calcClient->ListCoefficients($grpcRequest)->wait();
 
-        if ($status->code !== \Grpc\STATUS_OK || !$response || !$response->getSuccess()) {
+        if ($status->code !== \Grpc\STATUS_OK || ! $response || ! $response->getSuccess()) {
             if (app()->environment('testing')) {
                 $testItems = [
                     ['id' => 1, 'year' => 2025, 'month' => 1, 'coefficient' => 1.052, 'description' => 'Test Base'],

@@ -9,6 +9,7 @@ use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response as HttpResponse;
 use Inertia\Inertia;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -39,10 +40,10 @@ return Application::configure(basePath: dirname(__DIR__))
             fn (Request $request) => $request->is('api/*') || $request->expectsJson(),
         );
         $exceptions->respond(function (Response $response, Throwable $exception, Request $request) {
-            if ($response->getStatusCode() === 404 && ! $request->expectsJson() && ! $request->is('api/*')) {
-                return Inertia::render('Error', ['status' => 404])
+            if ($response->getStatusCode() === HttpResponse::HTTP_NOT_FOUND && ! $request->expectsJson() && ! $request->is('api/*')) {
+                return Inertia::render('Error', ['status' => HttpResponse::HTTP_NOT_FOUND])
                     ->toResponse($request)
-                    ->setStatusCode(404);
+                    ->setStatusCode(HttpResponse::HTTP_NOT_FOUND);
             }
             return $response;
         });

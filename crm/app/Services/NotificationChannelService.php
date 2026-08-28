@@ -9,6 +9,7 @@ use App\Models\UserNotificationChannel;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Throwable;
 
 class NotificationChannelService
 {
@@ -141,7 +142,7 @@ class NotificationChannelService
                 $mail->to($toEmail)->subject($title);
             });
             return true;
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             Log::error("Failed sending notification email to {$toEmail}: " . $e->getMessage());
             return false;
         }
@@ -167,7 +168,7 @@ class NotificationChannelService
             ]);
 
             return $response->successful();
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             Log::error("Failed sending Telegram message to {$chatId}: " . $e->getMessage());
             return false;
         }
@@ -199,7 +200,7 @@ class NotificationChannelService
 
             Log::info("SMS notification dispatched (driver: {$driver}) to {$phoneNumber}: {$title} - {$message}");
             return true;
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             Log::error("Failed sending SMS to {$phoneNumber}: " . $e->getMessage());
             return false;
         }

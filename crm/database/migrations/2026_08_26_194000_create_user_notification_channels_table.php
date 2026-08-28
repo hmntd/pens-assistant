@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('user_notification_channels', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete()->unique();
+            $table->foreignId('user_id')->unique()->constrained()->cascadeOnDelete();
 
             // Channels (All disabled by default)
             $table->boolean('email_enabled')->default(false);

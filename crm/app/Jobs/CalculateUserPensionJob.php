@@ -22,7 +22,9 @@ class CalculateUserPensionJob implements ShouldQueue
     public function __construct(
         public User $user,
         public array $data = []
-    ) {}
+    )
+    {
+    }
 
     /**
      * Execute the job.
@@ -30,7 +32,7 @@ class CalculateUserPensionJob implements ShouldQueue
     public function handle(PensionCalculatorService $service): void
     {
         $user = User::find($this->user->id);
-        if (!$user) {
+        if (! $user) {
             return;
         }
 

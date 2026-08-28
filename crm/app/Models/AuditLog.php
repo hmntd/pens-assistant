@@ -16,6 +16,7 @@ use Illuminate\Support\Carbon;
  * @property array|null $payload
  * @property string|null $ip_address
  * @property string|null $user_agent
+ * @property User|null $user
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  */
@@ -45,6 +46,8 @@ class AuditLog extends Model
 
     /**
      * Get the user that triggered the audit log action.
+     *
+     * @return BelongsTo<User, $this>
      */
     public function user(): BelongsTo
     {

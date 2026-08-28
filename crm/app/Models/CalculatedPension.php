@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
+use Throwable;
 
 /**
  * @property int $id
@@ -86,13 +87,13 @@ class CalculatedPension extends Model
         $dob = $this->input_parameters['date_of_birth'] ?? null;
         $ret = $this->input_parameters['retirement_date'] ?? null;
 
-        if (!$dob || !$ret) {
+        if (! $dob || ! $ret) {
             return null;
         }
 
         try {
             return (int) Carbon::parse($dob)->diffInYears(Carbon::parse($ret));
-        } catch (\Throwable) {
+        } catch (Throwable) {
             return null;
         }
     }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Notification;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class MarkNotificationAsReadController extends Controller
 {
@@ -15,7 +16,7 @@ class MarkNotificationAsReadController extends Controller
     public function __invoke(Request $request, Notification $notification): JsonResponse
     {
         if ($notification->user_id !== $request->user()->id) {
-            abort(403);
+            abort(Response::HTTP_FORBIDDEN);
         }
 
         $notification->update(['is_seen' => true]);
