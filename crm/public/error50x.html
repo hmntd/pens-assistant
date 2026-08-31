@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Temporarily Unavailable - PensAssistant</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #09090b;
+            color: #f4f4f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 1.5rem;
+        }
+        .container {
+            max-width: 520px;
+            width: 100%;
+            background: #18181b;
+            border: 1px solid #27272a;
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        .icon {
+            width: 4rem;
+            height: 4rem;
+            margin: 0 auto 1.5rem;
+            background: rgba(245, 158, 11, 0.15);
+            color: #f59e0b;
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 0.75rem;
+            color: #ffffff;
+        }
+        p {
+            font-size: 0.875rem;
+            color: #a1a1aa;
+            line-height: 1.6;
+            margin-bottom: 1.75rem;
+        }
+        .badge {
+            display: inline-block;
+            background: #27272a;
+            color: #31de97;
+            font-weight: 700;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            margin-bottom: 1rem;
+        }
+        .btn {
+            display: inline-block;
+            width: 100%;
+            background: #31de97;
+            color: #09090b;
+            font-weight: 700;
+            font-size: 0.875rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            transition: opacity 0.2s ease;
+        }
+        .btn:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="badge">PensAssistant System Notice</div>
+        <div class="icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
+                <line x1="12" y1="9" x2="12" y2="13"/>
+                <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+        </div>
+        <h1>Сервіс тимчасово недоступний / Service Temporarily Unavailable</h1>
+        <p>
+            Виникла тимчасова затримка підключення. Наша технічна команда вже сповіщена і працює над її усуненням. Будь ласка, спробуйте оновити сторінку через хвилину.
+            <br><br>
+            A temporary connection delay occurred. Our technical team has been notified. Please try refreshing the page in a moment.
+        </p>
+        <a href="/" class="btn">Повернутися на головну / Return to Home Page</a>
+    </div>
+</body>
+</html>

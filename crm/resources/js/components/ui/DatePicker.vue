@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
 import { Calendar as CalendarIcon, ChevronLeft, ChevronRight } from '@lucide/vue';
+import { useI18n } from '@/composables/useI18n';
+
+const { t } = useI18n();
 
 const props = defineProps<{
     modelValue?: string | null; // Format YYYY-MM-DD
@@ -23,12 +26,30 @@ const currentYear = ref(new Date().getFullYear());
 const currentMonth = ref(new Date().getMonth()); // 0 - 11
 const decadeStart = ref(Math.floor(new Date().getFullYear() / 10) * 10 - 1);
 
-const monthNames = [
-    'Січень', 'Лютий', 'Березень', 'Квітень', 'Травень', 'Червень',
-    'Липень', 'Серпень', 'Вересень', 'Жовтень', 'Листопад', 'Грудень'
-];
+const monthNames = computed(() => [
+    t('datePicker.months.jan'),
+    t('datePicker.months.feb'),
+    t('datePicker.months.mar'),
+    t('datePicker.months.apr'),
+    t('datePicker.months.may'),
+    t('datePicker.months.jun'),
+    t('datePicker.months.jul'),
+    t('datePicker.months.aug'),
+    t('datePicker.months.sep'),
+    t('datePicker.months.oct'),
+    t('datePicker.months.nov'),
+    t('datePicker.months.dec'),
+]);
 
-const dayNames = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Нд'];
+const dayNames = computed(() => [
+    t('datePicker.days.mon'),
+    t('datePicker.days.tue'),
+    t('datePicker.days.wed'),
+    t('datePicker.days.thu'),
+    t('datePicker.days.fri'),
+    t('datePicker.days.sat'),
+    t('datePicker.days.sun'),
+]);
 
 const inputText = ref('');
 
@@ -216,7 +237,7 @@ onUnmounted(() => {
                 @blur="onInputBlur"
                 @focus="isOpen = true"
                 :disabled="disabled"
-                :placeholder="placeholder || 'ДД.ММ.РРРР'"
+                :placeholder="placeholder || t('datePicker.placeholder')"
                 class="flex h-11 w-full rounded-xl border border-slate-200 bg-white pl-3.5 pr-10 py-2 text-sm font-bold text-slate-900 shadow-sm transition-all hover:border-main focus:border-main focus:outline-none focus:ring-1 focus:ring-main dark:border-zinc-800 dark:bg-zinc-900 dark:text-white dark:hover:border-zinc-700 disabled:opacity-50"
             />
             <button

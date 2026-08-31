@@ -13,6 +13,8 @@ use Illuminate\Http\Response as HttpResponse;
 use Inertia\Inertia;
 use Symfony\Component\HttpFoundation\Response;
 
+use App\Services\SystemErrorLoggerService;
+
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: __DIR__.'/../routes/web.php',
@@ -39,12 +41,27 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->shouldRenderJsonWhen(
             fn (Request $request) => $request->is('api/*') || $request->expectsJson(),
         );
+
         $exceptions->respond(function (Response $response, Throwable $exception, Request $request) {
-            if ($response->getStatusCode() === HttpResponse::HTTP_NOT_FOUND && ! $request->expectsJson() && ! $request->is('api/*')) {
+            $status = $response->getStatusCode();
+
+            // Log server errors (5xx, 502, 503, 500) into DB and notify admin
+            if ($status >= 500) {
+                app(SystemErrorLoggerService::class)->logException($exception, $request, $status);
+            }
+
+            if ($status === HttpResponse::HTTP_NOT_FOUND && ! $request->expectsJson() && ! $request->is('api/*')) {
                 return Inertia::render('Error', ['status' => HttpResponse::HTTP_NOT_FOUND])
                     ->toResponse($request)
                     ->setStatusCode(HttpResponse::HTTP_NOT_FOUND);
             }
+
+            if ($status >= 500 && ! $request->expectsJson() && ! $request->is('api/*')) {
+                return Inertia::render('Error', ['status' => $status])
+                    ->toResponse($request)
+                    ->setStatusCode($status);
+            }
+
             return $response;
         });
     })->create();

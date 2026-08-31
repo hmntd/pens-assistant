@@ -78,7 +78,7 @@ const timelineChartData = computed(() => {
         labels,
         datasets: [
             {
-                label: 'Розрахунки пенсій',
+                label: t('analytics.pensionCalculations'),
                 data: calculations,
                 borderColor: '#10b981',
                 backgroundColor: 'rgba(16, 185, 129, 0.15)',
@@ -87,7 +87,7 @@ const timelineChartData = computed(() => {
                 pointRadius: 3,
             },
             {
-                label: 'Нові реєстрації',
+                label: t('analytics.newRegistrations'),
                 data: registrations,
                 borderColor: '#3b82f6',
                 backgroundColor: 'rgba(59, 130, 246, 0.15)',
@@ -105,7 +105,7 @@ const entryMethodChartData = computed(() => {
     const em = analyticsData.value.entry_methods;
 
     return {
-        labels: ['OCR Документи', 'Ручне внесення стажу'],
+        labels: [t('analytics.ocrDocuments'), t('analytics.manualEntry')],
         datasets: [
             {
                 data: [em.ocr_count, em.manual_count],
@@ -129,7 +129,7 @@ const browserChartData = computed(() => {
         labels,
         datasets: [
             {
-                label: 'Користувачі',
+                label: t('analytics.usersCard'),
                 data: counts,
                 backgroundColor: ['#3b82f6', '#f97316', '#14b8a6', '#06b6d4', '#ef4444', '#a855f7'],
                 borderRadius: 8,
@@ -149,7 +149,7 @@ const osChartData = computed(() => {
         labels,
         datasets: [
             {
-                label: 'Операційні системи',
+                label: t('analytics.operatingSystems'),
                 data: counts,
                 backgroundColor: ['#8b5cf6', '#ec4899', '#10b981', '#f59e0b', '#64748b'],
                 borderRadius: 8,
@@ -214,7 +214,7 @@ const doughnutOptions = {
                 class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-xs font-bold text-slate-700 dark:text-slate-200 transition-all"
             >
                 <RefreshCw class="h-4 w-4" :class="{ 'animate-spin': loading }" />
-                Оновити дані
+                {{ t('analytics.refreshData') }}
             </button>
         </div>
 
@@ -229,56 +229,56 @@ const doughnutOptions = {
                 <!-- Total Users -->
                 <div class="bg-white dark:bg-zinc-900/80 p-5 rounded-3xl border border-slate-200 dark:border-zinc-800 shadow-xs relative overflow-hidden">
                     <div class="flex items-center justify-between">
-                        <span class="text-xs font-bold uppercase text-slate-400">Користувачі</span>
+                        <span class="text-xs font-bold uppercase text-slate-400">{{ t('analytics.usersCard') }}</span>
                         <div class="p-2 bg-blue-500/10 rounded-xl text-blue-500">
                             <Users class="h-5 w-5" />
                         </div>
                     </div>
                     <div class="mt-3">
                         <span class="text-3xl font-black text-slate-900 dark:text-white">{{ analyticsData.summary.total_users }}</span>
-                        <span class="text-xs text-slate-400 ml-2">({{ analyticsData.summary.active_users_30d }} активних)</span>
+                        <span class="text-xs text-slate-400 ml-2">({{ analyticsData.summary.active_users_30d }} {{ t('analytics.activeLabel') }})</span>
                     </div>
                 </div>
 
                 <!-- Total Pension Calculations -->
                 <div class="bg-white dark:bg-zinc-900/80 p-5 rounded-3xl border border-slate-200 dark:border-zinc-800 shadow-xs relative overflow-hidden">
                     <div class="flex items-center justify-between">
-                        <span class="text-xs font-bold uppercase text-slate-400">Розраховані пенсії</span>
+                        <span class="text-xs font-bold uppercase text-slate-400">{{ t('analytics.calculatedPensionsCard') }}</span>
                         <div class="p-2 bg-emerald-500/10 rounded-xl text-emerald-500">
                             <Calculator class="h-5 w-5" />
                         </div>
                     </div>
                     <div class="mt-3">
                         <span class="text-3xl font-black text-slate-900 dark:text-white">{{ analyticsData.summary.total_calculations }}</span>
-                        <span class="text-xs text-emerald-500 font-semibold ml-2">Сер: {{ analyticsData.summary.avg_pension_amount }} ₴</span>
+                        <span class="text-xs text-emerald-500 font-semibold ml-2">{{ t('analytics.avgLabel') }}: {{ analyticsData.summary.avg_pension_amount }} ₴</span>
                     </div>
                 </div>
 
                 <!-- OCR vs Manual Ratio -->
                 <div class="bg-white dark:bg-zinc-900/80 p-5 rounded-3xl border border-slate-200 dark:border-zinc-800 shadow-xs relative overflow-hidden">
                     <div class="flex items-center justify-between">
-                        <span class="text-xs font-bold uppercase text-slate-400">Популярність внесення</span>
+                        <span class="text-xs font-bold uppercase text-slate-400">{{ t('analytics.entryPopularityCard') }}</span>
                         <div class="p-2 bg-indigo-500/10 rounded-xl text-indigo-500">
                             <FileText class="h-5 w-5" />
                         </div>
                     </div>
                     <div class="mt-3 flex items-baseline gap-2">
                         <span class="text-3xl font-black text-slate-900 dark:text-white">{{ analyticsData.entry_methods.ocr_percentage }}%</span>
-                        <span class="text-xs text-slate-400">OCR завантаження</span>
+                        <span class="text-xs text-slate-400">{{ t('analytics.ocrUploadLabel') }}</span>
                     </div>
                 </div>
 
                 <!-- Avg Wage Coefficient Kz -->
                 <div class="bg-white dark:bg-zinc-900/80 p-5 rounded-3xl border border-slate-200 dark:border-zinc-800 shadow-xs relative overflow-hidden">
                     <div class="flex items-center justify-between">
-                        <span class="text-xs font-bold uppercase text-slate-400">Сер. коеф. Kz</span>
+                        <span class="text-xs font-bold uppercase text-slate-400">{{ t('analytics.avgKzCard') }}</span>
                         <div class="p-2 bg-purple-500/10 rounded-xl text-purple-500">
                             <TrendingUp class="h-5 w-5" />
                         </div>
                     </div>
                     <div class="mt-3">
                         <span class="text-3xl font-black text-slate-900 dark:text-white">{{ analyticsData.summary.avg_wage_coefficient }}</span>
-                        <span class="text-xs text-purple-400 font-semibold ml-2">Коефіцієнт зарплати</span>
+                        <span class="text-xs text-purple-400 font-semibold ml-2">{{ t('analytics.wageCoeffLabel') }}</span>
                     </div>
                 </div>
             </div>
@@ -292,7 +292,7 @@ const doughnutOptions = {
                             <BarChart2 class="h-5 w-5 text-main" />
                             <h3 class="font-extrabold text-sm text-slate-900 dark:text-white">{{ t('analytics.activityTimeline') }}</h3>
                         </div>
-                        <span class="text-[11px] font-semibold px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-zinc-800 text-slate-500">Останні 30 днів</span>
+                        <span class="text-[11px] font-semibold px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-zinc-800 text-slate-500">{{ t('analytics.last30Days') }}</span>
                     </div>
                     <div class="h-64 relative w-full">
                         <Line v-if="timelineChartData" :data="timelineChartData" :options="chartOptions" />
@@ -319,7 +319,7 @@ const doughnutOptions = {
                 <div class="bg-white dark:bg-zinc-900 p-6 rounded-3xl border border-slate-200 dark:border-zinc-800 shadow-xs">
                     <div class="flex items-center gap-2 mb-4">
                         <Globe class="h-5 w-5 text-blue-500" />
-                        <h3 class="font-extrabold text-sm text-slate-900 dark:text-white">Браузери користувачів</h3>
+                        <h3 class="font-extrabold text-sm text-slate-900 dark:text-white">{{ t('analytics.userBrowsers') }}</h3>
                     </div>
                     <div class="h-60 relative w-full">
                         <Bar v-if="browserChartData" :data="browserChartData" :options="chartOptions" />
@@ -330,7 +330,7 @@ const doughnutOptions = {
                 <div class="bg-white dark:bg-zinc-900 p-6 rounded-3xl border border-slate-200 dark:border-zinc-800 shadow-xs">
                     <div class="flex items-center gap-2 mb-4">
                         <Cpu class="h-5 w-5 text-purple-500" />
-                        <h3 class="font-extrabold text-sm text-slate-900 dark:text-white">Операційні системи</h3>
+                        <h3 class="font-extrabold text-sm text-slate-900 dark:text-white">{{ t('analytics.userOS') }}</h3>
                     </div>
                     <div class="h-60 relative w-full">
                         <Bar v-if="osChartData" :data="osChartData" :options="chartOptions" />
@@ -345,7 +345,7 @@ const doughnutOptions = {
                         <Activity class="h-5 w-5 text-main" />
                         <h3 class="font-extrabold text-sm text-slate-900 dark:text-white">{{ t('analytics.recentActivity') }}</h3>
                     </div>
-                    <span class="text-[11px] font-semibold text-slate-400">Останні 15 дій</span>
+                    <span class="text-[11px] font-semibold text-slate-400">{{ t('analytics.last15Actions') }}</span>
                 </div>
 
                 <div class="overflow-x-auto">

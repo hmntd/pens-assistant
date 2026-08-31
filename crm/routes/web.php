@@ -22,6 +22,9 @@ use App\Http\Controllers\Admin\User\AdminRestoreUserController;
 use App\Http\Controllers\Admin\User\AdminShowUserController;
 use App\Http\Controllers\Admin\User\AdminToggleUserSuspendController;
 use App\Http\Controllers\Admin\User\AdminUpdateUserRoleController;
+use App\Http\Controllers\Admin\SystemError\BatchResolveSystemErrorController;
+use App\Http\Controllers\Admin\SystemError\IndexSystemErrorController;
+use App\Http\Controllers\Admin\SystemError\ToggleResolveSystemErrorController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Document\DeleteDocumentController;
 use App\Http\Controllers\Document\DeleteTaxHistoryController;
@@ -68,6 +71,7 @@ Route::middleware(['auth'])->prefix('notifications')->group(function () {
 Route::middleware(['auth'])->prefix('pension-calculations')->group(function () {
     Route::get('/', IndexPensionCalculationController::class)->name('pension-calculations.index');
     Route::post('/', StorePensionCalculationController::class)->name('pension-calculations.store');
+    Route::get('/{calculation}/pdf', \App\Http\Controllers\PensionCalculation\DownloadPensionCalculationPdfController::class)->name('pension-calculations.pdf');
     Route::get('/{id}', ShowPensionCalculationController::class)->name('pension-calculations.show');
     Route::get('/{id}/breakdown', PensionCalculationBreakdownController::class)->name('pension-calculations.breakdown');
 });
@@ -101,6 +105,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     // Section 2: Calculation Results History
     Route::get('/pension-calculations', AdminIndexPensionCalculationController::class)->name('pension-calculations.index');
+    Route::get('/pension-calculations/{calculation}/pdf', \App\Http\Controllers\Admin\PensionCalculation\AdminDownloadPensionCalculationPdfController::class)->name('pension-calculations.pdf');
     Route::get('/pension-calculations/{id}', AdminShowPensionCalculationController::class)->name('pension-calculations.show');
     Route::delete('/pension-calculations/{id}', AdminDeletePensionCalculationController::class)->name('pension-calculations.destroy');
 
@@ -121,6 +126,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('/subsistence-minimums', StoreSubsistenceMinimumController::class)->name('subsistence-minimums.store');
     Route::put('/subsistence-minimums/{id}', UpdateSubsistenceMinimumController::class)->name('subsistence-minimums.update');
     Route::delete('/subsistence-minimums/{id}', DeleteSubsistenceMinimumController::class)->name('subsistence-minimums.destroy');
+
+    // System Errors Management
+    Route::get('/system-errors', IndexSystemErrorController::class)->name('system-errors.index');
+    Route::patch('/system-errors/{errorLog}/toggle-resolve', ToggleResolveSystemErrorController::class)->name('system-errors.toggle-resolve');
+    Route::post('/system-errors/batch-resolve', BatchResolveSystemErrorController::class)->name('system-errors.batch-resolve');
 });
 
 Route::middleware(['auth', 'admin'])->prefix('pension-coefficients')->group(function () {

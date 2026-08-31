@@ -3,6 +3,7 @@ import { toast } from 'vue-sonner';
 import { useI18n } from '@/composables/useI18n';
 
 const NOTIFIED_KEY = 'notified_doc_status_ids';
+const NOTIFIED_CALC_KEY = 'notified_calc_notification_ids';
 
 function getNotifiedSet(): Set<string> {
     if (typeof window === 'undefined') return new Set();
@@ -21,6 +22,23 @@ function saveNotifiedSet(set: Set<string>): void {
     } catch (e) {}
 }
 
+function getNotifiedCalcSet(): Set<number> {
+    if (typeof window === 'undefined') return new Set();
+    try {
+        const raw = sessionStorage.getItem(NOTIFIED_CALC_KEY);
+        return raw ? new Set(JSON.parse(raw)) : new Set();
+    } catch (e) {
+        return new Set();
+    }
+}
+
+function saveNotifiedCalcSet(set: Set<number>): void {
+    if (typeof window === 'undefined') return;
+    try {
+        sessionStorage.setItem(NOTIFIED_CALC_KEY, JSON.stringify(Array.from(set)));
+    } catch (e) {}
+}
+
 function isRecentDoc(created_at?: string): boolean {
     if (!created_at) return true;
     try {
@@ -33,9 +51,9 @@ function isRecentDoc(created_at?: string): boolean {
 }
 
 let isBootstrapped = false;
+let isCalcBootstrapped = false;
 let globalPollInterval: ReturnType<typeof setInterval> | null = null;
 const knownStatuses = new Map<number, string>();
-const notifiedNotificationIds = new Set<number>();
 
 export function useDocumentNotifier() {
     const { t } = useI18n();
@@ -54,10 +72,26 @@ export function useDocumentNotifier() {
             const items = json.notifications;
             if (!Array.isArray(items)) return;
 
+            const notifiedCalcIds = getNotifiedCalcSet();
+
+            // On initial bootstrap of a fresh session, mark existing unread calculation notifications
+            // so ancient notifications don't toast on initial page load
+            if (!isCalcBootstrapped) {
+                for (const n of items) {
+                    if (n.type === 'calculation') {
+                        notifiedCalcIds.add(n.id);
+                    }
+                }
+                saveNotifiedCalcSet(notifiedCalcIds);
+                isCalcBootstrapped = true;
+                return;
+            }
+
             let hasNewCalculations = false;
             for (const n of items) {
-                if (n.type === 'calculation' && !n.is_seen && !notifiedNotificationIds.has(n.id)) {
-                    notifiedNotificationIds.add(n.id);
+                if (n.type === 'calculation' && !n.is_seen && !notifiedCalcIds.has(n.id)) {
+                    notifiedCalcIds.add(n.id);
+                    saveNotifiedCalcSet(notifiedCalcIds);
                     toast.success(t('notifications.pensionCalculationSuccessToast'));
                     hasNewCalculations = true;
                 }

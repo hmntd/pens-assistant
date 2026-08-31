@@ -29,9 +29,9 @@ services:
       DB_CONNECTION: pgsql
       DB_HOST: crm_db
       DB_PORT: 5432
-      DB_DATABASE: crm_db
-      DB_USERNAME: postgres
-      DB_PASSWORD: password
+      DB_DATABASE: ${DB_DATABASE:-crm_db}
+      DB_USERNAME: ${DB_USERNAME:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-password}
       QUEUE_CONNECTION: redis
       REDIS_CLIENT: predis
       REDIS_HOST: redis
@@ -65,9 +65,9 @@ services:
       DB_CONNECTION: pgsql
       DB_HOST: crm_db
       DB_PORT: 5432
-      DB_DATABASE: crm_db
-      DB_USERNAME: postgres
-      DB_PASSWORD: password
+      DB_DATABASE: ${DB_DATABASE:-crm_db}
+      DB_USERNAME: ${DB_USERNAME:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-password}
       QUEUE_CONNECTION: redis
       REDIS_CLIENT: predis
       REDIS_HOST: redis
@@ -96,15 +96,15 @@ services:
     container_name: pens_crm_db
     restart: unless-stopped
     environment:
-      POSTGRES_DB: crm_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
+      POSTGRES_DB: ${DB_DATABASE:-crm_db}
+      POSTGRES_USER: ${DB_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-password}
     ports:
       - "5432:5432"
     volumes:
       - crm_db_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d crm_db"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-postgres} -d ${DB_DATABASE:-crm_db}"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -123,7 +123,7 @@ services:
       - ./calc:/app
       - ./protos:/app/protos
     environment:
-      DB_CONNECTION_STRING: "host=calc_db port=5432 user=postgres password=password dbname=calc_db sslmode=disable"
+      DB_CONNECTION_STRING: "host=calc_db port=5432 user=${CALC_DB_USERNAME:-postgres} password=${CALC_DB_PASSWORD:-password} dbname=${CALC_DB_DATABASE:-calc_db} sslmode=disable"
     depends_on:
       calc_db:
         condition: service_healthy
@@ -135,16 +135,16 @@ services:
     container_name: pens_calc_db
     restart: unless-stopped
     environment:
-      POSTGRES_DB: calc_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
+      POSTGRES_DB: ${CALC_DB_DATABASE:-calc_db}
+      POSTGRES_USER: ${CALC_DB_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${CALC_DB_PASSWORD:-password}
     ports:
       - "5433:5432"
     volumes:
       - calc_db_data:/var/lib/postgresql/data
       - ./calc/db/init.sql:/docker-entrypoint-initdb.d/init.sql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d calc_db"]
+      test: ["CMD-SHELL", "pg_isready -U ${CALC_DB_USERNAME:-postgres} -d ${CALC_DB_DATABASE:-calc_db}"]
       interval: 5s
       timeout: 5s
       retries: 5

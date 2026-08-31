@@ -197,7 +197,7 @@ onMounted(() => {
                 <input
                     v-model="searchQuery"
                     type="text"
-                    placeholder="Пошук за назвою чи користувачем..."
+                    :placeholder="t('adminDocuments.searchPlaceholder')"
                     class="w-full pl-10 pr-4 py-2 text-xs sm:text-sm bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-main"
                 />
             </div>
@@ -207,12 +207,12 @@ onMounted(() => {
                 v-model="typeFilter"
                 class="px-3 py-2 text-xs sm:text-sm bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 rounded-xl font-medium cursor-pointer"
             >
-                <option value="">Всі типи документів</option>
-                <option value="PASSPORT">Паспорт</option>
-                <option value="WORK_BOOK">Трудова книжка</option>
-                <option value="TAX_RECORD">Довідка про доходи</option>
-                <option value="MILITARY_ID">Військовий квиток</option>
-                <option value="DIPLOMA">Диплом про освіту</option>
+                <option value="">All document types</option>
+                <option value="PASSPORT">Passport</option>
+                <option value="WORK_BOOK">Work Book</option>
+                <option value="TAX_RECORD">Tax Record</option>
+                <option value="MILITARY_ID">Military ID</option>
+                <option value="DIPLOMA">Diploma</option>
             </select>
         </div>
 
@@ -224,34 +224,34 @@ onMounted(() => {
                         <tr>
                             <th @click="handleSort('id')" class="p-3.5 cursor-pointer hover:text-slate-900 dark:hover:text-white transition-colors">
                                 <div class="flex items-center gap-1">
-                                    <span>ID</span>
+                                    <span>{{ t('adminDocuments.columnId') }}</span>
                                     <ChevronUp v-if="sortBy === 'id' && sortDir === 'asc'" class="h-3.5 w-3.5" />
                                     <ChevronDown v-if="sortBy === 'id' && sortDir === 'desc'" class="h-3.5 w-3.5" />
                                 </div>
                             </th>
-                            <th class="p-3.5">Власник</th>
+                            <th class="p-3.5">{{ t('adminDocuments.columnUser') }}</th>
                             <th @click="handleSort('title')" class="p-3.5 cursor-pointer hover:text-slate-900 dark:hover:text-white transition-colors">
                                 <div class="flex items-center gap-1">
-                                    <span>Назва / Тип</span>
+                                    <span>{{ t('adminDocuments.columnFilename') }}</span>
                                     <ChevronUp v-if="sortBy === 'title' && sortDir === 'asc'" class="h-3.5 w-3.5" />
                                     <ChevronDown v-if="sortBy === 'title' && sortDir === 'desc'" class="h-3.5 w-3.5" />
                                 </div>
                             </th>
                             <th @click="handleSort('file_size')" class="p-3.5 cursor-pointer hover:text-slate-900 dark:hover:text-white transition-colors">
                                 <div class="flex items-center gap-1">
-                                    <span>Розмір</span>
+                                    <span>{{ t('adminDocuments.columnSize') }}</span>
                                     <ChevronUp v-if="sortBy === 'file_size' && sortDir === 'asc'" class="h-3.5 w-3.5" />
                                     <ChevronDown v-if="sortBy === 'file_size' && sortDir === 'desc'" class="h-3.5 w-3.5" />
                                 </div>
                             </th>
                             <th @click="handleSort('created_at')" class="p-3.5 cursor-pointer hover:text-slate-900 dark:hover:text-white transition-colors">
                                 <div class="flex items-center gap-1">
-                                    <span>Завантажено</span>
+                                    <span>{{ t('adminDocuments.columnUploadedAt') }}</span>
                                     <ChevronUp v-if="sortBy === 'created_at' && sortDir === 'asc'" class="h-3.5 w-3.5" />
                                     <ChevronDown v-if="sortBy === 'created_at' && sortDir === 'desc'" class="h-3.5 w-3.5" />
                                 </div>
                             </th>
-                            <th class="p-3.5 text-right">Дії</th>
+                            <th class="p-3.5 text-right">{{ t('adminDocuments.columnActions') }}</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100 dark:divide-zinc-800/80 font-medium">
@@ -259,13 +259,13 @@ onMounted(() => {
                             <td colspan="6" class="p-8 text-center text-slate-400">
                                 <div class="flex items-center justify-center gap-2">
                                     <Loader2 class="h-5 w-5 animate-spin text-main" />
-                                    <span>Завантаження документів...</span>
+                                    <span>{{ t('adminDocuments.loadingDocuments') }}</span>
                                 </div>
                             </td>
                         </tr>
                         <tr v-else-if="documents.length === 0">
                             <td colspan="6" class="p-8 text-center text-slate-400">
-                                Документів не знайдено.
+                                {{ t('adminDocuments.noDocumentsFound') }}
                             </td>
                         </tr>
                         <tr v-for="doc in documents" :key="doc.id" class="hover:bg-slate-50/80 dark:hover:bg-zinc-950/60 transition-colors">
@@ -291,13 +291,13 @@ onMounted(() => {
                             <td class="p-3.5 text-slate-500 font-mono text-xs">{{ doc.created_at }}</td>
                             <td class="p-3.5 text-right">
                                 <div class="flex items-center justify-end gap-1.5">
-                                    <button @click="previewDocument(doc)" title="Перегляд деталей" class="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-zinc-800 text-slate-600 dark:text-zinc-400 cursor-pointer">
+                                    <button @click="previewDocument(doc)" :title="t('adminUsers.titleViewDetails')" class="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-zinc-800 text-slate-600 dark:text-zinc-400 cursor-pointer">
                                         <Eye class="h-4 w-4" />
                                     </button>
-                                    <button @click="downloadDocument(doc)" title="Завантажити оригінал" class="p-1.5 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-950/50 text-blue-600 dark:text-blue-400 cursor-pointer">
+                                    <button @click="downloadDocument(doc)" :title="t('adminDocuments.btnDownload')" class="p-1.5 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-950/50 text-blue-600 dark:text-blue-400 cursor-pointer">
                                         <Download class="h-4 w-4" />
                                     </button>
-                                    <button @click="confirmDelete(doc)" title="Вилучити файл" class="p-1.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-950/50 text-red-600 dark:text-red-400 cursor-pointer">
+                                    <button @click="confirmDelete(doc)" :title="t('adminDocuments.btnDelete')" class="p-1.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-950/50 text-red-600 dark:text-red-400 cursor-pointer">
                                         <Trash2 class="h-4 w-4" />
                                     </button>
                                 </div>
@@ -309,22 +309,22 @@ onMounted(() => {
 
             <!-- Pagination Bar -->
             <div class="flex items-center justify-between p-4 border-t border-slate-200 dark:border-zinc-800 text-xs text-slate-500">
-                <div>Всього документів: <span class="font-bold text-slate-900 dark:text-white">{{ totalRecords }}</span></div>
+                <div>{{ t('adminDocuments.totalRecords') }} <span class="font-bold text-slate-900 dark:text-white">{{ totalRecords }}</span></div>
                 <div class="flex items-center gap-2">
                     <button
                         :disabled="currentPage <= 1"
                         @click="currentPage--; fetchDocuments();"
                         class="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-zinc-800 disabled:opacity-40 cursor-pointer"
                     >
-                        Попередня
+                        {{ t('adminUsers.pagePrev') }}
                     </button>
-                    <span>Сторінка {{ currentPage }} з {{ lastPage }}</span>
+                    <span>{{ t('adminUsers.pageWord') }} {{ currentPage }} {{ t('adminUsers.pageOf') }} {{ lastPage }}</span>
                     <button
                         :disabled="currentPage >= lastPage"
                         @click="currentPage++; fetchDocuments();"
                         class="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-zinc-800 disabled:opacity-40 cursor-pointer"
                     >
-                        Наступна
+                        {{ t('adminUsers.pageNext') }}
                     </button>
                 </div>
             </div>
@@ -339,40 +339,40 @@ onMounted(() => {
 
                 <div class="flex items-center gap-2 text-main-dark dark:text-main">
                     <FileText class="h-6 w-6 text-main shrink-0" />
-                    <h3 class="text-base font-black text-slate-900 dark:text-white">Метадані документа #{{ selectedDoc?.id }}</h3>
+                    <h3 class="text-base font-black text-slate-900 dark:text-white">{{ t('adminDocuments.columnFilename') }} #{{ selectedDoc?.id }}</h3>
                 </div>
 
                 <div v-if="isLoadingDetail" class="py-8 text-center text-slate-400">
                     <Loader2 class="h-6 w-6 animate-spin text-main mx-auto mb-2" />
-                    <span>Завантаження даних...</span>
+                    <span>{{ t('adminUsers.loadingData') }}</span>
                 </div>
 
                 <div v-else-if="selectedDoc" class="space-y-4 text-xs">
                     <div class="space-y-2 p-4 rounded-2xl bg-slate-50 dark:bg-zinc-900 border border-slate-100 dark:border-zinc-800">
                         <div class="flex justify-between">
-                            <span class="text-slate-400">Назва:</span>
+                            <span class="text-slate-400">Title:</span>
                             <span class="font-bold text-slate-900 dark:text-white">{{ selectedDoc.title }}</span>
                         </div>
                         <div class="flex justify-between">
-                            <span class="text-slate-400">Файл:</span>
+                            <span class="text-slate-400">File:</span>
                             <span class="font-mono text-slate-700 dark:text-zinc-300">{{ selectedDoc.file_name }}</span>
                         </div>
                         <div class="flex justify-between">
-                            <span class="text-slate-400">Тип:</span>
+                            <span class="text-slate-400">Type:</span>
                             <span class="font-bold text-slate-900 dark:text-white">{{ selectedDoc.document_type }}</span>
                         </div>
                         <div class="flex justify-between">
-                            <span class="text-slate-400">Розмір:</span>
+                            <span class="text-slate-400">Size:</span>
                             <span class="font-mono text-slate-700 dark:text-zinc-300">{{ selectedDoc.formatted_file_size }}</span>
                         </div>
                         <div class="flex justify-between">
-                            <span class="text-slate-400">Власник:</span>
+                            <span class="text-slate-400">Owner:</span>
                             <span class="font-bold text-slate-900 dark:text-white">{{ selectedDoc.user?.name }} ({{ selectedDoc.user?.email }})</span>
                         </div>
                     </div>
 
                     <div v-if="selectedDoc.recognized_data" class="space-y-2">
-                        <span class="font-bold text-slate-900 dark:text-white">Розпізнані дані OCR:</span>
+                        <span class="font-bold text-slate-900 dark:text-white">OCR Data:</span>
                         <pre class="p-3 rounded-xl bg-zinc-950 text-emerald-400 font-mono text-[11px] overflow-x-auto max-h-40">{{ JSON.stringify(selectedDoc.recognized_data, null, 2) }}</pre>
                     </div>
                 </div>
@@ -382,13 +382,13 @@ onMounted(() => {
         <!-- Confirm Delete Modal -->
         <div v-if="showDeleteModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
             <div class="bg-white dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 rounded-3xl w-full max-w-md p-6 shadow-2xl space-y-4">
-                <h3 class="text-base font-extrabold text-slate-900 dark:text-white">Вилучити документ?</h3>
+                <h3 class="text-base font-extrabold text-slate-900 dark:text-white">{{ t('adminDocuments.btnDelete') }}?</h3>
                 <p class="text-xs text-slate-500 leading-relaxed">
-                    Ви впевнені, що бажаєте вилучити документ "<span class="font-bold text-slate-900 dark:text-white">{{ targetDoc?.title }}</span>"? Файл буде остаточно видалено з сервера.
+                    {{ t('adminUsers.modalConfirmText') }} "<span class="font-bold text-slate-900 dark:text-white">{{ targetDoc?.title }}</span>"?
                 </p>
                 <div class="flex items-center justify-end gap-2 pt-2">
                     <button @click="showDeleteModal = false" type="button" class="px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl cursor-pointer">
-                        Скасувати
+                        {{ t('adminUsers.btnCancel') }}
                     </button>
                     <button
                         @click="executeDelete()"
@@ -396,7 +396,7 @@ onMounted(() => {
                         type="button"
                         class="px-4 py-2 text-xs font-bold bg-red-600 text-white hover:bg-red-700 rounded-xl cursor-pointer disabled:opacity-50"
                     >
-                        {{ isDeleting ? 'Вилучення...' : 'Вилучити' }}
+                        {{ isDeleting ? t('adminUsers.btnExecuting') : t('adminUsers.btnConfirm') }}
                     </button>
                 </div>
             </div>

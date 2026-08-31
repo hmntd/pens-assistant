@@ -245,7 +245,7 @@ onMounted(() => {
                 <input
                     v-model="searchQuery"
                     type="text"
-                    placeholder="Пошук за ім'ям або email..."
+                    :placeholder="t('adminUsers.searchPlaceholder')"
                     class="w-full pl-10 pr-4 py-2 text-xs sm:text-sm bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-main"
                 />
             </div>
@@ -256,9 +256,9 @@ onMounted(() => {
                     v-model="roleFilter"
                     class="px-3 py-2 text-xs sm:text-sm bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 rounded-xl font-medium cursor-pointer"
                 >
-                    <option value="">Всі ролі</option>
-                    <option value="admin">Адміністратори</option>
-                    <option value="user">Користувачі</option>
+                    <option value="">{{ t('adminUsers.allRoles') }}</option>
+                    <option value="admin">{{ t('adminUsers.administrators') }}</option>
+                    <option value="user">{{ t('adminUsers.users') }}</option>
                 </select>
 
                 <!-- Status Filter -->
@@ -266,10 +266,10 @@ onMounted(() => {
                     v-model="statusFilter"
                     class="px-3 py-2 text-xs sm:text-sm bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 rounded-xl font-medium cursor-pointer"
                 >
-                    <option value="">Всі статуси</option>
-                    <option value="active">Активні</option>
-                    <option value="suspended">Заблоковані</option>
-                    <option value="trashed">Вилучені (Soft Deleted)</option>
+                    <option value="">{{ t('adminUsers.allStatuses') }}</option>
+                    <option value="active">{{ t('adminUsers.active') }}</option>
+                    <option value="suspended">{{ t('adminUsers.suspended') }}</option>
+                    <option value="trashed">{{ t('adminUsers.trashed') }}</option>
                 </select>
             </div>
         </div>
@@ -282,29 +282,29 @@ onMounted(() => {
                         <tr>
                             <th @click="handleSort('id')" class="p-3.5 cursor-pointer hover:text-slate-900 dark:hover:text-white transition-colors">
                                 <div class="flex items-center gap-1">
-                                    <span>ID</span>
+                                    <span>{{ t('adminUsers.columnId') }}</span>
                                     <ChevronUp v-if="sortBy === 'id' && sortDir === 'asc'" class="h-3.5 w-3.5" />
                                     <ChevronDown v-if="sortBy === 'id' && sortDir === 'desc'" class="h-3.5 w-3.5" />
                                 </div>
                             </th>
-                            <th class="p-3.5">Користувач</th>
+                            <th class="p-3.5">{{ t('adminUsers.columnUser') }}</th>
                             <th @click="handleSort('email')" class="p-3.5 cursor-pointer hover:text-slate-900 dark:hover:text-white transition-colors">
                                 <div class="flex items-center gap-1">
-                                    <span>Email</span>
+                                    <span>{{ t('adminUsers.columnEmail') }}</span>
                                     <ChevronUp v-if="sortBy === 'email' && sortDir === 'asc'" class="h-3.5 w-3.5" />
                                     <ChevronDown v-if="sortBy === 'email' && sortDir === 'desc'" class="h-3.5 w-3.5" />
                                 </div>
                             </th>
-                            <th class="p-3.5">Роль</th>
-                            <th class="p-3.5">Статус</th>
+                            <th class="p-3.5">{{ t('adminUsers.columnRole') }}</th>
+                            <th class="p-3.5">{{ t('adminUsers.columnStatus') }}</th>
                             <th @click="handleSort('created_at')" class="p-3.5 cursor-pointer hover:text-slate-900 dark:hover:text-white transition-colors">
                                 <div class="flex items-center gap-1">
-                                    <span>Дата реєстрації</span>
+                                    <span>{{ t('adminUsers.columnRegistrationDate') }}</span>
                                     <ChevronUp v-if="sortBy === 'created_at' && sortDir === 'asc'" class="h-3.5 w-3.5" />
                                     <ChevronDown v-if="sortBy === 'created_at' && sortDir === 'desc'" class="h-3.5 w-3.5" />
                                 </div>
                             </th>
-                            <th class="p-3.5 text-right">Дії</th>
+                            <th class="p-3.5 text-right">{{ t('adminUsers.columnActions') }}</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100 dark:divide-zinc-800/80 font-medium">
@@ -312,13 +312,13 @@ onMounted(() => {
                             <td colspan="7" class="p-8 text-center text-slate-400">
                                 <div class="flex items-center justify-center gap-2">
                                     <Loader2 class="h-5 w-5 animate-spin text-main" />
-                                    <span>Завантаження користувачів...</span>
+                                    <span>{{ t('adminUsers.loadingUsers') }}</span>
                                 </div>
                             </td>
                         </tr>
                         <tr v-else-if="users.length === 0">
                             <td colspan="7" class="p-8 text-center text-slate-400">
-                                Користувачів не знайдено.
+                                {{ t('adminUsers.noUsersFound') }}
                             </td>
                         </tr>
                         <tr v-for="user in users" :key="user.id" class="hover:bg-slate-50/80 dark:hover:bg-zinc-950/60 transition-colors" :class="{ 'opacity-60 bg-red-50/20 dark:bg-red-950/10': user.is_trashed }">
@@ -339,31 +339,31 @@ onMounted(() => {
                                 <select
                                     :value="user.role"
                                     :disabled="user.id === currentUserId"
-                                    :title="user.id === currentUserId ? 'Ви не можете змінити власну роль' : 'Змінити роль'"
+                                    :title="user.id === currentUserId ? t('adminUsers.cannotBlockSelf') : t('adminUsers.columnRole')"
                                     @change="handleRoleChange(user, ($event.target as HTMLSelectElement).value)"
                                     class="px-2.5 py-1 text-xs font-bold rounded-lg border border-slate-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-950 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                                     :class="user.role === 'admin' ? 'text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/40 border-amber-200 dark:border-amber-900' : 'text-slate-700 dark:text-zinc-300'"
                                 >
-                                    <option value="user">Користувач</option>
-                                    <option value="admin">Адміністратор</option>
+                                    <option value="user">{{ t('adminUsers.roleUser') }}</option>
+                                    <option value="admin">{{ t('adminUsers.roleAdmin') }}</option>
                                 </select>
                             </td>
                             <td class="p-3.5">
                                 <span v-if="user.is_trashed" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-300">
-                                    <XCircle class="h-3 w-3" /> Вилучено
+                                    <XCircle class="h-3 w-3" /> {{ t('adminUsers.statusTrashed') }}
                                 </span>
                                 <span v-else-if="user.is_suspended" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold bg-amber-100 text-amber-700 dark:bg-amber-950 dark:text-amber-300">
-                                    <Ban class="h-3 w-3" /> Заблоковано
+                                    <Ban class="h-3 w-3" /> {{ t('adminUsers.statusSuspended') }}
                                 </span>
                                 <span v-else class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300">
-                                    <CheckCircle2 class="h-3 w-3" /> Активний
+                                    <CheckCircle2 class="h-3 w-3" /> {{ t('adminUsers.statusActive') }}
                                 </span>
                             </td>
                             <td class="p-3.5 text-slate-500 font-mono text-xs">{{ user.created_at }}</td>
                             <td class="p-3.5 text-right">
                                 <div class="flex items-center justify-end gap-1.5">
                                     <!-- View Details -->
-                                    <button @click="viewUserDetails(user)" title="Деталі користувача" class="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-zinc-800 text-slate-600 dark:text-zinc-400 cursor-pointer">
+                                    <button @click="viewUserDetails(user)" :title="t('adminUsers.titleViewDetails')" class="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-zinc-800 text-slate-600 dark:text-zinc-400 cursor-pointer">
                                         <Eye class="h-4 w-4" />
                                     </button>
 
@@ -371,21 +371,21 @@ onMounted(() => {
                                     <button
                                         @click="openConfirmModal(user, 'suspend')"
                                         :disabled="user.id === currentUserId"
-                                        :title="user.id === currentUserId ? 'Ви не можете заблокувати власний акаунт' : (user.is_suspended ? 'Розблокувати' : 'Заблокувати')"
+                                        :title="user.id === currentUserId ? t('adminUsers.cannotBlockSelf') : (user.is_suspended ? t('adminUsers.titleUnblock') : t('adminUsers.titleBlock'))"
                                         class="p-1.5 rounded-lg hover:bg-amber-50 dark:hover:bg-amber-950/50 text-amber-600 dark:text-amber-400 cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
                                     >
                                         <Ban class="h-4 w-4" />
                                     </button>
 
                                     <!-- Soft Delete or Restore -->
-                                    <button v-if="user.is_trashed" @click="openConfirmModal(user, 'restore')" title="Відновити" class="p-1.5 rounded-lg hover:bg-emerald-50 dark:hover:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 cursor-pointer">
+                                    <button v-if="user.is_trashed" @click="openConfirmModal(user, 'restore')" :title="t('adminUsers.titleRestore')" class="p-1.5 rounded-lg hover:bg-emerald-50 dark:hover:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 cursor-pointer">
                                         <RotateCcw class="h-4 w-4" />
                                     </button>
                                     <button
                                         v-else
                                         @click="openConfirmModal(user, 'delete')"
                                         :disabled="user.id === currentUserId"
-                                        :title="user.id === currentUserId ? 'Ви не можете вилучити власний акаунт' : 'Soft Delete'"
+                                        :title="user.id === currentUserId ? t('adminUsers.cannotDeleteSelf') : t('adminUsers.titleSoftDelete')"
                                         class="p-1.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-950/50 text-red-600 dark:text-red-400 cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
                                     >
                                         <Trash2 class="h-4 w-4" />
@@ -399,22 +399,22 @@ onMounted(() => {
 
             <!-- Pagination Bar -->
             <div class="flex items-center justify-between p-4 border-t border-slate-200 dark:border-zinc-800 text-xs text-slate-500">
-                <div>Всього записів: <span class="font-bold text-slate-900 dark:text-white">{{ totalRecords }}</span></div>
+                <div>{{ t('adminUsers.totalRecords') }} <span class="font-bold text-slate-900 dark:text-white">{{ totalRecords }}</span></div>
                 <div class="flex items-center gap-2">
                     <button
                         :disabled="currentPage <= 1"
                         @click="currentPage--; fetchUsers();"
                         class="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-zinc-800 disabled:opacity-40 cursor-pointer"
                     >
-                        Попередня
+                        {{ t('adminUsers.pagePrev') }}
                     </button>
-                    <span>Сторінка {{ currentPage }} з {{ lastPage }}</span>
+                    <span>{{ t('adminUsers.pageWord') }} {{ currentPage }} {{ t('adminUsers.pageOf') }} {{ lastPage }}</span>
                     <button
                         :disabled="currentPage >= lastPage"
                         @click="currentPage++; fetchUsers();"
                         class="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-zinc-800 disabled:opacity-40 cursor-pointer"
                     >
-                        Наступна
+                        {{ t('adminUsers.pageNext') }}
                     </button>
                 </div>
             </div>
@@ -439,26 +439,26 @@ onMounted(() => {
 
                 <div v-if="isLoadingDetail" class="py-8 text-center text-slate-400">
                     <Loader2 class="h-6 w-6 animate-spin text-main mx-auto mb-2" />
-                    <span>Завантаження даних...</span>
+                    <span>{{ t('adminUsers.loadingData') }}</span>
                 </div>
 
                 <div v-else-if="selectedUser" class="space-y-4 text-xs">
                     <div class="grid grid-cols-2 gap-3 p-4 rounded-2xl bg-slate-50 dark:bg-zinc-900 border border-slate-100 dark:border-zinc-800">
                         <div>
-                            <span class="text-slate-400 block">Стать:</span>
-                            <span class="font-bold text-slate-900 dark:text-white">{{ selectedUser.gender === 'FEMALE' ? 'Жіноча' : (selectedUser.gender === 'MALE' ? 'Чоловіча' : 'Не вказано') }}</span>
+                            <span class="text-slate-400 block">{{ t('adminUsers.genderLabel') }}</span>
+                            <span class="font-bold text-slate-900 dark:text-white">{{ selectedUser.gender === 'FEMALE' ? t('adminUsers.genderFemale') : (selectedUser.gender === 'MALE' ? t('adminUsers.genderMale') : t('adminUsers.genderNotSpecified')) }}</span>
                         </div>
                         <div>
-                            <span class="text-slate-400 block">Дата народження:</span>
-                            <span class="font-bold text-slate-900 dark:text-white">{{ selectedUser.date_of_birth || 'Не вказано' }}</span>
+                            <span class="text-slate-400 block">{{ t('adminUsers.dobLabel') }}</span>
+                            <span class="font-bold text-slate-900 dark:text-white">{{ selectedUser.date_of_birth || t('adminUsers.genderNotSpecified') }}</span>
                         </div>
                         <div>
-                            <span class="text-slate-400 block">Група інвалідності:</span>
-                            <span class="font-bold text-slate-900 dark:text-white">{{ selectedUser.disability_group || 'Відсутня' }}</span>
+                            <span class="text-slate-400 block">{{ t('adminUsers.disabilityGroupLabel') }}</span>
+                            <span class="font-bold text-slate-900 dark:text-white">{{ selectedUser.disability_group || t('adminUsers.disabilityNone') }}</span>
                         </div>
                         <div>
-                            <span class="text-slate-400 block">Рік виходу на пенсію:</span>
-                            <span class="font-bold text-slate-900 dark:text-white">{{ selectedUser.target_retirement_year || 'Поточний' }}</span>
+                            <span class="text-slate-400 block">{{ t('adminUsers.retirementYearLabel') }}</span>
+                            <span class="font-bold text-slate-900 dark:text-white">{{ selectedUser.target_retirement_year || t('adminUsers.retirementYearCurrent') }}</span>
                         </div>
                     </div>
 
@@ -467,17 +467,17 @@ onMounted(() => {
                         <div class="p-3 rounded-2xl bg-main/10 border border-main/20 text-center">
                             <Calculator class="h-5 w-5 text-main-dark dark:text-main mx-auto mb-1" />
                             <div class="text-base font-black text-slate-900 dark:text-white">{{ selectedUser.calculations_count || 0 }}</div>
-                            <span class="text-[10px] text-slate-500">Розрахунків</span>
+                            <span class="text-[10px] text-slate-500">{{ t('adminUsers.statCalculations') }}</span>
                         </div>
                         <div class="p-3 rounded-2xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-900 text-center">
                             <FileText class="h-5 w-5 text-blue-600 dark:text-blue-400 mx-auto mb-1" />
                             <div class="text-base font-black text-slate-900 dark:text-white">{{ selectedUser.documents_count || 0 }}</div>
-                            <span class="text-[10px] text-slate-500">Документів</span>
+                            <span class="text-[10px] text-slate-500">{{ t('adminUsers.statDocuments') }}</span>
                         </div>
                         <div class="p-3 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900 text-center">
                             <Calendar class="h-5 w-5 text-amber-600 dark:text-amber-400 mx-auto mb-1" />
                             <div class="text-base font-black text-slate-900 dark:text-white">{{ selectedUser.tax_histories_count || 0 }}</div>
-                            <span class="text-[10px] text-slate-500">Записів стажу</span>
+                            <span class="text-[10px] text-slate-500">{{ t('adminUsers.statTaxHistories') }}</span>
                         </div>
                     </div>
                 </div>
@@ -488,16 +488,16 @@ onMounted(() => {
         <div v-if="showConfirmModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
             <div class="bg-white dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 rounded-3xl w-full max-w-md p-6 shadow-2xl space-y-4">
                 <h3 class="text-base font-extrabold text-slate-900 dark:text-white">
-                    <template v-if="confirmActionType === 'delete'">Вилучити користувача (Soft Delete)?</template>
-                    <template v-else-if="confirmActionType === 'restore'">Відновити користувача?</template>
-                    <template v-else-if="confirmActionType === 'suspend'">Змінити статус блокування?</template>
+                    <template v-if="confirmActionType === 'delete'">{{ t('adminUsers.modalDeleteTitle') }}</template>
+                    <template v-else-if="confirmActionType === 'restore'">{{ t('adminUsers.modalRestoreTitle') }}</template>
+                    <template v-else-if="confirmActionType === 'suspend'">{{ t('adminUsers.modalSuspendTitle') }}</template>
                 </h3>
                 <p class="text-xs text-slate-500 leading-relaxed">
-                    Ви впевнені, що бажаєте виконати цю дію для користувача <span class="font-bold text-slate-900 dark:text-white">{{ targetUser?.name }}</span>?
+                    {{ t('adminUsers.modalConfirmText') }} <span class="font-bold text-slate-900 dark:text-white">{{ targetUser?.name }}</span>?
                 </p>
                 <div class="flex items-center justify-end gap-2 pt-2">
                     <button @click="showConfirmModal = false" type="button" class="px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl cursor-pointer">
-                        Скасувати
+                        {{ t('adminUsers.btnCancel') }}
                     </button>
                     <button
                         @click="executeConfirmedAction()"
@@ -505,7 +505,7 @@ onMounted(() => {
                         type="button"
                         class="px-4 py-2 text-xs font-bold bg-main text-slate-950 hover:bg-main-dark rounded-xl cursor-pointer disabled:opacity-50"
                     >
-                        {{ isProcessingAction ? 'Виконання...' : 'Підтвердити' }}
+                        {{ isProcessingAction ? t('adminUsers.btnExecuting') : t('adminUsers.btnConfirm') }}
                     </button>
                 </div>
             </div>

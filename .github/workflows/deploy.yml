@@ -47,9 +47,11 @@ jobs:
         env:
           APP_KEY: ${{ secrets.APP_KEY }}
           DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          CALC_DB_PASSWORD: ${{ secrets.CALC_DB_PASSWORD }}
         run: |
           printf "APP_KEY=%s\n" "$APP_KEY" >> .env
           printf "DB_PASSWORD=%s\n" "$DB_PASSWORD" >> .env
+          printf "CALC_DB_PASSWORD=%s\n" "$CALC_DB_PASSWORD" >> .env
 
       - name: Execute Deployer
         env:

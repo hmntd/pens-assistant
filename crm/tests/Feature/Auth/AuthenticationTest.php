@@ -89,4 +89,27 @@ class AuthenticationTest extends TestCase
 
         $response->assertTooManyRequests();
     }
+
+    public function test_login_error_message_depends_on_selected_locale()
+    {
+        $user = User::factory()->create();
+
+        $responseUk = $this->withUnencryptedCookie('locale', 'uk')->post(route('login.store'), [
+            'email' => $user->email,
+            'password' => 'wrong-password',
+        ]);
+
+        $responseUk->assertSessionHasErrors([
+            'email' => 'Вказані облікові дані не відповідають нашим записам.',
+        ]);
+
+        $responseEn = $this->withUnencryptedCookie('locale', 'en')->post(route('login.store'), [
+            'email' => $user->email,
+            'password' => 'wrong-password',
+        ]);
+
+        $responseEn->assertSessionHasErrors([
+            'email' => 'These credentials do not match our records.',
+        ]);
+    }
 }

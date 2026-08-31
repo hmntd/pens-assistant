@@ -165,7 +165,7 @@ onMounted(() => {
                 <input
                     v-model="searchQuery"
                     type="text"
-                    placeholder="Пошук за ключем чи текстом перекладу..."
+                    :placeholder="t('adminTranslations.searchPlaceholder')"
                     class="w-full pl-10 pr-4 py-2 text-xs sm:text-sm bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-main"
                 />
             </div>
@@ -175,7 +175,7 @@ onMounted(() => {
                 class="px-4 py-2 text-xs sm:text-sm font-bold bg-main text-slate-950 hover:bg-main-dark rounded-xl flex items-center justify-center gap-1.5 cursor-pointer shadow-xs transition-colors shrink-0"
             >
                 <Plus class="h-4 w-4" />
-                <span>Додати ключ перекладу</span>
+                <span>{{ t('adminTranslations.btnAddKey') }}</span>
             </button>
         </div>
 
@@ -185,10 +185,10 @@ onMounted(() => {
                 <table class="w-full text-left text-xs sm:text-sm min-w-[700px]">
                     <thead class="bg-slate-50 dark:bg-zinc-950 text-slate-500 dark:text-zinc-400 font-extrabold uppercase tracking-wider text-[10px] sm:text-[11px] border-b border-slate-200 dark:border-zinc-800">
                         <tr>
-                            <th class="p-3.5 w-1/4">Ключ перекладу (Key)</th>
-                            <th class="p-3.5 w-1/3">Українська (UK 🇺🇦)</th>
-                            <th class="p-3.5 w-1/3">English (EN 🇬🇧)</th>
-                            <th class="p-3.5 text-right">Дії</th>
+                            <th class="p-3.5 w-1/4">{{ t('adminTranslations.columnKey') }}</th>
+                            <th class="p-3.5 w-1/3">{{ t('adminTranslations.columnUk') }}</th>
+                            <th class="p-3.5 w-1/3">{{ t('adminTranslations.columnEn') }}</th>
+                            <th class="p-3.5 text-right">{{ t('adminTranslations.columnActions') }}</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100 dark:divide-zinc-800/80 font-medium">
@@ -196,13 +196,13 @@ onMounted(() => {
                             <td colspan="4" class="p-8 text-center text-slate-400">
                                 <div class="flex items-center justify-center gap-2">
                                     <Loader2 class="h-5 w-5 animate-spin text-main" />
-                                    <span>Завантаження перекладів...</span>
+                                    <span>{{ t('adminTranslations.loadingTranslations') }}</span>
                                 </div>
                             </td>
                         </tr>
                         <tr v-else-if="translations.length === 0">
                             <td colspan="4" class="p-8 text-center text-slate-400">
-                                Перекладів не знайдено.
+                                {{ t('adminTranslations.noTranslationsFound') }}
                             </td>
                         </tr>
                         <tr v-for="item in translations" :key="item.key" class="hover:bg-slate-50/80 dark:hover:bg-zinc-950/60 transition-colors">
@@ -227,12 +227,12 @@ onMounted(() => {
                                 <button
                                     @click="saveTranslationRow(item)"
                                     :disabled="item.is_saving"
-                                    title="Зберегти переклад"
+                                    :title="t('adminTranslations.btnSave')"
                                     class="px-3 py-1.5 rounded-xl bg-main text-slate-950 font-bold hover:bg-main-dark flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50 text-xs ml-auto"
                                 >
                                     <Loader2 v-if="item.is_saving" class="h-3.5 w-3.5 animate-spin" />
                                     <Save v-else class="h-3.5 w-3.5" />
-                                    <span>{{ item.is_saving ? 'Збереження...' : 'Зберегти' }}</span>
+                                    <span>{{ item.is_saving ? t('adminTranslations.btnSaving') : t('adminTranslations.btnSave') }}</span>
                                 </button>
                             </td>
                         </tr>
@@ -242,22 +242,22 @@ onMounted(() => {
 
             <!-- Pagination Bar -->
             <div class="flex items-center justify-between p-4 border-t border-slate-200 dark:border-zinc-800 text-xs text-slate-500">
-                <div>Всього ключів: <span class="font-bold text-slate-900 dark:text-white">{{ totalRecords }}</span></div>
+                <div>{{ t('adminTranslations.totalKeys') }} <span class="font-bold text-slate-900 dark:text-white">{{ totalRecords }}</span></div>
                 <div class="flex items-center gap-2">
                     <button
                         :disabled="currentPage <= 1"
                         @click="currentPage--; fetchTranslations();"
                         class="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-zinc-800 disabled:opacity-40 cursor-pointer"
                     >
-                        Попередня
+                        {{ t('adminUsers.pagePrev') }}
                     </button>
-                    <span>Сторінка {{ currentPage }} з {{ lastPage }}</span>
+                    <span>{{ t('adminUsers.pageWord') }} {{ currentPage }} {{ t('adminUsers.pageOf') }} {{ lastPage }}</span>
                     <button
                         :disabled="currentPage >= lastPage"
                         @click="currentPage++; fetchTranslations();"
                         class="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-zinc-800 disabled:opacity-40 cursor-pointer"
                     >
-                        Наступна
+                        {{ t('adminUsers.pageNext') }}
                     </button>
                 </div>
             </div>
@@ -272,12 +272,12 @@ onMounted(() => {
 
                 <div class="flex items-center gap-2 text-main-dark dark:text-main">
                     <Globe class="h-6 w-6 text-main shrink-0" />
-                    <h3 class="text-base font-extrabold text-slate-900 dark:text-white">Створити новий ключ перекладу</h3>
+                    <h3 class="text-base font-extrabold text-slate-900 dark:text-white">{{ t('adminTranslations.modalTitle') }}</h3>
                 </div>
 
                 <div class="space-y-3 text-xs">
                     <div>
-                        <label class="block text-slate-500 font-bold mb-1">Ключ перекладу (Dot Notation, напр. admin.userCount):</label>
+                        <label class="block text-slate-500 font-bold mb-1">{{ t('adminTranslations.labelKey') }}</label>
                         <input
                             v-model="newKey"
                             type="text"
@@ -286,20 +286,20 @@ onMounted(() => {
                         />
                     </div>
                     <div>
-                        <label class="block text-slate-500 font-bold mb-1">Український текст (UK 🇺🇦):</label>
+                        <label class="block text-slate-500 font-bold mb-1">{{ t('adminTranslations.labelUk') }}</label>
                         <textarea
                             v-model="newUkVal"
                             rows="3"
-                            placeholder="Введіть текст українською..."
+                            :placeholder="t('adminTranslations.placeholderUk')"
                             class="w-full p-2.5 bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-main"
                         ></textarea>
                     </div>
                     <div>
-                        <label class="block text-slate-500 font-bold mb-1">English Text (EN 🇬🇧):</label>
+                        <label class="block text-slate-500 font-bold mb-1">{{ t('adminTranslations.labelEn') }}</label>
                         <textarea
                             v-model="newEnVal"
                             rows="3"
-                            placeholder="Enter text in English..."
+                            :placeholder="t('adminTranslations.placeholderEn')"
                             class="w-full p-2.5 bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-main"
                         ></textarea>
                     </div>
@@ -307,7 +307,7 @@ onMounted(() => {
 
                 <div class="flex items-center justify-end gap-2 pt-2">
                     <button @click="showAddModal = false" type="button" class="px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl cursor-pointer">
-                        Скасувати
+                        {{ t('adminTranslations.btnCancel') }}
                     </button>
                     <button
                         @click="handleAddKey()"
@@ -316,7 +316,7 @@ onMounted(() => {
                         class="px-4 py-2 text-xs font-bold bg-main text-slate-950 hover:bg-main-dark rounded-xl cursor-pointer disabled:opacity-50 flex items-center gap-1.5"
                     >
                         <Loader2 v-if="isSubmittingNewKey" class="h-3.5 w-3.5 animate-spin" />
-                        <span>{{ isSubmittingNewKey ? 'Збереження...' : 'Додати ключ' }}</span>
+                        <span>{{ isSubmittingNewKey ? t('adminTranslations.btnSaving') : t('adminTranslations.btnAdd') }}</span>
                     </button>
                 </div>
             </div>

@@ -28,7 +28,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->middleware('throttle:6,1')
         ->name('user-password.update');
 
-    Route::inertia('settings/appearance', 'settings/Appearance')->name('appearance.edit');
+    Route::redirect('settings/appearance', '/settings/profile')->name('appearance.edit');
 });
 
 Route::get('.well-known/passkey-endpoints', function () {

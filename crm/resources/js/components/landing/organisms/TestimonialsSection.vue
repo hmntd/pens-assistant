@@ -3,19 +3,71 @@ import { computed } from 'vue';
 import { useI18n } from '@/composables/useI18n';
 import BadgeTag from '../atoms/BadgeTag.vue';
 import TestimonialCard from '../molecules/TestimonialCard.vue';
+import {
+    Calendar,
+    Calculator,
+    TrendingUp,
+    Zap,
+    Award,
+    FileText,
+    ScanLine,
+    Activity,
+} from '@lucide/vue';
 
 const { t } = useI18n();
 
 const row1 = computed(() => [
-    { quote: t('testimonials.quote1'), author: t('testimonials.author1'), role: t('testimonials.role1') },
-    { quote: t('testimonials.quote2'), author: t('testimonials.author2'), role: t('testimonials.role2') },
-    { quote: t('testimonials.quote3'), author: t('testimonials.author3'), role: t('testimonials.role3') },
+    {
+        title: t('testimonials.feature1Title'),
+        description: t('testimonials.feature1Desc'),
+        icon: Calendar,
+        tag: 'Art. 40',
+    },
+    {
+        title: t('testimonials.feature2Title'),
+        description: t('testimonials.feature2Desc'),
+        icon: Calculator,
+        tag: 'PFU Formula',
+    },
+    {
+        title: t('testimonials.feature3Title'),
+        description: t('testimonials.feature3Desc'),
+        icon: TrendingUp,
+        tag: 'Forecast',
+    },
+    {
+        title: t('testimonials.feature4Title'),
+        description: t('testimonials.feature4Desc'),
+        icon: Zap,
+        tag: 'Kz Rule',
+    },
 ]);
 
 const row2 = computed(() => [
-    { quote: t('testimonials.quote3'), author: t('testimonials.author3'), role: t('testimonials.role3') },
-    { quote: t('testimonials.quote1'), author: t('testimonials.author1'), role: t('testimonials.role1') },
-    { quote: t('testimonials.quote2'), author: t('testimonials.author2'), role: t('testimonials.role2') },
+    {
+        title: t('testimonials.feature5Title'),
+        description: t('testimonials.feature5Desc'),
+        icon: Award,
+        tag: 'Surcharges',
+    },
+    {
+        title: t('testimonials.feature6Title'),
+        description: t('testimonials.feature6Desc'),
+        icon: FileText,
+        tag: 'PDF Export',
+    },
+    {
+        title: t('testimonials.feature7Title'),
+        description: t('testimonials.feature7Desc'),
+        icon: ScanLine,
+        tag: 'AI OCR',
+    },
+    {
+        title: t('testimonials.feature8Title'),
+        description: t('testimonials.feature8Desc'),
+        icon: Activity,
+        tag: 'Live Sync',
+    },
 ]);
 </script>
 
@@ -39,7 +91,7 @@ const row2 = computed(() => [
             <!-- OpenClaw Infinite Running Rows Container with side fade gradient mask -->
             <div class="relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)]">
                 
-                <!-- Row 1 (Running Left - Only pauses when hovering this specific row) -->
+                <!-- Row 1 (Running Left) -->
                 <div class="marquee-row mb-6 flex w-max cursor-pointer">
                     <div class="animate-marquee-left flex gap-6 pr-6">
                         <div
@@ -48,15 +100,16 @@ const row2 = computed(() => [
                             class="w-[300px] sm:w-[360px] shrink-0"
                         >
                             <TestimonialCard
-                                :quote="item.quote"
-                                :author="item.author"
-                                :role="item.role"
+                                :title="item.title"
+                                :description="item.description"
+                                :icon="item.icon"
+                                :tag="item.tag"
                             />
                         </div>
                     </div>
                 </div>
 
-                <!-- Row 2 (Running Right - Only pauses when hovering this specific row) -->
+                <!-- Row 2 (Running Right) -->
                 <div class="marquee-row flex w-max cursor-pointer">
                     <div class="animate-marquee-right flex gap-6 pr-6">
                         <div
@@ -65,9 +118,10 @@ const row2 = computed(() => [
                             class="w-[300px] sm:w-[360px] shrink-0"
                         >
                             <TestimonialCard
-                                :quote="item.quote"
-                                :author="item.author"
-                                :role="item.role"
+                                :title="item.title"
+                                :description="item.description"
+                                :icon="item.icon"
+                                :tag="item.tag"
                             />
                         </div>
                     </div>

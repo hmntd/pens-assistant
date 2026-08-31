@@ -19,6 +19,7 @@ import {
     FileText,
     ChevronDown,
     ChevronRight,
+    Download,
 } from '@lucide/vue';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -76,7 +77,7 @@ const emit = defineEmits<{
     (e: 'go-to-section', sectionId: string): void;
 }>();
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
 const page = usePage();
 const user = computed(() => page.props.auth?.user);
 
@@ -289,7 +290,6 @@ function runCalculation() {
     form.post('/pension-calculations', {
         preserveScroll: true,
         onSuccess: (pageRes) => {
-            toast.success(t('notifications.pensionCalculationSuccessToast'));
             window.dispatchEvent(new CustomEvent('notification-created'));
             if (pageRes.props.initialCalculations) {
                 calculationsList.value = pageRes.props.initialCalculations as CalculationItem[];
@@ -614,7 +614,7 @@ function runCalculation() {
                             <!-- Interactive Formula Coefficient Cards -->
                             <div class="mt-6 pt-4 border-t border-slate-200/60 dark:border-zinc-800/60">
                                 <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-zinc-400 mb-3 block">
-                                    Інтерактивні елементи формули (Натисніть для деталей):
+                                    {{ t('dashboard.details.interactiveFormulaElements') }}
                                 </span>
                                 <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
                                     <!-- Zp Card -->
@@ -625,7 +625,7 @@ function runCalculation() {
                                     >
                                         <div class="flex items-center justify-between">
                                             <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-zinc-400">
-                                                Зп (Середня ЗП)
+                                                {{ t('dashboard.details.zpCardLabel') }}
                                             </span>
                                             <Layers class="h-3.5 w-3.5 text-main shrink-0" />
                                         </div>
@@ -645,7 +645,7 @@ function runCalculation() {
                                     >
                                         <div class="flex items-center justify-between">
                                             <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-zinc-400">
-                                                Кз (Коефіцієнт ЗП)
+                                                {{ t('dashboard.details.kzCardLabel') }}
                                             </span>
                                             <Table class="h-3.5 w-3.5 text-main shrink-0" />
                                         </div>
@@ -665,7 +665,7 @@ function runCalculation() {
                                     >
                                         <div class="flex items-center justify-between">
                                             <span class="text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-zinc-400">
-                                                Кс (Коефіцієнт стажу)
+                                                {{ t('dashboard.details.ksCardLabel') }}
                                             </span>
                                             <Clock class="h-3.5 w-3.5 text-main shrink-0" />
                                         </div>
@@ -1023,8 +1023,17 @@ function runCalculation() {
                     </div>
                 </div>
 
-                <DialogFooter class="mt-4 sm:mt-6 shrink-0">
-                    <Button @click="showDetailsModal = false" type="button" class="w-full bg-main text-slate-950 font-bold hover:bg-main-dark rounded-xl h-9 sm:h-10 cursor-pointer text-xs sm:text-sm">
+                <DialogFooter class="mt-4 sm:mt-6 shrink-0 flex flex-col sm:flex-row items-center gap-2">
+                    <a
+                        v-if="activeResult?.id"
+                        :href="`/pension-calculations/${activeResult.id}/pdf?lang=${locale}`"
+                        download
+                        class="w-full sm:flex-1 bg-slate-900 dark:bg-white text-white dark:text-slate-950 font-bold hover:bg-slate-800 dark:hover:bg-slate-100 rounded-xl h-9 sm:h-10 cursor-pointer text-xs sm:text-sm flex items-center justify-center gap-2 transition-colors"
+                    >
+                        <Download class="h-4 w-4" />
+                        <span>{{ t('dashboard.details.downloadPdf') }}</span>
+                    </a>
+                    <Button @click="showDetailsModal = false" type="button" class="w-full sm:flex-1 bg-main text-slate-950 font-bold hover:bg-main-dark rounded-xl h-9 sm:h-10 cursor-pointer text-xs sm:text-sm">
                         {{ t('dashboard.overview.closeModal') }}
                     </Button>
                 </DialogFooter>

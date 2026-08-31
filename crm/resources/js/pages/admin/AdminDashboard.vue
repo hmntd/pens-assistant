@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, watch } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { Toaster } from '@/components/ui/sonner';
 import { useI18n } from '@/composables/useI18n';
-import AppLogo from '@/components/AppLogo.vue';
 import DashboardHeader from '@/components/dashboard/organisms/DashboardHeader.vue';
 import AdminUserSection from '@/components/admin/AdminUserSection.vue';
 import AdminCalculationSection from '@/components/admin/AdminCalculationSection.vue';
 import AdminDocumentSection from '@/components/admin/AdminDocumentSection.vue';
 import AdminTranslationSection from '@/components/admin/AdminTranslationSection.vue';
 import AdminAnalyticsSection from '@/components/admin/AdminAnalyticsSection.vue';
+import AdminSystemErrorSection from '@/components/admin/AdminSystemErrorSection.vue';
 import {
     Users,
     Calculator,
@@ -18,20 +18,24 @@ import {
     LayoutDashboard,
     ArrowLeft,
     ShieldCheck,
-    BarChart3
+    BarChart3,
+    AlertTriangle,
 } from '@lucide/vue';
 
 const { t } = useI18n();
 
-const activeSection = ref<'analytics' | 'users' | 'calculations' | 'documents' | 'translations'>('analytics');
+type AdminSection = 'analytics' | 'users' | 'calculations' | 'documents' | 'translations' | 'system-errors';
 
-const navItems = [
-    { id: 'analytics', label: 'Аналітика та Статистика', icon: BarChart3, desc: 'Графіки активності, браузерів та розрахунків' },
-    { id: 'users', label: 'Управління користувачами', icon: Users, desc: 'Користувачі, ролі, Soft Delete & блокування' },
-    { id: 'calculations', label: 'Історія розрахунків', icon: Calculator, desc: 'Протоколи розрахунків пенсій та аудит C++' },
-    { id: 'documents', label: 'Управління документами', icon: FileText, desc: 'Файли користувачів, перегляд та завантаження' },
-    { id: 'translations', label: 'Менеджер перекладів', icon: Globe, desc: 'Динамічне керування мовними ключами (i18n)' },
-];
+const activeSection = ref<AdminSection>('analytics');
+
+const navItems = computed(() => [
+    { id: 'analytics', label: t('adminNav.analytics'), icon: BarChart3, desc: t('adminNav.analyticsDesc') },
+    { id: 'users', label: t('adminNav.users'), icon: Users, desc: t('adminNav.usersDesc') },
+    { id: 'calculations', label: t('adminNav.calculations'), icon: Calculator, desc: t('adminNav.calculationsDesc') },
+    { id: 'documents', label: t('adminNav.documents'), icon: FileText, desc: t('adminNav.documentsDesc') },
+    { id: 'translations', label: t('adminNav.translations'), icon: Globe, desc: t('adminNav.translationsDesc') },
+    { id: 'system-errors', label: t('adminNav.systemErrors'), icon: AlertTriangle, desc: t('adminNav.systemErrorsDesc') },
+]);
 
 const currentSectionComponent = computed(() => {
     switch (activeSection.value) {
@@ -45,12 +49,14 @@ const currentSectionComponent = computed(() => {
             return AdminDocumentSection;
         case 'translations':
             return AdminTranslationSection;
+        case 'system-errors':
+            return AdminSystemErrorSection;
         default:
             return AdminAnalyticsSection;
     }
 });
 
-function switchSection(sectionId: 'analytics' | 'users' | 'calculations' | 'documents' | 'translations') {
+function switchSection(sectionId: AdminSection) {
     activeSection.value = sectionId;
     if (typeof window !== 'undefined') {
         const url = new URL(window.location.href);
@@ -63,8 +69,8 @@ function syncSectionFromUrl() {
     if (typeof window === 'undefined') return;
     const params = new URLSearchParams(window.location.search);
     const sec = params.get('section');
-    if (sec && ['analytics', 'users', 'calculations', 'documents', 'translations'].includes(sec)) {
-        activeSection.value = sec as any;
+    if (sec && ['analytics', 'users', 'calculations', 'documents', 'translations', 'system-errors'].includes(sec)) {
+        activeSection.value = sec as AdminSection;
     }
 }
 
@@ -74,7 +80,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <Head title="Панель адміністратора | PensAssistant" />
+    <Head :title="`${t('adminNav.title')} | PensAssistant`" />
 
     <div class="min-h-screen bg-slate-50 dark:bg-black font-sans text-slate-900 dark:text-slate-100 flex flex-col">
         <!-- Standalone Dashboard Header -->
@@ -91,8 +97,8 @@ onMounted(() => {
                     <div class="flex items-center gap-2 pb-3 border-b border-slate-100 dark:border-zinc-800">
                         <ShieldCheck class="h-6 w-6 text-main shrink-0" />
                         <div>
-                            <h2 class="font-extrabold text-sm text-slate-900 dark:text-white">Панель Адміністратора</h2>
-                            <p class="text-[11px] text-slate-400">Система управління CRM</p>
+                            <h2 class="font-extrabold text-sm text-slate-900 dark:text-white">{{ t('adminNav.title') }}</h2>
+                            <p class="text-[11px] text-slate-400">{{ t('adminNav.subtitle') }}</p>
                         </div>
                     </div>
 
@@ -101,7 +107,7 @@ onMounted(() => {
                         <button
                             v-for="item in navItems"
                             :key="item.id"
-                            @click="switchSection(item.id as any)"
+                            @click="switchSection(item.id as AdminSection)"
                             class="w-full text-left p-3 rounded-2xl transition-all cursor-pointer flex items-center gap-3 text-xs font-bold"
                             :class="activeSection === item.id ? 'bg-main text-slate-950 shadow-sm' : 'text-slate-600 dark:text-zinc-400 hover:bg-slate-100 dark:hover:bg-zinc-800 hover:text-slate-900 dark:hover:text-white'"
                         >
@@ -118,7 +124,7 @@ onMounted(() => {
                             class="w-full py-2.5 px-3 rounded-2xl bg-slate-100 dark:bg-zinc-800 hover:bg-slate-200 dark:hover:bg-zinc-700 text-slate-700 dark:text-zinc-200 text-xs font-bold flex items-center justify-center gap-2 transition-colors cursor-pointer"
                         >
                             <ArrowLeft class="h-4 w-4" />
-                            <span>Повернутися на Дашборд</span>
+                            <span>{{ t('adminNav.backToDashboard') }}</span>
                         </Link>
                     </div>
                 </div>

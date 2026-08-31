@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
 import { Calendar as CalendarIcon, ChevronLeft, ChevronRight } from '@lucide/vue';
+import { useI18n } from '@/composables/useI18n';
+
+const { t } = useI18n();
 
 const props = defineProps<{
     modelValue?: number | string | null;
@@ -87,7 +90,7 @@ onUnmounted(() => {
             class="flex h-11 w-full items-center justify-between rounded-xl border border-slate-200 bg-white px-3.5 py-2 text-sm text-slate-900 shadow-sm transition-all hover:border-main focus:border-main focus:outline-none focus:ring-1 focus:ring-main dark:border-zinc-800 dark:bg-zinc-900 dark:text-white dark:hover:border-zinc-700 disabled:opacity-50 cursor-pointer"
         >
             <span :class="!selectedYear ? 'text-slate-400 dark:text-zinc-500 font-normal' : 'font-bold'">
-                {{ selectedYear ? `${selectedYear} рік` : (placeholder || 'Оберіть рік') }}
+                {{ selectedYear ? `${selectedYear} ${t('dashboard.overview.yearUnit')}` : (placeholder || t('profileDetails.selectTargetYearPlaceholder')) }}
             </span>
             <CalendarIcon class="h-4 w-4 text-main shrink-0" />
         </button>

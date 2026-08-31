@@ -37,7 +37,7 @@ defineProps<Props>();
         <DropdownMenuItem v-if="user.is_admin" :as-child="true" class="cursor-pointer text-slate-800 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-zinc-800 focus:bg-slate-100 dark:focus:bg-zinc-800 focus:text-slate-900 dark:focus:text-white font-bold text-amber-600 dark:text-amber-400">
             <Link class="flex items-center w-full px-2 py-1.5" href="/admin">
                 <Shield class="mr-2 h-4 w-4 text-amber-500" />
-                Панель адміна
+                {{ t('header.adminPanel') }}
             </Link>
         </DropdownMenuItem>
         <DropdownMenuItem :as-child="true" class="cursor-pointer text-slate-800 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-zinc-800 focus:bg-slate-100 dark:focus:bg-zinc-800 focus:text-slate-900 dark:focus:text-white font-medium">

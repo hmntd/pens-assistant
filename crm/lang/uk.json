@@ -4,5 +4,8 @@
     "Document ':file' uploaded successfully and sent for OCR.": "Файл ':file' успішно завантажено та передано на OCR розпізнавання.",
     "Document ':file' uploaded successfully and queued for processing.": "Документ ':file' успішно завантажено та відправлено на обробку.",
     "Insurance service record for :period added successfully.": "Запис про страховий стаж за :period успішно додано.",
-    "Service history saved.": "Історію страхового стажу збережено."
+    "Service history saved.": "Історію страхового стажу збережено.",
+    "These credentials do not match our records.": "Вказані облікові дані не відповідають нашим записам.",
+    "The provided password is incorrect.": "Вказаний пароль невірний.",
+    "Too many login attempts. Please try again in :seconds seconds.": "Занадто багато спроб входу. Будь ласка, спробуйте знову через :seconds секунд."
 }

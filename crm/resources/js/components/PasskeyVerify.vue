@@ -3,6 +3,7 @@ import type { UrlMethodPair } from '@inertiajs/core';
 import { router } from '@inertiajs/vue3';
 import { usePasskeyVerify } from '@laravel/passkeys/vue';
 import { KeyRound } from '@lucide/vue';
+import { useI18n } from '@/composables/useI18n';
 import InputError from '@/components/InputError.vue';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -19,6 +20,7 @@ type Props = {
 };
 
 const props = defineProps<Props>();
+const { t } = useI18n();
 
 const { verify, isLoading, error, isSupported } = usePasskeyVerify({
     ...(props.routes
@@ -49,8 +51,8 @@ const { verify, isLoading, error, isSupported } = usePasskeyVerify({
                 <KeyRound v-else class="h-4 w-4" />
                 {{
                     isLoading
-                        ? (props.loadingLabel ?? 'Authenticating...')
-                        : (props.label ?? 'Sign in with a passkey')
+                        ? (props.loadingLabel ?? t('settings.passkeys.authenticating'))
+                        : (props.label ?? t('settings.passkeys.signInWithPasskey'))
                 }}
             </Button>
 
@@ -65,7 +67,7 @@ const { verify, isLoading, error, isSupported } = usePasskeyVerify({
             </div>
             <div class="relative flex justify-center text-xs uppercase">
                 <span class="bg-background px-2 text-muted-foreground">
-                    {{ props.separator ?? 'Or continue with email' }}
+                    {{ props.separator ?? t('settings.passkeys.orContinueEmail') }}
                 </span>
             </div>
         </div>

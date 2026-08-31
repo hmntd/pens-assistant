@@ -131,7 +131,7 @@ function saveDetails() {
                         v-model="form.target_retirement_year"
                         :min-year="1990"
                         :max-year="2070"
-                        placeholder="Оберіть рік виходу на пенсію"
+                        :placeholder="t('profileDetails.selectTargetYearPlaceholder')"
                     />
                 </div>
             </div>
