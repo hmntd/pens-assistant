@@ -126,6 +126,11 @@ services:
       - ./protos:/app/protos
       - /app/build
     environment:
+      DB_HOST: calc_db
+      DB_PORT: 5432
+      DB_NAME: ${CALC_DB_DATABASE:-calc_db}
+      DB_USER: ${CALC_DB_USERNAME:-postgres}
+      DB_PASSWORD: ${CALC_DB_PASSWORD:-password}
       DB_CONNECTION_STRING: "host=calc_db port=5432 user=${CALC_DB_USERNAME:-postgres} password=${CALC_DB_PASSWORD:-password} dbname=${CALC_DB_DATABASE:-calc_db} sslmode=disable"
     depends_on:
       calc_db:
