@@ -30,16 +30,10 @@ $serverHost = getenv('SERVER_HOST') ?: 'pens-assistant.ddns.net';
 $serverUser = getenv('SERVER_USER') ?: 'ubuntu';
 
 // Configuration for Production Host
-host('prod')
-    ->set('hostname', $serverHost)
+host($serverHost)
+    ->set('alias', 'prod')
     ->set('remote_user', $serverUser)
     ->set('deploy_path', getenv('DEPLOY_PATH') ?: '/var/www/pens-assistant/prod');
-
-// Configuration for Development Host
-host('dev')
-    ->set('hostname', $serverHost)
-    ->set('remote_user', $serverUser)
-    ->set('deploy_path', getenv('DEPLOY_PATH') ?: '/var/www/pens-assistant/dev');
 
 // Custom Docker & Migration Tasks
 desc('Build Docker images');
