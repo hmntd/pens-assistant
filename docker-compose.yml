@@ -7,9 +7,11 @@ services:
     restart: unless-stopped
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - ./crm:/var/www
       - ./nginx/conf.d/:/etc/nginx/conf.d/
+      - /etc/letsencrypt:/etc/letsencrypt:ro
     depends_on:
       - crm
     networks:
