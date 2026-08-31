@@ -26,17 +26,20 @@ set('writable_dirs', [
 // Retain releases count
 set('keep_releases', 5);
 
+$serverHost = getenv('SERVER_HOST') ?: 'pens-assistant.ddns.net';
+$serverUser = getenv('SERVER_USER') ?: 'ubuntu';
+
 // Configuration for Production Host
 host('prod')
-    ->setHostname(getenv('SERVER_HOST') ?: 'pens-assistant.ddns.net')
-    ->setRemoteUser(getenv('SERVER_USER') ?: 'ubuntu')
-    ->setDeployPath(getenv('DEPLOY_PATH') ?: '/var/www/pens-assistant/prod');
+    ->set('hostname', $serverHost)
+    ->set('remote_user', $serverUser)
+    ->set('deploy_path', getenv('DEPLOY_PATH') ?: '/var/www/pens-assistant/prod');
 
 // Configuration for Development Host
 host('dev')
-    ->setHostname(getenv('SERVER_HOST') ?: 'pens-assistant.ddns.net')
-    ->setRemoteUser(getenv('SERVER_USER') ?: 'ubuntu')
-    ->setDeployPath(getenv('DEPLOY_PATH') ?: '/var/www/pens-assistant/dev');
+    ->set('hostname', $serverHost)
+    ->set('remote_user', $serverUser)
+    ->set('deploy_path', getenv('DEPLOY_PATH') ?: '/var/www/pens-assistant/dev');
 
 // Custom Docker & Migration Tasks
 desc('Build Docker images');
