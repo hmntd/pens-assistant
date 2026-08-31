@@ -26,7 +26,7 @@ RUN docker-php-ext-install pdo_pgsql mbstring zip exif pcntl bcmath
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 RUN docker-php-ext-install gd
 
-RUN pecl install grpc protobuf \
+RUN MAKEFLAGS="-j$(nproc)" pecl install grpc protobuf \
     && docker-php-ext-enable grpc protobuf
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
