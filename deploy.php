@@ -1,7 +1,7 @@
 <?php
 namespace Deployer;
 
-require 'recipe/common.php';
+require 'recipe/laravel.php';
 
 // Project name
 set('application', 'pens-assistant');
@@ -40,7 +40,7 @@ host('dev')
     ->set('remote_user', getenv('SERVER_USER') ?: 'deploy')
     ->set('deploy_path', getenv('DEPLOY_PATH') ?: '/var/www/pens-assistant/dev');
 
-// Docker & Application deployment tasks
+// Custom Docker & Migration Tasks
 desc('Build Docker images');
 task('docker:build', function () {
     run('cd {{release_path}} && docker compose build');
@@ -68,17 +68,12 @@ task('crm:cache', function () {
     run('cd {{release_path}} && docker compose exec -T crm php artisan view:cache');
 });
 
-// Main Deployment Lifecycle
-desc('Deploy pens-assistant application');
-task('deploy', [
-    'deploy:prepare',
-    'docker:build',
-    'docker:up',
-    'calc:migrate',
-    'crm:migrate',
-    'crm:cache',
-    'deploy:publish',
-]);
+// Hook custom Docker tasks into standard Deployer lifecycle
+after('deploy:shared', 'docker:build');
+after('docker:build', 'docker:up');
+after('docker:up', 'calc:migrate');
+after('calc:migrate', 'crm:migrate');
+after('crm:migrate', 'crm:cache');
 
 // Unlock on failure
 after('deploy:failed', 'deploy:unlock');
