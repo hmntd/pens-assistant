@@ -72,7 +72,6 @@ task('crm:cache', function () {
 desc('Deploy pens-assistant application');
 task('deploy', [
     'deploy:info',
-    'deploy:setup',
     'deploy:lock',
     'deploy:release',
     'deploy:update_code',
