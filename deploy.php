@@ -71,21 +71,13 @@ task('crm:cache', function () {
 // Main Deployment Lifecycle
 desc('Deploy pens-assistant application');
 task('deploy', [
-    'deploy:info',
-    'deploy:lock',
-    'deploy:release',
-    'deploy:update_code',
-    'deploy:shared',
-    'deploy:writable',
+    'deploy:prepare',
     'docker:build',
     'docker:up',
     'calc:migrate',
     'crm:migrate',
     'crm:cache',
-    'deploy:symlink',
-    'deploy:unlock',
-    'deploy:cleanup',
-    'deploy:success',
+    'deploy:publish',
 ]);
 
 // Unlock on failure
