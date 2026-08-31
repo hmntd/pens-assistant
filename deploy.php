@@ -28,17 +28,15 @@ set('keep_releases', 5);
 
 // Configuration for Production Host
 host('prod')
-    ->set('labels', ['stage' => 'prod'])
-    ->set('hostname', getenv('SERVER_HOST') ?: 'prod.example.com')
-    ->set('remote_user', getenv('SERVER_USER') ?: 'deploy')
-    ->set('deploy_path', getenv('DEPLOY_PATH') ?: '/var/www/pens-assistant/prod');
+    ->setHostname(getenv('SERVER_HOST') ?: 'pens-assistant.ddns.net')
+    ->setRemoteUser(getenv('SERVER_USER') ?: 'ubuntu')
+    ->setDeployPath(getenv('DEPLOY_PATH') ?: '/var/www/pens-assistant/prod');
 
 // Configuration for Development Host
 host('dev')
-    ->set('labels', ['stage' => 'dev'])
-    ->set('hostname', getenv('SERVER_HOST') ?: 'dev.example.com')
-    ->set('remote_user', getenv('SERVER_USER') ?: 'deploy')
-    ->set('deploy_path', getenv('DEPLOY_PATH') ?: '/var/www/pens-assistant/dev');
+    ->setHostname(getenv('SERVER_HOST') ?: 'pens-assistant.ddns.net')
+    ->setRemoteUser(getenv('SERVER_USER') ?: 'ubuntu')
+    ->setDeployPath(getenv('DEPLOY_PATH') ?: '/var/www/pens-assistant/dev');
 
 // Custom Docker & Migration Tasks
 desc('Build Docker images');
