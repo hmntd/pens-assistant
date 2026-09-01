@@ -60,6 +60,12 @@ task('crm:vendors', function () {
     run('cd {{deploy_path}}/current && docker compose exec -T crm composer install --no-dev --prefer-dist --optimize-autoloader --no-interaction');
 })->desc('Install Laravel dependencies inside the crm container');
 
+task('deploy:fix_permissions', function () {
+    run('sudo chown -R {{remote_user}}:{{remote_user}} {{deploy_path}}/releases');
+})->desc('Fix root-owned files created by Docker volumes');
+
+before('deploy:cleanup', 'deploy:fix_permissions');
+
 task('calc:migrate', function () {
     run('cd {{deploy_path}}/current && bash calc/database/run_migrations.sh');
 })->desc('Run Calc database migrations');
