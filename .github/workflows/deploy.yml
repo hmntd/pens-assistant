@@ -53,6 +53,9 @@ jobs:
           printf "DB_PASSWORD=%s\n" "$DB_PASSWORD" >> .env
           printf "CALC_DB_PASSWORD=%s\n" "$CALC_DB_PASSWORD" >> .env
 
+      - name: Install Composer Dependencies
+        run: composer install --prefer-dist --no-progress
+
       - name: Execute Deployer
         env:
           SERVER_HOST: ${{ vars.SERVER_HOST }}
@@ -60,4 +63,4 @@ jobs:
           DEPLOY_PATH: ${{ vars.DEPLOY_PATH }}
         run: |
           TARGET="${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}"
-          dep deploy "$TARGET" -v
+          ./vendor/bin/dep deploy "$TARGET" -v

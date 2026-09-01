@@ -4,10 +4,15 @@ import ThemeToggleBtn from '../atoms/ThemeToggleBtn.vue';
 import LangSelect from '../atoms/LangSelect.vue';
 import GithubBtn from '../atoms/GithubBtn.vue';
 import HeaderAuthGroup from '../molecules/HeaderAuthGroup.vue';
+import { onMounted } from 'vue';
 
 defineProps<{
     showAuthButtons: boolean;
 }>();
+
+onMounted(() => {
+    console.log('LandingHeader mounted');
+})
 </script>
 
 <template>
