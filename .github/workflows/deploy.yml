@@ -1,22 +1,169 @@
-name: CD Pipeline - Deploy with Deployer
+name: CI/CD Pipeline & Deployment
 
 on:
   push:
     branches:
+      - '**'
+  pull_request:
+    branches:
       - main
       - develop
+      - dev
   workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
+  calc-ci:
+    name: Calc Service CI
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: ./calc
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential \
+            cmake \
+            g++ \
+            libgtest-dev \
+            libgrpc++-dev \
+            protobuf-compiler-grpc \
+            libprotobuf-dev \
+            libpq-dev \
+            libpqxx-dev \
+            pkg-config
+
+      - name: Generate Protobuf & gRPC C++ Code
+        run: |
+          protoc -I=../protos --cpp_out=src --grpc_out=src --plugin=protoc-gen-grpc=$(which grpc_cpp_plugin) ../protos/calc.proto
+
+      - name: Configure CMake
+        run: cmake -B build -S .
+
+      - name: Build
+        run: cmake --build build --config Release
+
+      - name: Run Unit Tests
+        run: |
+          if [ -f build/unit_calculator_tests ]; then
+            ./build/unit_calculator_tests
+          fi
+          if [ -f build/unit_repository_tests ]; then
+            ./build/unit_repository_tests
+          fi
+
+      - name: Run Feature Tests
+        run: |
+          if [ -f build/feature_grpc_tests ]; then
+            ./build/feature_grpc_tests
+          fi
+
+  crm-ci:
+    name: CRM Service CI
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: ./crm
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          tools: composer, phpstan
+          extensions: grpc, protobuf
+          coverage: none
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: 'crm/package-lock.json'
+
+      - name: Install Dependencies (PHP)
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Build Frontend Assets
+        run: |
+          npm ci
+          npm run build
+
+      - name: Prepare Environment
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+
+      - name: Run Migrations
+        run: php artisan migrate --force
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: ':memory:'
+
+      - name: Run PHPStan (Static Analysis)
+        run: vendor/bin/phpstan analyse --level=5 --memory-limit=1G app/
+
+      - name: Run Tests (PHPUnit)
+        run: php artisan test
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: ':memory:'
+
+  ocr-ci:
+    name: OCR Service CI
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: ./ocr
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+          cache-dependency-path: 'ocr/requirements.txt'
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y tesseract-ocr libtesseract-dev poppler-utils
+
+      - name: Install Python dependencies & generate Protobuf
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8 pytest
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          python -m grpc_tools.protoc -I../protos --python_out=src --grpc_python_out=src ../protos/ocr.proto
+
+      - name: Lint with Flake8
+        run: flake8 src/ --count --select=E9,F63,F7,F82 --show-source --statistics
+
+      - name: Run Pytest
+        run: pytest
+
   deploy:
-    name: Deploy to ${{ github.ref == 'refs/heads/main' && 'Production' || 'Development' }}
+    name: Deploy to ${{ (github.ref == 'refs/heads/main') && 'Production' || 'Development' }}
+    needs: [calc-ci, crm-ci, ocr-ci]
+    if: (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/dev') && github.event_name == 'push'
     runs-on: ubuntu-latest
-    
+
     environment:
-      name: ${{ github.ref == 'refs/heads/main' && 'production' || 'development' }}
+      name: ${{ (github.ref == 'refs/heads/main') && 'production' || 'development' }}
 
     steps:
       - name: Checkout Code
@@ -62,5 +209,5 @@ jobs:
           SERVER_USER: ${{ vars.SERVER_USER }}
           DEPLOY_PATH: ${{ vars.DEPLOY_PATH }}
         run: |
-          TARGET="${{ github.ref == 'refs/heads/main' && 'prod' || 'dev' }}"
+          TARGET="${{ (github.ref == 'refs/heads/main') && 'prod' || 'dev' }}"
           ./vendor/bin/dep deploy "$TARGET" -v
