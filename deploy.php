@@ -2,7 +2,7 @@
 
 namespace Deployer;
 
-require 'recipe/composer.php';
+require 'recipe/common.php';
 
 // Config
 set('application', 'pens-assistant');
