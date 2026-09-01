@@ -12,7 +12,7 @@ services:
       - ./crm:/var/www
       - ./nginx/conf.d/:/etc/nginx/conf.d/
       - /etc/letsencrypt:/etc/letsencrypt:ro
-      - ../../shared/crm/storage:/var/www/storage
+      - ../shared/crm/storage:/var/www/storage
     depends_on:
       - crm
     networks:
