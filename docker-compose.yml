@@ -11,8 +11,7 @@ services:
     volumes:
       - ./crm:/var/www
       - ./nginx/conf.d/:/etc/nginx/conf.d/
-      - /etc/letsencrypt:/etc/letsencrypt:ro
-      - ../shared/crm/storage:/var/www/storage
+      - ${LETSENCRYPT_PATH:-./nginx/conf.d}:/etc/letsencrypt:ro
     depends_on:
       - crm
     networks:
@@ -27,7 +26,7 @@ services:
     working_dir: /var/www
     volumes:
       - ./crm:/var/www
-      - ../shared/crm/storage:/var/www/storage
+      - ${STORAGE_PATH:-./crm/storage}:/var/www/storage
       - ./protos:/var/www/protos
     environment:
       DB_CONNECTION: pgsql
@@ -64,7 +63,7 @@ services:
     command: php artisan horizon
     volumes:
       - ./crm:/var/www
-      - ../shared/crm/storage:/var/www/storage
+      - ${STORAGE_PATH:-./crm/storage}:/var/www/storage
       - ./protos:/var/www/protos
     environment:
       DB_CONNECTION: pgsql
