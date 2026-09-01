@@ -9,10 +9,9 @@ set('application', 'pens-assistant');
 set('repository', 'git@github.com:hmntd/pens-assistant.git');
 set('use_relative_symlink', true);
 set('keep_releases', 5);
-set('composer_options', '--no-dev --prefer-dist --optimize-autoloader --no-interaction');
 
 add('shared_files', ['.env', 'crm/.env']);
-add('shared_dirs', ['crm/storage']);
+add('shared_dirs', ['crm/storage', 'crm/vendor']);
 add('writable_dirs', ['crm/storage', 'crm/bootstrap/cache']);
 
 // Hosts
@@ -41,15 +40,15 @@ task('check:env', function () {
     }
 })->desc('Verify .env exists');
 
-task('crm:vendors', function () {
-    run('cd {{release_path}}/crm && {{bin/composer}} install {{composer_options}}');
-})->desc('Install Laravel dependencies inside the crm directory');
-
 task('docker:up', function () {
     run('cd {{deploy_path}}/current && docker compose up -d --no-build');
     // Allow container health checks to settle before running database migrations
     sleep(3);
 })->desc('Ensure Docker containers are running without rebuilding images');
+
+task('crm:vendors', function () {
+    run('cd {{deploy_path}}/current && docker compose exec -T crm composer install --no-dev --prefer-dist --optimize-autoloader --no-interaction');
+})->desc('Install Laravel dependencies inside the crm container');
 
 task('calc:migrate', function () {
     run('cd {{deploy_path}}/current && bash calc/database/run_migrations.sh');
@@ -78,10 +77,10 @@ task('workers:reload', function () {
 task('deploy', [
     'check:env',
     'deploy:prepare',
-    'deploy:vendors',
-    'crm:vendors',
     'deploy:publish',
     'docker:up',
+    'deploy:vendors',
+    'crm:vendors',
     'calc:migrate',
     'crm:migrate',
     'crm:cache',
