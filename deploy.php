@@ -10,7 +10,7 @@ set('repository', 'git@github.com:hmntd/pens-assistant.git');
 set('use_relative_symlink', true);
 set('keep_releases', 5);
 
-add('shared_files', ['.env', 'crm/.env']);
+add('shared_files', ['.env']);
 add('shared_dirs', ['crm/storage', 'crm/vendor']);
 add('writable_dirs', ['crm/storage', 'crm/bootstrap/cache']);
 
@@ -39,6 +39,11 @@ task('check:env', function () {
         writeln('<info>✔ Automatically initialized {{deploy_path}}/shared/crm/.env from root .env</info>');
     }
 })->desc('Verify .env exists');
+
+task('crm:env', function () {
+    // Copy real crm/.env file into release so Docker container can read it without broken relative symlinks
+    run('cp {{deploy_path}}/shared/crm/.env {{release_path}}/crm/.env');
+})->desc('Copy shared crm/.env to release directory for Docker container access');
 
 task('storage:prepare', function () {
     // Ensure all required Laravel storage subdirectories exist in the shared path
@@ -95,6 +100,7 @@ task('workers:reload', function () {
 task('deploy', [
     'check:env',
     'deploy:prepare',
+    'crm:env',
     'storage:prepare',
     'deploy:vendors',
     'deploy:publish',
