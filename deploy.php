@@ -30,8 +30,11 @@ host('dev')
 
 // Tasks
 task('check:env', function () {
-    if (!test('[ -f {{deploy_path}}/shared/.env ]') && !test('[ -f {{release_path}}/.env ]')) {
-        writeln('<comment>⚠️ .env file missing in shared path!</comment>');
+    if (!test('[ -f {{deploy_path}}/shared/.env ]')) {
+        writeln('<comment>⚠️ .env file missing in {{deploy_path}}/shared/</comment>');
+    }
+    if (!test('[ -f {{deploy_path}}/shared/crm/.env ]')) {
+        writeln('<comment>⚠️ crm/.env file missing in {{deploy_path}}/shared/crm/</comment>');
     }
 })->desc('Verify .env exists');
 
