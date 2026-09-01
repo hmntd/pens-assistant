@@ -50,10 +50,6 @@ task('storage:prepare', function () {
     run('chmod -R 775 {{deploy_path}}/shared/crm/storage');
 })->desc('Ensure Laravel storage subdirectories exist in shared path');
 
-task('crm:build', function () {
-    run('docker run --rm -v {{release_path}}/crm:/app -w /app node:20-alpine sh -c "npm install && npm run build"');
-})->desc('Compile Vite frontend assets using Docker Node container');
-
 task('docker:up', function () {
     run('cd {{deploy_path}}/current && docker compose up -d --no-build --force-recreate');
     // Allow container health checks to settle before running database migrations
@@ -63,6 +59,10 @@ task('docker:up', function () {
 task('crm:vendors', function () {
     run('cd {{deploy_path}}/current && docker compose exec -w /var/www -T crm composer install --no-dev --prefer-dist --optimize-autoloader --no-interaction');
 })->desc('Install Laravel dependencies inside the crm container');
+
+task('crm:build', function () {
+    run('cd {{deploy_path}}/current && docker compose exec -w /var/www -T crm sh -c "npm install && npm run build"');
+})->desc('Compile Vite frontend assets inside crm container');
 
 task('deploy:fix_permissions', function () {
     run('sudo chown -R {{remote_user}}:{{remote_user}} {{deploy_path}}/releases');
@@ -97,10 +97,10 @@ task('deploy', [
     'deploy:prepare',
     'storage:prepare',
     'deploy:vendors',
-    'crm:build',
     'deploy:publish',
     'docker:up',
     'crm:vendors',
+    'crm:build',
     'calc:migrate',
     'crm:migrate',
     'crm:cache',
