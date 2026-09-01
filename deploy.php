@@ -40,6 +40,16 @@ task('check:env', function () {
     }
 })->desc('Verify .env exists');
 
+task('storage:prepare', function () {
+    // Ensure all required Laravel storage subdirectories exist in the shared path
+    run('mkdir -p {{deploy_path}}/shared/crm/storage/app');
+    run('mkdir -p {{deploy_path}}/shared/crm/storage/framework/cache');
+    run('mkdir -p {{deploy_path}}/shared/crm/storage/framework/sessions');
+    run('mkdir -p {{deploy_path}}/shared/crm/storage/framework/views');
+    run('mkdir -p {{deploy_path}}/shared/crm/storage/logs');
+    run('chmod -R 775 {{deploy_path}}/shared/crm/storage');
+})->desc('Ensure Laravel storage subdirectories exist in shared path');
+
 task('docker:up', function () {
     run('cd {{deploy_path}}/current && docker compose up -d --no-build');
     // Allow container health checks to settle before running database migrations
@@ -77,9 +87,10 @@ task('workers:reload', function () {
 task('deploy', [
     'check:env',
     'deploy:prepare',
+    'storage:prepare',
+    'deploy:vendors',
     'deploy:publish',
     'docker:up',
-    'deploy:vendors',
     'crm:vendors',
     'calc:migrate',
     'crm:migrate',
