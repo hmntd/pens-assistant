@@ -12,6 +12,7 @@ services:
       - ./crm:/var/www
       - ./nginx/conf.d/:/etc/nginx/conf.d/
       - ${LETSENCRYPT_PATH:-./nginx/conf.d}:/etc/letsencrypt:ro
+      - ${SSL_CONF_PATH:-./nginx/conf.d/app.conf}:/etc/nginx/conf.d/ssl.conf:ro
     depends_on:
       - crm
     networks:
