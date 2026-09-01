@@ -34,13 +34,17 @@ task('check:env', function () {
     if (!test('[ -f {{deploy_path}}/shared/.env ]')) {
         writeln('<comment>⚠️ .env file missing in {{deploy_path}}/shared/</comment>');
     }
-    if (!test('[ -f {{deploy_path}}/shared/crm/.env ]')) {
-        writeln('<comment>⚠️ crm/.env file missing in {{deploy_path}}/shared/crm/</comment>');
+    // Auto-create crm/.env from root .env if missing
+    if (test('[ -f {{deploy_path}}/shared/.env ]') && !test('[ -f {{deploy_path}}/shared/crm/.env ]')) {
+        run('cp {{deploy_path}}/shared/.env {{deploy_path}}/shared/crm/.env');
+        writeln('<info>✔ Automatically initialized {{deploy_path}}/shared/crm/.env from root .env</info>');
     }
 })->desc('Verify .env exists');
 
 task('docker:up', function () {
     run('cd {{deploy_path}}/current && docker compose up -d --no-build');
+    // Allow container health checks to settle before running database migrations
+    sleep(3);
 })->desc('Ensure Docker containers are running without rebuilding images');
 
 task('calc:migrate', function () {
