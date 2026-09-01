@@ -50,6 +50,10 @@ task('storage:prepare', function () {
     run('chmod -R 775 {{deploy_path}}/shared/crm/storage');
 })->desc('Ensure Laravel storage subdirectories exist in shared path');
 
+task('crm:build', function () {
+    run('cd {{release_path}}/crm && npm install && npm run build');
+})->desc('Compile Vite frontend assets inside crm directory');
+
 task('docker:up', function () {
     run('cd {{deploy_path}}/current && docker compose up -d --no-build --force-recreate');
     // Allow container health checks to settle before running database migrations
@@ -75,9 +79,7 @@ task('crm:migrate', function () {
 })->desc('Run CRM migrations');
 
 task('crm:cache', function () {
-    run('cd {{deploy_path}}/current && docker compose exec -T crm php artisan config:cache');
-    run('cd {{deploy_path}}/current && docker compose exec -T crm php artisan route:cache');
-    run('cd {{deploy_path}}/current && docker compose exec -T crm php artisan view:cache');
+    run('cd {{deploy_path}}/current && docker compose exec -T crm php artisan optimize:clear');
 })->desc('Cache CRM configuration and routes');
 
 task('workers:reload', function () {
@@ -95,6 +97,7 @@ task('deploy', [
     'deploy:prepare',
     'storage:prepare',
     'deploy:vendors',
+    'crm:build',
     'deploy:publish',
     'docker:up',
     'crm:vendors',
