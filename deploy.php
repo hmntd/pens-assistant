@@ -6,6 +6,7 @@ require 'recipe/common.php';
 
 // Config
 set('application', 'pens-assistant');
+set('repository', 'git@github.com:hmntd/pens-assistant.git');
 set('use_relative_symlink', true);
 set('keep_releases', 5);
 set('composer_options', '--no-dev --prefer-dist --optimize-autoloader --no-interaction');
