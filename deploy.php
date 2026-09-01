@@ -41,6 +41,10 @@ task('check:env', function () {
     }
 })->desc('Verify .env exists');
 
+task('crm:vendors', function () {
+    run('cd {{release_path}}/crm && {{bin/composer}} {{composer_options}}');
+})->desc('Install Laravel dependencies inside the crm directory');
+
 task('docker:up', function () {
     run('cd {{deploy_path}}/current && docker compose up -d --no-build');
     // Allow container health checks to settle before running database migrations
@@ -75,6 +79,7 @@ task('deploy', [
     'check:env',
     'deploy:prepare',
     'deploy:vendors',
+    'crm:vendors',
     'deploy:publish',
     'docker:up',
     'calc:migrate',
