@@ -51,8 +51,8 @@ task('storage:prepare', function () {
 })->desc('Ensure Laravel storage subdirectories exist in shared path');
 
 task('crm:build', function () {
-    run('cd {{release_path}}/crm && npm install && npm run build');
-})->desc('Compile Vite frontend assets inside crm directory');
+    run('docker run --rm -v {{release_path}}/crm:/app -w /app node:20-alpine sh -c "npm install && npm run build"');
+})->desc('Compile Vite frontend assets using Docker Node container');
 
 task('docker:up', function () {
     run('cd {{deploy_path}}/current && docker compose up -d --no-build --force-recreate');
