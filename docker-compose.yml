@@ -167,6 +167,9 @@ services:
     restart: unless-stopped
     ports:
       - "50052:50052"
+    volumes:
+      - ./ocr:/app/ocr
+      - ./protos:/app/protos
     networks:
       - pens_net
 

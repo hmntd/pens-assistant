@@ -39,39 +39,44 @@ task('check:env', function () {
     }
 })->desc('Verify .env exists');
 
-task('docker:build', function () {
-    run('cd {{release_path}} && docker compose build');
-})->desc('Build Docker images');
-
 task('docker:up', function () {
-    run('cd {{release_path}} && docker compose up -d');
-})->desc('Start Docker containers');
+    run('cd {{deploy_path}}/current && docker compose up -d --no-build');
+})->desc('Ensure Docker containers are running without rebuilding images');
 
 task('calc:migrate', function () {
-    run('cd {{release_path}} && bash calc/database/run_migrations.sh');
+    run('cd {{deploy_path}}/current && bash calc/database/run_migrations.sh');
 })->desc('Run Calc database migrations');
 
 task('crm:migrate', function () {
-    run('cd {{release_path}} && docker compose exec -T crm php artisan migrate --force');
+    run('cd {{deploy_path}}/current && docker compose exec -T crm php artisan migrate --force');
 })->desc('Run CRM migrations');
 
 task('crm:cache', function () {
-    run('cd {{release_path}} && docker compose exec -T crm php artisan config:cache');
-    run('cd {{release_path}} && docker compose exec -T crm php artisan route:cache');
-    run('cd {{release_path}} && docker compose exec -T crm php artisan view:cache');
+    run('cd {{deploy_path}}/current && docker compose exec -T crm php artisan config:cache');
+    run('cd {{deploy_path}}/current && docker compose exec -T crm php artisan route:cache');
+    run('cd {{deploy_path}}/current && docker compose exec -T crm php artisan view:cache');
 })->desc('Cache CRM configuration and routes');
 
-// Main Deploy Sequence
+task('workers:reload', function () {
+    // Gracefully terminate Horizon worker so it restarts via Docker restart policy with updated code
+    run('cd {{deploy_path}}/current && docker compose exec -T crm_horizon php artisan horizon:terminate || true');
+    // Clear PHP OPcache inside CRM container if enabled
+    run('cd {{deploy_path}}/current && docker compose exec -T crm php artisan opcache:clear || true');
+    // Restart Python OCR service daemon to load updated code from volume
+    run('cd {{deploy_path}}/current && docker compose restart ocr || true');
+})->desc('Reload persistent workers (Horizon, OPcache, OCR) to apply volume code updates');
+
+// Main Volume-Based Deploy Sequence
 task('deploy', [
     'check:env',
     'deploy:prepare',
     'deploy:vendors',
-    'docker:build',
     'docker:up',
     'calc:migrate',
     'crm:migrate',
     'crm:cache',
     'deploy:publish',
+    'workers:reload',
 ]);
 
 // Hooks
