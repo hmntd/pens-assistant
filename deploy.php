@@ -51,13 +51,13 @@ task('storage:prepare', function () {
 })->desc('Ensure Laravel storage subdirectories exist in shared path');
 
 task('docker:up', function () {
-    run('cd {{deploy_path}}/current && docker compose up -d --no-build');
+    run('cd {{deploy_path}}/current && docker compose up -d --no-build --force-recreate');
     // Allow container health checks to settle before running database migrations
     sleep(3);
 })->desc('Ensure Docker containers are running without rebuilding images');
 
 task('crm:vendors', function () {
-    run('cd {{deploy_path}}/current && docker compose exec -T crm composer install --no-dev --prefer-dist --optimize-autoloader --no-interaction');
+    run('cd {{deploy_path}}/current && docker compose exec -w /var/www -T crm composer install --no-dev --prefer-dist --optimize-autoloader --no-interaction');
 })->desc('Install Laravel dependencies inside the crm container');
 
 task('deploy:fix_permissions', function () {
