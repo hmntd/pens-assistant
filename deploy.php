@@ -42,7 +42,7 @@ task('check:env', function () {
 })->desc('Verify .env exists');
 
 task('crm:vendors', function () {
-    run('cd {{release_path}}/crm && {{bin/composer}} {{composer_options}}');
+    run('cd {{release_path}}/crm && {{bin/composer}} install {{composer_options}}');
 })->desc('Install Laravel dependencies inside the crm directory');
 
 task('docker:up', function () {
