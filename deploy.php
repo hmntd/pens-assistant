@@ -71,11 +71,11 @@ task('deploy', [
     'check:env',
     'deploy:prepare',
     'deploy:vendors',
+    'deploy:publish',
     'docker:up',
     'calc:migrate',
     'crm:migrate',
     'crm:cache',
-    'deploy:publish',
     'workers:reload',
 ]);
 
