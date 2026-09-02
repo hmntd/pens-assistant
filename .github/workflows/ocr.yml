@@ -2,6 +2,8 @@ name: OCR CI
 
 on:
   push:
+    branches-ignore:
+      - main
     paths:
       - 'ocr/**'
       - 'protos/ocr.proto'
