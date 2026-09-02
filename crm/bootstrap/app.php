@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\EnsureUserIsAdmin;
+use App\Http\Middleware\EnsureUserIsNotSuspended;
 use App\Http\Middleware\HandleAppearance;
 use App\Http\Middleware\HandleInertiaRequests;
 use App\Http\Middleware\SetAppLocale;
@@ -33,6 +34,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             SetAppLocale::class,
             HandleAppearance::class,
+            EnsureUserIsNotSuspended::class,
             HandleInertiaRequests::class,
             AddLinkHeadersForPreloadedAssets::class,
         ]);
@@ -54,8 +56,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->respond(function (Response $response, Throwable $exception, Request $request) {
             $status = $response->getStatusCode();
 
-            // Log server and client errors (4xx & 5xx) into DB and notify admin
-            if ($status >= 400) {
+            // Log server errors (5xx, 502, 503, 500) into DB and notify admin
+            if ($status >= 500) {
                 app(SystemErrorLoggerService::class)->logException($exception, $request, $status);
             }
 

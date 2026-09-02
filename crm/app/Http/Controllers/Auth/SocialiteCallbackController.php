@@ -105,6 +105,12 @@ class SocialiteCallbackController extends Controller
             $user->assignRole('user');
         }
 
+        if ($user->is_suspended) {
+            return redirect()->route('login')->withErrors([
+                'email' => __('Your account has been suspended. Please contact support.'),
+            ]);
+        }
+
         Auth::login($user, remember: true);
 
         return redirect()->intended(route('dashboard'));
