@@ -2,6 +2,8 @@ name: Calc CI
 
 on:
   push:
+    branches-ignore:
+      - main
     paths:
       - 'calc/**'
       - 'protos/**'
