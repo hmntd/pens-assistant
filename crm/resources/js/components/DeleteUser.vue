@@ -2,7 +2,7 @@
 import { Form } from '@inertiajs/vue3';
 import { useTemplateRef } from 'vue';
 import { useI18n } from '@/composables/useI18n';
-import ProfileController from '@/actions/App/Http/Controllers/Settings/ProfileController';
+import DestroyProfileController from '@/actions/App/Http/Controllers/Settings/DestroyProfileController';
 import Heading from '@/components/Heading.vue';
 import InputError from '@/components/InputError.vue';
 import PasswordInput from '@/components/PasswordInput.vue';
@@ -47,7 +47,7 @@ const passwordInput = useTemplateRef('passwordInput');
                 </DialogTrigger>
                 <DialogContent>
                     <Form
-                        v-bind="ProfileController.destroy.form()"
+                        v-bind="DestroyProfileController.form()"
                         reset-on-success
                         @error="() => passwordInput?.focus()"
                         :options="{

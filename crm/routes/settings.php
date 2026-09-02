@@ -1,30 +1,35 @@
 <?php
 
-use App\Http\Controllers\Settings\NotificationChannelController;
-use App\Http\Controllers\Settings\ProfileController;
-use App\Http\Controllers\Settings\SecurityController;
+use App\Http\Controllers\Settings\DestroyProfileController;
+use App\Http\Controllers\Settings\EditNotificationChannelsController;
+use App\Http\Controllers\Settings\EditProfileController;
+use App\Http\Controllers\Settings\EditSecurityController;
+use App\Http\Controllers\Settings\SendTestNotificationController;
+use App\Http\Controllers\Settings\UpdateNotificationChannelsController;
+use App\Http\Controllers\Settings\UpdatePasswordController;
+use App\Http\Controllers\Settings\UpdateProfileController;
 use Illuminate\Auth\Middleware\RequirePassword;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', '/settings/profile');
 
-    Route::get('settings/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('settings/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('settings/profile', EditProfileController::class)->name('profile.edit');
+    Route::patch('settings/profile', UpdateProfileController::class)->name('profile.update');
 
-    Route::get('settings/notifications', [NotificationChannelController::class, 'edit'])->name('notifications.edit');
-    Route::put('settings/notifications', [NotificationChannelController::class, 'update'])->name('notifications.update');
-    Route::post('settings/notifications/test', [NotificationChannelController::class, 'sendTest'])->name('notifications.test');
+    Route::get('settings/notifications', EditNotificationChannelsController::class)->name('notifications.edit');
+    Route::put('settings/notifications', UpdateNotificationChannelsController::class)->name('notifications.update');
+    Route::post('settings/notifications/test', SendTestNotificationController::class)->name('notifications.test');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::delete('settings/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::delete('settings/profile', DestroyProfileController::class)->name('profile.destroy');
 
-    Route::get('settings/security', [SecurityController::class, 'edit'])
+    Route::get('settings/security', EditSecurityController::class)
         ->middleware(RequirePassword::class)
         ->name('security.edit');
 
-    Route::put('settings/password', [SecurityController::class, 'update'])
+    Route::put('settings/password', UpdatePasswordController::class)
         ->middleware('throttle:6,1')
         ->name('user-password.update');
 

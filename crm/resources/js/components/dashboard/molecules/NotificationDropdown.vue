@@ -41,7 +41,7 @@ async function fetchNotifications() {
 
 async function markAllAsRead() {
     try {
-        await fetch('/notifications/mark-all-read', {
+        await fetch('/notifications/read-all', {
             method: 'POST',
             headers: {
                 'X-CSRF-TOKEN': (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement)?.content || '',
@@ -60,7 +60,7 @@ async function toggleRead(item: DbNotificationItem) {
     item.is_seen = true;
     unreadCount.value = Math.max(0, unreadCount.value - 1);
     try {
-        await fetch(`/notifications/${item.id}/mark-read`, {
+        await fetch(`/notifications/${item.id}/read`, {
             method: 'POST',
             headers: {
                 'X-CSRF-TOKEN': (document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement)?.content || '',

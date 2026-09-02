@@ -65,7 +65,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::middleware(['auth'])->prefix('notifications')->group(function () {
     Route::get('/', IndexNotificationController::class)->name('notifications.index');
     Route::post('/read-all', MarkAllNotificationsAsReadController::class)->name('notifications.read-all');
+    Route::post('/mark-all-read', MarkAllNotificationsAsReadController::class);
     Route::post('/{id}/read', MarkNotificationAsReadController::class)->name('notifications.read');
+    Route::post('/{id}/mark-read', MarkNotificationAsReadController::class);
 });
 
 Route::middleware(['auth'])->prefix('pension-calculations')->group(function () {
