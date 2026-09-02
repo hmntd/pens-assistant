@@ -7,28 +7,34 @@ use App\Events\DocumentUploaded;
 use App\Events\PensionCalculated;
 use App\Events\TaxHistoryAdded;
 use App\Events\UserProfileUpdated;
-use App\Models\Notification;
-use App\Models\NotificationTranslation;
+use App\Models\User;
+use App\Services\NotificationChannelService;
 
 class SendSystemNotification
 {
+    public function __construct(
+        protected NotificationChannelService $notificationChannelService
+    ) {}
+
     /**
      * Handle DocumentUploaded event.
      */
     public function handleDocumentUploaded(DocumentUploaded $event): void
     {
+        $user = User::find($event->document->user_id);
+        if (! $user) {
+            return;
+        }
+
         $filename = $event->document->original_filename ?: "№{$event->document->id}";
 
-        $translation = NotificationTranslation::firstOrCreate([
-            'uk' => "Файл '{$filename}' успішно завантажено та передано на OCR розпізнавання.",
-            'en' => "File '{$filename}' successfully uploaded and sent for OCR recognition.",
-        ]);
-
-        Notification::create([
-            'user_id' => $event->document->user_id,
-            'notification_translation_id' => $translation->id,
-            'type' => 'success',
-        ]);
+        $this->notificationChannelService->dispatchNotification(
+            $user,
+            "Файл '{$filename}' успішно завантажено та передано на OCR розпізнавання.",
+            "File '{$filename}' successfully uploaded and sent for OCR recognition.",
+            'success',
+            'document_processed'
+        );
     }
 
     /**
@@ -36,32 +42,31 @@ class SendSystemNotification
      */
     public function handleDocumentStatusUpdated(DocumentStatusUpdated $event): void
     {
+        $user = User::find($event->document->user_id);
+        if (! $user) {
+            return;
+        }
+
         $document = $event->document;
         $status = strtolower($event->status);
         $filename = $document->original_filename ?: "№{$document->id}";
 
         if ($status === 'completed') {
-            $translation = NotificationTranslation::firstOrCreate([
-                'uk' => "Документ '{$filename}' успішно розпізнано та дані внесені до страхового стажу.",
-                'en' => "Document '{$filename}' has been successfully recognized and added to insurance history.",
-            ]);
-
-            Notification::create([
-                'user_id' => $document->user_id,
-                'notification_translation_id' => $translation->id,
-                'type' => 'success',
-            ]);
+            $this->notificationChannelService->dispatchNotification(
+                $user,
+                "Документ '{$filename}' успішно розпізнано та дані внесені до страхового стажу.",
+                "Document '{$filename}' has been successfully recognized and added to insurance history.",
+                'success',
+                'document_processed'
+            );
         } elseif ($status === 'failed') {
-            $translation = NotificationTranslation::firstOrCreate([
-                'uk' => "Помилка при розпізнаванні документа '{$filename}'.",
-                'en' => "Failed to process document recognition for '{$filename}'.",
-            ]);
-
-            Notification::create([
-                'user_id' => $document->user_id,
-                'notification_translation_id' => $translation->id,
-                'type' => 'error',
-            ]);
+            $this->notificationChannelService->dispatchNotification(
+                $user,
+                "Помилка при розпізнаванні документа '{$filename}'.",
+                "Failed to process document recognition for '{$filename}'.",
+                'error',
+                'document_processed'
+            );
         }
     }
 
@@ -70,16 +75,13 @@ class SendSystemNotification
      */
     public function handleTaxHistoryAdded(TaxHistoryAdded $event): void
     {
-        $translation = NotificationTranslation::firstOrCreate([
-            'uk' => "Запис про страховий стаж успішно додано.",
-            'en' => "Insurance service record added successfully.",
-        ]);
-
-        Notification::create([
-            'user_id' => $event->user->id,
-            'notification_translation_id' => $translation->id,
-            'type' => 'success',
-        ]);
+        $this->notificationChannelService->dispatchNotification(
+            $event->user,
+            "Запис про страховий стаж успішно додано.",
+            "Insurance service record added successfully.",
+            'success',
+            'system_alerts'
+        );
     }
 
     /**
@@ -87,16 +89,13 @@ class SendSystemNotification
      */
     public function handleUserProfileUpdated(UserProfileUpdated $event): void
     {
-        $translation = NotificationTranslation::firstOrCreate([
-            'uk' => "Персональні дані та налаштування профілю успішно оновлено.",
-            'en' => "Personal data and profile settings updated successfully.",
-        ]);
-
-        Notification::create([
-            'user_id' => $event->user->id,
-            'notification_translation_id' => $translation->id,
-            'type' => 'success',
-        ]);
+        $this->notificationChannelService->dispatchNotification(
+            $event->user,
+            "Персональні дані та налаштування профілю успішно оновлено.",
+            "Personal data and profile settings updated successfully.",
+            'success',
+            'system_alerts'
+        );
     }
 
     /**
@@ -104,15 +103,12 @@ class SendSystemNotification
      */
     public function handlePensionCalculated(PensionCalculated $event): void
     {
-        $translation = NotificationTranslation::firstOrCreate([
-            'uk' => "Розрахунок пенсійних виплат успішно виконано.",
-            'en' => "Pension calculation successfully completed.",
-        ]);
-
-        Notification::create([
-            'user_id' => $event->user->id,
-            'notification_translation_id' => $translation->id,
-            'type' => 'calculation',
-        ]);
+        $this->notificationChannelService->dispatchNotification(
+            $event->user,
+            "Розрахунок пенсійних виплат успішно виконано.",
+            "Pension calculation successfully completed.",
+            'calculation',
+            'calc_completed'
+        );
     }
 }

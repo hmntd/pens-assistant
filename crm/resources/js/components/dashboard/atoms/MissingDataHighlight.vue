@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { AlertTriangle, ArrowRight } from '@lucide/vue';
+import { useI18n } from '@/composables/useI18n';
 
 defineProps<{
     title: string;
@@ -9,6 +10,8 @@ defineProps<{
 defineEmits<{
     (e: 'click'): void;
 }>();
+
+const { t } = useI18n();
 </script>
 
 <template>
@@ -31,7 +34,7 @@ defineEmits<{
         </div>
 
         <span class="inline-flex items-center gap-1 text-xs font-bold text-amber-600 dark:text-amber-400 shrink-0">
-            Заповнити
+            {{ t('dashboard.alerts.fillBtn') }}
             <ArrowRight class="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
         </span>
     </div>
