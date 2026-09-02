@@ -17,8 +17,8 @@ class NotificationChannelService
      * Dispatch a notification across all enabled channels for the given user.
      *
      * @param User $user
-     * @param string $title
-     * @param string $message
+     * @param string $messageUk
+     * @param string $messageEn
      * @param string $type ('info', 'success', 'warning', 'error')
      * @param string|null $eventCategory ('calc_completed', 'document_processed', 'system_alerts', 'pension_updates')
      * @return array<string, bool> Results per channel
