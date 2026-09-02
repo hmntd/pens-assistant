@@ -2,7 +2,7 @@
 import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 import { useForm } from '@inertiajs/vue3';
 import { useI18n } from '@/composables/useI18n';
-import { FileText, UploadCloud, Trash2, Pencil, CheckCircle2, AlertCircle, Eye, Calendar, Plus, Layers, X, Download, RefreshCw } from '@lucide/vue';
+import { FileText, UploadCloud, Trash2, Pencil, CheckCircle2, AlertCircle, Eye, Calendar, Plus, Layers, X, Download, RefreshCw, FileX } from '@lucide/vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -263,28 +263,65 @@ function submitManualTaxHistory() {
     });
 }
 
-function deleteDocument(id: number) {
-    if (!confirm(t('documents.deleteConfirmDoc'))) return;
-    useForm({}).delete(`/documents/${id}`, {
-        preserveScroll: true,
-        onSuccess: () => {
-            documentsList.value = documentsList.value.filter((d) => d.id !== id);
-            if (selectedDoc.value?.id === id) {
-                selectedDoc.value = null;
-                isReviewModalOpen.value = false;
-            }
-        },
-    });
+const isConfirmDeleteModalOpen = ref(false);
+const deleteTarget = ref<{ type: 'document' | 'taxHistory'; id: number; title?: string } | null>(null);
+const isDeletingRecord = ref(false);
+
+function confirmDeleteDocument(doc: DocumentItem) {
+    deleteTarget.value = {
+        type: 'document',
+        id: doc.id,
+        title: doc.original_filename || `Doc #${doc.id}`,
+    };
+    isConfirmDeleteModalOpen.value = true;
 }
 
-function deleteTaxHistory(id: number) {
-    if (!confirm(t('documents.deleteConfirmTax'))) return;
-    useForm({}).delete(`/documents/tax-histories/${id}`, {
-        preserveScroll: true,
-        onSuccess: () => {
-            taxHistoriesList.value = taxHistoriesList.value.filter((tItem) => tItem.id !== id);
-        },
-    });
+function confirmDeleteTaxHistory(tax: TaxHistoryItem) {
+    deleteTarget.value = {
+        type: 'taxHistory',
+        id: tax.id,
+        title: `${tax.year} ${t('documents.colYear')}`,
+    };
+    isConfirmDeleteModalOpen.value = true;
+}
+
+function executeDeleteRecord() {
+    if (!deleteTarget.value) return;
+    isDeletingRecord.value = true;
+
+    if (deleteTarget.value.type === 'document') {
+        const id = deleteTarget.value.id;
+        useForm({}).delete(`/documents/${id}`, {
+            preserveScroll: true,
+            onSuccess: () => {
+                documentsList.value = documentsList.value.filter((d) => d.id !== id);
+                if (selectedDoc.value?.id === id) {
+                    selectedDoc.value = null;
+                    isReviewModalOpen.value = false;
+                }
+                isConfirmDeleteModalOpen.value = false;
+                isDeletingRecord.value = false;
+                deleteTarget.value = null;
+            },
+            onError: () => {
+                isDeletingRecord.value = false;
+            },
+        });
+    } else {
+        const id = deleteTarget.value.id;
+        useForm({}).delete(`/documents/tax-histories/${id}`, {
+            preserveScroll: true,
+            onSuccess: () => {
+                taxHistoriesList.value = taxHistoriesList.value.filter((tItem) => tItem.id !== id);
+                isConfirmDeleteModalOpen.value = false;
+                isDeletingRecord.value = false;
+                deleteTarget.value = null;
+            },
+            onError: () => {
+                isDeletingRecord.value = false;
+            },
+        });
+    }
 }
 
 const { locale } = useI18n();
@@ -362,9 +399,25 @@ function submitEditTaxHistory() {
     });
 }
 
-function openReviewModal(doc: DocumentItem) {
+const isCheckingFile = ref(false);
+const isImageError = ref(false);
+
+async function openReviewModal(doc: DocumentItem) {
     selectedDoc.value = doc;
+    isImageError.value = false;
+    isCheckingFile.value = true;
     isReviewModalOpen.value = true;
+
+    try {
+        const res = await fetch(getFileStreamUrl(doc.id), { method: 'HEAD' });
+        if (!res.ok) {
+            isImageError.value = true;
+        }
+    } catch {
+        isImageError.value = true;
+    } finally {
+        isCheckingFile.value = false;
+    }
 }
 
 function closeReviewModal() {
@@ -697,7 +750,7 @@ function getExtractedData(doc: DocumentItem): any {
                                                         <Pencil class="h-3.5 w-3.5" />
                                                     </button>
                                                     <button
-                                                        @click="deleteTaxHistory(item.id)"
+                                                        @click="confirmDeleteTaxHistory(item)"
                                                         type="button"
                                                         class="text-slate-400 hover:text-red-500 cursor-pointer p-1"
                                                     >
@@ -774,7 +827,7 @@ function getExtractedData(doc: DocumentItem): any {
                                             size="icon"
                                             variant="ghost"
                                             class="h-7 w-7 hover:text-red-500 cursor-pointer"
-                                            @click="deleteDocument(doc.id)"
+                                            @click="confirmDeleteDocument(doc)"
                                         >
                                             <Trash2 class="h-3.5 w-3.5" />
                                         </Button>
@@ -815,7 +868,7 @@ function getExtractedData(doc: DocumentItem): any {
                                     </span>
                                 </h3>
                                 <p class="text-[11px] text-slate-400">
-                                    Type: {{ selectedDoc.document_type || 'auto' }}
+                                    {{ t('documents.docTypeLabel') }}: {{ selectedDoc.document_type || 'auto' }}
                                 </p>
                             </div>
                         </div>
@@ -828,7 +881,7 @@ function getExtractedData(doc: DocumentItem): any {
                                 class="inline-flex items-center gap-1.5 rounded-xl bg-slate-100 dark:bg-zinc-800 px-3 py-1.5 text-xs font-bold text-slate-700 dark:text-zinc-300 hover:bg-main hover:text-slate-950 transition-colors"
                             >
                                 <Download class="h-3.5 w-3.5" />
-                                Download
+                                {{ t('documents.downloadBtn') }}
                             </a>
                             <button
                                 @click="closeReviewModal"
@@ -845,10 +898,31 @@ function getExtractedData(doc: DocumentItem): any {
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <!-- Embedded File Preview Panel -->
                             <div class="rounded-2xl border border-slate-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-900 p-2 flex flex-col items-center justify-center min-h-[350px]">
-                                <template v-if="isPdfFile(selectedDoc.original_filename)">
+                                <template v-if="isCheckingFile">
+                                    <div class="flex flex-col items-center justify-center p-8 text-center space-y-2 text-slate-400">
+                                        <RefreshCw class="h-6 w-6 animate-spin text-main mb-2" />
+                                    </div>
+                                </template>
+                                <template v-else-if="isImageError">
+                                    <div class="flex flex-col items-center justify-center p-8 text-center space-y-3">
+                                        <div class="h-14 w-14 rounded-2xl bg-amber-50 dark:bg-amber-950/40 text-amber-500 flex items-center justify-center border border-amber-200/60 dark:border-amber-900/40 shadow-xs">
+                                            <FileX class="h-7 w-7" />
+                                        </div>
+                                        <div>
+                                            <h4 class="text-sm font-extrabold text-slate-900 dark:text-white">
+                                                {{ t('documents.fileNotFoundTitle') }}
+                                            </h4>
+                                            <p class="text-xs text-slate-500 dark:text-zinc-400 mt-1 max-w-xs leading-relaxed">
+                                                {{ t('documents.fileNotFoundDesc') }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </template>
+                                <template v-else-if="isPdfFile(selectedDoc.original_filename)">
                                     <iframe
                                         :src="getFileStreamUrl(selectedDoc.id)"
                                         class="w-full h-[400px] rounded-xl border-0"
+                                        @error="isImageError = true"
                                     ></iframe>
                                 </template>
                                 <template v-else>
@@ -856,6 +930,7 @@ function getExtractedData(doc: DocumentItem): any {
                                         :src="getFileStreamUrl(selectedDoc.id)"
                                         :alt="selectedDoc.original_filename"
                                         class="max-h-[400px] w-auto max-w-full object-contain rounded-xl shadow-sm"
+                                        @error="isImageError = true"
                                     />
                                 </template>
                             </div>
@@ -864,25 +939,25 @@ function getExtractedData(doc: DocumentItem): any {
                             <div class="space-y-4 flex flex-col justify-between">
                                 <div class="space-y-4">
                                     <h4 class="text-xs font-extrabold uppercase tracking-wider text-slate-400 border-b border-slate-100 dark:border-zinc-800 pb-2">
-                                        OCR Recognition Result
+                                        {{ t('documents.ocrResultTitle') }}
                                     </h4>
 
                                     <div v-if="getRawText(selectedDoc)" class="rounded-xl bg-slate-900 p-3 text-[11px] font-mono text-emerald-400 max-h-48 overflow-y-auto border border-zinc-800 whitespace-pre-wrap">
                                         {{ getRawText(selectedDoc) }}
                                     </div>
                                     <div v-else class="p-4 text-center text-xs text-slate-400 rounded-xl bg-slate-50 dark:bg-zinc-900">
-                                        {{ isDocPending(selectedDoc) ? 'OCR Processing in background...' : 'No raw text extracted.' }}
+                                        {{ isDocPending(selectedDoc) ? t('documents.ocrProcessing') : t('documents.noRawText') }}
                                     </div>
 
                                     <div v-if="getExtractedData(selectedDoc)" class="space-y-2">
-                                        <h5 class="text-xs font-bold text-slate-900 dark:text-white">Extracted Metadata:</h5>
+                                        <h5 class="text-xs font-bold text-slate-900 dark:text-white">{{ t('documents.extractedMeta') }}:</h5>
                                         <pre class="rounded-xl bg-slate-100 dark:bg-zinc-900 p-3 text-[10px] font-mono text-slate-700 dark:text-zinc-300 max-h-36 overflow-y-auto border border-slate-200 dark:border-zinc-800">{{ JSON.stringify(getExtractedData(selectedDoc), null, 2) }}</pre>
                                     </div>
                                 </div>
 
                                 <div class="pt-4 border-t border-slate-100 dark:border-zinc-900 flex justify-end gap-2">
                                     <Button variant="outline" size="sm" @click="closeReviewModal" class="cursor-pointer">
-                                        Close
+                                        {{ t('documents.closeModal') }}
                                     </Button>
                                 </div>
                             </div>
@@ -982,6 +1057,47 @@ function getExtractedData(doc: DocumentItem): any {
                         </Button>
                     </DialogFooter>
                 </form>
+            </DialogContent>
+        </Dialog>
+
+        <!-- Custom Delete Confirmation Modal -->
+        <Dialog :open="isConfirmDeleteModalOpen" @update:open="isConfirmDeleteModalOpen = $event">
+            <DialogContent class="sm:max-w-md">
+                <DialogHeader>
+                    <DialogTitle class="flex items-center gap-2.5 text-base font-extrabold text-slate-900 dark:text-white">
+                        <div class="h-9 w-9 rounded-xl bg-red-500/10 text-red-600 dark:text-red-400 flex items-center justify-center border border-red-500/20 shrink-0">
+                            <Trash2 class="h-4 w-4" />
+                        </div>
+                        {{ deleteTarget?.type === 'document' ? t('documents.deleteConfirmDocTitle') : t('documents.deleteConfirmTaxTitle') }}
+                    </DialogTitle>
+                    <DialogDescription class="text-xs text-slate-500 dark:text-zinc-400 leading-relaxed pt-2">
+                        {{ deleteTarget?.type === 'document' ? t('documents.deleteConfirmDocMsg') : t('documents.deleteConfirmTaxMsg') }}
+                        <span v-if="deleteTarget?.title" class="block font-bold text-slate-900 dark:text-white mt-1.5 p-2 rounded-xl bg-slate-100 dark:bg-zinc-900 border border-slate-200/60 dark:border-zinc-800">
+                            {{ deleteTarget.title }}
+                        </span>
+                    </DialogDescription>
+                </DialogHeader>
+
+                <DialogFooter class="flex items-center justify-end gap-2.5 pt-4 border-t border-slate-100 dark:border-zinc-800">
+                    <Button
+                        type="button"
+                        variant="outline"
+                        @click="isConfirmDeleteModalOpen = false"
+                        :disabled="isDeletingRecord"
+                        class="h-9 text-xs font-bold cursor-pointer"
+                    >
+                        {{ t('documents.cancelBtn') }}
+                    </Button>
+                    <Button
+                        type="button"
+                        @click="executeDeleteRecord"
+                        :disabled="isDeletingRecord"
+                        class="h-9 text-xs font-bold bg-red-600 text-white hover:bg-red-700 cursor-pointer shadow-xs"
+                    >
+                        <RefreshCw v-if="isDeletingRecord" class="mr-1.5 h-3.5 w-3.5 animate-spin" />
+                        {{ isDeletingRecord ? t('documents.deletingBtn') : t('documents.confirmDeleteBtn') }}
+                    </Button>
+                </DialogFooter>
             </DialogContent>
         </Dialog>
     </div>

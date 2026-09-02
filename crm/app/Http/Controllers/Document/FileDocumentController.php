@@ -27,7 +27,10 @@ class FileDocumentController extends Controller
         $document = $query->find($id);
 
         if (! $document || ! Storage::disk('local')->exists($document->file_path)) {
-            abort(Response::HTTP_NOT_FOUND, 'Document file not found.');
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Document file not found.',
+            ], Response::HTTP_NOT_FOUND);
         }
 
         $mimeType = Storage::disk('local')->mimeType($document->file_path) ?: 'application/octet-stream';
