@@ -10,7 +10,7 @@ defineEmits<{
 </script>
 
 <template>
-    <label class="flex items-center justify-between p-4 rounded-xl border border-slate-200/80 bg-slate-50/50 dark:border-zinc-800/80 dark:bg-zinc-900/30 cursor-pointer hover:border-slate-300 dark:hover:border-zinc-700 transition-all">
+    <label class="flex items-center justify-between p-4 rounded-xl border border-slate-200/80 bg-slate-50/50 dark:border-zinc-800/80 dark:bg-zinc-900/30 cursor-pointer hover:border-main dark:hover:border-main transition-all">
         <span class="text-xs font-bold text-slate-800 dark:text-slate-200">
             {{ label }}
         </span>

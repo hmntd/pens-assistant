@@ -16,7 +16,7 @@ permissions:
   contents: read
 
 jobs:
-  build-and-test:
+  calc-build-and-test:
     runs-on: ubuntu-24.04
     defaults:
       run:
