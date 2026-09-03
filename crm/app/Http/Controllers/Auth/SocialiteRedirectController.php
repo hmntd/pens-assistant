@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 use Laravel\Socialite\Facades\Socialite;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -27,6 +28,8 @@ class SocialiteRedirectController extends Controller
      */
     public function __invoke(string $provider): RedirectResponse
     {
+        $config = config('services.google');
+        Log::info($config);
         $provider = strtolower($provider);
 
         if (! in_array($provider, $this->allowedProviders, true)) {
