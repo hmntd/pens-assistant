@@ -17,7 +17,7 @@ defineEmits<{
 </script>
 
 <template>
-    <div class="rounded-2xl border border-slate-200/80 bg-slate-50/50 p-5 dark:border-zinc-800/80 dark:bg-zinc-900/30 transition-all hover:border-slate-300 dark:hover:border-zinc-700">
+    <div class="rounded-2xl border border-slate-200/80 bg-slate-50/50 p-5 dark:border-zinc-800/80 dark:bg-zinc-900/30 transition-all hover:border-main dark:hover:border-main">
         <div class="flex items-start justify-between gap-4">
             <ChannelHeader 
                 :title="title"
