@@ -1,0 +1,18 @@
+name: OCR CI (Bypass)
+
+on:
+  pull_request:
+    paths-ignore:
+      - 'ocr/**'
+      - 'protos/ocr.proto'
+
+permissions:
+  contents: read
+
+jobs:
+  ocr-test:
+    name: OCR Service CI (Bypass)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Skip CI
+        run: echo "No changes in ocr/ and protos/ocr.proto. Skipping OCR CI to unblock the PR."

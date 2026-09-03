@@ -1,0 +1,17 @@
+name: CRM CI (Bypass)
+
+on:
+  pull_request:
+    paths-ignore:
+      - 'crm/**'
+
+permissions:
+  contents: read
+
+jobs:
+  crm-test:
+    name: CRM Service CI (Bypass)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Skip CI
+        run: echo "No changes in crm/. Skipping CRM CI to unblock the PR."

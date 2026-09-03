@@ -1,0 +1,18 @@
+name: Calc CI (Bypass)
+
+on:
+  pull_request:
+    paths-ignore:
+      - 'calc/**'
+      - 'protos/**'
+
+permissions:
+  contents: read
+
+jobs:
+  calc-build-and-test:
+    name: Calc Service CI (Bypass)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Skip CI
+        run: echo "No changes in calc/ or protos/. Skipping Calc CI to unblock the PR."
