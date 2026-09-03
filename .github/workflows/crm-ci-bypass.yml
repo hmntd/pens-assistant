@@ -10,7 +10,6 @@ permissions:
 
 jobs:
   crm-test:
-    name: CRM Service CI (Bypass)
     runs-on: ubuntu-latest
     steps:
       - name: Skip CI
