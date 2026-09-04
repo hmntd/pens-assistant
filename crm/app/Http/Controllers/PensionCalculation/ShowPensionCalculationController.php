@@ -13,7 +13,7 @@ class ShowPensionCalculationController extends Controller
 {
     public function __invoke(Request $request, int $id): JsonResponse
     {
-        $calculatedPension = CalculatedPension::with('user:id,name,email')->findOrFail($id);
+        $calculatedPension = CalculatedPension::with('user:id,first_name,last_name,email')->findOrFail($id);
 
         Gate::authorize('view', $calculatedPension);
 

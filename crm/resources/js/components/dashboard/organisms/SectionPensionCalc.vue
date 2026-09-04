@@ -3,6 +3,11 @@ import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 import { useForm, usePage } from '@inertiajs/vue3';
 import { useI18n } from '@/composables/useI18n';
 import {
+    setPendingCalculationState,
+    clearPendingCalculationState,
+    isPendingCalculationActive,
+} from '@/composables/useDocumentNotifier';
+import {
     Calculator,
     ArrowUpRight,
     CheckCircle2,
@@ -20,6 +25,7 @@ import {
     ChevronDown,
     ChevronRight,
     Download,
+    Loader2,
 } from '@lucide/vue';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -37,6 +43,8 @@ import { toast } from 'vue-sonner';
 
 export interface CalculationItem {
     id: number;
+    status?: 'pending' | 'completed' | 'failed';
+    error_message?: string | null;
     final_pension: number;
     base_pension: number;
     zp_macroeconomic_average?: number;
@@ -99,6 +107,20 @@ watch(
         }
     },
     { deep: true }
+);
+
+watch(
+    () => props.initialCalculations,
+    (newVal) => {
+        if (newVal && Array.isArray(newVal)) {
+            calculationsList.value = newVal;
+            const completed = calculationsList.value.filter((c) => (c.status || 'completed') === 'completed');
+            if (completed.length > 0 && (!activeResult.value || activeResult.value.status === 'pending')) {
+                activeResult.value = completed[0];
+            }
+        }
+    },
+    { deep: true, immediate: true }
 );
 
 const form = useForm({
@@ -231,6 +253,15 @@ async function refreshTaxHistories() {
     }
 }
 
+const isCalculating = computed(() => {
+    const hasPendingInList = calculationsList.value.some((c) => c.status === 'pending');
+    if (!hasPendingInList) {
+        clearPendingCalculationState();
+        return false;
+    }
+    return true;
+});
+
 async function refreshCalculations() {
     try {
         const res = await fetch('/pension-calculations', {
@@ -243,8 +274,21 @@ async function refreshCalculations() {
 
         const json = await res.json();
         if (Array.isArray(json.data)) {
+            const previousLatestCompletedId = calculationsList.value.find((c) => (c.status || 'completed') === 'completed')?.id;
+
             calculationsList.value = json.data as CalculationItem[];
-            activeResult.value = calculationsList.value[0] || null;
+            const hasPending = calculationsList.value.some((c) => c.status === 'pending');
+            if (!hasPending) {
+                clearPendingCalculationState();
+            }
+
+            const completed = calculationsList.value.filter((c) => (c.status || 'completed') === 'completed');
+            if (completed.length > 0) {
+                const latestCompleted = completed[0];
+                if (!activeResult.value || activeResult.value.status === 'pending' || latestCompleted.id !== previousLatestCompletedId) {
+                    activeResult.value = latestCompleted;
+                }
+            }
         }
     } catch (e) {
         // silent fallback
@@ -256,7 +300,10 @@ async function initializeSection() {
     if (props.initialTaxHistories && props.initialTaxHistories.length > 0) {
         taxHistoriesList.value = props.initialTaxHistories;
     }
-    await refreshTaxHistories();
+    await Promise.all([
+        refreshTaxHistories(),
+        refreshCalculations(),
+    ]);
     isSectionLoading.value = false;
 }
 
@@ -286,17 +333,32 @@ function getDisabilityLabel(group?: string | null) {
 
 function runCalculation() {
     if (isCalculationBlocked.value) return;
+    setPendingCalculationState();
+
+    // Optimistically insert a pending calculation item immediately into history list
+    const tempPendingId = -Date.now();
+    const tempPendingItem: CalculationItem = {
+        id: tempPendingId,
+        status: 'pending',
+        final_pension: 0,
+        base_pension: 0,
+        created_at: new Date().toISOString(),
+    };
+    if (!calculationsList.value.some((c) => c.status === 'pending')) {
+        calculationsList.value.unshift(tempPendingItem);
+    }
+    activeResult.value = tempPendingItem;
+
     toast.info(t('notifications.pensionCalculationStartedToast'));
     form.post('/pension-calculations', {
         preserveScroll: true,
-        onSuccess: (pageRes) => {
+        onSuccess: () => {
             window.dispatchEvent(new CustomEvent('notification-created'));
-            if (pageRes.props.initialCalculations) {
-                calculationsList.value = pageRes.props.initialCalculations as CalculationItem[];
-                activeResult.value = calculationsList.value[0] || null;
-            }
+            refreshCalculations();
         },
         onError: () => {
+            clearPendingCalculationState();
+            refreshCalculations();
             toast.error(t('notifications.ocrFailedToast') || 'Помилка при виконанні розрахунку.');
         },
     });
@@ -500,7 +562,136 @@ function runCalculation() {
 
                 <!-- Right: Calculation Results & Detailed Formula Breakdown -->
                 <div class="lg:col-span-7 space-y-6">
-                    <template v-if="activeResult">
+                    <!-- Calculation History Log Section (Placed TOP) -->
+                    <div v-if="calculationsList.length > 0 || isCalculating"
+                        class="rounded-2xl border border-slate-200/80 bg-white/70 p-6 shadow-sm backdrop-blur-md dark:border-zinc-800/80 dark:bg-zinc-950/80 space-y-4">
+                        <h4
+                            class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-zinc-400 flex items-center gap-1.5">
+                            <History class="h-4 w-4" />
+                            {{ t('dashboard.overview.historyTitle') }}
+                        </h4>
+                        <div class="space-y-2 max-h-64 overflow-y-auto pr-1">
+                            <!-- Calculation Items List -->
+                            <div v-for="item in calculationsList" :key="item.id" @click="activeResult = item"
+                                class="flex items-center justify-between p-3.5 rounded-xl border transition-all cursor-pointer"
+                                :class="[
+                                    activeResult?.id === item.id
+                                        ? 'bg-main/10 dark:bg-main/15 border-main/50 ring-1 ring-main/30'
+                                        : item.status === 'pending'
+                                        ? 'border-amber-500/40 bg-amber-500/10 dark:border-amber-500/30 dark:bg-amber-950/20 animate-pulse'
+                                        : item.status === 'failed'
+                                        ? 'border-red-500/40 bg-red-500/10 dark:border-red-500/30 dark:bg-red-950/20'
+                                        : 'border-slate-100 hover:border-main/40 dark:border-zinc-900 dark:hover:border-main/30 bg-slate-50/50 dark:bg-zinc-900/50'
+                                ]">
+                                <!-- Item Pending -->
+                                <template v-if="item.status === 'pending'">
+                                    <div class="space-y-0.5 min-w-0">
+                                        <div class="flex items-center gap-2">
+                                            <Loader2 class="h-4 w-4 animate-spin text-amber-500 shrink-0" />
+                                            <span class="text-sm font-extrabold text-slate-900 dark:text-white">
+                                                {{ t('dashboard.overview.pendingHistoryTitle') }}
+                                            </span>
+                                        </div>
+                                        <div class="text-xs text-slate-500 dark:text-zinc-400 font-medium">
+                                            {{ t('dashboard.overview.pendingHistoryDesc') }}
+                                        </div>
+                                    </div>
+                                    <span class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-amber-500/20 text-amber-700 dark:text-amber-300 shrink-0 ml-3">
+                                        {{ t('dashboard.overview.pendingBadge') }}
+                                    </span>
+                                </template>
+
+                                <!-- Item Failed -->
+                                <template v-else-if="item.status === 'failed'">
+                                    <div class="space-y-0.5 min-w-0">
+                                        <div class="flex items-center gap-2">
+                                            <AlertCircle class="h-4 w-4 text-red-500 shrink-0" />
+                                            <span class="text-sm font-extrabold text-red-600 dark:text-red-400">
+                                                {{ t('dashboard.overview.failedHistoryTitle') }}
+                                            </span>
+                                        </div>
+                                        <div class="text-xs text-red-500/80 dark:text-red-400/80 font-medium">
+                                            {{ item.error_message || t('dashboard.overview.failedHistoryDesc') }}
+                                        </div>
+                                    </div>
+                                    <span class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-red-500/20 text-red-700 dark:text-red-300 shrink-0 ml-3">
+                                        {{ t('dashboard.overview.failedBadge') }}
+                                    </span>
+                                </template>
+
+                                <!-- Item Completed -->
+                                <template v-else>
+                                    <div class="space-y-0.5 min-w-0">
+                                        <div class="flex items-center gap-2">
+                                            <span class="text-sm font-extrabold text-slate-900 dark:text-white">
+                                                {{ Number(item.final_pension).toLocaleString('uk-UA', {
+                                                    minimumFractionDigits: 2
+                                                }) }} ₴
+                                            </span>
+                                            <span v-if="item.created_at" class="text-[10px] font-medium text-slate-400 dark:text-zinc-500">
+                                                {{ new Date(item.created_at).toLocaleDateString('uk-UA') }}
+                                            </span>
+                                        </div>
+                                        <div class="text-xs text-slate-500 dark:text-zinc-400 flex flex-wrap items-center gap-2">
+                                            <span>Base Pension: {{ Number(item.base_pension).toLocaleString('uk-UA', { minimumFractionDigits: 2 }) }} ₴</span>
+                                            <span v-if="item.kz_wage_coefficient" class="text-[11px] text-main-dark dark:text-main font-semibold">
+                                                (Кз: {{ Number(item.kz_wage_coefficient).toFixed(4) }}, Кс: {{ Number(item.ks_service_coefficient || 1.35).toFixed(4) }})
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <button
+                                        v-if="activeResult?.id === item.id"
+                                        @click.stop="openCalculationDetails('kz', item)"
+                                        type="button"
+                                        class="shrink-0 flex items-center gap-1 text-xs font-bold text-main-dark dark:text-main bg-main/15 hover:bg-main/25 dark:bg-main/20 dark:hover:bg-main/30 px-3 py-1.5 rounded-lg transition-colors cursor-pointer ml-3"
+                                    >
+                                        <span>{{ t('dashboard.details.viewDetailsBtn') }}</span>
+                                        <ArrowUpRight class="h-3.5 w-3.5" />
+                                    </button>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pending Calculation Status Banner (Shown when active selected item is pending or calculation is in progress) -->
+                    <div
+                        v-if="activeResult?.status === 'pending' || (isCalculating && !activeResult)"
+                        class="rounded-2xl border border-amber-500/40 bg-gradient-to-r from-amber-500/15 via-amber-500/10 to-transparent p-6 shadow-sm backdrop-blur-md dark:border-amber-500/30 dark:bg-amber-950/40 text-amber-950 dark:text-amber-100 flex items-center gap-4 animate-pulse transition-all"
+                    >
+                        <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-amber-500/20 text-amber-600 dark:text-amber-400">
+                            <Loader2 class="h-6 w-6 animate-spin" />
+                        </div>
+                        <div class="space-y-1">
+                            <h4 class="text-sm font-black uppercase tracking-wider text-amber-900 dark:text-amber-200">
+                                {{ t('dashboard.overview.pendingTitle') }}
+                            </h4>
+                            <p class="text-xs text-amber-800/80 dark:text-amber-300/80 font-medium">
+                                {{ t('dashboard.overview.pendingDesc') }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Failed Calculation Notice Banner (Shown when active selected item failed) -->
+                    <div
+                        v-if="activeResult?.status === 'failed'"
+                        class="rounded-2xl border border-red-500/40 bg-gradient-to-r from-red-500/15 via-red-500/10 to-transparent p-6 shadow-sm backdrop-blur-md dark:border-red-500/30 dark:bg-red-950/40 text-red-950 dark:text-red-100 flex items-center gap-4 transition-all"
+                    >
+                        <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-red-500/20 text-red-600 dark:text-red-400">
+                            <AlertCircle class="h-6 w-6" />
+                        </div>
+                        <div class="space-y-1">
+                            <h4 class="text-sm font-black uppercase tracking-wider text-red-900 dark:text-red-200">
+                                {{ t('dashboard.overview.failedTitle') || 'Розрахунок не вдався' }}
+                            </h4>
+                            <p class="text-xs text-red-800/80 dark:text-red-300/80 font-medium">
+                                {{ activeResult.error_message || t('dashboard.overview.failedDesc') || 'Помилка під час виконання розрахунку.' }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Calculation Results & Detailed Formula Breakdown (Shown when active selected item is completed) -->
+                    <template v-if="activeResult && (activeResult.status || 'completed') === 'completed'">
                         <!-- Criteria Not Yet Reached Notice Banner -->
                         <div
                             v-if="!hasReachedCriteria && !isHypothetical"
@@ -562,7 +753,7 @@ function runCalculation() {
 
                         <!-- Result Card with Primary Formula Header -->
                         <div
-                            class="rounded-2xl border border-main/30 bg-gradient-to-br from-main/10 via-emerald-500/5 to-transparent p-6 shadow-md backdrop-blur-md dark:border-main/20 dark:bg-zinc-950/90 relative overflow-hidden">
+                            class="rounded-2xl border border-main/30 bg-gradient-to-br from-main/10 via-emerald-500/5 to-transparent p-6 shadow-md backdrop-blur-md dark:border-main/20 dark:bg-zinc-950/90 relative overflow-hidden transition-all duration-300">
                             <div class="absolute -right-6 -bottom-6 opacity-10 pointer-events-none">
                                 <TrendingUp class="h-48 w-48 text-main" />
                             </div>
@@ -680,56 +871,13 @@ function runCalculation() {
                             </div>
                         </div>
                     </template>
-                    <template v-else>
+                    <template v-else-if="!isCalculating">
                         <div
                             class="flex h-48 flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 dark:border-zinc-800 text-slate-400 dark:text-zinc-500 text-xs p-6 text-center gap-2">
                             <Calculator class="h-8 w-8 text-slate-400" />
                             <span>{{ t('dashboard.overview.emptyHistory') }}</span>
                         </div>
                     </template>
-
-                    <!-- History Log Table with Interactive Calculation Inspection -->
-                    <div v-if="calculationsList.length > 0"
-                        class="rounded-2xl border border-slate-200/80 bg-white/70 p-6 shadow-sm backdrop-blur-md dark:border-zinc-800/80 dark:bg-zinc-950/80 space-y-4">
-                        <h4
-                            class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-zinc-400 flex items-center gap-1.5">
-                            <History class="h-4 w-4" />
-                            {{ t('dashboard.overview.historyTitle') }}
-                        </h4>
-                        <div class="space-y-2 max-h-64 overflow-y-auto pr-1">
-                            <div v-for="item in calculationsList" :key="item.id" @click="activeResult = item"
-                                class="flex items-center justify-between p-3.5 rounded-xl border border-slate-100 hover:border-main/40 dark:border-zinc-900 dark:hover:border-main/30 cursor-pointer transition-all"
-                                :class="activeResult?.id === item.id ? 'bg-main/10 dark:bg-main/15 border-main/50 ring-1 ring-main/30' : 'bg-slate-50/50 dark:bg-zinc-900/50'">
-                                <div class="space-y-0.5 min-w-0">
-                                    <div class="flex items-center gap-2">
-                                        <span class="text-sm font-extrabold text-slate-900 dark:text-white">
-                                            {{ Number(item.final_pension).toLocaleString('uk-UA', {
-                                                minimumFractionDigits: 2
-                                            }) }} ₴
-                                        </span>
-                                        <span v-if="item.created_at" class="text-[10px] font-medium text-slate-400 dark:text-zinc-500">
-                                            {{ new Date(item.created_at).toLocaleDateString('uk-UA') }}
-                                        </span>
-                                    </div>
-                                    <div class="text-xs text-slate-500 dark:text-zinc-400 flex flex-wrap items-center gap-2">
-                                        <span>{{ t('dashboard.overview.basePension') }}: {{ Number(item.base_pension).toLocaleString('uk-UA') }} ₴</span>
-                                        <span v-if="item.kz_wage_coefficient" class="text-[11px] text-main-dark dark:text-main font-semibold">
-                                            (Кз: {{ Number(item.kz_wage_coefficient).toFixed(4) }}, Кс: {{ Number(item.ks_service_coefficient || 1.35).toFixed(4) }})
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <button
-                                    @click.stop="openCalculationDetails('kz', item)"
-                                    type="button"
-                                    class="shrink-0 flex items-center gap-1 text-xs font-bold text-main-dark dark:text-main bg-main/15 hover:bg-main/25 dark:bg-main/20 dark:hover:bg-main/30 px-3 py-1.5 rounded-lg transition-colors cursor-pointer ml-3"
-                                >
-                                    <span>{{ t('dashboard.details.viewDetailsBtn') }}</span>
-                                    <ArrowUpRight class="h-3.5 w-3.5" />
-                                </button>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
