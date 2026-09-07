@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useI18n } from '@/composables/useI18n';
-import AppLogo from '@/components/AppLogo.vue';
+import AppLogo from '@/components/navigation/atoms/AppLogo.vue';
 import { GraduationCap, ShieldAlert } from '@lucide/vue';
 
 const { t } = useI18n();

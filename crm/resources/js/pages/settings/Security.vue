@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
 import { useI18n } from '@/composables/useI18n';
-import Heading from '@/components/Heading.vue';
-import type { Props as ManagePasskeysProps } from '@/components/ManagePasskeys.vue';
-import ManagePasskeys from '@/components/ManagePasskeys.vue';
-import type { Props as ManageTwoFactorProps } from '@/components/ManageTwoFactor.vue';
-import ManageTwoFactor from '@/components/ManageTwoFactor.vue';
+import Heading from '@/components/common/atoms/Heading.vue';
+import type { Props as ManagePasskeysProps } from '@/components/settings/organisms/ManagePasskeys.vue';
+import ManagePasskeys from '@/components/settings/organisms/ManagePasskeys.vue';
+import type { Props as ManageTwoFactorProps } from '@/components/settings/organisms/ManageTwoFactor.vue';
+import ManageTwoFactor from '@/components/settings/organisms/ManageTwoFactor.vue';
 import UpdatePasswordForm from '@/components/settings/organisms/UpdatePasswordForm.vue';
 
 type Props = {

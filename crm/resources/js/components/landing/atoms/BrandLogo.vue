@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AppLogo from '@/components/AppLogo.vue';
+import AppLogo from '@/components/navigation/atoms/AppLogo.vue';
 import { Link } from '@inertiajs/vue3';
 import { home } from '@/routes';
 </script>

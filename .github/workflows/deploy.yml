@@ -152,30 +152,30 @@ jobs:
         run: pytest
 
   security-scan:
-      name: Trivy Security Scan
-      runs-on: ubuntu-24.04
+    name: Trivy Security Scan
+    runs-on: ubuntu-24.04
 
-      steps:
-        - name: Checkout code
-          uses: actions/checkout@v4
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-        - name: Scan Application Dependencies (Filesystem)
-          uses: aquasecurity/trivy-action@master
-          with:
-            scan-type: 'fs'
-            scan-ref: '.'
-            format: 'table'
-            exit-code: '0'
-            severity: 'CRITICAL,HIGH'
+      - name: Scan Application Dependencies (Filesystem)
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'table'
+          exit-code: '0'
+          severity: 'CRITICAL,HIGH'
 
-        - name: Scan Infrastructure as Code (Dockerfiles & Compose)
-          uses: aquasecurity/trivy-action@master
-          with:
-            scan-type: 'config'
-            scan-ref: '.'
-            format: 'table'
-            exit-code: '0'
-            severity: 'CRITICAL,HIGH'
+      - name: Scan Infrastructure as Code (Dockerfiles & Compose)
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'config'
+          scan-ref: '.'
+          format: 'table'
+          exit-code: '0'
+          severity: 'CRITICAL,HIGH'
 
   deploy:
     name: Deploy to ${{ (github.ref == 'refs/heads/main') && 'Production' || 'Development' }}

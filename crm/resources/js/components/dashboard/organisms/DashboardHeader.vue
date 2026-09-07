@@ -3,7 +3,7 @@ import { computed } from 'vue';
 import { Link, usePage } from '@inertiajs/vue3';
 import { useI18n } from '@/composables/useI18n';
 import { useDocumentNotifier } from '@/composables/useDocumentNotifier';
-import AppLogo from '@/components/AppLogo.vue';
+import AppLogo from '@/components/navigation/atoms/AppLogo.vue';
 import NotificationDropdown from '../molecules/NotificationDropdown.vue';
 import UserAvatarMenu from '../molecules/UserAvatarMenu.vue';
 import ThemeToggleBtn from '@/components/landing/atoms/ThemeToggleBtn.vue';

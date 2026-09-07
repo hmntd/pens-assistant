@@ -20,7 +20,7 @@ class PensionCalculationBreakdownController extends Controller
         9 => 'September', 10 => 'October', 11 => 'November', 12 => 'December',
     ];
 
-    public function __invoke(Request $request, int $id): JsonResponse
+    public function __invoke(Request $request, string $id): JsonResponse
     {
         /** @var \App\Models\User $user */
         $user = $request->user();

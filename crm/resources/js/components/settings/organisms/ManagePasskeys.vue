@@ -3,9 +3,9 @@ import { router } from '@inertiajs/vue3';
 import { KeyRound } from '@lucide/vue';
 import { useI18n } from '@/composables/useI18n';
 import { destroy } from '@/actions/Laravel/Passkeys/Http/Controllers/PasskeyRegistrationController';
-import Heading from '@/components/Heading.vue';
-import PasskeyItem from '@/components/PasskeyItem.vue';
-import PasskeyRegister from '@/components/PasskeyRegister.vue';
+import Heading from '@/components/common/atoms/Heading.vue';
+import PasskeyItem from '@/components/settings/molecules/PasskeyItem.vue';
+import PasskeyRegister from '@/components/settings/molecules/PasskeyRegister.vue';
 import type { Passkey } from '@/types/auth';
 
 const { t } = useI18n();

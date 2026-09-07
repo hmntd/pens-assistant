@@ -2,8 +2,8 @@
 import { Form } from '@inertiajs/vue3';
 import { useI18n } from '@/composables/useI18n';
 import UpdatePasswordController from '@/actions/App/Http/Controllers/Settings/UpdatePasswordController';
-import InputError from '@/components/InputError.vue';
-import PasswordInput from '@/components/PasswordInput.vue';
+import InputError from '@/components/common/atoms/InputError.vue';
+import PasswordInput from '@/components/auth/atoms/PasswordInput.vue';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 

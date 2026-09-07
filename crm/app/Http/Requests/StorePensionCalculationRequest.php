@@ -42,7 +42,7 @@ class StorePensionCalculationRequest extends FormRequest
             'enable_hypothetical_projection' => 'nullable|boolean',
             'is_hypothetical_projection' => 'nullable|boolean',
             'zp_macroeconomic_average' => 'nullable|numeric|min:0',
-            'target_user_id' => 'nullable|integer|exists:users,id',
+            'target_user_id' => 'nullable|string|uuid|exists:users,id',
         ];
     }
 }

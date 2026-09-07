@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
 import { BookOpen, FolderGit2, LayoutGrid } from '@lucide/vue';
-import AppLogo from '@/components/AppLogo.vue';
-import NavFooter from '@/components/NavFooter.vue';
-import NavMain from '@/components/NavMain.vue';
-import NavUser from '@/components/NavUser.vue';
+import AppLogo from '@/components/navigation/atoms/AppLogo.vue';
+import NavFooter from '@/components/navigation/molecules/NavFooter.vue';
+import NavMain from '@/components/navigation/molecules/NavMain.vue';
+import NavUser from '@/components/navigation/molecules/NavUser.vue';
 import {
     Sidebar,
     SidebarContent,

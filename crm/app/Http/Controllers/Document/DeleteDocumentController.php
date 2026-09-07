@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class DeleteDocumentController extends Controller
 {
-    public function __invoke(Request $request, int $id): JsonResponse|RedirectResponse
+    public function __invoke(Request $request, string $id): JsonResponse|RedirectResponse
     {
         /** @var \App\Models\User $user */
         $user = $request->user();

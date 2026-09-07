@@ -14,7 +14,7 @@ class AdminToggleUserSuspendController extends Controller
     /**
      * Toggle user suspend status.
      */
-    public function __invoke(int $id): JsonResponse
+    public function __invoke(string $id): JsonResponse
     {
         /** @var User $user */
         $user = User::withTrashed()->findOrFail($id);

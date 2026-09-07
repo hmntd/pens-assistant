@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class DeleteTaxHistoryController extends Controller
 {
-    public function __invoke(Request $request, int $id): JsonResponse|RedirectResponse
+    public function __invoke(Request $request, int|string $id): JsonResponse|RedirectResponse
     {
         $user = $request->user();
         $taxHistory = TaxHistory::where('user_id', $user->id)

@@ -3,7 +3,7 @@ import { Form, usePage, Link } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import { useI18n } from '@/composables/useI18n';
 import UpdateProfileController from '@/actions/App/Http/Controllers/Settings/UpdateProfileController';
-import InputError from '@/components/InputError.vue';
+import InputError from '@/components/common/atoms/InputError.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';

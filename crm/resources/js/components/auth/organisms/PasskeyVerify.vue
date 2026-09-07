@@ -4,7 +4,7 @@ import { router } from '@inertiajs/vue3';
 import { usePasskeyVerify } from '@laravel/passkeys/vue';
 import { KeyRound } from '@lucide/vue';
 import { useI18n } from '@/composables/useI18n';
-import InputError from '@/components/InputError.vue';
+import InputError from '@/components/common/atoms/InputError.vue';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Spinner } from '@/components/ui/spinner';

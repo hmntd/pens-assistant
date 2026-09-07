@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('recognized_documents', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('document_id')->unique()->constrained()->cascadeOnDelete();
+            $table->uuid('id')->primary();
+            $table->foreignUuid('document_id')->unique()->constrained()->cascadeOnDelete();
             $table->foreignId('template_id')->nullable()->constrained('document_templates')->nullOnDelete();
             $table->enum('status', ['processing', 'success', 'needs_review', 'failed'])->default('processing');
             $table->text('raw_text')->nullable();

@@ -2,7 +2,7 @@
 import { ref, onMounted, onUnmounted, computed } from 'vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { useI18n } from '@/composables/useI18n';
-import AppLogo from '@/components/AppLogo.vue';
+import AppLogo from '@/components/navigation/atoms/AppLogo.vue';
 import LangSelect from '@/components/landing/atoms/LangSelect.vue';
 import ThemeToggleBtn from '@/components/landing/atoms/ThemeToggleBtn.vue';
 import { home } from '@/routes';

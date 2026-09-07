@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Gate;
 
 class ShowPensionCalculationController extends Controller
 {
-    public function __invoke(Request $request, int $id): JsonResponse
+    public function __invoke(Request $request, string $id): JsonResponse
     {
         $calculatedPension = CalculatedPension::with('user:id,first_name,last_name,email')->findOrFail($id);
 

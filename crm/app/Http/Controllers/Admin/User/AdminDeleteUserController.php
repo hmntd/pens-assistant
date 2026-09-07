@@ -14,7 +14,7 @@ class AdminDeleteUserController extends Controller
     /**
      * Soft delete user account.
      */
-    public function __invoke(int $id): JsonResponse
+    public function __invoke(string $id): JsonResponse
     {
         /** @var User $user */
         $user = User::findOrFail($id);

@@ -14,7 +14,7 @@ class FileDocumentController extends Controller
     /**
      * Stream the document file inline for authenticated user or admin review.
      */
-    public function __invoke(Request $request, int $id): StreamedResponse|Response
+    public function __invoke(Request $request, string $id): StreamedResponse|Response
     {
         /** @var \App\Models\User $user */
         $user = $request->user();

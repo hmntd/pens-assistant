@@ -13,7 +13,7 @@ class AdminShowPensionCalculationController extends Controller
     /**
      * Display detailed breakdown and C++ audit logs for a calculated pension.
      */
-    public function __invoke(int $id): JsonResponse
+    public function __invoke(string $id): JsonResponse
     {
         Gate::authorize('viewAny', User::class);
 

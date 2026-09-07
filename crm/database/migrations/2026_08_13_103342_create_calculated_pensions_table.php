@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('calculated_pensions', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->uuid('id')->primary();
+            $table->foreignUuid('user_id')->constrained()->cascadeOnDelete();
             $table->decimal('estimated_monthly_pension', 12, 2);
             $table->decimal('total_accumulated_capital', 15, 2);
             $table->jsonb('calculation_breakdown')->nullable();

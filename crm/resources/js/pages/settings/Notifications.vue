@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
 import { useI18n } from '@/composables/useI18n';
-import Heading from '@/components/Heading.vue';
+import Heading from '@/components/common/atoms/Heading.vue';
 import NotificationChannelsForm, { UserNotificationChannelData } from '@/components/settings/organisms/NotificationChannelsForm.vue';
 
 defineProps<{

@@ -3,9 +3,9 @@ import { Form } from '@inertiajs/vue3';
 import { useTemplateRef } from 'vue';
 import { useI18n } from '@/composables/useI18n';
 import DestroyProfileController from '@/actions/App/Http/Controllers/Settings/DestroyProfileController';
-import Heading from '@/components/Heading.vue';
-import InputError from '@/components/InputError.vue';
-import PasswordInput from '@/components/PasswordInput.vue';
+import Heading from '@/components/common/atoms/Heading.vue';
+import InputError from '@/components/common/atoms/InputError.vue';
+import PasswordInput from '@/components/auth/atoms/PasswordInput.vue';
 import { Button } from '@/components/ui/button';
 import {
     Dialog,

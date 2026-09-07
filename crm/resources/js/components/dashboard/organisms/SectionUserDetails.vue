@@ -190,7 +190,7 @@ function saveDetails() {
                 <div class="pt-4">
                     <Button
                         type="submit"
-                        class="w-full bg-main text-slate-950 hover:bg-main-dark font-bold shadow-md"
+                        class="w-full bg-main text-slate-950 hover:bg-main-dark font-bold shadow-md cursor-pointer transition-all duration-200 hover:scale-[1.005] active:scale-[0.985]"
                         :disabled="form.processing"
                     >
                         <Save class="mr-2 h-4 w-4" />

@@ -5,7 +5,7 @@ import { useI18n } from '@/composables/useI18n';
 import BadgeTag from '../atoms/BadgeTag.vue';
 import PrimaryButton from '../atoms/PrimaryButton.vue';
 import SecondaryButton from '../atoms/SecondaryButton.vue';
-import AppLogo from '@/components/AppLogo.vue';
+import AppLogo from '@/components/navigation/atoms/AppLogo.vue';
 import { dashboard, login, register } from '@/routes';
 import { ShieldCheck, Calculator, FileSearch, ArrowRight } from '@lucide/vue';
 

@@ -2,7 +2,7 @@
 import { computed, watchEffect } from 'vue';
 import { Form, Head, setLayoutProps } from '@inertiajs/vue3';
 import { useI18n } from '@/composables/useI18n';
-import TextLink from '@/components/TextLink.vue';
+import TextLink from '@/components/common/atoms/TextLink.vue';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
 import { logout } from '@/routes';

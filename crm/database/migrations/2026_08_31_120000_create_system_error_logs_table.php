@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('system_error_logs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignUuid('user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->integer('status_code')->default(500);
             $table->string('url', 2048);
             $table->string('method', 10)->default('GET');
@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('ip_address', 45)->nullable();
             $table->boolean('is_resolved')->default(false);
             $table->timestamp('resolved_at')->nullable();
-            $table->foreignId('resolved_by_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignUuid('resolved_by_id')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamps();
 
             $table->index(['is_resolved', 'created_at']);
