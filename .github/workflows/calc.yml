@@ -67,7 +67,7 @@ jobs:
           fi
 
       - name: Run Trivy Vulnerability Scanner (Calc Code & Dependencies)
-        uses: aquasecurity/trivy-action@v0.28.0
+        uses: aquasecurity/trivy-action@master
         with:
           scan-type: 'fs'
           scan-ref: '.'
