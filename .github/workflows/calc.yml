@@ -65,3 +65,12 @@ jobs:
           if [ -f build/feature_grpc_tests ]; then
             ./build/feature_grpc_tests
           fi
+
+      - name: Run Trivy Vulnerability Scanner (Calc Code & Dependencies)
+        uses: aquasecurity/trivy-action@v0.28.0
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'table'
+          exit-code: '0'
+          severity: 'CRITICAL,HIGH'

@@ -151,9 +151,59 @@ jobs:
       - name: Run Pytest
         run: pytest
 
+  security-scan:
+    name: Trivy Security Scan (Code & Container Images)
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Trivy Scanner (Repository & Dependencies)
+        uses: aquasecurity/trivy-action@v0.28.0
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'table'
+          exit-code: '0'
+          severity: 'CRITICAL,HIGH'
+
+      - name: Build CRM Docker Image
+        run: docker build -t pens_crm:scan ./crm
+
+      - name: Run Trivy Scanner (CRM Image)
+        uses: aquasecurity/trivy-action@v0.28.0
+        with:
+          image-ref: 'pens_crm:scan'
+          format: 'table'
+          exit-code: '0'
+          severity: 'CRITICAL,HIGH'
+
+      - name: Build Calc Docker Image
+        run: docker build -t pens_calc:scan ./calc
+
+      - name: Run Trivy Scanner (Calc Image)
+        uses: aquasecurity/trivy-action@v0.28.0
+        with:
+          image-ref: 'pens_calc:scan'
+          format: 'table'
+          exit-code: '0'
+          severity: 'CRITICAL,HIGH'
+
+      - name: Build OCR Docker Image
+        run: docker build -t pens_ocr:scan ./ocr
+
+      - name: Run Trivy Scanner (OCR Image)
+        uses: aquasecurity/trivy-action@v0.28.0
+        with:
+          image-ref: 'pens_ocr:scan'
+          format: 'table'
+          exit-code: '0'
+          severity: 'CRITICAL,HIGH'
+
   deploy:
     name: Deploy to ${{ (github.ref == 'refs/heads/main') && 'Production' || 'Development' }}
-    needs: [calc-ci, crm-ci, ocr-ci]
+    needs: [calc-ci, crm-ci, ocr-ci, security-scan]
     if: (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/dev') && github.event_name == 'push'
     runs-on: ubuntu-latest
 

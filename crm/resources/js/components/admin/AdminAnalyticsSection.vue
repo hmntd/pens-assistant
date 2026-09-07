@@ -283,6 +283,60 @@ const doughnutOptions = {
                 </div>
             </div>
 
+            <!-- Monitoring & Infrastructure Section -->
+            <div class="bg-white dark:bg-zinc-900 p-6 rounded-3xl border border-slate-200 dark:border-zinc-800 shadow-xs">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center gap-2">
+                        <Cpu class="h-5 w-5 text-amber-500" />
+                        <h3 class="font-extrabold text-sm text-slate-900 dark:text-white">System Infrastructure & Resource Monitoring</h3>
+                    </div>
+                    <span class="text-[10px] font-bold uppercase tracking-wider text-amber-500 bg-amber-500/10 px-2.5 py-1 rounded-lg">Admin Protected</span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <a
+                        href="/grafana/"
+                        target="_blank"
+                        class="group p-4 rounded-2xl border border-slate-200 dark:border-zinc-800 hover:border-amber-500/50 bg-slate-50/50 dark:bg-zinc-850/50 hover:bg-amber-500/5 transition-all flex items-center justify-between"
+                    >
+                        <div>
+                            <div class="flex items-center gap-2 text-sm font-bold text-slate-900 dark:text-white group-hover:text-amber-500 transition-colors">
+                                <span>Grafana Dashboards</span>
+                            </div>
+                            <p class="text-xs text-slate-400 mt-1">Live RAM/CPU graphs & metrics</p>
+                        </div>
+                        <span class="px-3 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-bold text-xs shadow-xs group-hover:scale-105 transition-transform">Open ↗</span>
+                    </a>
+
+                    <a
+                        href="/prometheus/"
+                        target="_blank"
+                        class="group p-4 rounded-2xl border border-slate-200 dark:border-zinc-800 hover:border-orange-500/50 bg-slate-50/50 dark:bg-zinc-850/50 hover:bg-orange-500/5 transition-all flex items-center justify-between"
+                    >
+                        <div>
+                            <div class="flex items-center gap-2 text-sm font-bold text-slate-900 dark:text-white group-hover:text-orange-500 transition-colors">
+                                <span>Prometheus Engine</span>
+                            </div>
+                            <p class="text-xs text-slate-400 mt-1">Time-series targets & queries</p>
+                        </div>
+                        <span class="px-3 py-1.5 rounded-xl bg-orange-500 text-slate-950 font-bold text-xs shadow-xs group-hover:scale-105 transition-transform">Open ↗</span>
+                    </a>
+
+                    <a
+                        href="/cadvisor/"
+                        target="_blank"
+                        class="group p-4 rounded-2xl border border-slate-200 dark:border-zinc-800 hover:border-blue-500/50 bg-slate-50/50 dark:bg-zinc-850/50 hover:bg-blue-500/5 transition-all flex items-center justify-between"
+                    >
+                        <div>
+                            <div class="flex items-center gap-2 text-sm font-bold text-slate-900 dark:text-white group-hover:text-blue-500 transition-colors">
+                                <span>cAdvisor Collector</span>
+                            </div>
+                            <p class="text-xs text-slate-400 mt-1">Raw container stats & info</p>
+                        </div>
+                        <span class="px-3 py-1.5 rounded-xl bg-blue-500 text-white font-bold text-xs shadow-xs group-hover:scale-105 transition-transform">Open ↗</span>
+                    </a>
+                </div>
+            </div>
+
             <!-- 2. Charts Row 1: Activity Timeline & Entry Method Popularity -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <!-- Timeline Line Chart (Span 2) -->

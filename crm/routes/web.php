@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminAuthCheckController;
 use App\Http\Controllers\Admin\Analytics\AdminAnalyticsController;
 use App\Http\Controllers\Admin\SubsistenceMinimum\DeleteSubsistenceMinimumController;
 use App\Http\Controllers\Admin\Document\AdminDeleteDocumentController;
@@ -88,6 +89,8 @@ Route::middleware(['auth'])->prefix('documents')->group(function () {
     Route::get('/{id}/file', FileDocumentController::class)->name('documents.file');
     Route::delete('/{id}', DeleteDocumentController::class)->name('documents.destroy');
 });
+
+Route::get('/admin/auth-check', AdminAuthCheckController::class)->name('admin.auth-check');
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', function () {
