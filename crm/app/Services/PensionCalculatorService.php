@@ -32,12 +32,16 @@ class PensionCalculatorService
     /**
      * Calculate pension via C++ gRPC engine and save to database.
      *
+    /**
+     * Calculate pension via C++ gRPC engine and save to database.
+     *
      * @param User $user Target user for calculation
      * @param array $data Validated input payload
+     * @param CalculatedPension|null $existingRecord Optional existing record (e.g. pending record)
      * @return CalculatedPension
      * @throws \RuntimeException
      */
-    public function calculateAndSave(User $user, array $data): CalculatedPension
+    public function calculateAndSave(User $user, array $data, ?CalculatedPension $existingRecord = null): CalculatedPension
     {
         $client = new CalcServiceClient($this->grpcHost, [
             'credentials' => ChannelCredentials::createInsecure(),
@@ -319,8 +323,9 @@ class PensionCalculatorService
         $totalMonths = (int) $response->getTotalServiceMonths();
         $criteriaMet = ($targetRetinementYear <= $currentYear) && ($userAge >= 60) && ($totalMonths >= 420);
 
-        $calculatedPension = CalculatedPension::create([
-            'user_id' => $user->id,
+        $payload = [
+            'status' => 'completed',
+            'error_message' => null,
             'final_pension' => $response->getFinalPension(),
             'base_pension' => $response->getBasePension(),
             'zp_macroeconomic_average' => $response->getZpMacroeconomicAverage(),
@@ -343,7 +348,14 @@ class PensionCalculatorService
                 'criteria_met' => $criteriaMet,
                 'hypothetical_disclaimer' => $hypotheticalDisclaimer,
             ],
-        ]);
+        ];
+
+        if ($existingRecord) {
+            $existingRecord->update($payload);
+            $calculatedPension = $existingRecord;
+        } else {
+            $calculatedPension = CalculatedPension::create(array_merge(['user_id' => $user->id], $payload));
+        }
 
         event(new PensionCalculated($user, $calculatedPension));
 

@@ -12,6 +12,8 @@ use Throwable;
 /**
  * @property int $id
  * @property int $user_id
+ * @property string $status
+ * @property string|null $error_message
  * @property float|null $final_pension
  * @property float|null $base_pension
  * @property float|null $zp_macroeconomic_average
@@ -49,6 +51,7 @@ class CalculatedPension extends Model
     protected function casts(): array
     {
         return [
+            'status' => 'string',
             'estimated_monthly_pension' => 'decimal:2',
             'total_accumulated_capital' => 'decimal:2',
             'final_pension' => 'decimal:2',

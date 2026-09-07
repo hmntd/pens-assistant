@@ -50,3 +50,12 @@ jobs:
 
       - name: Run Pytest
         run: pytest
+
+      - name: Run Trivy Vulnerability Scanner (OCR Code & Dependencies)
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'table'
+          exit-code: '0'
+          severity: 'CRITICAL,HIGH'

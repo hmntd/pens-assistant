@@ -17,7 +17,7 @@ class IndexPensionCalculationController extends Controller
 
         Gate::authorize('viewAny', CalculatedPension::class);
 
-        $query = CalculatedPension::with('user:id,name,email');
+        $query = CalculatedPension::with('user:id,first_name,last_name,email');
 
         if (!$user->isAdmin()) {
             $query->where('user_id', $user->id);

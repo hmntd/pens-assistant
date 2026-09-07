@@ -34,3 +34,7 @@ initializeTheme();
 
 // This will listen for flash toast data from the server...
 initializeFlashToast();
+
+// Initialize Echo for Pusher WebSockets...
+import { initializeEcho } from '@/echo';
+initializeEcho();

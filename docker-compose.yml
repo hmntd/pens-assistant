@@ -14,6 +14,7 @@ services:
       - ${LETSENCRYPT_PATH:-./nginx/conf.d}:/etc/letsencrypt:ro
     depends_on:
       - crm
+      - crm_reverb
     networks:
       - pens_net
 
@@ -78,6 +79,39 @@ services:
       REDIS_PORT: 6379
       CALC_GRPC_HOST: calc:50051
       OCR_GRPC_HOST: ocr:50052
+    depends_on:
+      crm:
+        condition: service_started
+      redis:
+        condition: service_started
+    networks:
+      - pens_net
+
+  crm_reverb:
+    image: pens-assistant-crm
+    container_name: pens_crm_reverb
+    restart: unless-stopped
+    working_dir: /var/www
+    command: php artisan reverb:start --host=0.0.0.0 --port=8080
+    volumes:
+      - ./crm:/var/www
+      - ${STORAGE_PATH:-./crm/storage}:/var/www/storage
+      - ./protos:/var/www/protos
+    ports:
+      - "8080:8080"
+    environment:
+      DB_CONNECTION: pgsql
+      DB_HOST: crm_db
+      DB_PORT: 5432
+      DB_DATABASE: ${DB_DATABASE:-crm_db}
+      DB_USERNAME: ${DB_USERNAME:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-password}
+      QUEUE_CONNECTION: redis
+      REDIS_CLIENT: predis
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REVERB_SERVER_HOST: 0.0.0.0
+      REVERB_SERVER_PORT: 8080
     depends_on:
       crm:
         condition: service_started
@@ -175,6 +209,62 @@ services:
     networks:
       - pens_net
 
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.49.1
+    container_name: pens_cadvisor
+    restart: unless-stopped
+    command: -url_base_prefix=/cadvisor
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+      - /dev/disk/:/dev/disk:ro
+    privileged: true
+    devices:
+      - /dev/kmsg
+    networks:
+      - pens_net
+
+  prometheus:
+    image: prom/prometheus:v2.53.0
+    container_name: pens_prometheus
+    restart: unless-stopped
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.external-url=http://localhost/prometheus/'
+      - '--web.route-prefix=/'
+    volumes:
+      - ./monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    depends_on:
+      - cadvisor
+    networks:
+      - pens_net
+
+  grafana:
+    image: grafana/grafana:11.1.0
+    container_name: pens_grafana
+    restart: unless-stopped
+    environment:
+      - GF_SERVER_ROOT_URL=%(protocol)s://%(domain)s/grafana/
+      - GF_SERVER_SERVE_FROM_SUB_PATH=true
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_DISABLE_LOGIN_FORM=true
+    volumes:
+      - ./monitoring/grafana/provisioning:/etc/grafana/provisioning
+      - ./monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards/custom
+      - grafana_data:/var/lib/grafana
+    depends_on:
+      - prometheus
+    networks:
+      - pens_net
+
 networks:
   pens_net:
     driver: bridge
@@ -182,3 +272,5 @@ networks:
 volumes:
   crm_db_data:
   calc_db_data:
+  prometheus_data:
+  grafana_data:
