@@ -26,7 +26,7 @@ class PensionCalculatorService
 
     public function __construct(?string $grpcHost = null)
     {
-        $defaultHost = config('services.calc.host', env('CALC_GRPC_HOST', env('CALC_SERVICE_HOST', 'calc:50051')));
+        $defaultHost = (string) config('services.calc.host', 'calc:50051');
         if ($defaultHost === 'calc:50051' || str_starts_with($defaultHost, 'calc:')) {
             $parts = explode(':', $defaultHost);
             $hostOnly = $parts[0];

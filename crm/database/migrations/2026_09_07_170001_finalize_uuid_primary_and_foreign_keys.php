@@ -225,7 +225,7 @@ return new class extends Migration
                 Schema::rename('temp_mod_perms', 'model_has_permissions');
             }
 
-            if (Schema::hasTable('users') && Schema::hasColumn('users', 'uuid')) {
+            if (Schema::hasTable('users')) {
                 Schema::create('temp_usr', function (Blueprint $table) {
                     $table->uuid('id')->primary();
                     $table->string('first_name');
