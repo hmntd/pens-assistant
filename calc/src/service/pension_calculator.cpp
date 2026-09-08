@@ -9,6 +9,7 @@
 #include "stages/legal_bounds_stage.h"
 #include "util/date_utils.h"
 #include "util/money_format.h"
+#include <cmath>
 #include <sstream>
 #include <exception>
 
@@ -159,7 +160,9 @@ namespace calc
             }
             if (zp <= 0.0)
             {
-                zp = 16500.0;
+                res.success = false;
+                res.error_message = "Macroeconomic average salary (Zp) is missing from request and database for year " + std::to_string(ctx.retirement_year);
+                return res;
             }
             ctx.zp_macroeconomic_average = zp;
 
@@ -169,6 +172,9 @@ namespace calc
             {
                 ctx.limits.for_disabled_persons = request->subsistence_minimums().for_disabled_persons();
                 ctx.limits.general_minimum = request->subsistence_minimums().general_minimum();
+                ctx.limits.age_70_surcharge = request->subsistence_minimums().age_70_surcharge();
+                ctx.limits.age_75_surcharge = request->subsistence_minimums().age_75_surcharge();
+                ctx.limits.age_80_surcharge = request->subsistence_minimums().age_80_surcharge();
             }
             else
             {
@@ -182,8 +188,9 @@ namespace calc
 
             if (ctx.limits.for_disabled_persons <= 0.0 || ctx.limits.general_minimum <= 0.0)
             {
-                ctx.limits.for_disabled_persons = 2361.0;
-                ctx.limits.general_minimum = 2920.0;
+                res.success = false;
+                res.error_message = "Subsistence minimum limits are missing from request and database for year " + std::to_string(ctx.retirement_year);
+                return res;
             }
 
             for (const auto &stage : stages_)
@@ -239,7 +246,7 @@ namespace calc
             res.calculation_logs = ctx.logs;
             res.error_message = "";
             res.estimated_monthly_pension = ctx.final_pension;
-            res.total_accumulated_capital = ctx.base_pension * 12.0 * 20.0;
+            res.total_accumulated_capital = std::round((ctx.zp_macroeconomic_average * ctx.kz_wage_coefficient * ctx.total_service_months) * 100.0) / 100.0;
             res.breakdown = ctx.logs.empty() ? "" : ctx.logs.back();
 
             return res;

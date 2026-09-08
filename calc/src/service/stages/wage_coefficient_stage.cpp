@@ -143,7 +143,8 @@ namespace calc
                     }
                     if (national_avg <= 0.0)
                     {
-                        national_avg = 16500.0;
+                        error = "Missing macroeconomic and national average salary in DB for current year " + std::to_string(ctx.current_year);
+                        return false;
                     }
                     last_monthly_income = national_avg;
                 }
@@ -156,7 +157,8 @@ namespace calc
                 double latest_national_avg = repo_.getAverageSalary(ctx.current_year, 1);
                 if (latest_national_avg <= 0.0)
                 {
-                    latest_national_avg = 20000.0;
+                    error = "Missing national average salary in DB for current year " + std::to_string(ctx.current_year);
+                    return false;
                 }
 
                 double proj_ratio = last_monthly_income / latest_national_avg;
@@ -282,7 +284,7 @@ namespace calc
             {
                 initial_sum += it.ratio;
             }
-            double initial_kz = initial_sum / items.size();
+            double initial_kz = std::round((initial_sum / items.size()) * 100000.0) / 100000.0;
             size_t total_months = items.size();
 
             if (request->enable_optimization_rule())
@@ -328,7 +330,7 @@ namespace calc
 
                     if (total_dropped > 0 && current_count >= 60)
                     {
-                        double opt_kz = current_sum / current_count;
+                        double opt_kz = std::round((current_sum / current_count) * 100000.0) / 100000.0;
                         if (opt_kz > initial_kz)
                         {
                             std::ostringstream ss;

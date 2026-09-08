@@ -15,7 +15,10 @@ namespace calc
         {
             double for_disabled_persons{0.0};
             double general_minimum{0.0};
-            double age_surcharge_cap{10340.35};
+            double age_surcharge_cap{0.0};
+            double age_70_surcharge{0.0};
+            double age_75_surcharge{0.0};
+            double age_80_surcharge{0.0};
         };
 
         struct SurchargeResult

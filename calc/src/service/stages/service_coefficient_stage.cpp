@@ -1,6 +1,7 @@
 #include "service_coefficient_stage.h"
 #include "../util/date_utils.h"
 #include "../util/money_format.h"
+#include <cmath>
 #include <sstream>
 #include <exception>
 
@@ -23,6 +24,12 @@ namespace calc
                     if (!start_ym.valid || !end_ym.valid)
                     {
                         error = "Invalid employment date format for period: " + period.start_date() + " to " + period.end_date();
+                        return false;
+                    }
+
+                    if (start_ym.year < 1900 || start_ym.year > 2100 || end_ym.year < 1900 || end_ym.year > 2100)
+                    {
+                        error = "Employment date year out of valid range (1900-2100) for period: " + period.start_date() + " to " + period.end_date();
                         return false;
                     }
 
@@ -102,7 +109,7 @@ namespace calc
                 }
             }
 
-            double ks = static_cast<double>(total_months) / 1200.0;
+            double ks = std::round((static_cast<double>(total_months) / 1200.0) * 100000.0) / 100000.0;
 
             bool is_female = request->gender() == calc::Gender::FEMALE;
             int required_months = is_female ? 360 : 420; // 30 years for women, 35 years for men

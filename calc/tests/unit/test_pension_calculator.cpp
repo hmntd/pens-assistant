@@ -62,6 +62,7 @@ void test_disability_pension_modifiers()
     std::cout << "[Unit Test] Running test_disability_pension_modifiers..." << std::endl;
     calc::repository::CoefficientRepository repo(true);
     repo.upsertSubsistenceLimits(2024, 2361.0, 2920.0);
+    repo.upsertAverageSalary(2020, 1, 10000.0);
     calc::service::PensionCalculator calculator(repo);
 
     calc::CalculatePensionRequest request;
@@ -98,7 +99,8 @@ void test_age_based_surcharges()
 {
     std::cout << "[Unit Test] Running test_age_based_surcharges..." << std::endl;
     calc::repository::CoefficientRepository repo(true);
-    repo.upsertSubsistenceLimits(2024, 2361.0, 2920.0);
+    repo.upsertSubsistenceLimits(2024, 2361.0, 2920.0, 10340.35, 300.0, 456.0, 570.0);
+    repo.upsertAverageSalary(2020, 1, 10000.0);
     calc::service::PensionCalculator calculator(repo);
 
     // Test Case 1: Person age 72 (born 1952-05-15, retiring 2024-06-01) -> +300 UAH
@@ -411,6 +413,27 @@ void test_future_target_retirement_year_hypothetical_enabled_missing_salary_fall
     std::cout << "  ✓ test_future_target_retirement_year_hypothetical_enabled_missing_salary_fallback passed!" << std::endl;
 }
 
+void test_missing_db_limits_fails_without_fallbacks()
+{
+    std::cout << "[TEST] Running test_missing_db_limits_fails_without_fallbacks..." << std::endl;
+    calc::repository::CoefficientRepository repo(true);
+    repo.clearMockData();
+    calc::service::PensionCalculator calculator(repo);
+
+    calc::CalculatePensionRequest request;
+    request.set_customer_id("no-fallbacks-user");
+    request.set_gender(calc::Gender::MALE);
+    request.set_date_of_birth("1960-01-01");
+    request.set_retirement_date("2024-06-01");
+    request.set_pension_type(calc::PensionType::OLD_AGE);
+
+    auto res = calculator.calculate(&request);
+    assert(res.success == false);
+    assert(!res.error_message.empty());
+
+    std::cout << "  ✓ test_missing_db_limits_fails_without_fallbacks passed! (Error: " << res.error_message << ")" << std::endl;
+}
+
 int main()
 {
     std::cout << "=========================================" << std::endl;
@@ -426,6 +449,7 @@ int main()
     test_past_target_retirement_year_capping();
     test_future_target_retirement_year_hypothetical_disabled();
     test_future_target_retirement_year_hypothetical_enabled_missing_salary_fallback();
+    test_missing_db_limits_fails_without_fallbacks();
 
     std::cout << "=========================================" << std::endl;
     std::cout << "✅ All Ukrainian Pension Calculator Unit Tests Passed!" << std::endl;
