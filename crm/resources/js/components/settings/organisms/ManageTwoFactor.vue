@@ -32,16 +32,10 @@ onUnmounted(() => clearTwoFactorAuthData());
 
 <template>
     <div v-if="canManageTwoFactor" class="space-y-6">
-        <Heading
-            variant="small"
-            :title="t('settings.twoFactor.title')"
-            :description="t('settings.twoFactor.description')"
-        />
+        <Heading variant="small" :title="t('settings.twoFactor.title')"
+            :description="t('settings.twoFactor.description')" />
 
-        <div
-            v-if="!twoFactorEnabled"
-            class="flex flex-col items-start justify-start space-y-4"
-        >
+        <div v-if="!twoFactorEnabled" class="flex flex-col items-start justify-start space-y-4">
             <p class="text-sm text-muted-foreground">
                 {{ t('settings.twoFactor.infoDisabled') }}
             </p>
@@ -50,12 +44,7 @@ onUnmounted(() => clearTwoFactorAuthData());
                 <Button v-if="hasSetupData" @click="showSetupModal = true">
                     <ShieldCheck />{{ t('settings.twoFactor.continueSetupBtn') }}
                 </Button>
-                <Form
-                    v-else
-                    v-bind="enable.form()"
-                    @success="showSetupModal = true"
-                    #default="{ processing }"
-                >
+                <Form v-else v-bind="enable.form()" @success="showSetupModal = true" #default="{ processing }">
                     <Button type="submit" :disabled="processing">
                         {{ t('settings.twoFactor.enableBtn') }}
                     </Button>
@@ -70,11 +59,7 @@ onUnmounted(() => clearTwoFactorAuthData());
 
             <div class="relative inline">
                 <Form v-bind="disable.form()" #default="{ processing }">
-                    <Button
-                        variant="destructive"
-                        type="submit"
-                        :disabled="processing"
-                    >
+                    <Button variant="destructive" type="submit" :disabled="processing">
                         {{ t('settings.twoFactor.disableBtn') }}
                     </Button>
                 </Form>
@@ -83,10 +68,7 @@ onUnmounted(() => clearTwoFactorAuthData());
             <TwoFactorRecoveryCodes />
         </div>
 
-        <TwoFactorSetupModal
-            v-model:isOpen="showSetupModal"
-            :requiresConfirmation="requiresConfirmation"
-            :twoFactorEnabled="twoFactorEnabled"
-        />
+        <TwoFactorSetupModal v-model:isOpen="showSetupModal" :requiresConfirmation="requiresConfirmation"
+            :twoFactorEnabled="twoFactorEnabled" />
     </div>
 </template>

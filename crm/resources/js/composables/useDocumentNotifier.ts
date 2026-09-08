@@ -155,7 +155,7 @@ export function useDocumentNotifier() {
                     hasStatusChanges = true;
                 } else if (prevStatus === 'pending' && status === 'failed') {
                     clearPendingCalculationState();
-                    toast.error(c.error_message || t('notifications.ocrFailedToast') || 'Помилка при виконанні розрахунку.');
+                    toast.error(c.error_message || t('pensionCalc.failedHistoryDesc'));
                     hasStatusChanges = true;
                 } else if (isCalculationsBootstrapped && !knownCalcStatuses.has(c.id)) {
                     hasStatusChanges = true;
@@ -221,7 +221,7 @@ export function useDocumentNotifier() {
                 } else if (n.type === 'error' && !n.is_seen && !notifiedCalcIds.has(n.id)) {
                     notifiedCalcIds.add(n.id);
                     saveNotifiedCalcSet(notifiedCalcIds);
-                    const msg = n.translations?.uk || n.translations?.en || 'Помилка виконання розрахунку.';
+                    const msg = (n.translations && (n.translations.en || n.translations.uk)) || t('pensionCalc.failedHistoryDesc');
                     toast.error(msg);
                     hasNewCalculations = true;
                 }

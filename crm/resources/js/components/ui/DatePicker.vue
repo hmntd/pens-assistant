@@ -5,12 +5,19 @@ import { useI18n } from '@/composables/useI18n';
 
 const { t } = useI18n();
 
-const props = defineProps<{
-    modelValue?: string | null; // Format YYYY-MM-DD
-    placeholder?: string;
-    disabled?: boolean;
-    id?: string;
-}>();
+const props = withDefaults(
+    defineProps<{
+        modelValue?: string | null; // Format YYYY-MM-DD
+        placeholder?: string;
+        disabled?: boolean;
+        disableFuture?: boolean;
+        maxDate?: string | null; // Format YYYY-MM-DD
+        id?: string;
+    }>(),
+    {
+        disableFuture: true,
+    }
+);
 
 const emit = defineEmits<{
     (e: 'update:modelValue', value: string | null): void;
@@ -25,6 +32,56 @@ const containerRef = ref<HTMLDivElement | null>(null);
 const currentYear = ref(new Date().getFullYear());
 const currentMonth = ref(new Date().getMonth()); // 0 - 11
 const decadeStart = ref(Math.floor(new Date().getFullYear() / 10) * 10 - 1);
+
+function getTodayISO(): string {
+    const now = new Date();
+    const y = now.getFullYear();
+    const m = String(now.getMonth() + 1).padStart(2, '0');
+    const d = String(now.getDate()).padStart(2, '0');
+    return `${y}-${m}-${d}`;
+}
+
+const effectiveMaxDate = computed<string | null>(() => {
+    if (props.maxDate) return props.maxDate;
+    if (props.disableFuture) return getTodayISO();
+    return null;
+});
+
+function isDayDisabled(day: number | null): boolean {
+    if (!day || !effectiveMaxDate.value) return false;
+    const dStr = `${currentYear.value}-${String(currentMonth.value + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    return dStr > effectiveMaxDate.value;
+}
+
+function isMonthDisabled(mIdx: number): boolean {
+    if (!effectiveMaxDate.value) return false;
+    const firstDayOfMonth = `${currentYear.value}-${String(mIdx + 1).padStart(2, '0')}-01`;
+    return firstDayOfMonth > effectiveMaxDate.value;
+}
+
+function isYearDisabled(yr: number): boolean {
+    if (!effectiveMaxDate.value) return false;
+    const firstDayOfYear = `${yr}-01-01`;
+    return firstDayOfYear > effectiveMaxDate.value;
+}
+
+const isNextHeaderDisabled = computed(() => {
+    if (!effectiveMaxDate.value) return false;
+    if (viewMode.value === 'days') {
+        let nextM = currentMonth.value + 1;
+        let nextY = currentYear.value;
+        if (nextM > 11) {
+            nextM = 0;
+            nextY++;
+        }
+        const firstOfNextMonth = `${nextY}-${String(nextM + 1).padStart(2, '0')}-01`;
+        return firstOfNextMonth > effectiveMaxDate.value;
+    } else if (viewMode.value === 'years') {
+        const nextDecadeFirstYear = decadeStart.value + 10;
+        return `${nextDecadeFirstYear}-01-01` > effectiveMaxDate.value;
+    }
+    return false;
+});
 
 const monthNames = computed(() => [
     t('datePicker.months.jan'),
@@ -66,6 +123,8 @@ function parseInputText(text: string): string | null {
     const trimmed = text.trim();
     if (!trimmed) return null;
 
+    let dateIso: string | null = null;
+
     // Matches DD.MM.YYYY
     const dotsMatch = trimmed.match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})$/);
     if (dotsMatch) {
@@ -73,22 +132,28 @@ function parseInputText(text: string): string | null {
         const m = parseInt(dotsMatch[2], 10);
         const y = parseInt(dotsMatch[3], 10);
         if (m >= 1 && m <= 12 && d >= 1 && d <= 31 && y >= 1900 && y <= 2100) {
-            return `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+            dateIso = `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
         }
     }
 
     // Matches YYYY-MM-DD
-    const isoMatch = trimmed.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
-    if (isoMatch) {
-        const y = parseInt(isoMatch[1], 10);
-        const m = parseInt(isoMatch[2], 10);
-        const d = parseInt(isoMatch[3], 10);
-        if (m >= 1 && m <= 12 && d >= 1 && d <= 31 && y >= 1900 && y <= 2100) {
-            return `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+    if (!dateIso) {
+        const isoMatch = trimmed.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+        if (isoMatch) {
+            const y = parseInt(isoMatch[1], 10);
+            const m = parseInt(isoMatch[2], 10);
+            const d = parseInt(isoMatch[3], 10);
+            if (m >= 1 && m <= 12 && d >= 1 && d <= 31 && y >= 1900 && y <= 2100) {
+                dateIso = `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+            }
         }
     }
 
-    return null;
+    if (dateIso && effectiveMaxDate.value && dateIso > effectiveMaxDate.value) {
+        return null;
+    }
+
+    return dateIso;
 }
 
 watch(
@@ -125,7 +190,7 @@ function onInputBlur() {
     } else if (inputText.value.trim() === '') {
         emit('update:modelValue', null);
     } else {
-        // Reset to valid modelValue formatting if typing was incomplete
+        // Reset to valid modelValue formatting if typing was incomplete or invalid future date
         inputText.value = toDisplayFormat(props.modelValue);
     }
 }
@@ -172,6 +237,7 @@ function prevHeader() {
 }
 
 function nextHeader() {
+    if (isNextHeaderDisabled.value) return;
     if (viewMode.value === 'days') {
         if (currentMonth.value === 11) {
             currentMonth.value = 0;
@@ -185,7 +251,7 @@ function nextHeader() {
 }
 
 function selectDay(day: number | null) {
-    if (!day) return;
+    if (!day || isDayDisabled(day)) return;
     const m = String(currentMonth.value + 1).padStart(2, '0');
     const d = String(day).padStart(2, '0');
     const selected = `${currentYear.value}-${m}-${d}`;
@@ -194,12 +260,14 @@ function selectDay(day: number | null) {
 }
 
 function selectMonth(mIdx: number) {
+    if (isMonthDisabled(mIdx)) return;
     currentMonth.value = mIdx;
     viewMode.value = 'days';
     isOpen.value = true;
 }
 
 function selectYear(y: number) {
+    if (isYearDisabled(y)) return;
     currentYear.value = y;
     decadeStart.value = Math.floor(y / 10) * 10 - 1;
     viewMode.value = 'months';
@@ -296,7 +364,7 @@ onUnmounted(() => {
                     <button
                         type="button"
                         @click="nextHeader"
-                        :disabled="viewMode === 'months'"
+                        :disabled="viewMode === 'months' || isNextHeaderDisabled"
                         class="p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-zinc-800 text-slate-600 dark:text-zinc-300 transition-colors cursor-pointer disabled:opacity-30"
                     >
                         <ChevronRight class="h-4 w-4" />
@@ -325,11 +393,14 @@ onUnmounted(() => {
                                 v-if="day !== null"
                                 type="button"
                                 @click="selectDay(day)"
+                                :disabled="isDayDisabled(day)"
                                 class="h-7 w-7 rounded-lg flex items-center justify-center transition-all cursor-pointer"
                                 :class="[
-                                    modelValue === `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`
-                                        ? 'bg-main text-slate-950 font-extrabold shadow-sm'
-                                        : 'hover:bg-slate-100 dark:hover:bg-zinc-800 text-slate-700 dark:text-zinc-300'
+                                    isDayDisabled(day)
+                                        ? 'opacity-30 cursor-not-allowed text-slate-300 dark:text-zinc-600 hover:bg-transparent pointer-events-none'
+                                        : modelValue === `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`
+                                            ? 'bg-main text-slate-950 font-extrabold shadow-sm'
+                                            : 'hover:bg-slate-100 dark:hover:bg-zinc-800 text-slate-700 dark:text-zinc-300'
                                 ]"
                             >
                                 {{ day }}
@@ -346,11 +417,14 @@ onUnmounted(() => {
                             :key="mName"
                             type="button"
                             @click="selectMonth(idx)"
+                            :disabled="isMonthDisabled(idx)"
                             class="py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer text-center"
                             :class="[
-                                currentMonth === idx
-                                    ? 'bg-main text-slate-950 shadow-sm font-extrabold'
-                                    : 'hover:bg-slate-100 dark:hover:bg-zinc-800 text-slate-700 dark:text-zinc-300'
+                                isMonthDisabled(idx)
+                                    ? 'opacity-30 cursor-not-allowed text-slate-300 dark:text-zinc-600 hover:bg-transparent pointer-events-none'
+                                    : currentMonth === idx
+                                        ? 'bg-main text-slate-950 shadow-sm font-extrabold'
+                                        : 'hover:bg-slate-100 dark:hover:bg-zinc-800 text-slate-700 dark:text-zinc-300'
                             ]"
                         >
                             {{ mName }}
@@ -366,11 +440,14 @@ onUnmounted(() => {
                             :key="yr"
                             type="button"
                             @click="selectYear(yr)"
+                            :disabled="isYearDisabled(yr)"
                             class="py-2.5 rounded-xl text-xs font-bold transition-all cursor-pointer text-center"
                             :class="[
-                                currentYear === yr
-                                    ? 'bg-main text-slate-950 shadow-sm font-extrabold'
-                                    : 'hover:bg-slate-100 dark:hover:bg-zinc-800 text-slate-700 dark:text-zinc-300'
+                                isYearDisabled(yr)
+                                    ? 'opacity-30 cursor-not-allowed text-slate-300 dark:text-zinc-600 hover:bg-transparent pointer-events-none'
+                                    : currentYear === yr
+                                        ? 'bg-main text-slate-950 shadow-sm font-extrabold'
+                                        : 'hover:bg-slate-100 dark:hover:bg-zinc-800 text-slate-700 dark:text-zinc-300'
                             ]"
                         >
                             {{ yr }}

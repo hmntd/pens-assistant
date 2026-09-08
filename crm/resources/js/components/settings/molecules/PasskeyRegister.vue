@@ -71,21 +71,11 @@ const handleCancel = () => {
         {{ t('settings.passkeys.addBtn') }}
     </Button>
 
-    <form
-        v-else
-        @submit="handleSubmit"
-        class="space-y-4 rounded-lg border border-border bg-muted/50 p-4"
-    >
+    <form v-else @submit="handleSubmit" class="space-y-4 rounded-lg border border-border bg-muted/50 p-4">
         <div class="grid gap-2">
             <Label for="passkey-name">{{ t('settings.passkeys.nameLabel') }}</Label>
-            <Input
-                id="passkey-name"
-                type="text"
-                v-model="name"
-                :placeholder="t('settings.passkeys.namePlaceholder')"
-                class="mt-1 block w-full border-foreground/20"
-                autofocus
-            />
+            <Input id="passkey-name" type="text" v-model="name" :placeholder="t('settings.passkeys.namePlaceholder')"
+                class="mt-1 block w-full border-foreground/20" autofocus />
             <p class="text-xs text-muted-foreground">
                 {{ t('settings.passkeys.nameHelp') }}
             </p>

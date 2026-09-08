@@ -111,75 +111,57 @@ onUnmounted(() => {
 <template>
     <DropdownMenu>
         <DropdownMenuTrigger as-child>
-            <button
-                type="button"
+            <button type="button"
                 class="relative inline-flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 shadow-sm transition-colors hover:bg-slate-100 hover:text-slate-900 dark:border-zinc-800 dark:bg-black dark:text-slate-400 dark:hover:bg-zinc-900 dark:hover:text-slate-100 cursor-pointer"
-                :aria-label="t('notifications.title')"
-            >
+                :aria-label="t('notifications.title')">
                 <Bell class="h-4 w-4" />
                 <NotificationBadge :count="unreadCount" />
             </button>
         </DropdownMenuTrigger>
 
-        <DropdownMenuContent
-            align="end"
-            class="w-80 sm:w-96 rounded-2xl border border-slate-200/80 bg-white/95 p-0 shadow-xl backdrop-blur-xl dark:border-zinc-800/80 dark:bg-zinc-950/95 text-slate-900 dark:text-white z-50"
-        >
+        <DropdownMenuContent align="end"
+            class="w-80 sm:w-96 rounded-2xl border border-slate-200/80 bg-white/95 p-0 shadow-xl backdrop-blur-xl dark:border-zinc-800/80 dark:bg-zinc-950/95 text-slate-900 dark:text-white z-50">
             <div class="flex items-center justify-between border-b border-slate-100 px-4 py-3 dark:border-zinc-800/60">
                 <div class="flex items-center gap-2">
                     <span class="text-sm font-bold text-slate-900 dark:text-white">{{ t('notifications.title') }}</span>
-                    <span
-                        v-if="unreadCount > 0"
-                        class="rounded-full bg-main/20 px-2 py-0.5 text-xs font-semibold text-main-dark dark:text-main"
-                    >
+                    <span v-if="unreadCount > 0"
+                        class="rounded-full bg-main/20 px-2 py-0.5 text-xs font-semibold text-main-dark dark:text-main">
                         {{ unreadCount }} {{ t('notifications.newCount') }}
                     </span>
                 </div>
-                <button
-                    v-if="unreadCount > 0"
-                    @click="markAllAsRead"
-                    type="button"
-                    class="inline-flex items-center gap-1 text-xs font-medium text-slate-500 transition-colors hover:text-main-dark dark:text-zinc-400 dark:hover:text-main cursor-pointer"
-                >
+                <button v-if="unreadCount > 0" @click="markAllAsRead" type="button"
+                    class="inline-flex items-center gap-1 text-xs font-medium text-slate-500 transition-colors hover:text-main-dark dark:text-zinc-400 dark:hover:text-main cursor-pointer">
                     <CheckCheck class="h-3.5 w-3.5" />
                     {{ t('notifications.markAllRead') }}
                 </button>
             </div>
 
             <!-- Scrollbar container with transparent background -->
-            <div class="max-h-80 overflow-y-auto divide-y divide-slate-100 dark:divide-zinc-800/40 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-slate-300 dark:[&::-webkit-scrollbar-thumb]:bg-zinc-800 [&::-webkit-scrollbar-thumb]:rounded-full">
+            <div
+                class="max-h-80 overflow-y-auto divide-y divide-slate-100 dark:divide-zinc-800/40 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-slate-300 dark:[&::-webkit-scrollbar-thumb]:bg-zinc-800 [&::-webkit-scrollbar-thumb]:rounded-full">
                 <template v-if="notifications.length > 0">
-                    <div
-                        v-for="item in notifications"
-                        :key="item.id"
-                        @click="toggleRead(item)"
-                        class="flex items-start gap-3 p-3.5 transition-colors cursor-pointer"
-                        :class="[
+                    <div v-for="item in notifications" :key="item.id" @click="toggleRead(item)"
+                        class="flex items-start gap-3 p-3.5 transition-colors cursor-pointer" :class="[
                             item.is_seen
                                 ? 'bg-transparent hover:bg-slate-50 dark:hover:bg-zinc-900/40'
                                 : 'bg-main/5 dark:bg-main/10 hover:bg-main/10 dark:hover:bg-main/15'
-                        ]"
-                    >
-                        <div
-                            class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg"
-                            :class="[
-                                item.is_seen
-                                    ? 'bg-slate-100 text-slate-600 dark:bg-zinc-800 dark:text-zinc-400'
-                                    : 'bg-main/20 text-main-dark dark:text-main font-bold'
-                            ]"
-                        >
+                        ]">
+                        <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg" :class="[
+                            item.is_seen
+                                ? 'bg-slate-100 text-slate-600 dark:bg-zinc-800 dark:text-zinc-400'
+                                : 'bg-main/20 text-main-dark dark:text-main font-bold'
+                        ]">
                             <component :is="getIcon(item.type)" class="h-4 w-4" />
                         </div>
 
                         <div class="flex-1 min-w-0">
                             <div class="flex items-center justify-between gap-2">
-                                <h4
-                                    class="text-xs font-semibold truncate capitalize"
-                                    :class="item.is_seen ? 'text-slate-700 dark:text-zinc-300' : 'text-slate-900 dark:text-white font-bold'"
-                                >
+                                <h4 class="text-xs font-semibold truncate capitalize"
+                                    :class="item.is_seen ? 'text-slate-700 dark:text-zinc-300' : 'text-slate-900 dark:text-white font-bold'">
                                     {{ t('notifications.title') }}
                                 </h4>
-                                <span class="text-[10px] text-slate-400 dark:text-zinc-500 shrink-0">{{ formatTime(item.created_at) }}</span>
+                                <span class="text-[10px] text-slate-400 dark:text-zinc-500 shrink-0">{{
+                                    formatTime(item.created_at) }}</span>
                             </div>
                             <p class="mt-0.5 text-xs text-slate-600 dark:text-zinc-400 line-clamp-2 leading-relaxed">
                                 {{ getNotificationText(item) }}

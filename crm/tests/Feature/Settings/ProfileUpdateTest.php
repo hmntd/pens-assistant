@@ -99,4 +99,25 @@ class ProfileUpdateTest extends TestCase
 
         $this->assertNotNull($user->fresh());
     }
+
+    public function test_profile_update_fails_when_date_of_birth_is_in_the_future()
+    {
+        $user = User::factory()->create();
+
+        $futureDate = now()->addDays(5)->format('Y-m-d');
+
+        $response = $this
+            ->actingAs($user)
+            ->from(route('profile.edit'))
+            ->patch(route('profile.update'), [
+                'first_name' => $user->first_name,
+                'last_name' => $user->last_name,
+                'email' => $user->email,
+                'date_of_birth' => $futureDate,
+            ]);
+
+        $response
+            ->assertSessionHasErrors('date_of_birth')
+            ->assertRedirect(route('profile.edit'));
+    }
 }

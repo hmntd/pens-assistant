@@ -123,7 +123,7 @@ const browserChartData = computed(() => {
     if (!analyticsData.value?.browsers) return null;
     const b = analyticsData.value.browsers;
     const labels = Object.keys(b);
-    const counts = Object.values(b);
+    const counts = Object.values(b) as number[];
 
     return {
         labels,
@@ -143,7 +143,7 @@ const osChartData = computed(() => {
     if (!analyticsData.value?.operating_systems) return null;
     const os = analyticsData.value.operating_systems;
     const labels = Object.keys(os);
-    const counts = Object.values(os);
+    const counts = Object.values(os) as number[];
 
     return {
         labels,
@@ -158,7 +158,7 @@ const osChartData = computed(() => {
     };
 });
 
-const chartOptions = {
+const chartOptions: any = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
@@ -265,7 +265,7 @@ const doughnutOptions = {
                     class="bg-white dark:bg-zinc-900/80 p-5 rounded-3xl border border-slate-200 dark:border-zinc-800 shadow-xs relative overflow-hidden">
                     <div class="flex items-center justify-between">
                         <span class="text-xs font-bold uppercase text-slate-400">{{ t('analytics.entryPopularityCard')
-                            }}</span>
+                        }}</span>
                         <div class="p-2 bg-indigo-500/10 rounded-xl text-indigo-500">
                             <FileText class="h-5 w-5" />
                         </div>
@@ -290,7 +290,7 @@ const doughnutOptions = {
                         <span class="text-3xl font-black text-slate-900 dark:text-white">{{
                             analyticsData.summary.avg_wage_coefficient }}</span>
                         <span class="text-xs text-purple-400 font-semibold ml-2">{{ t('analytics.wageCoeffLabel')
-                            }}</span>
+                        }}</span>
                     </div>
                 </div>
             </div>
@@ -400,7 +400,7 @@ const doughnutOptions = {
                     <div class="flex items-center gap-2 mb-4">
                         <Globe class="h-5 w-5 text-blue-500" />
                         <h3 class="font-extrabold text-sm text-slate-900 dark:text-white">{{ t('analytics.userBrowsers')
-                            }}</h3>
+                        }}</h3>
                     </div>
                     <div class="h-60 relative w-full">
                         <Bar v-if="browserChartData" :data="browserChartData" :options="chartOptions" />

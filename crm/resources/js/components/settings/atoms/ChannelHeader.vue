@@ -12,13 +12,10 @@ defineProps<{
 
 <template>
     <div class="flex items-center gap-3">
-        <div 
-            class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition-colors"
-            :class="[
-                iconBgClass || 'bg-slate-500/10 dark:bg-slate-500/20',
-                iconColorClass || 'text-slate-600 dark:text-slate-400'
-            ]"
-        >
+        <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition-colors" :class="[
+            iconBgClass || 'bg-slate-500/10 dark:bg-slate-500/20',
+            iconColorClass || 'text-slate-600 dark:text-slate-400'
+        ]">
             <component :is="icon" class="h-5 w-5" />
         </div>
         <div>

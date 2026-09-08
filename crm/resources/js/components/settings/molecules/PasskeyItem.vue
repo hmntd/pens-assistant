@@ -37,18 +37,14 @@ const handleDelete = () => {
 <template>
     <div class="flex items-center justify-between border-b p-4 last:border-b-0">
         <div class="flex items-center gap-4">
-            <div
-                class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-muted"
-            >
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-muted">
                 <KeyRound class="h-5 w-5 text-muted-foreground" />
             </div>
             <div class="space-y-1">
                 <div class="flex items-center gap-2.5">
                     <p class="font-medium tracking-tight">{{ passkey.name }}</p>
-                    <span
-                        v-if="passkey.authenticator"
-                        class="inline-flex items-center gap-1 rounded-md bg-muted px-2 py-0.5 text-[11px] font-medium tracking-wide text-muted-foreground uppercase ring-1 ring-border ring-inset"
-                    >
+                    <span v-if="passkey.authenticator"
+                        class="inline-flex items-center gap-1 rounded-md bg-muted px-2 py-0.5 text-[11px] font-medium tracking-wide text-muted-foreground uppercase ring-1 ring-border ring-inset">
                         {{ passkey.authenticator }}
                     </span>
                 </div>
@@ -64,11 +60,8 @@ const handleDelete = () => {
 
         <Dialog>
             <DialogTrigger as-child>
-                <Button
-                    variant="ghost"
-                    size="sm"
-                    class="text-destructive hover:bg-destructive/10 hover:text-destructive"
-                >
+                <Button variant="ghost" size="sm"
+                    class="text-destructive hover:bg-destructive/10 hover:text-destructive">
                     <Trash2 class="h-4 w-4" />
                     <span class="sr-only">{{ t('settings.passkeys.removeBtn') }}</span>
                 </Button>
@@ -83,11 +76,7 @@ const handleDelete = () => {
                     <DialogClose as-child>
                         <Button variant="secondary">{{ t('settings.deleteUser.cancelBtn') }}</Button>
                     </DialogClose>
-                    <Button
-                        variant="destructive"
-                        :disabled="isDeleting"
-                        @click="handleDelete"
-                    >
+                    <Button variant="destructive" :disabled="isDeleting" @click="handleDelete">
                         {{ isDeleting ? t('settings.passkeys.removing') : t('settings.passkeys.removeBtn') }}
                     </Button>
                 </DialogFooter>

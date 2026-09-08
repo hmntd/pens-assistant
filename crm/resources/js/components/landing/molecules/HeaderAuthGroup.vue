@@ -13,24 +13,18 @@ const isAuthenticated = computed(() => !!page.props.auth?.user);
 <template>
     <div class="flex items-center gap-2">
         <template v-if="isAuthenticated">
-            <Link
-                :href="dashboard()"
-                class="inline-flex h-9 items-center justify-center rounded-lg bg-main px-4 text-xs font-semibold text-slate-950 shadow-sm transition-all hover:bg-main-hover hover:shadow"
-            >
+            <Link :href="dashboard()"
+                class="inline-flex h-9 items-center justify-center rounded-lg bg-main px-4 text-xs font-semibold text-slate-950 shadow-sm transition-all hover:bg-main-hover hover:shadow">
                 {{ t('header.dashboard') }}
             </Link>
         </template>
         <template v-else>
-            <Link
-                :href="login()"
-                class="inline-flex h-9 items-center justify-center rounded-lg bg-main px-4 text-xs font-semibold text-slate-950 shadow-sm transition-all hover:bg-main-hover"
-            >
+            <Link :href="login()"
+                class="inline-flex h-9 items-center justify-center rounded-lg bg-main px-4 text-xs font-semibold text-slate-950 shadow-sm transition-all hover:bg-main-hover">
                 {{ t('header.signIn') }}
             </Link>
-            <Link
-                :href="register()"
-                class="hidden h-9 items-center justify-center rounded-lg border border-slate-200 bg-white px-4 text-xs font-semibold text-slate-700 shadow-sm transition-all hover:bg-slate-50 dark:border-zinc-800 dark:bg-black dark:text-slate-300 dark:hover:bg-zinc-900 sm:inline-flex"
-            >
+            <Link :href="register()"
+                class="hidden h-9 items-center justify-center rounded-lg border border-slate-200 bg-white px-4 text-xs font-semibold text-slate-700 shadow-sm transition-all hover:bg-slate-50 dark:border-zinc-800 dark:bg-black dark:text-slate-300 dark:hover:bg-zinc-900 sm:inline-flex">
                 {{ t('header.signUp') }}
             </Link>
         </template>

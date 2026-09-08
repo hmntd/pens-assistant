@@ -25,14 +25,9 @@ const passwordInput = useTemplateRef('passwordInput');
 
 <template>
     <div class="space-y-6">
-        <Heading
-            variant="small"
-            :title="t('settings.deleteUser.title')"
-            :description="t('settings.deleteUser.description')"
-        />
-        <div
-            class="space-y-4 rounded-lg border border-red-100 bg-red-50 p-4 dark:border-red-200/10 dark:bg-red-700/10"
-        >
+        <Heading variant="small" :title="t('settings.deleteUser.title')"
+            :description="t('settings.deleteUser.description')" />
+        <div class="space-y-4 rounded-lg border border-red-100 bg-red-50 p-4 dark:border-red-200/10 dark:bg-red-700/10">
             <div class="relative space-y-0.5 text-red-600 dark:text-red-100">
                 <p class="font-medium">{{ t('settings.deleteUser.warningTitle') }}</p>
                 <p class="text-sm">
@@ -46,16 +41,10 @@ const passwordInput = useTemplateRef('passwordInput');
                     </Button>
                 </DialogTrigger>
                 <DialogContent>
-                    <Form
-                        v-bind="DestroyProfileController.form()"
-                        reset-on-success
-                        @error="() => passwordInput?.focus()"
-                        :options="{
+                    <Form v-bind="DestroyProfileController.form()" reset-on-success
+                        @error="() => passwordInput?.focus()" :options="{
                             preserveScroll: true,
-                        }"
-                        class="space-y-6"
-                        v-slot="{ errors, processing, reset, clearErrors }"
-                    >
+                        }" class="space-y-6" v-slot="{ errors, processing, reset, clearErrors }">
                         <DialogHeader class="space-y-3">
                             <DialogTitle>
                                 {{ t('settings.deleteUser.modalTitle') }}
@@ -69,36 +58,25 @@ const passwordInput = useTemplateRef('passwordInput');
                             <Label for="password" class="sr-only">
                                 {{ t('settings.deleteUser.passwordLabel') }}
                             </Label>
-                            <PasswordInput
-                                id="password"
-                                name="password"
-                                ref="passwordInput"
-                                :placeholder="t('settings.deleteUser.passwordLabel')"
-                            />
+                            <PasswordInput id="password" name="password" ref="passwordInput"
+                                :placeholder="t('settings.deleteUser.passwordLabel')" />
                             <InputError :message="errors.password" />
                         </div>
 
                         <DialogFooter class="gap-2">
                             <DialogClose as-child>
-                                <Button
-                                    variant="secondary"
-                                    @click="
-                                        () => {
-                                            clearErrors();
-                                            reset();
-                                        }
-                                    "
-                                >
+                                <Button variant="secondary" @click="
+                                    () => {
+                                        clearErrors();
+                                        reset();
+                                    }
+                                ">
                                     {{ t('settings.deleteUser.cancelBtn') }}
                                 </Button>
                             </DialogClose>
 
-                            <Button
-                                type="submit"
-                                variant="destructive"
-                                :disabled="processing"
-                                data-test="confirm-delete-user-button"
-                            >
+                            <Button type="submit" variant="destructive" :disabled="processing"
+                                data-test="confirm-delete-user-button">
                                 {{ t('settings.deleteUser.btnDelete') }}
                             </Button>
                         </DialogFooter>
