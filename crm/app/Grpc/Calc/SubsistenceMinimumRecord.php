@@ -33,6 +33,18 @@ class SubsistenceMinimumRecord extends \Google\Protobuf\Internal\Message
      * Generated from protobuf field <code>double age_surcharge_cap = 5;</code>
      */
     protected $age_surcharge_cap = 0.0;
+    /**
+     * Generated from protobuf field <code>double age_70_surcharge = 6;</code>
+     */
+    protected $age_70_surcharge = 0.0;
+    /**
+     * Generated from protobuf field <code>double age_75_surcharge = 7;</code>
+     */
+    protected $age_75_surcharge = 0.0;
+    /**
+     * Generated from protobuf field <code>double age_80_surcharge = 8;</code>
+     */
+    protected $age_80_surcharge = 0.0;
 
     /**
      * Constructor.
@@ -45,6 +57,9 @@ class SubsistenceMinimumRecord extends \Google\Protobuf\Internal\Message
      *     @type float $for_disabled_persons
      *     @type float $general_minimum
      *     @type float $age_surcharge_cap
+     *     @type float $age_70_surcharge
+     *     @type float $age_75_surcharge
+     *     @type float $age_80_surcharge
      * }
      */
     public function __construct($data = NULL) {
@@ -158,6 +173,72 @@ class SubsistenceMinimumRecord extends \Google\Protobuf\Internal\Message
     {
         GPBUtil::checkDouble($var);
         $this->age_surcharge_cap = $var;
+
+        return $this;
+    }
+
+    /**
+     * Generated from protobuf field <code>double age_70_surcharge = 6;</code>
+     * @return float
+     */
+    public function getAge70Surcharge()
+    {
+        return $this->age_70_surcharge;
+    }
+
+    /**
+     * Generated from protobuf field <code>double age_70_surcharge = 6;</code>
+     * @param float $var
+     * @return $this
+     */
+    public function setAge70Surcharge($var)
+    {
+        GPBUtil::checkDouble($var);
+        $this->age_70_surcharge = $var;
+
+        return $this;
+    }
+
+    /**
+     * Generated from protobuf field <code>double age_75_surcharge = 7;</code>
+     * @return float
+     */
+    public function getAge75Surcharge()
+    {
+        return $this->age_75_surcharge;
+    }
+
+    /**
+     * Generated from protobuf field <code>double age_75_surcharge = 7;</code>
+     * @param float $var
+     * @return $this
+     */
+    public function setAge75Surcharge($var)
+    {
+        GPBUtil::checkDouble($var);
+        $this->age_75_surcharge = $var;
+
+        return $this;
+    }
+
+    /**
+     * Generated from protobuf field <code>double age_80_surcharge = 8;</code>
+     * @return float
+     */
+    public function getAge80Surcharge()
+    {
+        return $this->age_80_surcharge;
+    }
+
+    /**
+     * Generated from protobuf field <code>double age_80_surcharge = 8;</code>
+     * @param float $var
+     * @return $this
+     */
+    public function setAge80Surcharge($var)
+    {
+        GPBUtil::checkDouble($var);
+        $this->age_80_surcharge = $var;
 
         return $this;
     }

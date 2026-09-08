@@ -317,11 +317,20 @@ class PensionCalculatorService
             $request->setBenefits($benefitEnums);
         }
 
+        // Macroeconomic Average Salary (Zp)
+        $zp = !empty($data['zp_macroeconomic_average']) && (float) $data['zp_macroeconomic_average'] > 0.0
+            ? (float) $data['zp_macroeconomic_average']
+            : 16500.0;
+        $request->setZpMacroeconomicAverage($zp);
+
         // Subsistence Minimums
         $subMin = new SubsistenceMinimums();
         $subMin->setForDisabledPersons(2361.0);
         $subMin->setGeneralMinimum(2920.0);
         $subMin->setAgeSurchargeCap(10340.35);
+        $subMin->setAge70Surcharge(300.0);
+        $subMin->setAge75Surcharge(456.0);
+        $subMin->setAge80Surcharge(570.0);
         $request->setSubsistenceMinimums($subMin);
 
         // Execute gRPC Call
