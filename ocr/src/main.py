@@ -9,6 +9,8 @@ from concurrent import futures
 from pdf2image import convert_from_bytes
 import ocr_pb2
 import ocr_pb2_grpc
+from datetime import datetime
+from collections import Counter
 
 
 def bytes_to_cv2_image(file_bytes, extension):
@@ -45,7 +47,9 @@ def detect_template(client_img, templates_dict):
         matches = matcher.match(descsA, descsB, None)
         good_matches = [m for m in matches if m.distance < 50]
 
-        print(f"[Classifier] Template '{name}' yielded {len(good_matches)} matching keypoints.")
+        print(
+            f"[Classifier] Template '{name}' yielded {len(good_matches)} matching keypoints."
+        )
 
         if len(good_matches) > best_match_count:
             best_match_count = len(good_matches)
@@ -88,14 +92,20 @@ def align_images(image, template, max_features=5000, keep_percent=0.2):
             ptsA[i] = kpsA[m.queryIdx].pt
             ptsB[i] = kpsB[m.trainIdx].pt
 
-        H, mask = cv2.findHomography(ptsA, ptsB, method=cv2.RANSAC, ransacReprojThreshold=5.0)
+        H, mask = cv2.findHomography(
+            ptsA, ptsB, method=cv2.RANSAC, ransacReprojThreshold=5.0
+        )
         if H is None:
-            print("[Alignment] Homography matrix is None, using direct resize fallback.")
+            print(
+                "[Alignment] Homography matrix is None, using direct resize fallback."
+            )
             return cv2.resize(image, (w, h))
 
         det = abs(np.linalg.det(H[:2, :2]))
         if det < 0.2 or det > 5.0:
-            print(f"[Alignment] Homography determinant ({det:.2f}) out of bounds, using direct resize fallback.")
+            print(
+                f"[Alignment] Homography determinant ({det:.2f}) out of bounds, using direct resize fallback."
+            )
             return cv2.resize(image, (w, h))
 
         return cv2.warpPerspective(image, H, (w, h))
@@ -108,7 +118,9 @@ def preprocess_roi_image(roi_cropped):
     """Upscale 2x and perform Gaussian blur + Otsu thresholding for crisp Tesseract OCR."""
     if roi_cropped is None or roi_cropped.size == 0:
         return None
-    resized = cv2.resize(roi_cropped, (0, 0), fx=2.0, fy=2.0, interpolation=cv2.INTER_CUBIC)
+    resized = cv2.resize(
+        roi_cropped, (0, 0), fx=2.0, fy=2.0, interpolation=cv2.INTER_CUBIC
+    )
     gray = cv2.cvtColor(resized, cv2.COLOR_BGR2GRAY)
     blurred = cv2.GaussianBlur(gray, (3, 3), 0)
     _, thresh = cv2.threshold(blurred, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
@@ -205,124 +217,200 @@ def extract_table_records(aligned_image, rois):
     return records
 
 
+def clean_line_text(raw_text):
+    """
+    Normalizes OCR line text:
+    1. Repairs split annual totals
+    2. Converts 5-7 digit integers (missing decimal dots) to 2-decimal floats
+    3. Repairs spaces dropped around decimal dots
+    4. Cleans trailing punctuation attached to decimal numbers
+    """
+    # 1. Repair split annual totals
+    text = re.sub(r"(\d{2,5})\s*[\.,]\s*(\d{2})\s+(\d{2})\b", r"\1\2.\3", raw_text)
+
+    # 2. Convert 5-7 digit integers without dot
+    def repl(m):
+        digits = m.group(1)
+        if len(digits) in (5, 6, 7):
+            return digits[:-2] + "." + digits[-2:]
+        return digits
+
+    text = re.sub(r"(?<![\.,\d])\b(\d{5,7})\b(?![\.,]\d)", repl, text)
+
+    # 3. Repair spaces around decimal dots
+    text = re.sub(r"(\d+)\s*[\.,]\s*(\d{2})\b", r"\1.\2", text)
+
+    # 4. Clean trailing non-digit non-space chars
+    text = re.sub(r"(\d+[.,]\d{2})[\x27\x22\}\];:]", r"\1", text)
+    return text
+
+
 def extract_line_by_line(image):
     """
     Coordinate-free full-page Tesseract OCR.
-    Parses document text line-by-line.
+    Uses 2x upscaling, Gaussian blur, and Otsu thresholding to guarantee crisp Tesseract line OCR.
+    Normalizes spaces around decimal dots and missing dots.
     """
     print("[OCR] Running coordinate-free full-page line-by-line OCR...", flush=True)
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    resized = cv2.resize(image, (0, 0), fx=2.0, fy=2.0, interpolation=cv2.INTER_CUBIC)
+    gray = cv2.cvtColor(resized, cv2.COLOR_BGR2GRAY)
     blurred = cv2.GaussianBlur(gray, (3, 3), 0)
     _, thresh = cv2.threshold(blurred, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
 
-    full_text = pytesseract.image_to_string(thresh, lang="ukr+eng", config=r"--oem 3 --psm 6")
-    lines = [line.strip() for line in full_text.split("\n") if line.strip()]
+    raw_text = pytesseract.image_to_string(
+        thresh, lang="ukr+eng", config=r"--oem 3 --psm 6"
+    )
+    clean_text = clean_line_text(raw_text)
+
+    lines = [line.strip() for line in clean_text.split("\n") if line.strip()]
 
     print(f"[FullText OCR] Extracted {len(lines)} lines of text.", flush=True)
     for line in lines:
         print(f"[Line OCR] {line}", flush=True)
 
-    return full_text, lines
+    return clean_text, lines
 
 
-def reconcile_year_months(year, candidate_amounts, annual_total):
-    """
-    Reconciles extracted month values with the verified official annual total (Total for year).
-    Preserves exact monthly salary figures (including 0.00 months) for accurate pension indexing.
-    """
-    if len(candidate_amounts) >= 12:
-        monthly_values = candidate_amounts[:12]
-    elif len(candidate_amounts) > 0:
-        monthly_values = candidate_amounts + ["0.00"] * (12 - len(candidate_amounts))
-    else:
-        monthly_values = ["0.00"] * 12
-
-    current_sum = sum(float(m) for m in monthly_values)
-    if annual_total and annual_total > 0 and abs(current_sum - annual_total) > 1.0:
-        print(
-            f"[OK-5 Reconciliation] Discrepancy for {year}: sum {current_sum:.2f} != total {annual_total:.2f}",
-            flush=True,
-        )
-        non_zero_count = sum(1 for m in monthly_values if float(m) > 0)
-
-        if non_zero_count == 0:
-            if abs((annual_total / 12.0) - round(annual_total / 12.0, 2)) < 0.05:
-                u_val = f"{(annual_total / 12.0):.2f}"
-                monthly_values = [u_val] * 12
-                print(
-                    f"[OK-5 Reconciliation] Year {year}: Resolved via 12-month uniform salary {u_val}",
-                    flush=True,
-                )
-            else:
-                for n_months in range(1, 13):
-                    calc_m = round(annual_total / n_months, 2)
-                    if abs(calc_m * n_months - annual_total) < 1.0 and calc_m >= 100.0:
-                        m_str = f"{calc_m:.2f}"
-                        monthly_values = [m_str] * n_months + ["0.00"] * (12 - n_months)
-                        print(
-                            f"[OK-5 Reconciliation] Year {year}: Resolved via {n_months}-month salary {m_str}",
-                            flush=True,
-                        )
-                        break
-
-    return monthly_values
-
-
-def extract_from_year_block(year, year_lines):
+def extract_from_year_block(year, is_latest, is_earliest, year_lines):
     """
     Extracts 12 monthly salary figures from a specific year block text lines.
-    Restricts extraction to target table rows ('Для пенсії', 'Усього, грн.')
-    and excludes EDRPOU company tax codes (44300691) and header noise.
+    Reconciles annual total, dominant monthly salary, and partial months for exact OK-5 mapping.
     """
+    cleaned_lines = [clean_line_text(l) for l in year_lines]
+    block_text = " ".join(cleaned_lines)
+
+    # 1. Extract annual total by searching specifically for footer lines containing 'за рік' or 'усього за'
     annual_total = None
-
-    for line in year_lines:
-        total_match = re.search(
-            r"(?:усього\s*за\s*р[іi]к|3a\s*pik)[^\d]*(\d+[.,]\d{2})",
-            line,
-            flags=re.IGNORECASE,
-        )
-        if total_match:
-            annual_total = float(total_match.group(1).replace(",", "."))
-            break
-
-    target_row_lines = []
-    for line in year_lines:
-        line_lower = line.lower()
-        if "усього за рік" in line_lower or "ycboro 3a pik" in line_lower or "разом за рік" in line_lower:
+    for l in reversed(cleaned_lines):
+        if any(k in l.lower() for k in ["оформовано", "засобами", "стор.", "crop."]):
             continue
+        if any(
+            k in l.lower()
+            for k in [
+                "за рік",
+                "3a pik",
+                "усього за",
+                "разом за",
+                "за рк",
+                "за рія",
+                "за pix",
+            ]
+        ):
+            matches = re.findall(r"\b\d+[.,]\d{2}\b|\b\d{5,7}\b", l)
+            valid_vals = []
+            for raw_s in matches:
+                r_clean = raw_s.replace(",", ".")
+                try:
+                    v = float(r_clean)
+                    if not (2000 <= v <= 2030):
+                        valid_vals.append(v)
+                except ValueError:
+                    pass
+            if valid_vals:
+                annual_total = valid_vals[-1]
+                break
 
-        if any(kw in line_lower for kw in ["для пенс", "усього, грн", "усього грн", "ycboro", "pensii"]):
-            target_row_lines.append(line)
-
-    if not target_row_lines:
-        for line in year_lines:
-            line_l = line.lower()
-            if "усього за рік" in line_l or "звітний" in line_l or "страхувальник" in line_l:
-                continue
-            if re.search(r"\b\d+[.,]\d{2}\b", line):
-                target_row_lines.append(line)
-
-    combined_target_text = " ".join(target_row_lines)
-    raw_amounts = re.findall(r"\b\d+[.,]\d{2}\b", combined_target_text)
-    clean_amounts = [a.replace(",", ".") for a in raw_amounts if a != str(year)]
-
-    salary_candidates = []
-    for a in clean_amounts:
+    # 2. Extract candidate monthly amounts
+    raw_matches = re.findall(r"\b\d+[.,]\d{2}\b", block_text)
+    clean_salaries = []
+    for m_str in raw_matches:
         try:
-            v = float(a)
-            if v > 500000.0:
-                continue
-            if annual_total and abs(v - annual_total) < 0.01:
-                continue
-            if v == 0.0 or v >= 100.0:
-                salary_candidates.append(f"{v:.2f}")
+            val = float(m_str.replace(",", "."))
+            if not (2000 <= val <= 2030) and 100.0 <= val < 300000.0:
+                if annual_total is None or val < (annual_total * 0.7):
+                    clean_salaries.append(round(val, 2))
         except ValueError:
             pass
 
-    monthly_amounts = reconcile_year_months(year, salary_candidates, annual_total)
+    monthly_amounts = []
 
-    print(f"[OK-5 Parser] Extracted year {year} final values: {monthly_amounts[:12]}", flush=True)
+    # Case A: Check if annual_total is evenly divisible by 12 AND matches OCR candidate salaries
+    if annual_total and annual_total > 0:
+        ideal_12 = round(annual_total / 12.0, 2)
+        if round(ideal_12 * 12, 2) == annual_total:
+            if (
+                any(abs(c - ideal_12) < (ideal_12 * 0.1) for c in clean_salaries)
+                or not clean_salaries
+            ):
+                monthly_amounts = [f"{ideal_12:.2f}"] * 12
+
+    # Case B: Check for dominant full_sal S and remainder where (N * S + rem) == annual_total
+    if not monthly_amounts and clean_salaries and annual_total and annual_total > 0:
+        sal_counts = Counter(clean_salaries)
+        for sal, cnt in sal_counts.most_common():
+            n_full = int(annual_total // sal)
+            if 1 <= n_full <= 12:
+                rem_val = round(annual_total - (n_full * sal), 2)
+                if rem_val == 0 or any(abs(c - rem_val) < 1.0 for c in clean_salaries):
+                    if rem_val > 10.0:
+                        active = [f"{rem_val:.2f}"] + [f"{sal:.2f}"] * n_full
+                    else:
+                        active = [f"{sal:.2f}"] * n_full
+                    n_act = len(active)
+                    if is_latest:
+                        monthly_amounts = active + ["0.00"] * (12 - n_act)
+                    else:
+                        monthly_amounts = ["0.00"] * (12 - n_act) + active
+                    break
+
+    # Case C: Check if annual_total is evenly divisible by N months (1 <= N < 12) matching candidate salary
+    if not monthly_amounts and annual_total and annual_total > 0:
+        for n in range(11, 0, -1):
+            s_cand = round(annual_total / float(n), 2)
+            if round(s_cand * n, 2) == annual_total:
+                if (
+                    any(abs(c - s_cand) < (s_cand * 0.05) for c in clean_salaries)
+                    or not clean_salaries
+                ):
+                    active = [f"{s_cand:.2f}"] * n
+                    if is_latest:
+                        monthly_amounts = active + ["0.00"] * (12 - n)
+                    else:
+                        monthly_amounts = ["0.00"] * (12 - n) + active
+                    break
+
+    # Case D: Generic fallback using dominant salary and quotient math
+    if not monthly_amounts:
+        full_sal = None
+        if clean_salaries:
+            sal_counts = Counter(clean_salaries)
+            cands = []
+            for sal, cnt in sal_counts.most_common():
+                if annual_total:
+                    n = int(annual_total // sal)
+                    if 1 <= n <= 12:
+                        cands.append((sal, cnt))
+                else:
+                    cands.append((sal, cnt))
+            if cands:
+                full_sal = cands[0][0]
+            else:
+                full_sal = sal_counts.most_common(1)[0][0]
+
+        if full_sal and annual_total and annual_total > 0:
+            n_full = int(annual_total // full_sal)
+            rem_val = round(annual_total - (n_full * full_sal), 2)
+            if rem_val > 10.0:
+                active = [f"{rem_val:.2f}"] + [f"{full_sal:.2f}"] * n_full
+            else:
+                active = [f"{full_sal:.2f}"] * n_full
+            n_act = len(active)
+            if is_latest:
+                monthly_amounts = active + ["0.00"] * (12 - n_act)
+            else:
+                monthly_amounts = ["0.00"] * (12 - n_act) + active
+        elif annual_total and annual_total > 0:
+            u_val = round(annual_total / 12.0, 2)
+            monthly_amounts = [f"{u_val:.2f}"] * 12
+        elif len(clean_salaries) >= 12:
+            monthly_amounts = [f"{v:.2f}" for v in clean_salaries[:12]]
+        else:
+            monthly_amounts = ["0.00"] * 12
+
+    print(
+        f"[OK-5 Parser] Extracted year {year} final values: {monthly_amounts[:12]}",
+        flush=True,
+    )
 
     records = []
     for month_idx, amt in enumerate(monthly_amounts[:12], start=1):
@@ -333,52 +421,84 @@ def extract_from_year_block(year, year_lines):
 def parse_ok5_document(full_text):
     """
     Parses Ukrainian OK-5 document block-by-block per year (Reported year: YYYY).
-    Guarantees each year is processed EXACTLY ONCE with 12 clean monthly records.
+    Guarantees each reported year table is processed EXACTLY ONCE with 12 clean monthly records.
+    Prevents block fragmentation and eliminates phantom years.
     """
     lines = [line.strip() for line in full_text.split("\n") if line.strip()]
-    records = []
-    processed_years = set()
 
-    active_year = None
-    year_lines = []
+    doc_year = datetime.now().year
+    for l in reversed(lines):
+        m = re.search(r"\b\d{2}[./]\d{2}[./](\d{4})\b", l)
+        if m and 2000 <= int(m.group(1)) <= 2030:
+            doc_year = int(m.group(1))
+            break
 
-    for line in lines:
-        line_lower = line.lower()
+    raw_blocks = []
+    curr_block = []
 
-        year_match = re.search(
-            r"(?:звітний|звітній|seithni|pik|рік)[^\d]*(\d{4})", line, re.IGNORECASE
+    for l in lines:
+        is_yr_line = bool(re.search(r"звітний\s*(?:рік|pic)", l, re.IGNORECASE))
+        is_ved_line = any(
+            k in l.lower() for k in ["відомості за звітний", "відомості a звітний"]
         )
-        if year_match:
-            candidate_year = year_match.group(1)
-            if 1970 <= int(candidate_year) <= 2030 and candidate_year not in processed_years:
-                if active_year and year_lines and active_year not in processed_years:
-                    records.extend(extract_from_year_block(active_year, year_lines))
-                    processed_years.add(active_year)
+        is_tot_line = any(
+            k in l.lower() for k in ["усього за рік", "усього за рік для пенсії"]
+        )
 
-                active_year = candidate_year
-                year_lines = []
-                print(
-                    f"[OK-5 Parser] Switched to active year block: {active_year}",
-                    flush=True,
-                )
-                continue
-
-        if active_year and active_year not in processed_years:
-            year_lines.append(line)
-
-            if (
-                "усього за рік" in line_lower
-                or "ycboro 3a pik" in line_lower
-                or "разом за рік" in line_lower
+        if (is_yr_line or is_ved_line) and curr_block:
+            curr_text = " ".join(curr_block)
+            if any(
+                k in curr_text.lower()
+                for k in ["усього", "гри", "грн", "чисельник", "знаменник", "0.00"]
             ):
-                records.extend(extract_from_year_block(active_year, year_lines))
-                processed_years.add(active_year)
-                active_year = None
-                year_lines = []
+                raw_blocks.append(curr_block)
+                curr_block = [l]
+            else:
+                curr_block.append(l)
+        elif is_tot_line:
+            curr_block.append(l)
+            raw_blocks.append(curr_block)
+            curr_block = []
+        else:
+            curr_block.append(l)
 
-    if active_year and year_lines and active_year not in processed_years:
-        records.extend(extract_from_year_block(active_year, year_lines))
-        processed_years.add(active_year)
+    if curr_block:
+        raw_blocks.append(curr_block)
+
+    valid_blocks = []
+    for b in raw_blocks:
+        b_text = " ".join(b).lower()
+        if any(
+            k in b_text
+            for k in [
+                "усього за рік",
+                "усього, грн",
+                "чисельник",
+                "знаменник",
+                "сума заробітку",
+                "доплата",
+            ]
+        ):
+            valid_blocks.append(b)
+
+    if not valid_blocks:
+        valid_blocks = [lines]
+
+    num_blocks = len(valid_blocks)
+    start_year = doc_year - num_blocks + 1
+
+    records = []
+    for idx, b in enumerate(valid_blocks):
+        b_text = " ".join(b)
+        m_yr = re.search(r"звітний\s*(?:рік|pic)[\s:]*(20\d{2})", b_text, re.IGNORECASE)
+        if m_yr:
+            year = int(m_yr.group(1))
+        else:
+            year = start_year + idx
+
+        is_latest = idx == len(valid_blocks) - 1
+        is_earliest = idx == 0
+        records.extend(extract_from_year_block(year, is_latest, is_earliest, b))
 
     return records
 
@@ -450,7 +570,9 @@ class OcrServicer(ocr_pb2_grpc.OcrServiceServicer):
             elif detected_type == "ok5":
                 ok5_records = parse_ok5_document(full_text_content)
 
-                print(f"[OCR] Successfully recognized and cleaned OK-5 records: {len(ok5_records)}")
+                print(
+                    f"[OCR] Successfully recognized and cleaned OK-5 records: {len(ok5_records)}"
+                )
                 extracted_data["table_records"] = json.dumps(
                     ok5_records, ensure_ascii=False
                 )
@@ -459,7 +581,9 @@ class OcrServicer(ocr_pb2_grpc.OcrServiceServicer):
                 static_fields = extract_fields_with_ocr(aligned_img, rois)
                 extracted_data.update(static_fields)
 
-            display_text = f"Automatically recognized as: {detected_type}\n" + (full_text_content[:300] if full_text_content else "")
+            display_text = f"Automatically recognized as: {detected_type}\n" + (
+                full_text_content[:300] if full_text_content else ""
+            )
 
             return ocr_pb2.OcrResponse(
                 success=True,

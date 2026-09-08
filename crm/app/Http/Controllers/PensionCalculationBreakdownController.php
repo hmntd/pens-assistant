@@ -33,7 +33,22 @@ class PensionCalculationBreakdownController extends Controller
             })
             ->firstOrFail();
 
+        $currentYear = (int) date('Y');
+        $rawRetirementYear = (int) ($calc->input_parameters['target_retirement_year']
+            ?? $user->target_retirement_year
+            ?? $currentYear);
+        $enableHypothetical = (bool) ($calc->input_parameters['enable_hypothetical_projection']
+            ?? $calc->input_parameters['is_hypothetical_projection']
+            ?? false);
+
+        if ($rawRetirementYear > $currentYear && ! $enableHypothetical) {
+            $effectiveRetirementYear = $currentYear;
+        } else {
+            $effectiveRetirementYear = $rawRetirementYear;
+        }
+
         $taxHistories = TaxHistory::where('user_id', $calc->user_id)
+            ->where('year', '<=', $effectiveRetirementYear)
             ->orderBy('year', 'asc')
             ->get();
 

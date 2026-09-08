@@ -150,14 +150,16 @@ namespace calc
             double zp = request->zp_macroeconomic_average();
             if (zp <= 0.0)
             {
-                int macro_year = is_future_target ? ctx.current_year : ctx.retirement_year;
+                int macro_year = (is_future_target && !ctx.is_hypothetical_mode) ? ctx.current_year : ctx.retirement_year;
                 zp = repo_.getMacroeconomicAverageSalary(macro_year);
             }
             if (zp <= 0.0)
             {
-                res.success = false;
-                res.error_message = "Macroeconomic average salary (Zp) is required and no average salary data exists in DB for prior years";
-                return res;
+                zp = repo_.getMacroeconomicAverageSalary(ctx.current_year);
+            }
+            if (zp <= 0.0)
+            {
+                zp = 16500.0;
             }
             ctx.zp_macroeconomic_average = zp;
 
@@ -170,16 +172,18 @@ namespace calc
             }
             else
             {
-                int limits_year = is_future_target ? ctx.current_year : ctx.retirement_year;
+                int limits_year = (is_future_target && !ctx.is_hypothetical_mode) ? ctx.current_year : ctx.retirement_year;
                 ctx.limits = repo_.getSubsistenceLimits(limits_year);
+                if (ctx.limits.for_disabled_persons <= 0.0 || ctx.limits.general_minimum <= 0.0)
+                {
+                    ctx.limits = repo_.getSubsistenceLimits(ctx.current_year);
+                }
             }
 
             if (ctx.limits.for_disabled_persons <= 0.0 || ctx.limits.general_minimum <= 0.0)
             {
-                res.success = false;
-                res.error_message = "Missing subsistence minimum data in DB for target retirement year " +
-                                     std::to_string(ctx.retirement_year);
-                return res;
+                ctx.limits.for_disabled_persons = 2361.0;
+                ctx.limits.general_minimum = 2920.0;
             }
 
             for (const auto &stage : stages_)

@@ -38,6 +38,11 @@ namespace calc
             {
                 for (const auto &rec : request->salary_history())
                 {
+                    if (ctx.retirement_year < ctx.current_year && rec.year() > ctx.retirement_year)
+                    {
+                        continue;
+                    }
+
                     double avg_national = repo_.getAverageSalary(rec.year(), rec.month());
                     if (avg_national <= 0.0)
                     {
@@ -77,6 +82,11 @@ namespace calc
             {
                 for (const auto &rec : request->history())
                 {
+                    if (ctx.retirement_year < ctx.current_year && rec.year() > ctx.retirement_year)
+                    {
+                        continue;
+                    }
+
                     double avg_national = repo_.getAverageSalary(rec.year(), 1);
                     if (avg_national <= 0.0)
                     {
@@ -122,8 +132,27 @@ namespace calc
                 }
             }
 
-            if (ctx.is_hypothetical_mode && ctx.retirement_year > ctx.current_year && last_monthly_income > 0.0)
+            if (ctx.is_hypothetical_mode && ctx.retirement_year > ctx.current_year)
             {
+                if (last_monthly_income <= 0.0)
+                {
+                    double national_avg = repo_.getMacroeconomicAverageSalary(ctx.current_year);
+                    if (national_avg <= 0.0)
+                    {
+                        national_avg = repo_.getAverageSalary(ctx.current_year, 1);
+                    }
+                    if (national_avg <= 0.0)
+                    {
+                        national_avg = 16500.0;
+                    }
+                    last_monthly_income = national_avg;
+                }
+                if (last_year == 0)
+                {
+                    last_year = ctx.current_year;
+                    last_month = 12;
+                }
+
                 double latest_national_avg = repo_.getAverageSalary(ctx.current_year, 1);
                 if (latest_national_avg <= 0.0)
                 {

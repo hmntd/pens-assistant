@@ -77,15 +77,17 @@ class PensionCalculatorService
         $currentYear = (int) date('Y');
         $rawRetirementYear = (int) ($data['target_retirement_year'] ?? $user->target_retirement_year ?? $currentYear);
 
-        // If target_retirement_year is in the future and hypothetical projection is false,
-        // force fallback of target_retirement_year to current_year
+        // Target retirement date rules:
+        // 1. If target_retirement_year is in the past ($rawRetirementYear < $currentYear), calculate up to that finishes date.
+        // 2. If target_retirement_year is in the future ($rawRetirementYear > $currentYear) and hypothetical is false, calculate as today.
+        // 3. If hypothetical is true, use target_retirement_year even if in the future.
         if ($rawRetirementYear > $currentYear && ! $enableHypothetical) {
             $retirementYear = $currentYear;
         } else {
             $retirementYear = $rawRetirementYear;
         }
 
-        $retirementDate = (string) ($data['retirement_date'] ?? "{$retirementYear}-01-01");
+        $retirementDate = (string) ($data['retirement_date'] ?? "{$retirementYear}-12-31");
         $request->setRetirementDate($retirementDate);
         $request->setTargetRetirementYear($retirementYear);
 
@@ -120,22 +122,38 @@ class PensionCalculatorService
         }
 
         // Fetch User Tax Histories once for auto-deriving employment, salary, and legacy history if missing
-        $taxHistories = $user->taxHistories()->orderBy('year')->get();
+        $taxHistories = $user->taxHistories()
+            ->where('year', '<=', $retirementYear)
+            ->orderBy('year')
+            ->get();
 
         // Employment History
         $employmentPeriods = [];
         if (! empty($data['employment_history']) && is_array($data['employment_history'])) {
             foreach ($data['employment_history'] as $period) {
+                $startYear = (int) substr($period['start_date'], 0, 4);
+                if ($startYear > $retirementYear) {
+                    continue;
+                }
+                $endDate = $period['end_date'];
+                $endYear = (int) substr($endDate, 0, 4);
+                if ($endYear > $retirementYear) {
+                    $endDate = "{$retirementYear}-12-31";
+                }
+
                 $ep = new EmploymentPeriod();
                 $ep->setStartDate($period['start_date']);
-                $ep->setEndDate($period['end_date']);
+                $ep->setEndDate($endDate);
                 $ep->setMultiplier((float) ($period['multiplier'] ?? 1.0));
                 $employmentPeriods[] = $ep;
             }
         } else {
-            // Auto-generate employment periods from user's tax histories
+            // Auto-generate employment periods from user's tax histories up to retirementYear
             foreach ($taxHistories as $th) {
                 /** @var \App\Models\TaxHistory $th */
+                if ($th->year > $retirementYear) {
+                    continue;
+                }
                 $months = max(1, min(12, (int) ($th->months_worked ?: 12)));
                 $endMonthStr = str_pad((string) $months, 2, '0', STR_PAD_LEFT);
                 $endDay = match ($endMonthStr) {
@@ -150,9 +168,6 @@ class PensionCalculatorService
                 $employmentPeriods[] = $ep;
             }
         }
-        if (! empty($employmentPeriods)) {
-            $request->setEmploymentHistory($employmentPeriods);
-        }
 
         // Salary History & Legacy Tax Records
         $salaryRecords = [];
@@ -160,8 +175,12 @@ class PensionCalculatorService
 
         if (! empty($data['salary_history']) && is_array($data['salary_history'])) {
             foreach ($data['salary_history'] as $sal) {
+                $salYear = (int) $sal['year'];
+                if ($salYear > $retirementYear) {
+                    continue;
+                }
                 $sr = new SalaryMonthRecord();
-                $sr->setYear((int) $sal['year']);
+                $sr->setYear($salYear);
                 $sr->setMonth((int) $sal['month']);
                 $sr->setAmount((float) $sal['amount']);
                 if (isset($sal['is_special_period'])) {
@@ -170,9 +189,12 @@ class PensionCalculatorService
                 $salaryRecords[] = $sr;
             }
         } else {
-            // Auto-load salary history from user tax histories
+            // Auto-load salary history from user tax histories up to retirementYear
             foreach ($taxHistories as $th) {
                 /** @var \App\Models\TaxHistory $th */
+                if ($th->year > $retirementYear) {
+                    continue;
+                }
                 $months = max(1, min(12, (int) ($th->months_worked ?: 12)));
                 $breakdown = $th->monthly_breakdown ?: [];
                 $fallbackMonthly = (float) $th->annual_income / $months;
@@ -234,8 +256,18 @@ class PensionCalculatorService
             }
         }
 
-        if ($enableHypothetical && $retirementYear > $latestRecordedYear && $latestMonthlySalary > 0) {
-            for ($futureYear = $latestRecordedYear + 1; $futureYear <= $retirementYear; $futureYear++) {
+        // If hypothetical projection is enabled and target retirement year is in the future:
+        // Use latest recorded monthly salary, or if missing/zero, use average salary in Ukraine as its last record baseline.
+        if ($enableHypothetical && $retirementYear > $currentYear) {
+            if ($latestMonthlySalary <= 0.0) {
+                // Fallback to macroeconomic average Zp or default national average salary in Ukraine (e.g. 16500 UAH)
+                $latestMonthlySalary = !empty($data['zp_macroeconomic_average']) && (float) $data['zp_macroeconomic_average'] > 0.0
+                    ? (float) $data['zp_macroeconomic_average']
+                    : 16500.0;
+            }
+
+            $startProjYear = max($latestRecordedYear, $currentYear);
+            for ($futureYear = $startProjYear + 1; $futureYear <= $retirementYear; $futureYear++) {
                 $ep = new EmploymentPeriod();
                 $ep->setStartDate("{$futureYear}-01-01");
                 $ep->setEndDate("{$futureYear}-12-31");
