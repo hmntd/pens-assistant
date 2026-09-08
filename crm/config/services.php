@@ -66,4 +66,8 @@ return [
         'tenant' => env('AZURE_TENANT_ID', 'common'),
     ],
 
+    'calc' => [
+        'host' => env('CALC_GRPC_HOST', env('CALC_SERVICE_HOST', 'calc:50051')),
+    ],
+
 ];

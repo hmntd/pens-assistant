@@ -26,7 +26,17 @@ class PensionCalculatorService
 
     public function __construct(?string $grpcHost = null)
     {
-        $this->grpcHost = $grpcHost ?? config('services.calc.host', 'calc:50051');
+        $defaultHost = config('services.calc.host', env('CALC_GRPC_HOST', env('CALC_SERVICE_HOST', 'calc:50051')));
+        if ($defaultHost === 'calc:50051' || str_starts_with($defaultHost, 'calc:')) {
+            $parts = explode(':', $defaultHost);
+            $hostOnly = $parts[0];
+            $port = $parts[1] ?? '50051';
+            if (gethostbyname($hostOnly) === $hostOnly) {
+                $defaultHost = "127.0.0.1:{$port}";
+            }
+        }
+
+        $this->grpcHost = $grpcHost ?? $defaultHost;
     }
 
     /**
