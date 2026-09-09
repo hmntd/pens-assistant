@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -9,8 +10,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 
 /**
- * @property int $id
- * @property int $document_id
+ * @property string $id
+ * @property string $document_id
  * @property int|null $template_id
  * @property string $status
  * @property string|null $raw_text
@@ -23,7 +24,7 @@ use Illuminate\Support\Carbon;
  */
 class RecognizedDocument extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, HasUuids, SoftDeletes;
 
     /**
      * The attributes that are guarded against mass assignment.

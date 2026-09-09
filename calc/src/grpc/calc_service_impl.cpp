@@ -14,6 +14,11 @@ namespace calc
 
         ::grpc::Status CalcServiceImpl::CalculatePension(::grpc::ServerContext *context, const ::calc::CalculatePensionRequest *request, ::calc::CalculatePensionResponse *reply)
         {
+            if (request == nullptr)
+            {
+                return ::grpc::Status(::grpc::StatusCode::INVALID_ARGUMENT, "Null calculation request");
+            }
+
             auto result = calculator_.calculate(request);
 
             reply->set_success(result.success);
@@ -46,6 +51,12 @@ namespace calc
             }
 
             reply->set_error_message(result.error_message);
+
+            if (!result.success)
+            {
+                return ::grpc::Status(::grpc::StatusCode::FAILED_PRECONDITION, result.error_message);
+            }
+
             return ::grpc::Status::OK;
         }
 
@@ -79,13 +90,14 @@ namespace calc
                 coef->set_coefficient(created->coefficient);
                 coef->set_description(created->description);
                 reply->set_error_message("");
+                return ::grpc::Status::OK;
             }
             else
             {
                 reply->set_success(false);
                 reply->set_error_message("Failed to insert pension coefficient record");
+                return ::grpc::Status(::grpc::StatusCode::INTERNAL, "Failed to insert pension coefficient record");
             }
-            return ::grpc::Status::OK;
         }
 
         ::grpc::Status CalcServiceImpl::UpdateCoefficient(::grpc::ServerContext *context, const ::calc::UpdateCoefficientRequest *request, ::calc::UpdateCoefficientResponse *reply)
@@ -101,13 +113,14 @@ namespace calc
                 coef->set_coefficient(updated->coefficient);
                 coef->set_description(updated->description);
                 reply->set_error_message("");
+                return ::grpc::Status::OK;
             }
             else
             {
                 reply->set_success(false);
                 reply->set_error_message("Failed to update pension coefficient record");
+                return ::grpc::Status(::grpc::StatusCode::NOT_FOUND, "Failed to update pension coefficient record");
             }
-            return ::grpc::Status::OK;
         }
 
         ::grpc::Status CalcServiceImpl::DeleteCoefficient(::grpc::ServerContext *context, const ::calc::DeleteCoefficientRequest *request, ::calc::DeleteCoefficientResponse *reply)
@@ -117,13 +130,14 @@ namespace calc
             {
                 reply->set_success(true);
                 reply->set_error_message("");
+                return ::grpc::Status::OK;
             }
             else
             {
                 reply->set_success(false);
                 reply->set_error_message("Coefficient record not found");
+                return ::grpc::Status(::grpc::StatusCode::NOT_FOUND, "Coefficient record not found");
             }
-            return ::grpc::Status::OK;
         }
 
         ::grpc::Status CalcServiceImpl::SyncAverageSalaries(::grpc::ServerContext *context, const ::calc::SyncAverageSalariesRequest *request, ::calc::SyncAverageSalariesResponse *reply)
@@ -166,21 +180,28 @@ namespace calc
 
         ::grpc::Status CalcServiceImpl::UpsertSubsistenceMinimum(::grpc::ServerContext *context, const ::calc::UpsertSubsistenceMinimumRequest *request, ::calc::UpsertSubsistenceMinimumResponse *reply)
         {
-            double cap = request->age_surcharge_cap() > 0.0 ? request->age_surcharge_cap() : 10340.35;
-            bool ok = repo_.upsertSubsistenceLimits(request->year(), request->for_disabled_persons(), request->general_minimum(), cap);
+            bool ok = repo_.upsertSubsistenceLimits(
+                request->year(),
+                request->for_disabled_persons(),
+                request->general_minimum(),
+                request->age_surcharge_cap(),
+                request->age_70_surcharge(),
+                request->age_75_surcharge(),
+                request->age_80_surcharge());
             if (ok)
             {
                 reply->set_success(true);
                 reply->set_message("Subsistence minimum updated successfully for year " + std::to_string(request->year()));
                 reply->set_error_message("");
+                return ::grpc::Status::OK;
             }
             else
             {
                 reply->set_success(false);
                 reply->set_message("");
                 reply->set_error_message("Failed to upsert subsistence minimum record in database");
+                return ::grpc::Status(::grpc::StatusCode::INTERNAL, "Failed to upsert subsistence minimum record in database");
             }
-            return ::grpc::Status::OK;
         }
 
         ::grpc::Status CalcServiceImpl::ListSubsistenceMinimums(::grpc::ServerContext *context, const ::calc::ListSubsistenceMinimumsRequest *request, ::calc::ListSubsistenceMinimumsResponse *reply)
@@ -195,6 +216,9 @@ namespace calc
                 rec->set_for_disabled_persons(item.for_disabled_persons);
                 rec->set_general_minimum(item.general_minimum);
                 rec->set_age_surcharge_cap(item.age_surcharge_cap);
+                rec->set_age_70_surcharge(item.age_70_surcharge);
+                rec->set_age_75_surcharge(item.age_75_surcharge);
+                rec->set_age_80_surcharge(item.age_80_surcharge);
             }
             reply->set_error_message("");
             return ::grpc::Status::OK;
@@ -202,8 +226,15 @@ namespace calc
 
         ::grpc::Status CalcServiceImpl::UpdateSubsistenceMinimum(::grpc::ServerContext *context, const ::calc::UpdateSubsistenceMinimumRequest *request, ::calc::UpdateSubsistenceMinimumResponse *reply)
         {
-            double cap = request->age_surcharge_cap() > 0.0 ? request->age_surcharge_cap() : 10340.35;
-            auto updated = repo_.updateSubsistenceMinimum(request->id(), request->year(), request->for_disabled_persons(), request->general_minimum(), cap);
+            auto updated = repo_.updateSubsistenceMinimum(
+                request->id(),
+                request->year(),
+                request->for_disabled_persons(),
+                request->general_minimum(),
+                request->age_surcharge_cap(),
+                request->age_70_surcharge(),
+                request->age_75_surcharge(),
+                request->age_80_surcharge());
             if (updated.has_value())
             {
                 reply->set_success(true);
@@ -213,14 +244,18 @@ namespace calc
                 rec->set_for_disabled_persons(updated->for_disabled_persons);
                 rec->set_general_minimum(updated->general_minimum);
                 rec->set_age_surcharge_cap(updated->age_surcharge_cap);
+                rec->set_age_70_surcharge(updated->age_70_surcharge);
+                rec->set_age_75_surcharge(updated->age_75_surcharge);
+                rec->set_age_80_surcharge(updated->age_80_surcharge);
                 reply->set_error_message("");
+                return ::grpc::Status::OK;
             }
             else
             {
                 reply->set_success(false);
                 reply->set_error_message("Failed to update subsistence minimum record");
+                return ::grpc::Status(::grpc::StatusCode::NOT_FOUND, "Failed to update subsistence minimum record");
             }
-            return ::grpc::Status::OK;
         }
 
         ::grpc::Status CalcServiceImpl::DeleteSubsistenceMinimum(::grpc::ServerContext *context, const ::calc::DeleteSubsistenceMinimumRequest *request, ::calc::DeleteSubsistenceMinimumResponse *reply)
@@ -230,13 +265,14 @@ namespace calc
             {
                 reply->set_success(true);
                 reply->set_error_message("");
+                return ::grpc::Status::OK;
             }
             else
             {
                 reply->set_success(false);
                 reply->set_error_message("Subsistence minimum record not found");
+                return ::grpc::Status(::grpc::StatusCode::NOT_FOUND, "Subsistence minimum record not found");
             }
-            return ::grpc::Status::OK;
         }
 
     }

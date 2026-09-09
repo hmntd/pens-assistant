@@ -12,7 +12,7 @@ class AdminRestoreUserController extends Controller
     /**
      * Restore soft-deleted user.
      */
-    public function __invoke(int $id): JsonResponse
+    public function __invoke(string $id): JsonResponse
     {
         /** @var User $user */
         $user = User::onlyTrashed()->findOrFail($id);

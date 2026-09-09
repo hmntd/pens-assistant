@@ -147,8 +147,8 @@
 .dark {
     /* Main Brand Colors in Dark mode */
     --main: #31DE97;
-    --main-hover: #28C586;
-    --main-dark: #31DE97;
+    --main-hover: #24b87b;
+    --main-dark: #24b87b;
     --main-light: rgba(49, 222, 151, 0.15);
 
     --background: hsl(0 0% 0%);

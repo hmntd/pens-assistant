@@ -9,7 +9,7 @@ use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
- * @property int $user_id
+ * @property string $user_id
  * @property int|null $notification_translation_id
  * @property string $type
  * @property bool $is_seen
@@ -37,7 +37,7 @@ class Notification extends Model
     {
         return [
             'is_seen' => 'boolean',
-            'user_id' => 'integer',
+            'user_id' => 'string',
             'notification_translation_id' => 'integer',
         ];
     }

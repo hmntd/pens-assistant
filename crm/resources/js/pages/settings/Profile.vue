@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
 import { useI18n } from '@/composables/useI18n';
-import DeleteUser from '@/components/DeleteUser.vue';
-import Heading from '@/components/Heading.vue';
+import DeleteUser from '@/components/settings/organisms/DeleteUser.vue';
+import Heading from '@/components/common/atoms/Heading.vue';
 import ProfileInfoSection from '@/components/settings/organisms/ProfileInfoSection.vue';
 
 const { t } = useI18n();

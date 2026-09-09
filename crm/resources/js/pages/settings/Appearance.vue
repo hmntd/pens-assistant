@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
 import { useI18n } from '@/composables/useI18n';
-import AppearanceTabs from '@/components/AppearanceTabs.vue';
-import Heading from '@/components/Heading.vue';
+import AppearanceTabs from '@/components/settings/molecules/AppearanceTabs.vue';
+import Heading from '@/components/common/atoms/Heading.vue';
 
 const { t } = useI18n();
 </script>

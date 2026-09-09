@@ -3,7 +3,7 @@ import { computed } from 'vue';
 import { Link, usePage } from '@inertiajs/vue3';
 import { useI18n } from '@/composables/useI18n';
 import { useDocumentNotifier } from '@/composables/useDocumentNotifier';
-import AppLogo from '@/components/AppLogo.vue';
+import AppLogo from '@/components/navigation/atoms/AppLogo.vue';
 import NotificationDropdown from '../molecules/NotificationDropdown.vue';
 import UserAvatarMenu from '../molecules/UserAvatarMenu.vue';
 import ThemeToggleBtn from '@/components/landing/atoms/ThemeToggleBtn.vue';
@@ -22,9 +22,10 @@ const isDashboardActive = computed(() => page.url.startsWith('/dashboard'));
 </script>
 
 <template>
-    <header class="sticky top-0 z-40 w-full border-b border-slate-200/80 bg-white/80 backdrop-blur-xl dark:border-zinc-800/80 dark:bg-black/80">
+    <header
+        class="sticky top-0 z-40 w-full border-b border-slate-200/80 bg-white/80 backdrop-blur-xl dark:border-zinc-800/80 dark:bg-black/80">
         <Toaster position="top-right" richColors />
-        
+
         <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
 
             <div class="flex items-center gap-6">
@@ -34,19 +35,14 @@ const isDashboardActive = computed(() => page.url.startsWith('/dashboard'));
                 </div>
 
                 <!-- Navigation Links -->
-                <nav class="hidden sm:flex items-center gap-4 border-l border-slate-200/80 dark:border-zinc-800/80 pl-6">
-                    <Link
-                        :href="home()"
-                        class="text-xs font-extrabold transition-all"
-                        :class="isHomeActive ? 'text-main dark:text-main font-black underline underline-offset-4 decoration-2' : 'text-slate-600 hover:text-slate-900 dark:text-zinc-400 dark:hover:text-white'"
-                    >
+                <nav
+                    class="hidden sm:flex items-center gap-4 border-l border-slate-200/80 dark:border-zinc-800/80 pl-6">
+                    <Link :href="home.url()" class="text-xs font-extrabold transition-all"
+                        :class="isHomeActive ? 'text-main dark:text-main font-black underline underline-offset-4 decoration-2' : 'text-slate-600 hover:text-slate-900 dark:text-zinc-400 dark:hover:text-white'">
                         {{ t('header.home') }}
                     </Link>
-                    <Link
-                        :href="dashboard()"
-                        class="text-xs font-extrabold transition-all"
-                        :class="isDashboardActive ? 'text-main dark:text-main font-black underline underline-offset-4 decoration-2' : 'text-slate-600 hover:text-slate-900 dark:text-zinc-400 dark:hover:text-white'"
-                    >
+                    <Link :href="dashboard.url()" class="text-xs font-extrabold transition-all"
+                        :class="isDashboardActive ? 'text-main dark:text-main font-black underline underline-offset-4 decoration-2' : 'text-slate-600 hover:text-slate-900 dark:text-zinc-400 dark:hover:text-white'">
                         {{ t('header.dashboard') }}
                     </Link>
                 </nav>

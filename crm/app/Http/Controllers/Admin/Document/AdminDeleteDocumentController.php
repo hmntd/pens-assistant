@@ -13,7 +13,7 @@ class AdminDeleteDocumentController extends Controller
     /**
      * Delete document.
      */
-    public function __invoke(int $id): JsonResponse
+    public function __invoke(string $id): JsonResponse
     {
         /** @var Document $doc */
         $doc = Document::findOrFail($id);

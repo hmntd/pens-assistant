@@ -62,6 +62,7 @@ void test_disability_pension_modifiers()
     std::cout << "[Unit Test] Running test_disability_pension_modifiers..." << std::endl;
     calc::repository::CoefficientRepository repo(true);
     repo.upsertSubsistenceLimits(2024, 2361.0, 2920.0);
+    repo.upsertAverageSalary(2020, 1, 10000.0);
     calc::service::PensionCalculator calculator(repo);
 
     calc::CalculatePensionRequest request;
@@ -98,7 +99,8 @@ void test_age_based_surcharges()
 {
     std::cout << "[Unit Test] Running test_age_based_surcharges..." << std::endl;
     calc::repository::CoefficientRepository repo(true);
-    repo.upsertSubsistenceLimits(2024, 2361.0, 2920.0);
+    repo.upsertSubsistenceLimits(2024, 2361.0, 2920.0, 10340.35, 300.0, 456.0, 570.0);
+    repo.upsertAverageSalary(2020, 1, 10000.0);
     calc::service::PensionCalculator calculator(repo);
 
     // Test Case 1: Person age 72 (born 1952-05-15, retiring 2024-06-01) -> +300 UAH
@@ -290,6 +292,148 @@ void test_women_overtime_service_allowance()
               << res.extra_service_allowance << " UAH)" << std::endl;
 }
 
+void test_past_target_retirement_year_capping()
+{
+    std::cout << "[TEST] Running test_past_target_retirement_year_capping..." << std::endl;
+    calc::repository::CoefficientRepository repo(true);
+    calc::service::PensionCalculator calculator(repo);
+
+    calc::CalculatePensionRequest request;
+    request.set_customer_id("past-retirement-user");
+    request.set_gender(calc::Gender::MALE);
+    request.set_date_of_birth("1960-01-01");
+    request.set_retirement_date("2020-12-31");
+    request.set_target_retirement_year(2020);
+    request.set_pension_type(calc::PensionType::OLD_AGE);
+    request.set_zp_macroeconomic_average(10000.0);
+    request.mutable_subsistence_minimums()->set_for_disabled_persons(2361.0);
+    request.mutable_subsistence_minimums()->set_general_minimum(2920.0);
+
+    // Employment period extending to 2025 (past target retirement year 2020)
+    auto ep = request.add_employment_history();
+    ep->set_start_date("2010-01-01");
+    ep->set_end_date("2025-12-31");
+    ep->set_multiplier(1.0);
+
+    for (int y = 2010; y <= 2025; ++y)
+    {
+        for (int m = 1; m <= 12; ++m)
+        {
+            repo.upsertAverageSalary(y, m, 10000.0);
+            auto *s = request.add_salary_history();
+            s->set_year(y);
+            s->set_month(m);
+            s->set_amount(15000.0);
+        }
+    }
+
+    auto res = calculator.calculate(&request);
+
+    assert(res.success == true);
+    // Should be capped at 2020 (2010 to 2020 = 11 years = 132 months)
+    assert(res.total_service_months == 132);
+
+    std::cout << "  ✓ test_past_target_retirement_year_capping passed! (Months capped at 132)" << std::endl;
+}
+
+void test_future_target_retirement_year_hypothetical_disabled()
+{
+    std::cout << "[TEST] Running test_future_target_retirement_year_hypothetical_disabled..." << std::endl;
+    calc::repository::CoefficientRepository repo(true);
+    calc::service::PensionCalculator calculator(repo);
+
+    calc::CalculatePensionRequest request;
+    request.set_customer_id("future-hypo-disabled-user");
+    request.set_gender(calc::Gender::MALE);
+    request.set_date_of_birth("1970-01-01");
+    request.set_target_retirement_year(2035);
+    request.set_enable_hypothetical_projection(false);
+    request.set_pension_type(calc::PensionType::OLD_AGE);
+    request.set_zp_macroeconomic_average(10000.0);
+    request.mutable_subsistence_minimums()->set_for_disabled_persons(2361.0);
+    request.mutable_subsistence_minimums()->set_general_minimum(2920.0);
+
+    auto ep = request.add_employment_history();
+    ep->set_start_date("2010-01-01");
+    ep->set_end_date("2024-12-31");
+    ep->set_multiplier(1.0);
+
+    for (int y = 2010; y <= 2024; ++y)
+    {
+        for (int m = 1; m <= 12; ++m)
+        {
+            repo.upsertAverageSalary(y, m, 10000.0);
+            auto *s = request.add_salary_history();
+            s->set_year(y);
+            s->set_month(m);
+            s->set_amount(15000.0);
+        }
+    }
+
+    auto res = calculator.calculate(&request);
+
+    assert(res.success == true);
+    assert(res.is_hypothetical == false);
+    // Calculated up to current date, no future projection added
+    assert(res.total_service_months == 180);
+
+    std::cout << "  ✓ test_future_target_retirement_year_hypothetical_disabled passed!" << std::endl;
+}
+
+void test_future_target_retirement_year_hypothetical_enabled_missing_salary_fallback()
+{
+    std::cout << "[TEST] Running test_future_target_retirement_year_hypothetical_enabled_missing_salary_fallback..." << std::endl;
+    calc::repository::CoefficientRepository repo(true);
+    calc::service::PensionCalculator calculator(repo);
+
+    calc::CalculatePensionRequest request;
+    request.set_customer_id("future-hypo-enabled-no-salary-user");
+    request.set_gender(calc::Gender::MALE);
+    request.set_date_of_birth("1970-01-01");
+    request.set_target_retirement_year(2030);
+    request.set_enable_hypothetical_projection(true);
+    request.set_pension_type(calc::PensionType::OLD_AGE);
+    request.set_zp_macroeconomic_average(10000.0);
+    request.mutable_subsistence_minimums()->set_for_disabled_persons(2361.0);
+    request.mutable_subsistence_minimums()->set_general_minimum(2920.0);
+
+    // Only employment history, no salary history recorded
+    auto ep = request.add_employment_history();
+    ep->set_start_date("2010-01-01");
+    ep->set_end_date("2024-12-31");
+    ep->set_multiplier(1.0);
+
+    auto res = calculator.calculate(&request);
+
+    assert(res.success == true);
+    assert(res.is_hypothetical == true);
+    // Projected up to 2030 using national average salary as last record fallback
+    assert(res.total_service_months > 180);
+
+    std::cout << "  ✓ test_future_target_retirement_year_hypothetical_enabled_missing_salary_fallback passed!" << std::endl;
+}
+
+void test_missing_db_limits_fails_without_fallbacks()
+{
+    std::cout << "[TEST] Running test_missing_db_limits_fails_without_fallbacks..." << std::endl;
+    calc::repository::CoefficientRepository repo(true);
+    repo.clearMockData();
+    calc::service::PensionCalculator calculator(repo);
+
+    calc::CalculatePensionRequest request;
+    request.set_customer_id("no-fallbacks-user");
+    request.set_gender(calc::Gender::MALE);
+    request.set_date_of_birth("1960-01-01");
+    request.set_retirement_date("2024-06-01");
+    request.set_pension_type(calc::PensionType::OLD_AGE);
+
+    auto res = calculator.calculate(&request);
+    assert(res.success == false);
+    assert(!res.error_message.empty());
+
+    std::cout << "  ✓ test_missing_db_limits_fails_without_fallbacks passed! (Error: " << res.error_message << ")" << std::endl;
+}
+
 int main()
 {
     std::cout << "=========================================" << std::endl;
@@ -302,6 +446,10 @@ int main()
     test_pre_2000_salary_history_law_1058_art40();
     test_pre_2000_zero_salary_service_only();
     test_women_overtime_service_allowance();
+    test_past_target_retirement_year_capping();
+    test_future_target_retirement_year_hypothetical_disabled();
+    test_future_target_retirement_year_hypothetical_enabled_missing_salary_fallback();
+    test_missing_db_limits_fails_without_fallbacks();
 
     std::cout << "=========================================" << std::endl;
     std::cout << "✅ All Ukrainian Pension Calculator Unit Tests Passed!" << std::endl;

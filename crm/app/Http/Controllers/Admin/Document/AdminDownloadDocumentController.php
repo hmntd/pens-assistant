@@ -13,7 +13,7 @@ class AdminDownloadDocumentController extends Controller
     /**
      * Download document file.
      */
-    public function __invoke(int $id): BinaryFileResponse|JsonResponse
+    public function __invoke(string $id): BinaryFileResponse|JsonResponse
     {
         /** @var Document $doc */
         $doc = Document::findOrFail($id);

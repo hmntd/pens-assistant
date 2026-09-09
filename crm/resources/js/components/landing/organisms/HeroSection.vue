@@ -5,7 +5,7 @@ import { useI18n } from '@/composables/useI18n';
 import BadgeTag from '../atoms/BadgeTag.vue';
 import PrimaryButton from '../atoms/PrimaryButton.vue';
 import SecondaryButton from '../atoms/SecondaryButton.vue';
-import AppLogo from '@/components/AppLogo.vue';
+import AppLogo from '@/components/navigation/atoms/AppLogo.vue';
 import { dashboard, login, register } from '@/routes';
 import { ShieldCheck, Calculator, FileSearch, ArrowRight } from '@lucide/vue';
 
@@ -77,17 +77,17 @@ defineExpose({
                 <!-- 2 Hero Buttons (Sign In filled in bg-main & Sign Up, or Dashboard) -->
                 <div ref="actionsRef" class="flex flex-wrap items-center justify-center gap-4">
                     <template v-if="isAuthenticated">
-                        <PrimaryButton :href="dashboard()">
+                        <PrimaryButton :href="dashboard.url()">
                             <span>{{ t('hero.dashboard') }}</span>
                             <ArrowRight class="h-4 w-4" />
                         </PrimaryButton>
                     </template>
                     <template v-else>
-                        <PrimaryButton :href="login()">
+                        <PrimaryButton :href="login.url()">
                             <span>{{ t('hero.signIn') }}</span>
                             <ArrowRight class="h-4 w-4" />
                         </PrimaryButton>
-                        <SecondaryButton :href="register()">
+                        <SecondaryButton :href="register.url()">
                             <span>{{ t('hero.signUp') }}</span>
                         </SecondaryButton>
                     </template>

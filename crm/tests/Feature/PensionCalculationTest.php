@@ -279,4 +279,112 @@ class PensionCalculationTest extends TestCase
         $response->assertStatus(201)
             ->assertJsonPath('data.user_id', $user->id);
     }
+
+    public function test_past_target_retirement_year_caps_calculation_data(): void
+    {
+        $user = User::factory()->create([
+            'target_retirement_year' => 2020,
+        ]);
+
+        TaxHistory::create([
+            'user_id' => $user->id,
+            'year' => 2018,
+            'annual_income' => 120000.00,
+            'tax_paid' => 21600.00,
+            'months_worked' => 12,
+        ]);
+
+        TaxHistory::create([
+            'user_id' => $user->id,
+            'year' => 2024,
+            'annual_income' => 240000.00,
+            'tax_paid' => 43200.00,
+            'months_worked' => 12,
+        ]);
+
+        $service = new PensionCalculatorService();
+        $result = $service->calculateAndSave($user, [
+            'gender' => 'male',
+            'date_of_birth' => '1960-01-01',
+            'target_retirement_year' => 2020,
+        ]);
+
+        $this->assertInstanceOf(CalculatedPension::class, $result);
+        $this->assertEquals(12, $result->total_service_months);
+    }
+
+    public function test_future_target_retirement_year_without_hypothetical_defaults_to_current_year(): void
+    {
+        $user = User::factory()->create([
+            'target_retirement_year' => 2035,
+        ]);
+
+        TaxHistory::create([
+            'user_id' => $user->id,
+            'year' => 2023,
+            'annual_income' => 180000.00,
+            'tax_paid' => 32400.00,
+            'months_worked' => 12,
+        ]);
+
+        $service = new PensionCalculatorService();
+        $result = $service->calculateAndSave($user, [
+            'gender' => 'male',
+            'date_of_birth' => '1970-01-01',
+            'target_retirement_year' => 2035,
+            'enable_hypothetical_projection' => false,
+        ]);
+
+        $this->assertInstanceOf(CalculatedPension::class, $result);
+        $this->assertFalse($result->calculation_breakdown['is_hypothetical'] ?? false);
+        $this->assertEquals(12, $result->total_service_months);
+    }
+
+    public function test_hypothetical_enabled_uses_national_average_salary_fallback_when_no_salary_history(): void
+    {
+        $user = User::factory()->create([
+            'target_retirement_year' => 2030,
+        ]);
+
+        $service = new PensionCalculatorService();
+        $result = $service->calculateAndSave($user, [
+            'gender' => 'male',
+            'date_of_birth' => '1970-01-01',
+            'target_retirement_year' => 2030,
+            'enable_hypothetical_projection' => true,
+        ]);
+
+        $this->assertInstanceOf(CalculatedPension::class, $result);
+        $this->assertTrue($result->calculation_breakdown['is_hypothetical'] ?? false);
+        $this->assertGreaterThan(0, $result->final_pension);
+    }
+
+    public function test_past_retirement_year_with_only_future_tax_histories_returns_empty_breakdown(): void
+    {
+        $user = User::factory()->create([
+            'target_retirement_year' => 2021,
+        ]);
+
+        TaxHistory::create([
+            'user_id' => $user->id,
+            'year' => 2024,
+            'annual_income' => 240000.00,
+            'tax_paid' => 43200.00,
+            'months_worked' => 12,
+        ]);
+
+        $service = new PensionCalculatorService();
+        $calc = $service->calculateAndSave($user, [
+            'gender' => 'male',
+            'date_of_birth' => '1960-01-01',
+            'target_retirement_year' => 2021,
+        ]);
+
+        $this->assertEquals(0, $calc->total_service_months);
+
+        $response = $this->actingAs($user)->getJson("/pension-calculations/{$calc->id}/breakdown");
+        $response->assertStatus(200)
+            ->assertJsonPath('success', true)
+            ->assertJsonPath('data', []);
+    }
 }

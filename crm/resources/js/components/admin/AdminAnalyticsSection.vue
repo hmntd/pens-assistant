@@ -123,7 +123,7 @@ const browserChartData = computed(() => {
     if (!analyticsData.value?.browsers) return null;
     const b = analyticsData.value.browsers;
     const labels = Object.keys(b);
-    const counts = Object.values(b);
+    const counts = Object.values(b) as number[];
 
     return {
         labels,
@@ -143,7 +143,7 @@ const osChartData = computed(() => {
     if (!analyticsData.value?.operating_systems) return null;
     const os = analyticsData.value.operating_systems;
     const labels = Object.keys(os);
-    const counts = Object.values(os);
+    const counts = Object.values(os) as number[];
 
     return {
         labels,
@@ -158,7 +158,7 @@ const osChartData = computed(() => {
     };
 });
 
-const chartOptions = {
+const chartOptions: any = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
@@ -199,7 +199,8 @@ const doughnutOptions = {
 <template>
     <div class="space-y-8">
         <!-- Section Header -->
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white dark:bg-zinc-900 p-6 rounded-3xl border border-slate-200 dark:border-zinc-800 shadow-xs">
+        <div
+            class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white dark:bg-zinc-900 p-6 rounded-3xl border border-slate-200 dark:border-zinc-800 shadow-xs">
             <div>
                 <div class="flex items-center gap-2">
                     <Activity class="h-6 w-6 text-main" />
@@ -209,10 +210,8 @@ const doughnutOptions = {
                     {{ t('analytics.subtitle') }}
                 </p>
             </div>
-            <button
-                @click="fetchAnalytics"
-                class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-xs font-bold text-slate-700 dark:text-slate-200 transition-all"
-            >
+            <button @click="fetchAnalytics"
+                class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-xs font-bold text-slate-700 dark:text-slate-200 transition-all">
                 <RefreshCw class="h-4 w-4" :class="{ 'animate-spin': loading }" />
                 {{ t('analytics.refreshData') }}
             </button>
@@ -227,7 +226,8 @@ const doughnutOptions = {
             <!-- 1. Top Summary Key Metric Cards -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <!-- Total Users -->
-                <div class="bg-white dark:bg-zinc-900/80 p-5 rounded-3xl border border-slate-200 dark:border-zinc-800 shadow-xs relative overflow-hidden">
+                <div
+                    class="bg-white dark:bg-zinc-900/80 p-5 rounded-3xl border border-slate-200 dark:border-zinc-800 shadow-xs relative overflow-hidden">
                     <div class="flex items-center justify-between">
                         <span class="text-xs font-bold uppercase text-slate-400">{{ t('analytics.usersCard') }}</span>
                         <div class="p-2 bg-blue-500/10 rounded-xl text-blue-500">
@@ -235,41 +235,51 @@ const doughnutOptions = {
                         </div>
                     </div>
                     <div class="mt-3">
-                        <span class="text-3xl font-black text-slate-900 dark:text-white">{{ analyticsData.summary.total_users }}</span>
-                        <span class="text-xs text-slate-400 ml-2">({{ analyticsData.summary.active_users_30d }} {{ t('analytics.activeLabel') }})</span>
+                        <span class="text-3xl font-black text-slate-900 dark:text-white">{{
+                            analyticsData.summary.total_users }}</span>
+                        <span class="text-xs text-slate-400 ml-2">({{ analyticsData.summary.active_users_30d }} {{
+                            t('analytics.activeLabel') }})</span>
                     </div>
                 </div>
 
                 <!-- Total Pension Calculations -->
-                <div class="bg-white dark:bg-zinc-900/80 p-5 rounded-3xl border border-slate-200 dark:border-zinc-800 shadow-xs relative overflow-hidden">
+                <div
+                    class="bg-white dark:bg-zinc-900/80 p-5 rounded-3xl border border-slate-200 dark:border-zinc-800 shadow-xs relative overflow-hidden">
                     <div class="flex items-center justify-between">
-                        <span class="text-xs font-bold uppercase text-slate-400">{{ t('analytics.calculatedPensionsCard') }}</span>
+                        <span class="text-xs font-bold uppercase text-slate-400">{{
+                            t('analytics.calculatedPensionsCard') }}</span>
                         <div class="p-2 bg-emerald-500/10 rounded-xl text-emerald-500">
                             <Calculator class="h-5 w-5" />
                         </div>
                     </div>
                     <div class="mt-3">
-                        <span class="text-3xl font-black text-slate-900 dark:text-white">{{ analyticsData.summary.total_calculations }}</span>
-                        <span class="text-xs text-emerald-500 font-semibold ml-2">{{ t('analytics.avgLabel') }}: {{ analyticsData.summary.avg_pension_amount }} ₴</span>
+                        <span class="text-3xl font-black text-slate-900 dark:text-white">{{
+                            analyticsData.summary.total_calculations }}</span>
+                        <span class="text-xs text-emerald-500 font-semibold ml-2">{{ t('analytics.avgLabel') }}: {{
+                            analyticsData.summary.avg_pension_amount }} ₴</span>
                     </div>
                 </div>
 
                 <!-- OCR vs Manual Ratio -->
-                <div class="bg-white dark:bg-zinc-900/80 p-5 rounded-3xl border border-slate-200 dark:border-zinc-800 shadow-xs relative overflow-hidden">
+                <div
+                    class="bg-white dark:bg-zinc-900/80 p-5 rounded-3xl border border-slate-200 dark:border-zinc-800 shadow-xs relative overflow-hidden">
                     <div class="flex items-center justify-between">
-                        <span class="text-xs font-bold uppercase text-slate-400">{{ t('analytics.entryPopularityCard') }}</span>
+                        <span class="text-xs font-bold uppercase text-slate-400">{{ t('analytics.entryPopularityCard')
+                        }}</span>
                         <div class="p-2 bg-indigo-500/10 rounded-xl text-indigo-500">
                             <FileText class="h-5 w-5" />
                         </div>
                     </div>
                     <div class="mt-3 flex items-baseline gap-2">
-                        <span class="text-3xl font-black text-slate-900 dark:text-white">{{ analyticsData.entry_methods.ocr_percentage }}%</span>
+                        <span class="text-3xl font-black text-slate-900 dark:text-white">{{
+                            analyticsData.entry_methods.ocr_percentage }}%</span>
                         <span class="text-xs text-slate-400">{{ t('analytics.ocrUploadLabel') }}</span>
                     </div>
                 </div>
 
                 <!-- Avg Wage Coefficient Kz -->
-                <div class="bg-white dark:bg-zinc-900/80 p-5 rounded-3xl border border-slate-200 dark:border-zinc-800 shadow-xs relative overflow-hidden">
+                <div
+                    class="bg-white dark:bg-zinc-900/80 p-5 rounded-3xl border border-slate-200 dark:border-zinc-800 shadow-xs relative overflow-hidden">
                     <div class="flex items-center justify-between">
                         <span class="text-xs font-bold uppercase text-slate-400">{{ t('analytics.avgKzCard') }}</span>
                         <div class="p-2 bg-purple-500/10 rounded-xl text-purple-500">
@@ -277,62 +287,71 @@ const doughnutOptions = {
                         </div>
                     </div>
                     <div class="mt-3">
-                        <span class="text-3xl font-black text-slate-900 dark:text-white">{{ analyticsData.summary.avg_wage_coefficient }}</span>
-                        <span class="text-xs text-purple-400 font-semibold ml-2">{{ t('analytics.wageCoeffLabel') }}</span>
+                        <span class="text-3xl font-black text-slate-900 dark:text-white">{{
+                            analyticsData.summary.avg_wage_coefficient }}</span>
+                        <span class="text-xs text-purple-400 font-semibold ml-2">{{ t('analytics.wageCoeffLabel')
+                        }}</span>
                     </div>
                 </div>
             </div>
 
             <!-- Monitoring & Infrastructure Section -->
-            <div class="bg-white dark:bg-zinc-900 p-6 rounded-3xl border border-slate-200 dark:border-zinc-800 shadow-xs">
+            <div
+                class="bg-white dark:bg-zinc-900 p-6 rounded-3xl border border-slate-200 dark:border-zinc-800 shadow-xs">
                 <div class="flex items-center justify-between mb-4">
                     <div class="flex items-center gap-2">
                         <Cpu class="h-5 w-5 text-amber-500" />
-                        <h3 class="font-extrabold text-sm text-slate-900 dark:text-white">System Infrastructure & Resource Monitoring</h3>
+                        <h3 class="font-extrabold text-sm text-slate-900 dark:text-white">{{
+                            t('analytics.monitoringTitle') }}</h3>
                     </div>
-                    <span class="text-[10px] font-bold uppercase tracking-wider text-amber-500 bg-amber-500/10 px-2.5 py-1 rounded-lg">Admin Protected</span>
+                    <span
+                        class="text-[10px] font-bold uppercase tracking-wider text-amber-500 bg-amber-500/10 px-2.5 py-1 rounded-lg">{{
+                            t('analytics.adminProtected') }}</span>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <a
-                        href="/grafana/"
-                        target="_blank"
-                        class="group p-4 rounded-2xl border border-slate-200 dark:border-zinc-800 hover:border-amber-500/50 bg-slate-50/50 dark:bg-zinc-850/50 hover:bg-amber-500/5 transition-all flex items-center justify-between"
-                    >
+                    <a href="/grafana/" target="_blank"
+                        class="group p-4 rounded-2xl border border-slate-200 dark:border-zinc-800 hover:border-amber-500/50 bg-slate-100/70 dark:bg-zinc-950/60 hover:bg-amber-500/5 transition-all flex items-center justify-between">
                         <div>
-                            <div class="flex items-center gap-2 text-sm font-bold text-slate-900 dark:text-white group-hover:text-amber-500 transition-colors">
-                                <span>Grafana Dashboards</span>
+                            <div
+                                class="flex items-center gap-2 text-sm font-bold text-slate-900 dark:text-white group-hover:text-amber-500 transition-colors">
+                                <span>{{ t('analytics.grafanaTitle') }}</span>
                             </div>
-                            <p class="text-xs text-slate-400 mt-1">Live RAM/CPU graphs & metrics</p>
+                            <p class="text-xs text-slate-600 dark:text-zinc-300 font-medium mt-1">{{
+                                t('analytics.grafanaDesc') }}</p>
                         </div>
-                        <span class="px-3 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-bold text-xs shadow-xs group-hover:scale-105 transition-transform">Open ↗</span>
+                        <span
+                            class="px-3 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-bold text-xs shadow-xs group-hover:scale-105 transition-transform">{{
+                                t('analytics.openLink') }}</span>
                     </a>
 
-                    <a
-                        href="/prometheus/"
-                        target="_blank"
-                        class="group p-4 rounded-2xl border border-slate-200 dark:border-zinc-800 hover:border-orange-500/50 bg-slate-50/50 dark:bg-zinc-850/50 hover:bg-orange-500/5 transition-all flex items-center justify-between"
-                    >
+                    <a href="/prometheus/" target="_blank"
+                        class="group p-4 rounded-2xl border border-slate-200 dark:border-zinc-800 hover:border-orange-500/50 bg-slate-100/70 dark:bg-zinc-950/60 hover:bg-orange-500/5 transition-all flex items-center justify-between">
                         <div>
-                            <div class="flex items-center gap-2 text-sm font-bold text-slate-900 dark:text-white group-hover:text-orange-500 transition-colors">
-                                <span>Prometheus Engine</span>
+                            <div
+                                class="flex items-center gap-2 text-sm font-bold text-slate-900 dark:text-white group-hover:text-orange-500 transition-colors">
+                                <span>{{ t('analytics.prometheusTitle') }}</span>
                             </div>
-                            <p class="text-xs text-slate-400 mt-1">Time-series targets & queries</p>
+                            <p class="text-xs text-slate-600 dark:text-zinc-300 font-medium mt-1">{{
+                                t('analytics.prometheusDesc') }}</p>
                         </div>
-                        <span class="px-3 py-1.5 rounded-xl bg-orange-500 text-slate-950 font-bold text-xs shadow-xs group-hover:scale-105 transition-transform">Open ↗</span>
+                        <span
+                            class="px-3 py-1.5 rounded-xl bg-orange-500 text-slate-950 font-bold text-xs shadow-xs group-hover:scale-105 transition-transform">{{
+                                t('analytics.openLink') }}</span>
                     </a>
 
-                    <a
-                        href="/cadvisor/"
-                        target="_blank"
-                        class="group p-4 rounded-2xl border border-slate-200 dark:border-zinc-800 hover:border-blue-500/50 bg-slate-50/50 dark:bg-zinc-850/50 hover:bg-blue-500/5 transition-all flex items-center justify-between"
-                    >
+                    <a href="/cadvisor/" target="_blank"
+                        class="group p-4 rounded-2xl border border-slate-200 dark:border-zinc-800 hover:border-blue-500/50 bg-slate-100/70 dark:bg-zinc-950/60 hover:bg-blue-500/5 transition-all flex items-center justify-between">
                         <div>
-                            <div class="flex items-center gap-2 text-sm font-bold text-slate-900 dark:text-white group-hover:text-blue-500 transition-colors">
-                                <span>cAdvisor Collector</span>
+                            <div
+                                class="flex items-center gap-2 text-sm font-bold text-slate-900 dark:text-white group-hover:text-blue-500 transition-colors">
+                                <span>{{ t('analytics.cadvisorTitle') }}</span>
                             </div>
-                            <p class="text-xs text-slate-400 mt-1">Raw container stats & info</p>
+                            <p class="text-xs text-slate-600 dark:text-zinc-300 font-medium mt-1">{{
+                                t('analytics.cadvisorDesc') }}</p>
                         </div>
-                        <span class="px-3 py-1.5 rounded-xl bg-blue-500 text-white font-bold text-xs shadow-xs group-hover:scale-105 transition-transform">Open ↗</span>
+                        <span
+                            class="px-3 py-1.5 rounded-xl bg-blue-500 text-white font-bold text-xs shadow-xs group-hover:scale-105 transition-transform">{{
+                                t('analytics.openLink') }}</span>
                     </a>
                 </div>
             </div>
@@ -340,13 +359,17 @@ const doughnutOptions = {
             <!-- 2. Charts Row 1: Activity Timeline & Entry Method Popularity -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <!-- Timeline Line Chart (Span 2) -->
-                <div class="lg:col-span-2 bg-white dark:bg-zinc-900 p-6 rounded-3xl border border-slate-200 dark:border-zinc-800 shadow-xs flex flex-col justify-between">
+                <div
+                    class="lg:col-span-2 bg-white dark:bg-zinc-900 p-6 rounded-3xl border border-slate-200 dark:border-zinc-800 shadow-xs flex flex-col justify-between">
                     <div class="flex items-center justify-between mb-4">
                         <div class="flex items-center gap-2">
                             <BarChart2 class="h-5 w-5 text-main" />
-                            <h3 class="font-extrabold text-sm text-slate-900 dark:text-white">{{ t('analytics.activityTimeline') }}</h3>
+                            <h3 class="font-extrabold text-sm text-slate-900 dark:text-white">{{
+                                t('analytics.activityTimeline') }}</h3>
                         </div>
-                        <span class="text-[11px] font-semibold px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-zinc-800 text-slate-500">{{ t('analytics.last30Days') }}</span>
+                        <span
+                            class="text-[11px] font-semibold px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-zinc-800 text-slate-500">{{
+                                t('analytics.last30Days') }}</span>
                     </div>
                     <div class="h-64 relative w-full">
                         <Line v-if="timelineChartData" :data="timelineChartData" :options="chartOptions" />
@@ -354,11 +377,13 @@ const doughnutOptions = {
                 </div>
 
                 <!-- Entry Method Popularity Doughnut Chart (Span 1) -->
-                <div class="bg-white dark:bg-zinc-900 p-6 rounded-3xl border border-slate-200 dark:border-zinc-800 shadow-xs flex flex-col justify-between">
+                <div
+                    class="bg-white dark:bg-zinc-900 p-6 rounded-3xl border border-slate-200 dark:border-zinc-800 shadow-xs flex flex-col justify-between">
                     <div class="flex items-center justify-between mb-4">
                         <div class="flex items-center gap-2">
                             <PieChart class="h-5 w-5 text-indigo-500" />
-                            <h3 class="font-extrabold text-sm text-slate-900 dark:text-white">{{ t('analytics.entryMethodPopularity') }}</h3>
+                            <h3 class="font-extrabold text-sm text-slate-900 dark:text-white">{{
+                                t('analytics.entryMethodPopularity') }}</h3>
                         </div>
                     </div>
                     <div class="h-64 relative w-full flex items-center justify-center">
@@ -370,10 +395,12 @@ const doughnutOptions = {
             <!-- 3. Charts Row 2: Browsers & Operating Systems -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <!-- Browser Distribution -->
-                <div class="bg-white dark:bg-zinc-900 p-6 rounded-3xl border border-slate-200 dark:border-zinc-800 shadow-xs">
+                <div
+                    class="bg-white dark:bg-zinc-900 p-6 rounded-3xl border border-slate-200 dark:border-zinc-800 shadow-xs">
                     <div class="flex items-center gap-2 mb-4">
                         <Globe class="h-5 w-5 text-blue-500" />
-                        <h3 class="font-extrabold text-sm text-slate-900 dark:text-white">{{ t('analytics.userBrowsers') }}</h3>
+                        <h3 class="font-extrabold text-sm text-slate-900 dark:text-white">{{ t('analytics.userBrowsers')
+                        }}</h3>
                     </div>
                     <div class="h-60 relative w-full">
                         <Bar v-if="browserChartData" :data="browserChartData" :options="chartOptions" />
@@ -381,10 +408,12 @@ const doughnutOptions = {
                 </div>
 
                 <!-- Operating System Breakdown -->
-                <div class="bg-white dark:bg-zinc-900 p-6 rounded-3xl border border-slate-200 dark:border-zinc-800 shadow-xs">
+                <div
+                    class="bg-white dark:bg-zinc-900 p-6 rounded-3xl border border-slate-200 dark:border-zinc-800 shadow-xs">
                     <div class="flex items-center gap-2 mb-4">
                         <Cpu class="h-5 w-5 text-purple-500" />
-                        <h3 class="font-extrabold text-sm text-slate-900 dark:text-white">{{ t('analytics.userOS') }}</h3>
+                        <h3 class="font-extrabold text-sm text-slate-900 dark:text-white">{{ t('analytics.userOS') }}
+                        </h3>
                     </div>
                     <div class="h-60 relative w-full">
                         <Bar v-if="osChartData" :data="osChartData" :options="chartOptions" />
@@ -393,11 +422,13 @@ const doughnutOptions = {
             </div>
 
             <!-- 4. Live Audit Log Activity Feed Table -->
-            <div class="bg-white dark:bg-zinc-900 rounded-3xl border border-slate-200 dark:border-zinc-800 shadow-xs overflow-hidden">
+            <div
+                class="bg-white dark:bg-zinc-900 rounded-3xl border border-slate-200 dark:border-zinc-800 shadow-xs overflow-hidden">
                 <div class="p-6 border-b border-slate-100 dark:border-zinc-800 flex items-center justify-between">
                     <div class="flex items-center gap-2">
                         <Activity class="h-5 w-5 text-main" />
-                        <h3 class="font-extrabold text-sm text-slate-900 dark:text-white">{{ t('analytics.recentActivity') }}</h3>
+                        <h3 class="font-extrabold text-sm text-slate-900 dark:text-white">{{
+                            t('analytics.recentActivity') }}</h3>
                     </div>
                     <span class="text-[11px] font-semibold text-slate-400">{{ t('analytics.last15Actions') }}</span>
                 </div>
@@ -414,18 +445,22 @@ const doughnutOptions = {
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100 dark:divide-zinc-800">
-                            <tr v-for="log in analyticsData.recent_logs" :key="log.id" class="hover:bg-slate-50/50 dark:hover:bg-zinc-850/50 transition-all">
+                            <tr v-for="log in analyticsData.recent_logs" :key="log.id"
+                                class="hover:bg-slate-50/50 dark:hover:bg-zinc-800/50 transition-all">
                                 <td class="px-6 py-4">
                                     <div class="font-bold text-slate-900 dark:text-white">{{ log.user_name }}</div>
-                                    <div class="text-[11px] text-slate-400" v-if="log.user_email">{{ log.user_email }}</div>
+                                    <div class="text-[11px] text-slate-400" v-if="log.user_email">{{ log.user_email }}
+                                    </div>
                                 </td>
                                 <td class="px-6 py-4">
-                                    <span class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-zinc-700">
+                                    <span
+                                        class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-zinc-700">
                                         {{ log.action }}
                                     </span>
                                 </td>
                                 <td class="px-6 py-4">
-                                    <div class="font-semibold text-slate-700 dark:text-slate-300">{{ log.browser }} ({{ log.os }})</div>
+                                    <div class="font-semibold text-slate-700 dark:text-slate-300">{{ log.browser }} ({{
+                                        log.os }})</div>
                                     <div class="text-[10px] text-slate-400">{{ log.device }}</div>
                                 </td>
                                 <td class="px-6 py-4 font-mono text-[11px] text-slate-500 dark:text-slate-400">

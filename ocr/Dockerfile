@@ -4,6 +4,7 @@ WORKDIR /app/ocr
 
 RUN apt-get update && apt-get install -y \
     tesseract-ocr \
+    tesseract-ocr-ukr \
     libtesseract-dev \
     libgl1 \
     libglib2.0-0 \

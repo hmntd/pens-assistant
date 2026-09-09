@@ -30,6 +30,9 @@ namespace calc
             double for_disabled_persons{0.0};
             double general_minimum{0.0};
             double age_surcharge_cap{0.0};
+            double age_70_surcharge{0.0};
+            double age_75_surcharge{0.0};
+            double age_80_surcharge{0.0};
         };
 
         struct AverageSalaryData
@@ -48,9 +51,11 @@ namespace calc
             static inline std::map<std::pair<int, int>, double> mock_coefficients_{};
 
         public:
-            explicit CoefficientRepository(bool mock_mode = false) : mock_mode_(mock_mode) {}
-            void setMockMode(bool enable) { mock_mode_ = enable; }
+            explicit CoefficientRepository(bool mock_mode = false);
+            void initMockData();
+            void setMockMode(bool enable) { mock_mode_ = enable; if (mock_mode_) initMockData(); }
             bool isMockMode() const { return mock_mode_; }
+            void clearMockData() { mock_salaries_.clear(); mock_limits_.clear(); mock_coefficients_.clear(); }
 
             double getCoefficient(int year, int month);
             std::vector<CoefficientRecord> listAll();
@@ -62,9 +67,17 @@ namespace calc
             bool upsertAverageSalary(int year, int month, double amount);
             std::vector<AverageSalaryData> getAverageSalariesForYears(const std::vector<int> &years) const;
             service::SubsistenceLimits getSubsistenceLimits(int year) const;
-            bool upsertSubsistenceLimits(int year, double for_disabled, double general, double age_surcharge_cap = 10340.35);
+            bool upsertSubsistenceLimits(int year, double for_disabled, double general,
+                                         double age_surcharge_cap = 0.0,
+                                         double age_70_surcharge = 0.0,
+                                         double age_75_surcharge = 0.0,
+                                         double age_80_surcharge = 0.0);
             std::vector<SubsistenceMinimumRecord> listSubsistenceMinimums() const;
-            std::optional<SubsistenceMinimumRecord> updateSubsistenceMinimum(int id, int year, double for_disabled, double general, double age_surcharge_cap = 10340.35);
+            std::optional<SubsistenceMinimumRecord> updateSubsistenceMinimum(int id, int year, double for_disabled, double general,
+                                                                             double age_surcharge_cap = 0.0,
+                                                                             double age_70_surcharge = 0.0,
+                                                                             double age_75_surcharge = 0.0,
+                                                                             double age_80_surcharge = 0.0);
             bool deleteSubsistenceMinimum(int id);
         };
 

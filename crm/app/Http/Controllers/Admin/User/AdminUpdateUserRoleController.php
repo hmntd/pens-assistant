@@ -15,7 +15,7 @@ class AdminUpdateUserRoleController extends Controller
     /**
      * Update user role.
      */
-    public function __invoke(AdminUpdateUserRoleRequest $request, int $id): JsonResponse
+    public function __invoke(AdminUpdateUserRoleRequest $request, string $id): JsonResponse
     {
         /** @var User $user */
         $user = User::withTrashed()->findOrFail($id);

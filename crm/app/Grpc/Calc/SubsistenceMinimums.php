@@ -31,6 +31,24 @@ class SubsistenceMinimums extends \Google\Protobuf\Internal\Message
      * Generated from protobuf field <code>double age_surcharge_cap = 3;</code>
      */
     protected $age_surcharge_cap = 0.0;
+    /**
+     * e.g. 300.0 UAH
+     *
+     * Generated from protobuf field <code>double age_70_surcharge = 4;</code>
+     */
+    protected $age_70_surcharge = 0.0;
+    /**
+     * e.g. 456.0 UAH
+     *
+     * Generated from protobuf field <code>double age_75_surcharge = 5;</code>
+     */
+    protected $age_75_surcharge = 0.0;
+    /**
+     * e.g. 570.0 UAH
+     *
+     * Generated from protobuf field <code>double age_80_surcharge = 6;</code>
+     */
+    protected $age_80_surcharge = 0.0;
 
     /**
      * Constructor.
@@ -44,6 +62,12 @@ class SubsistenceMinimums extends \Google\Protobuf\Internal\Message
      *           e.g. 2920.0 UAH
      *     @type float $age_surcharge_cap
      *           e.g. 10340.35 UAH
+     *     @type float $age_70_surcharge
+     *           e.g. 300.0 UAH
+     *     @type float $age_75_surcharge
+     *           e.g. 456.0 UAH
+     *     @type float $age_80_surcharge
+     *           e.g. 570.0 UAH
      * }
      */
     public function __construct($data = NULL) {
@@ -125,6 +149,84 @@ class SubsistenceMinimums extends \Google\Protobuf\Internal\Message
     {
         GPBUtil::checkDouble($var);
         $this->age_surcharge_cap = $var;
+
+        return $this;
+    }
+
+    /**
+     * e.g. 300.0 UAH
+     *
+     * Generated from protobuf field <code>double age_70_surcharge = 4;</code>
+     * @return float
+     */
+    public function getAge70Surcharge()
+    {
+        return $this->age_70_surcharge;
+    }
+
+    /**
+     * e.g. 300.0 UAH
+     *
+     * Generated from protobuf field <code>double age_70_surcharge = 4;</code>
+     * @param float $var
+     * @return $this
+     */
+    public function setAge70Surcharge($var)
+    {
+        GPBUtil::checkDouble($var);
+        $this->age_70_surcharge = $var;
+
+        return $this;
+    }
+
+    /**
+     * e.g. 456.0 UAH
+     *
+     * Generated from protobuf field <code>double age_75_surcharge = 5;</code>
+     * @return float
+     */
+    public function getAge75Surcharge()
+    {
+        return $this->age_75_surcharge;
+    }
+
+    /**
+     * e.g. 456.0 UAH
+     *
+     * Generated from protobuf field <code>double age_75_surcharge = 5;</code>
+     * @param float $var
+     * @return $this
+     */
+    public function setAge75Surcharge($var)
+    {
+        GPBUtil::checkDouble($var);
+        $this->age_75_surcharge = $var;
+
+        return $this;
+    }
+
+    /**
+     * e.g. 570.0 UAH
+     *
+     * Generated from protobuf field <code>double age_80_surcharge = 6;</code>
+     * @return float
+     */
+    public function getAge80Surcharge()
+    {
+        return $this->age_80_surcharge;
+    }
+
+    /**
+     * e.g. 570.0 UAH
+     *
+     * Generated from protobuf field <code>double age_80_surcharge = 6;</code>
+     * @param float $var
+     * @return $this
+     */
+    public function setAge80Surcharge($var)
+    {
+        GPBUtil::checkDouble($var);
+        $this->age_80_surcharge = $var;
 
         return $this;
     }

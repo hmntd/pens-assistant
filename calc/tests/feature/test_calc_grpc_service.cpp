@@ -30,6 +30,14 @@ void test_grpc_calculate_pension() {
     calc::grpc_service::CalcServiceImpl service(true);
     grpc::ServerContext context;
 
+    calc::SyncAverageSalariesRequest sync_req;
+    calc::SyncAverageSalariesResponse sync_resp;
+    auto *sync_item = sync_req.add_salaries();
+    sync_item->set_year(2020);
+    sync_item->set_month(1);
+    sync_item->set_amount(10000.0);
+    service.SyncAverageSalaries(&context, &sync_req, &sync_resp);
+
     calc::CalculatePensionRequest request;
     calc::CalculatePensionResponse response;
 
@@ -68,6 +76,31 @@ void test_grpc_calculate_pension() {
               << response.final_pension() << " UAH)" << std::endl;
 }
 
+void test_grpc_canonical_error_statuses() {
+    std::cout << "[Feature Test] Running test_grpc_canonical_error_statuses..." << std::endl;
+    calc::grpc_service::CalcServiceImpl service(true);
+    grpc::ServerContext context;
+
+    // Test Delete non-existent coefficient returns NOT_FOUND
+    calc::DeleteCoefficientRequest del_req;
+    del_req.set_id(99999);
+    calc::DeleteCoefficientResponse del_resp;
+    auto status = service.DeleteCoefficient(&context, &del_req, &del_resp);
+    assert(!status.ok());
+    assert(status.error_code() == grpc::StatusCode::NOT_FOUND);
+
+    // Test CalculatePension with invalid date format returns FAILED_PRECONDITION
+    calc::CalculatePensionRequest calc_req;
+    calc_req.set_customer_id("invalid-year-user");
+    calc_req.set_retirement_date("invalid-date-string");
+    calc::CalculatePensionResponse calc_resp;
+    auto calc_status = service.CalculatePension(&context, &calc_req, &calc_resp);
+    assert(!calc_status.ok());
+    assert(calc_status.error_code() == grpc::StatusCode::FAILED_PRECONDITION);
+
+    std::cout << "  ✓ test_grpc_canonical_error_statuses passed! (Verified NOT_FOUND and FAILED_PRECONDITION)" << std::endl;
+}
+
 int main() {
     std::cout << "=========================================" << std::endl;
     std::cout << "Running Calc Service Feature Tests (gRPC Handlers)" << std::endl;
@@ -75,6 +108,7 @@ int main() {
 
     test_grpc_sync_average_salaries();
     test_grpc_calculate_pension();
+    test_grpc_canonical_error_statuses();
 
     std::cout << "=========================================" << std::endl;
     std::cout << "✅ All Calc Service gRPC Feature Tests Passed!" << std::endl;

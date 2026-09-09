@@ -26,7 +26,7 @@ class CalculateUserPensionJob implements ShouldQueue
     public function __construct(
         public User $user,
         public array $data = [],
-        public ?int $calculatedPensionId = null
+        public ?string $calculatedPensionId = null
     )
     {
     }

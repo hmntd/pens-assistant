@@ -9,7 +9,7 @@ use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
- * @property int $user_id
+ * @property string $user_id
  * @property bool $email_enabled
  * @property bool $telegram_enabled
  * @property string|null $telegram_chat_id
@@ -42,7 +42,7 @@ class UserNotificationChannel extends Model
     protected function casts(): array
     {
         return [
-            'user_id' => 'integer',
+            'user_id' => 'string',
             'email_enabled' => 'boolean',
             'telegram_enabled' => 'boolean',
             'sms_enabled' => 'boolean',

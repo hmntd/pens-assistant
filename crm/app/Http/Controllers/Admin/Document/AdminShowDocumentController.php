@@ -14,7 +14,7 @@ class AdminShowDocumentController extends Controller
     /**
      * Display metadata preview for a document.
      */
-    public function __invoke(int $id): JsonResponse
+    public function __invoke(string $id): JsonResponse
     {
         /** @var Document $doc */
         $doc = Document::with(['user', 'recognizedDocument'])->findOrFail($id);
