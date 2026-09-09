@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
 import { ArrowRight } from '@lucide/vue';
+import { useI18n } from '@/composables/useI18n';
+
+const { t } = useI18n();
 
 defineProps<{
     title: string;
@@ -22,7 +25,7 @@ defineProps<{
             </p>
         </div>
         <div class="mt-4 flex items-center gap-1.5 text-xs font-semibold text-main-dark dark:text-main">
-            <span>Перейти</span>
+            <span>{{ t('cta.goToBtn') }}</span>
             <ArrowRight class="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
         </div>
     </Link>

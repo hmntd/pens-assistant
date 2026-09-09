@@ -130,7 +130,7 @@ defineProps<{
         <div class="text-center text-sm text-muted-foreground">
             {{ t('auth.alreadyHaveAccount') }}
             <TextLink
-                :href="login()"
+                :href="login.url()"
                 class="underline underline-offset-4"
                 :tabindex="7"
                 >{{ t('auth.loginLink') }}</TextLink

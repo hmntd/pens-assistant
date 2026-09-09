@@ -43,7 +43,7 @@ defineProps<Props>();
         </DropdownMenuItem>
         <DropdownMenuItem :as-child="true"
             class="cursor-pointer text-slate-800 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-zinc-800 focus:bg-slate-100 dark:focus:bg-zinc-800 focus:text-slate-900 dark:focus:text-white font-medium">
-            <Link class="flex items-center w-full px-2 py-1.5" :href="edit()" prefetch>
+            <Link class="flex items-center w-full px-2 py-1.5" :href="edit.url()" prefetch>
                 <Settings class="mr-2 h-4 w-4 text-main" />
                 {{ t('settings.nav.profile') }}
             </Link>
@@ -52,7 +52,7 @@ defineProps<Props>();
     <DropdownMenuSeparator class="bg-slate-100 dark:bg-zinc-800" />
     <DropdownMenuItem :as-child="true"
         class="cursor-pointer text-slate-800 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-zinc-800 focus:bg-slate-100 dark:focus:bg-zinc-800 focus:text-slate-900 dark:focus:text-white font-medium">
-        <Link class="flex items-center w-full px-2 py-1.5 text-red-600 dark:text-red-400" :href="logout()"
+        <Link class="flex items-center w-full px-2 py-1.5 text-red-600 dark:text-red-400" :href="logout.url()" method="post"
             @click="handleLogout" as="button" data-test="logout-button">
             <LogOut class="mr-2 h-4 w-4" />
             {{ t('header.logout') }}

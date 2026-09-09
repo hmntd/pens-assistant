@@ -67,7 +67,7 @@ defineProps<{
 
         <div class="space-x-1 text-center text-sm text-muted-foreground">
             <span>{{ t('auth.orReturnTo') }}</span>
-            <TextLink :href="login()">{{ t('auth.loginLink') }}</TextLink>
+            <TextLink :href="login.url()">{{ t('auth.loginLink') }}</TextLink>
         </div>
     </div>
 </template>

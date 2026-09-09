@@ -77,17 +77,17 @@ defineExpose({
                 <!-- 2 Hero Buttons (Sign In filled in bg-main & Sign Up, or Dashboard) -->
                 <div ref="actionsRef" class="flex flex-wrap items-center justify-center gap-4">
                     <template v-if="isAuthenticated">
-                        <PrimaryButton :href="String(dashboard())">
+                        <PrimaryButton :href="dashboard.url()">
                             <span>{{ t('hero.dashboard') }}</span>
                             <ArrowRight class="h-4 w-4" />
                         </PrimaryButton>
                     </template>
                     <template v-else>
-                        <PrimaryButton :href="String(login())">
+                        <PrimaryButton :href="login.url()">
                             <span>{{ t('hero.signIn') }}</span>
                             <ArrowRight class="h-4 w-4" />
                         </PrimaryButton>
-                        <SecondaryButton :href="String(register())">
+                        <SecondaryButton :href="register.url()">
                             <span>{{ t('hero.signUp') }}</span>
                         </SecondaryButton>
                     </template>

@@ -73,7 +73,7 @@ defineProps<{
                     <Label for="password">{{ t('auth.passwordLabel') }}</Label>
                     <TextLink
                         v-if="canResetPassword"
-                        :href="request()"
+                        :href="request.url()"
                         class="text-sm"
                         :tabindex="5"
                     >
@@ -114,7 +114,7 @@ defineProps<{
 
         <div class="text-center text-sm text-muted-foreground">
             {{ t('auth.noAccount') }}
-            <TextLink :href="register()" :tabindex="5">{{ t('auth.signUpLink') }}</TextLink>
+            <TextLink :href="register.url()" :tabindex="5">{{ t('auth.signUpLink') }}</TextLink>
         </div>
     </Form>
 </template>

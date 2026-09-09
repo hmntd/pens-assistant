@@ -156,6 +156,16 @@ class User extends Authenticatable implements PasskeyUser
     }
 
     /**
+     * Get active browser sessions for the user.
+     *
+     * @return HasMany<Session, $this>
+     */
+    public function sessions(): HasMany
+    {
+        return $this->hasMany(Session::class);
+    }
+
+    /**
      * Get the notifications for the user.
      */
     public function notifications(): HasMany

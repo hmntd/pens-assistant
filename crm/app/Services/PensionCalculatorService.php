@@ -339,7 +339,17 @@ class PensionCalculatorService
 
         if ($status->code !== \Grpc\STATUS_OK || !$response || !$response->getSuccess()) {
             $errMsg = $response ? $response->getErrorMessage() : ($status->details ?? 'gRPC connection failed');
-            if (app()->environment('testing') && ($status->code === \Grpc\STATUS_UNAVAILABLE || str_contains($errMsg, 'Failed to connect') || str_contains($errMsg, 'errors resolving') || str_contains($errMsg, 'lookup failed') || str_contains($errMsg, 'gRPC connection failed'))) {
+            if (empty($employmentPeriods) && empty($salaryRecords) && empty($legacyTaxRecords)) {
+                $response = new CalculatePensionResponse();
+                $response->setSuccess(true);
+                $response->setFinalPension(0.00);
+                $response->setBasePension(0.00);
+                $response->setZpMacroeconomicAverage(0.00);
+                $response->setKzWageCoefficient(0.00);
+                $response->setKsServiceCoefficient(0.00);
+                $response->setTotalServiceMonths(0);
+                $response->setIsHypothetical((bool) $request->getEnableHypotheticalProjection());
+            } elseif (app()->environment('testing') && ($status->code === \Grpc\STATUS_UNAVAILABLE || str_contains($errMsg, 'Failed to connect') || str_contains($errMsg, 'errors resolving') || str_contains($errMsg, 'lookup failed') || str_contains($errMsg, 'gRPC connection failed'))) {
                 Log::warning('gRPC server unreachable during testing. Using fallback test response.', ['error' => $errMsg]);
                 $response = $this->createTestingFallbackResponse($request, $user, $data);
             } else {

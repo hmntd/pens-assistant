@@ -57,19 +57,16 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->respond(function (Response $response, Throwable $exception, Request $request) {
             $status = $response->getStatusCode();
 
-            // Log server errors (5xx, 502, 503, 500) into DB and notify admin
+            // Log server errors (5xx) into DB and notify admin
             if ($status >= 500) {
                 app(SystemErrorLoggerService::class)->logException($exception, $request, $status);
             }
 
-            if ($status === HttpResponse::HTTP_NOT_FOUND && ! $request->expectsJson() && ! $request->is('api/*')) {
-                return Inertia::render('Error', ['status' => HttpResponse::HTTP_NOT_FOUND])
-                    ->toResponse($request)
-                    ->setStatusCode(HttpResponse::HTTP_NOT_FOUND);
-            }
-
-            if ($status >= 500 && ! $request->expectsJson() && ! $request->is('api/*')) {
-                return Inertia::render('Error', ['status' => $status])
+            if ($status >= 400 && ! $request->expectsJson() && ! $request->is('api/*')) {
+                return Inertia::render('Error', [
+                    'status' => $status,
+                    'message' => config('app.debug') || $status < 500 ? $exception->getMessage() : null,
+                ])
                     ->toResponse($request)
                     ->setStatusCode($status);
             }

@@ -11,6 +11,10 @@ use Laravel\Fortify\Features;
 
 class EditSecurityController extends Controller
 {
+    public function __construct(
+        private readonly IndexSessionController $indexSessionController
+    ) {}
+
     /**
      * Show the user's security settings page.
      */
@@ -36,6 +40,7 @@ class EditSecurityController extends Controller
                     ->all()
                 : [],
             'passwordRules' => Password::defaults()->toPasswordRulesString(),
+            'sessions' => $this->indexSessionController->getSessionsForUser($request),
         ];
 
         if (Features::canManageTwoFactorAuthentication()) {

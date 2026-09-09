@@ -37,11 +37,11 @@ const isDashboardActive = computed(() => page.url.startsWith('/dashboard'));
                 <!-- Navigation Links -->
                 <nav
                     class="hidden sm:flex items-center gap-4 border-l border-slate-200/80 dark:border-zinc-800/80 pl-6">
-                    <Link :href="home()" class="text-xs font-extrabold transition-all"
+                    <Link :href="home.url()" class="text-xs font-extrabold transition-all"
                         :class="isHomeActive ? 'text-main dark:text-main font-black underline underline-offset-4 decoration-2' : 'text-slate-600 hover:text-slate-900 dark:text-zinc-400 dark:hover:text-white'">
                         {{ t('header.home') }}
                     </Link>
-                    <Link :href="dashboard()" class="text-xs font-extrabold transition-all"
+                    <Link :href="dashboard.url()" class="text-xs font-extrabold transition-all"
                         :class="isDashboardActive ? 'text-main dark:text-main font-black underline underline-offset-4 decoration-2' : 'text-slate-600 hover:text-slate-900 dark:text-zinc-400 dark:hover:text-white'">
                         {{ t('header.dashboard') }}
                     </Link>

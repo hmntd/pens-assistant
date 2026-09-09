@@ -7,9 +7,11 @@ import ManagePasskeys from '@/components/settings/organisms/ManagePasskeys.vue';
 import type { Props as ManageTwoFactorProps } from '@/components/settings/organisms/ManageTwoFactor.vue';
 import ManageTwoFactor from '@/components/settings/organisms/ManageTwoFactor.vue';
 import UpdatePasswordForm from '@/components/settings/organisms/UpdatePasswordForm.vue';
+import BrowserSessions, { type UserSession } from '@/components/settings/organisms/BrowserSessions.vue';
 
 type Props = {
     passwordRules: string;
+    sessions?: UserSession[];
 } & ManagePasskeysProps &
     ManageTwoFactorProps;
 
@@ -23,15 +25,21 @@ const { t } = useI18n();
 
     <h1 class="sr-only">{{ t('settings.security.title') }}</h1>
 
-    <div class="space-y-6">
-        <Heading variant="small" :title="t('settings.security.title')"
-            :description="t('settings.security.description')" />
+    <div class="space-y-10">
+        <div class="space-y-6">
+            <Heading variant="small" :title="t('settings.security.title')"
+                :description="t('settings.security.description')" />
 
-        <UpdatePasswordForm :password-rules="props.passwordRules" />
+            <UpdatePasswordForm :password-rules="props.passwordRules" />
+        </div>
+
+        <ManageTwoFactor :canManageTwoFactor="canManageTwoFactor" :requiresConfirmation="requiresConfirmation"
+            :twoFactorEnabled="twoFactorEnabled" />
+
+        <ManagePasskeys :canManagePasskeys="canManagePasskeys" :passkeys="passkeys" />
+
+        <div class="pt-8 border-t border-slate-200/80 dark:border-zinc-800/80">
+            <BrowserSessions :sessions="props.sessions" />
+        </div>
     </div>
-
-    <ManageTwoFactor :canManageTwoFactor="canManageTwoFactor" :requiresConfirmation="requiresConfirmation"
-        :twoFactorEnabled="twoFactorEnabled" />
-
-    <ManagePasskeys :canManagePasskeys="canManagePasskeys" :passkeys="passkeys" />
 </template>

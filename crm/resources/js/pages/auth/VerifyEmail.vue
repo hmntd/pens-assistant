@@ -45,7 +45,7 @@ defineProps<{
             {{ t('auth.resendVerifyBtn') }}
         </Button>
 
-        <TextLink :href="logout()" as="button" class="mx-auto block text-sm">
+        <TextLink :href="logout.url()" method="post" as="button" class="mx-auto block text-sm">
             {{ t('auth.logoutLink') }}
         </TextLink>
     </Form>

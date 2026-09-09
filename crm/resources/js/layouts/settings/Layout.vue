@@ -13,12 +13,12 @@ const { t } = useI18n();
 const navItems = computed(() => [
     {
         title: t('settings.nav.profile'),
-        href: editProfile(),
+        href: editProfile.url(),
         icon: User,
     },
     {
         title: t('settings.nav.security'),
-        href: editSecurity(),
+        href: editSecurity.url(),
         icon: ShieldCheck,
     },
     {
