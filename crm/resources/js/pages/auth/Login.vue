@@ -2,11 +2,11 @@
 import { computed, watchEffect } from 'vue';
 import { Form, Head, setLayoutProps } from '@inertiajs/vue3';
 import { useI18n } from '@/composables/useI18n';
-import InputError from '@/components/InputError.vue';
-import PasskeyVerify from '@/components/PasskeyVerify.vue';
-import PasswordInput from '@/components/PasswordInput.vue';
-import SocialAuthButtons from '@/components/SocialAuthButtons.vue';
-import TextLink from '@/components/TextLink.vue';
+import InputError from '@/components/common/atoms/InputError.vue';
+import PasskeyVerify from '@/components/auth/organisms/PasskeyVerify.vue';
+import PasswordInput from '@/components/auth/atoms/PasswordInput.vue';
+import SocialAuthButtons from '@/components/auth/molecules/SocialAuthButtons.vue';
+import TextLink from '@/components/common/atoms/TextLink.vue';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
@@ -73,7 +73,7 @@ defineProps<{
                     <Label for="password">{{ t('auth.passwordLabel') }}</Label>
                     <TextLink
                         v-if="canResetPassword"
-                        :href="request()"
+                        :href="request.url()"
                         class="text-sm"
                         :tabindex="5"
                     >
@@ -114,7 +114,7 @@ defineProps<{
 
         <div class="text-center text-sm text-muted-foreground">
             {{ t('auth.noAccount') }}
-            <TextLink :href="register()" :tabindex="5">{{ t('auth.signUpLink') }}</TextLink>
+            <TextLink :href="register.url()" :tabindex="5">{{ t('auth.signUpLink') }}</TextLink>
         </div>
     </Form>
 </template>

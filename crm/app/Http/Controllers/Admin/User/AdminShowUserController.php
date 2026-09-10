@@ -13,7 +13,7 @@ class AdminShowUserController extends Controller
     /**
      * Display extended details for a specific user.
      */
-    public function __invoke(int $id): JsonResponse
+    public function __invoke(string $id): JsonResponse
     {
         /** @var User $user */
         $user = User::withTrashed()->withCount(['calculatedPensions', 'documents', 'taxHistories'])->findOrFail($id);

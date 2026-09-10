@@ -14,7 +14,7 @@ class FileDocumentController extends Controller
     /**
      * Stream the document file inline for authenticated user or admin review.
      */
-    public function __invoke(Request $request, int $id): StreamedResponse|Response
+    public function __invoke(Request $request, string $id): StreamedResponse|Response
     {
         /** @var \App\Models\User $user */
         $user = $request->user();
@@ -27,7 +27,10 @@ class FileDocumentController extends Controller
         $document = $query->find($id);
 
         if (! $document || ! Storage::disk('local')->exists($document->file_path)) {
-            abort(Response::HTTP_NOT_FOUND, 'Document file not found.');
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Document file not found.',
+            ], Response::HTTP_NOT_FOUND);
         }
 
         $mimeType = Storage::disk('local')->mimeType($document->file_path) ?: 'application/octet-stream';

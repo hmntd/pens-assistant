@@ -1,5 +1,6 @@
 #include "base_pension_stage.h"
 #include "../util/money_format.h"
+#include <cmath>
 #include <sstream>
 
 namespace calc
@@ -8,7 +9,8 @@ namespace calc
     {
         bool BasePensionStage::execute(PensionCalculationContext &ctx, std::string &error) const
         {
-            double base_pension = ctx.zp_macroeconomic_average * ctx.kz_wage_coefficient * ctx.ks_service_coefficient;
+            double raw_base = ctx.zp_macroeconomic_average * ctx.kz_wage_coefficient * ctx.ks_service_coefficient;
+            double base_pension = std::round(raw_base * 100.0) / 100.0;
             ctx.base_pension = base_pension;
 
             std::ostringstream ss;

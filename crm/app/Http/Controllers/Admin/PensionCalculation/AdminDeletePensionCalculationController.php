@@ -13,7 +13,7 @@ class AdminDeletePensionCalculationController extends Controller
     /**
      * Delete a calculated pension record.
      */
-    public function __invoke(int $id): JsonResponse
+    public function __invoke(string $id): JsonResponse
     {
         Gate::authorize('viewAny', User::class);
 

@@ -60,6 +60,9 @@ message SubsistenceMinimums {
     double for_disabled_persons = 1; // e.g. 2361.0 UAH
     double general_minimum = 2;      // e.g. 2920.0 UAH
     double age_surcharge_cap = 3;    // e.g. 10340.35 UAH
+    double age_70_surcharge = 4;     // e.g. 300.0 UAH
+    double age_75_surcharge = 5;     // e.g. 456.0 UAH
+    double age_80_surcharge = 6;     // e.g. 570.0 UAH
 }
 
 message TaxRecord {
@@ -214,6 +217,9 @@ message UpsertSubsistenceMinimumRequest {
     double for_disabled_persons = 2;
     double general_minimum = 3;
     double age_surcharge_cap = 4;
+    double age_70_surcharge = 5;
+    double age_75_surcharge = 6;
+    double age_80_surcharge = 7;
 }
 
 message UpsertSubsistenceMinimumResponse {
@@ -230,6 +236,9 @@ message SubsistenceMinimumRecord {
     double for_disabled_persons = 3;
     double general_minimum = 4;
     double age_surcharge_cap = 5;
+    double age_70_surcharge = 6;
+    double age_75_surcharge = 7;
+    double age_80_surcharge = 8;
 }
 
 message ListSubsistenceMinimumsResponse {
@@ -244,6 +253,9 @@ message UpdateSubsistenceMinimumRequest {
     double for_disabled_persons = 3;
     double general_minimum = 4;
     double age_surcharge_cap = 5;
+    double age_70_surcharge = 6;
+    double age_75_surcharge = 7;
+    double age_80_surcharge = 8;
 }
 
 message UpdateSubsistenceMinimumResponse {

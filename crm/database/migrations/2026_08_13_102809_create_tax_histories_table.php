@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('tax_histories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignUuid('user_id')->constrained()->cascadeOnDelete();
 
-            $table->foreignId('document_id')->nullable()->constrained('documents')->nullOnDelete();
+            $table->foreignUuid('document_id')->nullable()->constrained('documents')->nullOnDelete();
 
             $table->integer('year');
             $table->decimal('annual_income', 12, 2);

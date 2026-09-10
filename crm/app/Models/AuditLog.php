@@ -9,10 +9,10 @@ use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
- * @property int|null $user_id
+ * @property string|null $user_id
  * @property string $action
  * @property string|null $entity_type
- * @property int|null $entity_id
+ * @property string|null $entity_id
  * @property array|null $payload
  * @property string|null $ip_address
  * @property string|null $user_agent
@@ -40,7 +40,6 @@ class AuditLog extends Model
     {
         return [
             'payload' => 'array',
-            'entity_id' => 'integer',
         ];
     }
 

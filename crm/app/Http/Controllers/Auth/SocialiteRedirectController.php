@@ -16,8 +16,8 @@ class SocialiteRedirectController extends Controller
      */
     protected array $allowedProviders = [
         'google',
-        'linkedin-openid',
-        'linkedin',
+        // 'linkedin-openid',
+        // 'linkedin',
         'github',
         'microsoft',
     ];

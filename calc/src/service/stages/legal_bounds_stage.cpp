@@ -1,5 +1,6 @@
 #include "legal_bounds_stage.h"
 #include "../util/money_format.h"
+#include <cmath>
 #include <sstream>
 
 namespace calc
@@ -10,6 +11,12 @@ namespace calc
         {
             double pre_clamped = (ctx.base_pension * ctx.pension_type_modifier) + ctx.extra_service_allowance + ctx.total_benefit_surcharges;
             ctx.pre_clamped_pension = pre_clamped;
+
+            if (ctx.limits.for_disabled_persons <= 0.0)
+            {
+                error = "LegalBoundsStage: Subsistence minimum for disabled persons is invalid or not provided in database.";
+                return false;
+            }
 
             double min_pension = ctx.limits.for_disabled_persons * 1.0;
             double max_pension = ctx.limits.for_disabled_persons * 10.0;

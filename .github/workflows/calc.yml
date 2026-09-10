@@ -2,6 +2,8 @@ name: Calc CI
 
 on:
   push:
+    branches-ignore:
+      - main
     paths:
       - 'calc/**'
       - 'protos/**'
@@ -14,7 +16,7 @@ permissions:
   contents: read
 
 jobs:
-  build-and-test:
+  calc-build-and-test:
     runs-on: ubuntu-24.04
     defaults:
       run:
@@ -63,3 +65,12 @@ jobs:
           if [ -f build/feature_grpc_tests ]; then
             ./build/feature_grpc_tests
           fi
+
+      - name: Run Trivy Vulnerability Scanner (Calc Code & Dependencies)
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'table'
+          exit-code: '0'
+          severity: 'CRITICAL,HIGH'

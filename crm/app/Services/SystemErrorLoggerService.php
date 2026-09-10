@@ -2,8 +2,6 @@
 
 namespace App\Services;
 
-use App\Models\Notification;
-use App\Models\NotificationTranslation;
 use App\Models\SystemErrorLog;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -12,6 +10,12 @@ use Throwable;
 
 class SystemErrorLoggerService
 {
+    public function __construct(
+        protected ?NotificationChannelService $notificationChannelService = null
+    ) {
+        $this->notificationChannelService ??= app(NotificationChannelService::class);
+    }
+
     /**
      * Log exception details to database and notify admins.
      */
@@ -33,12 +37,19 @@ class SystemErrorLoggerService
                 'is_resolved' => false,
             ]);
 
+            Log::error(sprintf('[HTTP %d] %s %s: %s', $statusCode, $request->method(), $request->fullUrl(), $exception->getMessage()), [
+                'exception' => get_class($exception),
+                'file' => $exception->getFile(),
+                'line' => $exception->getLine(),
+                'user_id' => $user?->id,
+            ]);
+
             $this->notifyAdmins($errorLog);
 
             return $errorLog;
         } catch (Throwable $e) {
             // Fallback to standard Laravel log if logging to DB fails
-            Log::critical('Failed to store system error log in database: '.$e->getMessage(), [
+            Log::critical('Failed to store system error log in database: ' . $e->getMessage(), [
                 'original_exception' => $exception->getMessage(),
             ]);
 
@@ -68,21 +79,17 @@ class SystemErrorLoggerService
                 substr($errorLog->message, 0, 80)
             );
 
-            $translation = NotificationTranslation::create([
-                'uk' => 'Виявлено системну помилку: '.$shortMessage,
-                'en' => 'System error detected: '.$shortMessage,
-            ]);
-
             foreach ($admins as $admin) {
-                Notification::create([
-                    'user_id' => $admin->id,
-                    'notification_translation_id' => $translation->id,
-                    'type' => 'error',
-                    'is_seen' => false,
-                ]);
+                $this->notificationChannelService->dispatchNotification(
+                    $admin,
+                    'Виявлено системну помилку: ' . $shortMessage,
+                    'System error detected: ' . $shortMessage,
+                    'error',
+                    'system_alerts'
+                );
             }
         } catch (Throwable $e) {
-            Log::warning('Could not notify admins about system error: '.$e->getMessage());
+            Log::warning('Could not notify admins about system error: ' . $e->getMessage());
         }
     }
 }

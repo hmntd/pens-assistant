@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,8 +11,10 @@ use Illuminate\Support\Carbon;
 use Throwable;
 
 /**
- * @property int $id
- * @property int $user_id
+ * @property string $id
+ * @property string $user_id
+ * @property string $status
+ * @property string|null $error_message
  * @property float|null $final_pension
  * @property float|null $base_pension
  * @property float|null $zp_macroeconomic_average
@@ -32,7 +35,7 @@ use Throwable;
  */
 class CalculatedPension extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, HasUuids, SoftDeletes;
 
     /**
      * The attributes that are guarded against mass assignment.
@@ -49,6 +52,7 @@ class CalculatedPension extends Model
     protected function casts(): array
     {
         return [
+            'status' => 'string',
             'estimated_monthly_pension' => 'decimal:2',
             'total_accumulated_capital' => 'decimal:2',
             'final_pension' => 'decimal:2',

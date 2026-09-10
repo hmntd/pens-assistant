@@ -51,7 +51,7 @@ const PFU_NEWS_PAGE_URL = 'https://www.pfu.gov.ua/kr/category/prestsentr/novini/
                         rel="noopener noreferrer"
                         class="inline-flex items-center gap-2 rounded-xl bg-main px-5 py-3 text-sm font-semibold text-slate-950 shadow-md transition-all duration-300 hover:bg-main-dark hover:shadow-main/20 active:scale-95"
                     >
-                        <span>Читати всі новини ПФУ</span>
+                        <span>{{ t('blog.readAllPfuNews') }}</span>
                         <ExternalLink class="h-4 w-4" />
                     </a>
                 </div>
@@ -63,7 +63,7 @@ const PFU_NEWS_PAGE_URL = 'https://www.pfu.gov.ua/kr/category/prestsentr/novini/
                     <BlogCard
                         v-for="(item, index) in news.slice(0, 3)"
                         :key="item.id || index"
-                        tag="ПФУ Новини"
+                        :tag="t('blog.pfuNewsTag')"
                         :title="item.title"
                         :date="item.published_at"
                         :description="item.preview_text || item.title"
@@ -72,21 +72,21 @@ const PFU_NEWS_PAGE_URL = 'https://www.pfu.gov.ua/kr/category/prestsentr/novini/
                 </template>
                 <template v-else>
                     <BlogCard
-                        tag="ПФУ Новини"
+                        :tag="t('blog.pfuNewsTag')"
                         :title="t('blog.post1Title')"
                         :date="t('blog.post1Date')"
                         :description="t('blog.post1Desc')"
                         :url="PFU_NEWS_PAGE_URL"
                     />
                     <BlogCard
-                        tag="ПФУ Новини"
+                        :tag="t('blog.pfuNewsTag')"
                         :title="t('blog.post2Title')"
                         :date="t('blog.post2Date')"
                         :description="t('blog.post2Desc')"
                         :url="PFU_NEWS_PAGE_URL"
                     />
                     <BlogCard
-                        tag="ПФУ Новини"
+                        :tag="t('blog.pfuNewsTag')"
                         :title="t('blog.post3Title')"
                         :date="t('blog.post3Date')"
                         :description="t('blog.post3Desc')"

@@ -21,8 +21,8 @@ class SocialiteCallbackController extends Controller
      */
     protected array $allowedProviders = [
         'google',
-        'linkedin-openid',
-        'linkedin',
+        // 'linkedin-openid',
+        // 'linkedin',
         'github',
         'microsoft',
     ];
@@ -103,6 +103,12 @@ class SocialiteCallbackController extends Controller
             ]);
 
             $user->assignRole('user');
+        }
+
+        if ($user->is_suspended) {
+            return redirect()->route('login')->withErrors([
+                'email' => __('Your account has been suspended. Please contact support.'),
+            ]);
         }
 
         Auth::login($user, remember: true);

@@ -16,25 +16,25 @@ namespace calc
             double surcharge_amount = 0.0;
             std::string bracket_name;
 
-            if (pre_age_pension < ctx.limits.age_surcharge_cap)
+            if (ctx.limits.age_surcharge_cap > 0.0 && pre_age_pension < ctx.limits.age_surcharge_cap)
             {
-                if (client_age >= 80)
+                if (client_age >= 80 && ctx.limits.age_80_surcharge > 0.0)
                 {
-                    surcharge_amount = 570.0;
-                    bracket_name = "Age Supplement 80+ years (+570 UAH)";
+                    surcharge_amount = ctx.limits.age_80_surcharge;
+                    bracket_name = "Age Supplement 80+ years (+" + util::formatUah(surcharge_amount) + " UAH)";
                 }
-                else if (client_age >= 75)
+                else if (client_age >= 75 && ctx.limits.age_75_surcharge > 0.0)
                 {
-                    surcharge_amount = 456.0;
-                    bracket_name = "Age Supplement 75-79 years (+456 UAH)";
+                    surcharge_amount = ctx.limits.age_75_surcharge;
+                    bracket_name = "Age Supplement 75-79 years (+" + util::formatUah(surcharge_amount) + " UAH)";
                 }
-                else if (client_age >= 70)
+                else if (client_age >= 70 && ctx.limits.age_70_surcharge > 0.0)
                 {
-                    surcharge_amount = 300.0;
-                    bracket_name = "Age Supplement 70-74 years (+300 UAH)";
+                    surcharge_amount = ctx.limits.age_70_surcharge;
+                    bracket_name = "Age Supplement 70-74 years (+" + util::formatUah(surcharge_amount) + " UAH)";
                 }
 
-                if (pre_age_pension + surcharge_amount > ctx.limits.age_surcharge_cap)
+                if (surcharge_amount > 0.0 && pre_age_pension + surcharge_amount > ctx.limits.age_surcharge_cap)
                 {
                     surcharge_amount = ctx.limits.age_surcharge_cap - pre_age_pension;
                 }

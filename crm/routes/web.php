@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminAuthCheckController;
 use App\Http\Controllers\Admin\Analytics\AdminAnalyticsController;
 use App\Http\Controllers\Admin\SubsistenceMinimum\DeleteSubsistenceMinimumController;
 use App\Http\Controllers\Admin\Document\AdminDeleteDocumentController;
@@ -65,7 +66,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::middleware(['auth'])->prefix('notifications')->group(function () {
     Route::get('/', IndexNotificationController::class)->name('notifications.index');
     Route::post('/read-all', MarkAllNotificationsAsReadController::class)->name('notifications.read-all');
+    Route::post('/mark-all-read', MarkAllNotificationsAsReadController::class);
     Route::post('/{id}/read', MarkNotificationAsReadController::class)->name('notifications.read');
+    Route::post('/{id}/mark-read', MarkNotificationAsReadController::class);
 });
 
 Route::middleware(['auth'])->prefix('pension-calculations')->group(function () {
@@ -86,6 +89,8 @@ Route::middleware(['auth'])->prefix('documents')->group(function () {
     Route::get('/{id}/file', FileDocumentController::class)->name('documents.file');
     Route::delete('/{id}', DeleteDocumentController::class)->name('documents.destroy');
 });
+
+Route::get('/admin/auth-check', AdminAuthCheckController::class)->name('admin.auth-check');
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', function () {

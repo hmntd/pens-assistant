@@ -2,7 +2,7 @@
 import { ref, onMounted, onUnmounted, computed } from 'vue';
 import { Head, Link } from '@inertiajs/vue3';
 import { useI18n } from '@/composables/useI18n';
-import AppLogo from '@/components/AppLogo.vue';
+import AppLogo from '@/components/navigation/atoms/AppLogo.vue';
 import LangSelect from '@/components/landing/atoms/LangSelect.vue';
 import ThemeToggleBtn from '@/components/landing/atoms/ThemeToggleBtn.vue';
 import { home } from '@/routes';
@@ -12,6 +12,7 @@ import gridData from '@/data/asciiFramesGrid404.json';
 
 const props = defineProps<{
     status?: number;
+    message?: string;
 }>();
 
 const { t } = useI18n();
@@ -22,6 +23,75 @@ let currentFrameIndex = 0;
 let frameInterval: ReturnType<typeof setInterval> | null = null;
 
 const statusCode = computed(() => props.status || 404);
+
+const goBack = () => {
+    if (typeof window !== 'undefined' && window.history.length > 1) {
+        window.history.back();
+    } else {
+        window.location.href = home.url();
+    }
+};
+
+const errorDetails = computed(() => {
+    const code = statusCode.value;
+    switch (code) {
+        case 400:
+            return {
+                title: t('error.code400'),
+                description: props.message || t('error.desc400'),
+            };
+        case 401:
+            return {
+                title: t('error.code401'),
+                description: props.message || t('error.desc401'),
+            };
+        case 403:
+            return {
+                title: t('error.code403'),
+                description: props.message || t('error.desc403'),
+            };
+        case 404:
+            return {
+                title: t('error.pageNotFound'),
+                description: props.message || t('error.desc404'),
+            };
+        case 419:
+            return {
+                title: t('error.code419'),
+                description: props.message || t('error.desc419'),
+            };
+        case 429:
+            return {
+                title: t('error.code429'),
+                description: props.message || t('error.desc429'),
+            };
+        case 500:
+            return {
+                title: t('error.code500'),
+                description: props.message || t('error.desc500'),
+            };
+        case 502:
+            return {
+                title: t('error.code502'),
+                description: props.message || t('error.desc502'),
+            };
+        case 503:
+            return {
+                title: t('error.code503'),
+                description: props.message || t('error.desc503'),
+            };
+        case 504:
+            return {
+                title: t('error.code504'),
+                description: props.message || t('error.desc504'),
+            };
+        default:
+            return {
+                title: t('error.genericTitle'),
+                description: props.message || t('error.genericDesc'),
+            };
+    }
+});
 
 onMounted(() => {
     if (!screenEl.value) return;
@@ -73,7 +143,7 @@ onUnmounted(() => {
 
 <template>
 
-    <Head :title="`${statusCode} - ${t('error.pageNotFound')}`" />
+    <Head :title="`${statusCode} - ${errorDetails.title}`" />
 
     <div
         class="relative min-h-screen w-full overflow-hidden bg-white text-black dark:bg-black dark:text-white flex flex-col justify-between selection:bg-main selection:text-white font-sans transition-colors duration-300">
@@ -97,9 +167,9 @@ onUnmounted(() => {
         </div>
 
         <main class="pointer-events-none absolute inset-0 z-20 flex items-center justify-center p-4">
-            <Link :href="home()"
+            <Link @click="goBack()"
                 class="pointer-events-auto inline-flex items-center gap-3.5 font-mono text-lg sm:text-2xl md:text-3xl font-extrabold text-main whitespace-nowrap cursor-pointer bg-white/80 dark:bg-black/30 px-6 py-3 rounded-2xl backdrop-blur-md border border-gray-100 dark:border-white/5 transition-all duration-300">
-                <span>404 {{ t('error.pageNotFound') }}</span>
+                <span>{{ statusCode }} {{ errorDetails.title }}</span>
                 <ArrowRight class="h-6 w-6 sm:h-7 sm:w-7 shrink-0" />
             </Link>
         </main>

@@ -23,7 +23,7 @@ class StorePensionCalculationRequest extends FormRequest
     {
         return [
             'gender' => 'nullable|string|in:male,female,MALE,FEMALE',
-            'date_of_birth' => 'nullable|date',
+            'date_of_birth' => 'nullable|date|before:today',
             'retirement_date' => 'nullable|date',
             'pension_type' => 'nullable|string|in:old_age,disability,loss_of_breadwinner,OLD_AGE,DISABILITY,LOSS_OF_BREADWINNER',
             'disability_group' => 'nullable|string|in:none,group_1,group_2,group_3,DISABILITY_NONE,GROUP_1,GROUP_2,GROUP_3',
@@ -42,7 +42,7 @@ class StorePensionCalculationRequest extends FormRequest
             'enable_hypothetical_projection' => 'nullable|boolean',
             'is_hypothetical_projection' => 'nullable|boolean',
             'zp_macroeconomic_average' => 'nullable|numeric|min:0',
-            'target_user_id' => 'nullable|integer|exists:users,id',
+            'target_user_id' => 'nullable|string|uuid|exists:users,id',
         ];
     }
 }

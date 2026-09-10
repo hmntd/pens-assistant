@@ -36,6 +36,7 @@ The system combines a reactive web orchestrator, high-precision template-based O
 ### 1. Web Orchestrator & CRM (`/crm`)
 * **Framework:** Laravel 13, Inertia.js v3, PHP 8.5
 * **Frontend UI:** Vue 3 (Composition API), Atomic Design Architecture, Tailwind CSS, Lucide Icons, `vue-sonner` toast notifications.
+* **Real-time WebSockets:** Laravel Reverb & Laravel Echo (bi-directional private channel broadcasting for zero-refresh UI updates).
 * **Authentication:** Laravel Fortify & Socialite (OAuth2: Google, LinkedIn, GitHub, Microsoft Azure), 2FA, Passkeys (WebAuthn).
 * **Queue & Async Processing:** Redis, Laravel Horizon.
 * **PDF Report Generation:** Dompdf (`barryvdh/laravel-dompdf`), supporting bilingual (EN/UK) report output.
@@ -49,11 +50,17 @@ The system combines a reactive web orchestrator, high-precision template-based O
 * **Core:** Python 3.12, gRPC.
 * **Mechanism:** Coordinate and spatial template-based alignment for extraction of employment histories, income declarations, and tax forms without data loss.
 
-### 4. Database & Infrastructure
+### 4. Container Monitoring & Infrastructure Stack
+* **Resource Metrics Collector:** cAdvisor (`v0.49.1`) gathering real-time CPU, RAM, Network, and Disk I/O telemetry directly from container cgroups.
+* **Time-Series Engine:** Prometheus (`v2.53.0`) scraping cAdvisor metrics every 5 seconds.
+* **Metrics Visualization:** Grafana (`v11.1.0`) auto-provisioned with custom Docker container dashboard panels (`/grafana/`).
+* **Gateway Security:** Protected via Nginx subrequest authentication (`auth_request /admin/auth-check`) backed by Laravel CRM `AdminAuthCheckController` (`403 Forbidden` for non-admin users).
+
+### 5. Database & Core Infrastructure
 * **Database:** PostgreSQL 16.
 * **Caching & Queue Store:** Redis Alpine.
 * **Containerization:** Docker & Docker Compose (`docker-compose.yml`).
-* **CI/CD & Cloud Deployment:** GitHub Actions, AWS infrastructure with zero-downtime deployment (Deployer).
+* **CI/CD & Cloud Deployment:** GitHub Actions (with Trivy security scanner), AWS infrastructure with zero-downtime deployment (Deployer).
 
 ---
 
@@ -100,6 +107,21 @@ Calculated dynamically against DB-stored statutory subsistence minimums (`subsis
 ### 📄 8. Bilingual PDF Report Generation
 * Direct file download feature generating print-styled PDF summaries.
 * Offers language-specific templates (`pension_calculation_report_uk.blade.php` and `pension_calculation_report_en.blade.php`) matching the user's active UI locale.
+
+### ⚡ 9. Real-Time Single-Page WebSockets (Laravel Reverb & Echo)
+* **Purpose:** Eliminates full-page reloads and client-side polling when waiting for background computations (OCR document parsing & C++ pension calculations).
+* **Implementation & Mechanics:** 
+  * When a user triggers "Run Pension Calculation", a pending calculation record is immediately rendered in the UI with a "Pending" badge, while the mathematical job is dispatched to Redis queues managed by **Laravel Horizon** and the C++ Engine.
+  * Upon job completion, the CRM backend dispatches a broadcast event (`PensionCalculationUpdated` / `NotificationCreated`) via **Laravel Reverb** (running on `pens_crm_reverb:8080`).
+  * The Vue 3 frontend listens via **Laravel Echo** on the user's private channel (`private-user.{id}`), dynamically transitioning the pending item to "Completed", appending final calculation results, and emitting toast notifications in real time without forcing the user to switch tabs or refresh the page.
+
+### 📈 10. Container Resource Monitoring & Infrastructure Telemetry (Prometheus + cAdvisor + Grafana)
+* **Purpose:** Provides comprehensive real-time visibility into CPU consumption, RAM allocation, Network traffic, and Disk I/O across all 12 system microservice containers (`pens_ocr`, `pens_calc`, `pens_crm`, `pens_redis`, `pens_crm_db`, etc.). Prevents silent container crashes under heavy OCR workloads and allows live demonstration of system load during performance audits.
+* **Implementation & Mechanics:**
+  * **cAdvisor (`gcr.io/cadvisor/cadvisor:v0.49.1`):** Gathers native Linux container cgroup telemetry (`-url_base_prefix=/cadvisor`).
+  * **Prometheus (`prom/prometheus:v2.53.0`):** Time-series database scraping cAdvisor metrics every 5 seconds.
+  * **Grafana (`grafana/grafana:11.1.0`):** Visual dashboard engine auto-provisioned with custom Docker container telemetry panels (`/grafana/`).
+  * **Gateway Security:** Access to `/grafana/`, `/prometheus/`, and `/cadvisor/` is strictly protected by Nginx subrequest authentication (`auth_request /admin/auth-check`) tied to Laravel CRM's `AdminAuthCheckController`. Authenticated CRM administrators bypass secondary login screens (anonymous admin SSO), while unauthenticated users are blocked with an HTTP `403 Forbidden` response.
 
 ---
 
@@ -164,6 +186,9 @@ pens-assistant/
 ├── protos/                             # Protocol Buffers Definitions
 │   ├── calc.proto
 │   └── ocr.proto
+├── monitoring/                         # Prometheus & Grafana Auto-Provisioning
+│   ├── prometheus/                     # Scrape Configuration (cadvisor:8080)
+│   └── grafana/                        # Datasource & Docker Container Dashboards
 ├── crm/                                # Laravel 13 Web Orchestrator & Frontend
 │   ├── app/
 │   │   ├── Http/Controllers/           # Web & Admin Controllers

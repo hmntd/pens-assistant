@@ -1,19 +1,17 @@
 <script setup lang="ts">
-import { Form, Head } from '@inertiajs/vue3';
+import { Head } from '@inertiajs/vue3';
 import { useI18n } from '@/composables/useI18n';
-import SecurityController from '@/actions/App/Http/Controllers/Settings/SecurityController';
-import Heading from '@/components/Heading.vue';
-import InputError from '@/components/InputError.vue';
-import type { Props as ManagePasskeysProps } from '@/components/ManagePasskeys.vue';
-import ManagePasskeys from '@/components/ManagePasskeys.vue';
-import type { Props as ManageTwoFactorProps } from '@/components/ManageTwoFactor.vue';
-import ManageTwoFactor from '@/components/ManageTwoFactor.vue';
-import PasswordInput from '@/components/PasswordInput.vue';
-import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
+import Heading from '@/components/common/atoms/Heading.vue';
+import type { Props as ManagePasskeysProps } from '@/components/settings/organisms/ManagePasskeys.vue';
+import ManagePasskeys from '@/components/settings/organisms/ManagePasskeys.vue';
+import type { Props as ManageTwoFactorProps } from '@/components/settings/organisms/ManageTwoFactor.vue';
+import ManageTwoFactor from '@/components/settings/organisms/ManageTwoFactor.vue';
+import UpdatePasswordForm from '@/components/settings/organisms/UpdatePasswordForm.vue';
+import BrowserSessions, { type UserSession } from '@/components/settings/organisms/BrowserSessions.vue';
 
 type Props = {
     passwordRules: string;
+    sessions?: UserSession[];
 } & ManagePasskeysProps &
     ManageTwoFactorProps;
 
@@ -22,86 +20,26 @@ const { t } = useI18n();
 </script>
 
 <template>
+
     <Head :title="t('settings.security.title')" />
 
     <h1 class="sr-only">{{ t('settings.security.title') }}</h1>
 
-    <div class="space-y-6">
-        <Heading
-            variant="small"
-            :title="t('settings.security.title')"
-            :description="t('settings.security.description')"
-        />
+    <div class="space-y-10">
+        <div class="space-y-6">
+            <Heading variant="small" :title="t('settings.security.title')"
+                :description="t('settings.security.description')" />
 
-        <Form
-            v-bind="SecurityController.update.form()"
-            :options="{
-                preserveScroll: true,
-            }"
-            reset-on-success
-            :reset-on-error="[
-                'password',
-                'password_confirmation',
-                'current_password',
-            ]"
-            class="space-y-6"
-            v-slot="{ errors, processing }"
-        >
-            <div class="grid gap-2">
-                <Label for="current_password">{{ t('settings.security.currentPassword') }}</Label>
-                <PasswordInput
-                    id="current_password"
-                    name="current_password"
-                    class="mt-1 block w-full"
-                    autocomplete="current-password"
-                />
-                <InputError :message="errors.current_password" />
-            </div>
+            <UpdatePasswordForm :password-rules="props.passwordRules" />
+        </div>
 
-            <div class="grid gap-2">
-                <Label for="password">{{ t('settings.security.newPassword') }}</Label>
-                <PasswordInput
-                    id="password"
-                    name="password"
-                    class="mt-1 block w-full"
-                    autocomplete="new-password"
-                    :passwordrules="props.passwordRules"
-                />
-                <InputError :message="errors.password" />
-            </div>
+        <ManageTwoFactor :canManageTwoFactor="canManageTwoFactor" :requiresConfirmation="requiresConfirmation"
+            :twoFactorEnabled="twoFactorEnabled" />
 
-            <div class="grid gap-2">
-                <Label for="password_confirmation">{{ t('settings.security.confirmPassword') }}</Label>
-                <PasswordInput
-                    id="password_confirmation"
-                    name="password_confirmation"
-                    class="mt-1 block w-full"
-                    autocomplete="new-password"
-                    :passwordrules="props.passwordRules"
-                />
-                <InputError :message="errors.password_confirmation" />
-            </div>
+        <ManagePasskeys :canManagePasskeys="canManagePasskeys" :passkeys="passkeys" />
 
-            <div class="flex items-center gap-4">
-                <Button
-                    :disabled="processing"
-                    data-test="update-password-button"
-                    class="bg-main text-slate-950 font-bold hover:bg-main-dark"
-                >
-                    {{ t('settings.security.updatePasswordBtn') }}
-                </Button>
-            </div>
-        </Form>
+        <div class="pt-8 border-t border-slate-200/80 dark:border-zinc-800/80">
+            <BrowserSessions :sessions="props.sessions" />
+        </div>
     </div>
-
-    <ManageTwoFactor
-        :canManageTwoFactor="canManageTwoFactor"
-        :requiresConfirmation="requiresConfirmation"
-        :twoFactorEnabled="twoFactorEnabled"
-    />
-
-    <ManagePasskeys
-        :canManagePasskeys="canManagePasskeys"
-        :passkeys="passkeys"
-    />
 </template>

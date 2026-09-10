@@ -1,6 +1,7 @@
 #include "service_coefficient_stage.h"
 #include "../util/date_utils.h"
 #include "../util/money_format.h"
+#include <cmath>
 #include <sstream>
 #include <exception>
 
@@ -26,11 +27,29 @@ namespace calc
                         return false;
                     }
 
+                    if (start_ym.year < 1900 || start_ym.year > 2100 || end_ym.year < 1900 || end_ym.year > 2100)
+                    {
+                        error = "Employment date year out of valid range (1900-2100) for period: " + period.start_date() + " to " + period.end_date();
+                        return false;
+                    }
+
+                    if (ctx.retirement_year < ctx.current_year)
+                    {
+                        if (start_ym.year > ctx.retirement_year)
+                        {
+                            continue;
+                        }
+                        if (end_ym.year > ctx.retirement_year)
+                        {
+                            end_ym.year = ctx.retirement_year;
+                            end_ym.month = 12;
+                        }
+                    }
+
                     int months = (end_ym.year - start_ym.year) * 12 + (end_ym.month - start_ym.month) + 1;
                     if (months <= 0)
                     {
-                        error = "Employment start date is after end date: " + period.start_date() + " to " + period.end_date();
-                        return false;
+                        continue;
                     }
 
                     double mult = period.multiplier() > 0.0 ? period.multiplier() : 1.0;
@@ -41,6 +60,10 @@ namespace calc
             {
                 for (const auto &rec : request->history())
                 {
+                    if (ctx.retirement_year < ctx.current_year && rec.year() > ctx.retirement_year)
+                    {
+                        continue;
+                    }
                     if (rec.months_worked() > 0)
                     {
                         total_months += rec.months_worked();
@@ -50,23 +73,43 @@ namespace calc
 
             if (total_months <= 0)
             {
-                error = "Employment history is empty or zero service months recorded";
-                return false;
+                ctx.total_service_months = 0;
+                ctx.overtime_service_months = 0;
+                ctx.ks_service_coefficient = 0.0;
+                std::ostringstream ss;
+                ss << "Stage 1 [Ks Service Coefficient Art. 24 Law 1058-IV]: No insurance service recorded up to target retirement year "
+                   << ctx.retirement_year << ". Ks = 0.0000.";
+                ctx.logs.push_back(ss.str());
+                return true;
             }
 
             if (ctx.is_hypothetical_mode && ctx.retirement_year > ctx.current_year)
             {
-                int proj_years = ctx.retirement_year - ctx.current_year;
-                int proj_months = proj_years * 12;
-                total_months += proj_months;
+                int max_emp_year = 0;
+                for (const auto &period : request->employment_history())
+                {
+                    auto end_ym = util::parseYearMonth(period.end_date());
+                    if (end_ym.valid && end_ym.year > max_emp_year)
+                    {
+                        max_emp_year = end_ym.year;
+                    }
+                }
 
-                std::ostringstream ss;
-                ss << "Hypothetical Projection: Projected additional " << proj_months << " service months ("
-                   << proj_years << " years) up to target retirement year " << ctx.retirement_year << ".";
-                ctx.logs.push_back(ss.str());
+                int start_proj = std::max(max_emp_year, ctx.current_year);
+                if (start_proj < ctx.retirement_year)
+                {
+                    int proj_years = ctx.retirement_year - start_proj;
+                    int proj_months = proj_years * 12;
+                    total_months += proj_months;
+
+                    std::ostringstream ss;
+                    ss << "Hypothetical Projection: Projected additional " << proj_months << " service months ("
+                       << proj_years << " years) up to target retirement year " << ctx.retirement_year << ".";
+                    ctx.logs.push_back(ss.str());
+                }
             }
 
-            double ks = static_cast<double>(total_months) / 1200.0;
+            double ks = std::round((static_cast<double>(total_months) / 1200.0) * 100000.0) / 100000.0;
 
             bool is_female = request->gender() == calc::Gender::FEMALE;
             int required_months = is_female ? 360 : 420; // 30 years for women, 35 years for men

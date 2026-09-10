@@ -9,6 +9,7 @@
 #include "stages/legal_bounds_stage.h"
 #include "util/date_utils.h"
 #include "util/money_format.h"
+#include <cmath>
 #include <sstream>
 #include <exception>
 
@@ -150,13 +151,17 @@ namespace calc
             double zp = request->zp_macroeconomic_average();
             if (zp <= 0.0)
             {
-                int macro_year = is_future_target ? ctx.current_year : ctx.retirement_year;
+                int macro_year = (is_future_target && !ctx.is_hypothetical_mode) ? ctx.current_year : ctx.retirement_year;
                 zp = repo_.getMacroeconomicAverageSalary(macro_year);
             }
             if (zp <= 0.0)
             {
+                zp = repo_.getMacroeconomicAverageSalary(ctx.current_year);
+            }
+            if (zp <= 0.0)
+            {
                 res.success = false;
-                res.error_message = "Macroeconomic average salary (Zp) is required and no average salary data exists in DB for prior years";
+                res.error_message = "Macroeconomic average salary (Zp) is missing from request and database for year " + std::to_string(ctx.retirement_year);
                 return res;
             }
             ctx.zp_macroeconomic_average = zp;
@@ -167,18 +172,24 @@ namespace calc
             {
                 ctx.limits.for_disabled_persons = request->subsistence_minimums().for_disabled_persons();
                 ctx.limits.general_minimum = request->subsistence_minimums().general_minimum();
+                ctx.limits.age_70_surcharge = request->subsistence_minimums().age_70_surcharge();
+                ctx.limits.age_75_surcharge = request->subsistence_minimums().age_75_surcharge();
+                ctx.limits.age_80_surcharge = request->subsistence_minimums().age_80_surcharge();
             }
             else
             {
-                int limits_year = is_future_target ? ctx.current_year : ctx.retirement_year;
+                int limits_year = (is_future_target && !ctx.is_hypothetical_mode) ? ctx.current_year : ctx.retirement_year;
                 ctx.limits = repo_.getSubsistenceLimits(limits_year);
+                if (ctx.limits.for_disabled_persons <= 0.0 || ctx.limits.general_minimum <= 0.0)
+                {
+                    ctx.limits = repo_.getSubsistenceLimits(ctx.current_year);
+                }
             }
 
             if (ctx.limits.for_disabled_persons <= 0.0 || ctx.limits.general_minimum <= 0.0)
             {
                 res.success = false;
-                res.error_message = "Missing subsistence minimum data in DB for target retirement year " +
-                                     std::to_string(ctx.retirement_year);
+                res.error_message = "Subsistence minimum limits are missing from request and database for year " + std::to_string(ctx.retirement_year);
                 return res;
             }
 
@@ -235,7 +246,7 @@ namespace calc
             res.calculation_logs = ctx.logs;
             res.error_message = "";
             res.estimated_monthly_pension = ctx.final_pension;
-            res.total_accumulated_capital = ctx.base_pension * 12.0 * 20.0;
+            res.total_accumulated_capital = std::round((ctx.zp_macroeconomic_average * ctx.kz_wage_coefficient * ctx.total_service_months) * 100.0) / 100.0;
             res.breakdown = ctx.logs.empty() ? "" : ctx.logs.back();
 
             return res;

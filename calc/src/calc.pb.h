@@ -774,6 +774,9 @@ class SubsistenceMinimums final :
     kForDisabledPersonsFieldNumber = 1,
     kGeneralMinimumFieldNumber = 2,
     kAgeSurchargeCapFieldNumber = 3,
+    kAge70SurchargeFieldNumber = 4,
+    kAge75SurchargeFieldNumber = 5,
+    kAge80SurchargeFieldNumber = 6,
   };
   // double for_disabled_persons = 1;
   void clear_for_disabled_persons();
@@ -802,6 +805,33 @@ class SubsistenceMinimums final :
   void _internal_set_age_surcharge_cap(double value);
   public:
 
+  // double age_70_surcharge = 4;
+  void clear_age_70_surcharge();
+  double age_70_surcharge() const;
+  void set_age_70_surcharge(double value);
+  private:
+  double _internal_age_70_surcharge() const;
+  void _internal_set_age_70_surcharge(double value);
+  public:
+
+  // double age_75_surcharge = 5;
+  void clear_age_75_surcharge();
+  double age_75_surcharge() const;
+  void set_age_75_surcharge(double value);
+  private:
+  double _internal_age_75_surcharge() const;
+  void _internal_set_age_75_surcharge(double value);
+  public:
+
+  // double age_80_surcharge = 6;
+  void clear_age_80_surcharge();
+  double age_80_surcharge() const;
+  void set_age_80_surcharge(double value);
+  private:
+  double _internal_age_80_surcharge() const;
+  void _internal_set_age_80_surcharge(double value);
+  public:
+
   // @@protoc_insertion_point(class_scope:calc.SubsistenceMinimums)
  private:
   class _Internal;
@@ -813,6 +843,9 @@ class SubsistenceMinimums final :
     double for_disabled_persons_;
     double general_minimum_;
     double age_surcharge_cap_;
+    double age_70_surcharge_;
+    double age_75_surcharge_;
+    double age_80_surcharge_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -4860,6 +4893,9 @@ class UpsertSubsistenceMinimumRequest final :
     kForDisabledPersonsFieldNumber = 2,
     kGeneralMinimumFieldNumber = 3,
     kAgeSurchargeCapFieldNumber = 4,
+    kAge70SurchargeFieldNumber = 5,
+    kAge75SurchargeFieldNumber = 6,
+    kAge80SurchargeFieldNumber = 7,
     kYearFieldNumber = 1,
   };
   // double for_disabled_persons = 2;
@@ -4889,6 +4925,33 @@ class UpsertSubsistenceMinimumRequest final :
   void _internal_set_age_surcharge_cap(double value);
   public:
 
+  // double age_70_surcharge = 5;
+  void clear_age_70_surcharge();
+  double age_70_surcharge() const;
+  void set_age_70_surcharge(double value);
+  private:
+  double _internal_age_70_surcharge() const;
+  void _internal_set_age_70_surcharge(double value);
+  public:
+
+  // double age_75_surcharge = 6;
+  void clear_age_75_surcharge();
+  double age_75_surcharge() const;
+  void set_age_75_surcharge(double value);
+  private:
+  double _internal_age_75_surcharge() const;
+  void _internal_set_age_75_surcharge(double value);
+  public:
+
+  // double age_80_surcharge = 7;
+  void clear_age_80_surcharge();
+  double age_80_surcharge() const;
+  void set_age_80_surcharge(double value);
+  private:
+  double _internal_age_80_surcharge() const;
+  void _internal_set_age_80_surcharge(double value);
+  public:
+
   // int32 year = 1;
   void clear_year();
   int32_t year() const;
@@ -4909,6 +4972,9 @@ class UpsertSubsistenceMinimumRequest final :
     double for_disabled_persons_;
     double general_minimum_;
     double age_surcharge_cap_;
+    double age_70_surcharge_;
+    double age_75_surcharge_;
+    double age_80_surcharge_;
     int32_t year_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
@@ -5341,6 +5407,9 @@ class SubsistenceMinimumRecord final :
     kForDisabledPersonsFieldNumber = 3,
     kGeneralMinimumFieldNumber = 4,
     kAgeSurchargeCapFieldNumber = 5,
+    kAge70SurchargeFieldNumber = 6,
+    kAge75SurchargeFieldNumber = 7,
+    kAge80SurchargeFieldNumber = 8,
   };
   // int32 id = 1;
   void clear_id();
@@ -5387,6 +5456,33 @@ class SubsistenceMinimumRecord final :
   void _internal_set_age_surcharge_cap(double value);
   public:
 
+  // double age_70_surcharge = 6;
+  void clear_age_70_surcharge();
+  double age_70_surcharge() const;
+  void set_age_70_surcharge(double value);
+  private:
+  double _internal_age_70_surcharge() const;
+  void _internal_set_age_70_surcharge(double value);
+  public:
+
+  // double age_75_surcharge = 7;
+  void clear_age_75_surcharge();
+  double age_75_surcharge() const;
+  void set_age_75_surcharge(double value);
+  private:
+  double _internal_age_75_surcharge() const;
+  void _internal_set_age_75_surcharge(double value);
+  public:
+
+  // double age_80_surcharge = 8;
+  void clear_age_80_surcharge();
+  double age_80_surcharge() const;
+  void set_age_80_surcharge(double value);
+  private:
+  double _internal_age_80_surcharge() const;
+  void _internal_set_age_80_surcharge(double value);
+  public:
+
   // @@protoc_insertion_point(class_scope:calc.SubsistenceMinimumRecord)
  private:
   class _Internal;
@@ -5400,6 +5496,9 @@ class SubsistenceMinimumRecord final :
     double for_disabled_persons_;
     double general_minimum_;
     double age_surcharge_cap_;
+    double age_70_surcharge_;
+    double age_75_surcharge_;
+    double age_80_surcharge_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -5717,6 +5816,9 @@ class UpdateSubsistenceMinimumRequest final :
     kForDisabledPersonsFieldNumber = 3,
     kGeneralMinimumFieldNumber = 4,
     kAgeSurchargeCapFieldNumber = 5,
+    kAge70SurchargeFieldNumber = 6,
+    kAge75SurchargeFieldNumber = 7,
+    kAge80SurchargeFieldNumber = 8,
   };
   // int32 id = 1;
   void clear_id();
@@ -5763,6 +5865,33 @@ class UpdateSubsistenceMinimumRequest final :
   void _internal_set_age_surcharge_cap(double value);
   public:
 
+  // double age_70_surcharge = 6;
+  void clear_age_70_surcharge();
+  double age_70_surcharge() const;
+  void set_age_70_surcharge(double value);
+  private:
+  double _internal_age_70_surcharge() const;
+  void _internal_set_age_70_surcharge(double value);
+  public:
+
+  // double age_75_surcharge = 7;
+  void clear_age_75_surcharge();
+  double age_75_surcharge() const;
+  void set_age_75_surcharge(double value);
+  private:
+  double _internal_age_75_surcharge() const;
+  void _internal_set_age_75_surcharge(double value);
+  public:
+
+  // double age_80_surcharge = 8;
+  void clear_age_80_surcharge();
+  double age_80_surcharge() const;
+  void set_age_80_surcharge(double value);
+  private:
+  double _internal_age_80_surcharge() const;
+  void _internal_set_age_80_surcharge(double value);
+  public:
+
   // @@protoc_insertion_point(class_scope:calc.UpdateSubsistenceMinimumRequest)
  private:
   class _Internal;
@@ -5776,6 +5905,9 @@ class UpdateSubsistenceMinimumRequest final :
     double for_disabled_persons_;
     double general_minimum_;
     double age_surcharge_cap_;
+    double age_70_surcharge_;
+    double age_75_surcharge_;
+    double age_80_surcharge_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -6554,6 +6686,66 @@ inline void SubsistenceMinimums::_internal_set_age_surcharge_cap(double value) {
 inline void SubsistenceMinimums::set_age_surcharge_cap(double value) {
   _internal_set_age_surcharge_cap(value);
   // @@protoc_insertion_point(field_set:calc.SubsistenceMinimums.age_surcharge_cap)
+}
+
+// double age_70_surcharge = 4;
+inline void SubsistenceMinimums::clear_age_70_surcharge() {
+  _impl_.age_70_surcharge_ = 0;
+}
+inline double SubsistenceMinimums::_internal_age_70_surcharge() const {
+  return _impl_.age_70_surcharge_;
+}
+inline double SubsistenceMinimums::age_70_surcharge() const {
+  // @@protoc_insertion_point(field_get:calc.SubsistenceMinimums.age_70_surcharge)
+  return _internal_age_70_surcharge();
+}
+inline void SubsistenceMinimums::_internal_set_age_70_surcharge(double value) {
+  
+  _impl_.age_70_surcharge_ = value;
+}
+inline void SubsistenceMinimums::set_age_70_surcharge(double value) {
+  _internal_set_age_70_surcharge(value);
+  // @@protoc_insertion_point(field_set:calc.SubsistenceMinimums.age_70_surcharge)
+}
+
+// double age_75_surcharge = 5;
+inline void SubsistenceMinimums::clear_age_75_surcharge() {
+  _impl_.age_75_surcharge_ = 0;
+}
+inline double SubsistenceMinimums::_internal_age_75_surcharge() const {
+  return _impl_.age_75_surcharge_;
+}
+inline double SubsistenceMinimums::age_75_surcharge() const {
+  // @@protoc_insertion_point(field_get:calc.SubsistenceMinimums.age_75_surcharge)
+  return _internal_age_75_surcharge();
+}
+inline void SubsistenceMinimums::_internal_set_age_75_surcharge(double value) {
+  
+  _impl_.age_75_surcharge_ = value;
+}
+inline void SubsistenceMinimums::set_age_75_surcharge(double value) {
+  _internal_set_age_75_surcharge(value);
+  // @@protoc_insertion_point(field_set:calc.SubsistenceMinimums.age_75_surcharge)
+}
+
+// double age_80_surcharge = 6;
+inline void SubsistenceMinimums::clear_age_80_surcharge() {
+  _impl_.age_80_surcharge_ = 0;
+}
+inline double SubsistenceMinimums::_internal_age_80_surcharge() const {
+  return _impl_.age_80_surcharge_;
+}
+inline double SubsistenceMinimums::age_80_surcharge() const {
+  // @@protoc_insertion_point(field_get:calc.SubsistenceMinimums.age_80_surcharge)
+  return _internal_age_80_surcharge();
+}
+inline void SubsistenceMinimums::_internal_set_age_80_surcharge(double value) {
+  
+  _impl_.age_80_surcharge_ = value;
+}
+inline void SubsistenceMinimums::set_age_80_surcharge(double value) {
+  _internal_set_age_80_surcharge(value);
+  // @@protoc_insertion_point(field_set:calc.SubsistenceMinimums.age_80_surcharge)
 }
 
 // -------------------------------------------------------------------
@@ -9495,6 +9687,66 @@ inline void UpsertSubsistenceMinimumRequest::set_age_surcharge_cap(double value)
   // @@protoc_insertion_point(field_set:calc.UpsertSubsistenceMinimumRequest.age_surcharge_cap)
 }
 
+// double age_70_surcharge = 5;
+inline void UpsertSubsistenceMinimumRequest::clear_age_70_surcharge() {
+  _impl_.age_70_surcharge_ = 0;
+}
+inline double UpsertSubsistenceMinimumRequest::_internal_age_70_surcharge() const {
+  return _impl_.age_70_surcharge_;
+}
+inline double UpsertSubsistenceMinimumRequest::age_70_surcharge() const {
+  // @@protoc_insertion_point(field_get:calc.UpsertSubsistenceMinimumRequest.age_70_surcharge)
+  return _internal_age_70_surcharge();
+}
+inline void UpsertSubsistenceMinimumRequest::_internal_set_age_70_surcharge(double value) {
+  
+  _impl_.age_70_surcharge_ = value;
+}
+inline void UpsertSubsistenceMinimumRequest::set_age_70_surcharge(double value) {
+  _internal_set_age_70_surcharge(value);
+  // @@protoc_insertion_point(field_set:calc.UpsertSubsistenceMinimumRequest.age_70_surcharge)
+}
+
+// double age_75_surcharge = 6;
+inline void UpsertSubsistenceMinimumRequest::clear_age_75_surcharge() {
+  _impl_.age_75_surcharge_ = 0;
+}
+inline double UpsertSubsistenceMinimumRequest::_internal_age_75_surcharge() const {
+  return _impl_.age_75_surcharge_;
+}
+inline double UpsertSubsistenceMinimumRequest::age_75_surcharge() const {
+  // @@protoc_insertion_point(field_get:calc.UpsertSubsistenceMinimumRequest.age_75_surcharge)
+  return _internal_age_75_surcharge();
+}
+inline void UpsertSubsistenceMinimumRequest::_internal_set_age_75_surcharge(double value) {
+  
+  _impl_.age_75_surcharge_ = value;
+}
+inline void UpsertSubsistenceMinimumRequest::set_age_75_surcharge(double value) {
+  _internal_set_age_75_surcharge(value);
+  // @@protoc_insertion_point(field_set:calc.UpsertSubsistenceMinimumRequest.age_75_surcharge)
+}
+
+// double age_80_surcharge = 7;
+inline void UpsertSubsistenceMinimumRequest::clear_age_80_surcharge() {
+  _impl_.age_80_surcharge_ = 0;
+}
+inline double UpsertSubsistenceMinimumRequest::_internal_age_80_surcharge() const {
+  return _impl_.age_80_surcharge_;
+}
+inline double UpsertSubsistenceMinimumRequest::age_80_surcharge() const {
+  // @@protoc_insertion_point(field_get:calc.UpsertSubsistenceMinimumRequest.age_80_surcharge)
+  return _internal_age_80_surcharge();
+}
+inline void UpsertSubsistenceMinimumRequest::_internal_set_age_80_surcharge(double value) {
+  
+  _impl_.age_80_surcharge_ = value;
+}
+inline void UpsertSubsistenceMinimumRequest::set_age_80_surcharge(double value) {
+  _internal_set_age_80_surcharge(value);
+  // @@protoc_insertion_point(field_set:calc.UpsertSubsistenceMinimumRequest.age_80_surcharge)
+}
+
 // -------------------------------------------------------------------
 
 // UpsertSubsistenceMinimumResponse
@@ -9727,6 +9979,66 @@ inline void SubsistenceMinimumRecord::set_age_surcharge_cap(double value) {
   // @@protoc_insertion_point(field_set:calc.SubsistenceMinimumRecord.age_surcharge_cap)
 }
 
+// double age_70_surcharge = 6;
+inline void SubsistenceMinimumRecord::clear_age_70_surcharge() {
+  _impl_.age_70_surcharge_ = 0;
+}
+inline double SubsistenceMinimumRecord::_internal_age_70_surcharge() const {
+  return _impl_.age_70_surcharge_;
+}
+inline double SubsistenceMinimumRecord::age_70_surcharge() const {
+  // @@protoc_insertion_point(field_get:calc.SubsistenceMinimumRecord.age_70_surcharge)
+  return _internal_age_70_surcharge();
+}
+inline void SubsistenceMinimumRecord::_internal_set_age_70_surcharge(double value) {
+  
+  _impl_.age_70_surcharge_ = value;
+}
+inline void SubsistenceMinimumRecord::set_age_70_surcharge(double value) {
+  _internal_set_age_70_surcharge(value);
+  // @@protoc_insertion_point(field_set:calc.SubsistenceMinimumRecord.age_70_surcharge)
+}
+
+// double age_75_surcharge = 7;
+inline void SubsistenceMinimumRecord::clear_age_75_surcharge() {
+  _impl_.age_75_surcharge_ = 0;
+}
+inline double SubsistenceMinimumRecord::_internal_age_75_surcharge() const {
+  return _impl_.age_75_surcharge_;
+}
+inline double SubsistenceMinimumRecord::age_75_surcharge() const {
+  // @@protoc_insertion_point(field_get:calc.SubsistenceMinimumRecord.age_75_surcharge)
+  return _internal_age_75_surcharge();
+}
+inline void SubsistenceMinimumRecord::_internal_set_age_75_surcharge(double value) {
+  
+  _impl_.age_75_surcharge_ = value;
+}
+inline void SubsistenceMinimumRecord::set_age_75_surcharge(double value) {
+  _internal_set_age_75_surcharge(value);
+  // @@protoc_insertion_point(field_set:calc.SubsistenceMinimumRecord.age_75_surcharge)
+}
+
+// double age_80_surcharge = 8;
+inline void SubsistenceMinimumRecord::clear_age_80_surcharge() {
+  _impl_.age_80_surcharge_ = 0;
+}
+inline double SubsistenceMinimumRecord::_internal_age_80_surcharge() const {
+  return _impl_.age_80_surcharge_;
+}
+inline double SubsistenceMinimumRecord::age_80_surcharge() const {
+  // @@protoc_insertion_point(field_get:calc.SubsistenceMinimumRecord.age_80_surcharge)
+  return _internal_age_80_surcharge();
+}
+inline void SubsistenceMinimumRecord::_internal_set_age_80_surcharge(double value) {
+  
+  _impl_.age_80_surcharge_ = value;
+}
+inline void SubsistenceMinimumRecord::set_age_80_surcharge(double value) {
+  _internal_set_age_80_surcharge(value);
+  // @@protoc_insertion_point(field_set:calc.SubsistenceMinimumRecord.age_80_surcharge)
+}
+
 // -------------------------------------------------------------------
 
 // ListSubsistenceMinimumsResponse
@@ -9943,6 +10255,66 @@ inline void UpdateSubsistenceMinimumRequest::_internal_set_age_surcharge_cap(dou
 inline void UpdateSubsistenceMinimumRequest::set_age_surcharge_cap(double value) {
   _internal_set_age_surcharge_cap(value);
   // @@protoc_insertion_point(field_set:calc.UpdateSubsistenceMinimumRequest.age_surcharge_cap)
+}
+
+// double age_70_surcharge = 6;
+inline void UpdateSubsistenceMinimumRequest::clear_age_70_surcharge() {
+  _impl_.age_70_surcharge_ = 0;
+}
+inline double UpdateSubsistenceMinimumRequest::_internal_age_70_surcharge() const {
+  return _impl_.age_70_surcharge_;
+}
+inline double UpdateSubsistenceMinimumRequest::age_70_surcharge() const {
+  // @@protoc_insertion_point(field_get:calc.UpdateSubsistenceMinimumRequest.age_70_surcharge)
+  return _internal_age_70_surcharge();
+}
+inline void UpdateSubsistenceMinimumRequest::_internal_set_age_70_surcharge(double value) {
+  
+  _impl_.age_70_surcharge_ = value;
+}
+inline void UpdateSubsistenceMinimumRequest::set_age_70_surcharge(double value) {
+  _internal_set_age_70_surcharge(value);
+  // @@protoc_insertion_point(field_set:calc.UpdateSubsistenceMinimumRequest.age_70_surcharge)
+}
+
+// double age_75_surcharge = 7;
+inline void UpdateSubsistenceMinimumRequest::clear_age_75_surcharge() {
+  _impl_.age_75_surcharge_ = 0;
+}
+inline double UpdateSubsistenceMinimumRequest::_internal_age_75_surcharge() const {
+  return _impl_.age_75_surcharge_;
+}
+inline double UpdateSubsistenceMinimumRequest::age_75_surcharge() const {
+  // @@protoc_insertion_point(field_get:calc.UpdateSubsistenceMinimumRequest.age_75_surcharge)
+  return _internal_age_75_surcharge();
+}
+inline void UpdateSubsistenceMinimumRequest::_internal_set_age_75_surcharge(double value) {
+  
+  _impl_.age_75_surcharge_ = value;
+}
+inline void UpdateSubsistenceMinimumRequest::set_age_75_surcharge(double value) {
+  _internal_set_age_75_surcharge(value);
+  // @@protoc_insertion_point(field_set:calc.UpdateSubsistenceMinimumRequest.age_75_surcharge)
+}
+
+// double age_80_surcharge = 8;
+inline void UpdateSubsistenceMinimumRequest::clear_age_80_surcharge() {
+  _impl_.age_80_surcharge_ = 0;
+}
+inline double UpdateSubsistenceMinimumRequest::_internal_age_80_surcharge() const {
+  return _impl_.age_80_surcharge_;
+}
+inline double UpdateSubsistenceMinimumRequest::age_80_surcharge() const {
+  // @@protoc_insertion_point(field_get:calc.UpdateSubsistenceMinimumRequest.age_80_surcharge)
+  return _internal_age_80_surcharge();
+}
+inline void UpdateSubsistenceMinimumRequest::_internal_set_age_80_surcharge(double value) {
+  
+  _impl_.age_80_surcharge_ = value;
+}
+inline void UpdateSubsistenceMinimumRequest::set_age_80_surcharge(double value) {
+  _internal_set_age_80_surcharge(value);
+  // @@protoc_insertion_point(field_set:calc.UpdateSubsistenceMinimumRequest.age_80_surcharge)
 }
 
 // -------------------------------------------------------------------

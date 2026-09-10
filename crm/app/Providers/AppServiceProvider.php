@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Auth\UuidEloquentUserProvider;
 use App\Models\CalculatedPension;
 use App\Policies\PensionCalculationPolicy;
 use Carbon\CarbonImmutable;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
@@ -32,6 +34,10 @@ class AppServiceProvider extends ServiceProvider
         Gate::policy(CalculatedPension::class, PensionCalculationPolicy::class);
         Event::listen(SocialiteWasCalled::class, AzureExtendSocialite::class);
         $this->configureDefaults();
+
+        Auth::provider('eloquent', function ($app, array $config) {
+            return new UuidEloquentUserProvider($app['hash'], $config['model']);
+        });
     }
 
     /**

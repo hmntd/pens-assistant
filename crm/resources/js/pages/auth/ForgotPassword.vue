@@ -2,8 +2,8 @@
 import { computed, watchEffect } from 'vue';
 import { Form, Head, setLayoutProps } from '@inertiajs/vue3';
 import { useI18n } from '@/composables/useI18n';
-import InputError from '@/components/InputError.vue';
-import TextLink from '@/components/TextLink.vue';
+import InputError from '@/components/common/atoms/InputError.vue';
+import TextLink from '@/components/common/atoms/TextLink.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -67,7 +67,7 @@ defineProps<{
 
         <div class="space-x-1 text-center text-sm text-muted-foreground">
             <span>{{ t('auth.orReturnTo') }}</span>
-            <TextLink :href="login()">{{ t('auth.loginLink') }}</TextLink>
+            <TextLink :href="login.url()">{{ t('auth.loginLink') }}</TextLink>
         </div>
     </div>
 </template>

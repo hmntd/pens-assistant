@@ -2,6 +2,8 @@ name: CRM CI
 
 on:
   push:
+    branches-ignore:
+      - main
     paths:
       - 'crm/**'
   pull_request:
@@ -12,7 +14,7 @@ permissions:
   contents: read
 
 jobs:
-  test:
+  crm-test:
     runs-on: ubuntu-24.04
     defaults:
       run:
@@ -64,3 +66,12 @@ jobs:
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: ':memory:'
+
+      - name: Run Trivy Vulnerability Scanner (CRM Code & Dependencies)
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'table'
+          exit-code: '0'
+          severity: 'CRITICAL,HIGH'

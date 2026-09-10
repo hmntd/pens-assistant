@@ -2,6 +2,8 @@ name: OCR CI
 
 on:
   push:
+    branches-ignore:
+      - main
     paths:
       - 'ocr/**'
       - 'protos/ocr.proto'
@@ -14,7 +16,7 @@ permissions:
   contents: read
 
 jobs:
-  test:
+  ocr-test:
     runs-on: ubuntu-24.04
     defaults:
       run:
@@ -48,3 +50,12 @@ jobs:
 
       - name: Run Pytest
         run: pytest
+
+      - name: Run Trivy Vulnerability Scanner (OCR Code & Dependencies)
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'table'
+          exit-code: '0'
+          severity: 'CRITICAL,HIGH'

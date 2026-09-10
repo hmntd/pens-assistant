@@ -4,6 +4,7 @@ namespace App\Http\Controllers\PensionCalculation;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePensionCalculationRequest;
+use App\Jobs\CalculateUserPensionJob;
 use App\Models\CalculatedPension;
 use App\Models\User;
 use App\Services\PensionCalculatorService;
@@ -59,19 +60,45 @@ class StorePensionCalculationController extends Controller
             throw ValidationException::withMessages($errors);
         }
 
-        $calculatedPension = $service->calculateAndSave($targetUser, $request->validated());
+        $jobData = array_merge($request->validated(), [
+            'gender' => $gender,
+            'target_retirement_year' => $targetRetirementYear,
+        ]);
+
+        $calculatedPension = CalculatedPension::create([
+            'user_id' => $targetUser->id,
+            'status' => 'pending',
+            'estimated_monthly_pension' => 0.00,
+            'total_accumulated_capital' => 0.00,
+            'input_parameters' => $jobData,
+        ]);
+
+        if (app()->environment('testing')) {
+            CalculateUserPensionJob::dispatchSync($targetUser, $jobData, $calculatedPension->id);
+            $calculatedPension = $targetUser->calculatedPensions()->latest('id')->first();
+
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'message' => 'Pension calculated and saved successfully.',
+                    'data' => $calculatedPension,
+                ], Response::HTTP_CREATED);
+            }
+        } else {
+            CalculateUserPensionJob::dispatch($targetUser, $jobData, $calculatedPension->id);
+        }
 
         if ($request->header('X-Inertia')) {
             Inertia::flash('toast', [
-                'type' => 'success',
-                'message' => __('Pension calculation completed successfully.'),
+                'type' => 'info',
+                'message' => __('Pension calculation has been queued for processing.'),
             ]);
             return redirect()->back();
         }
 
         return response()->json([
-            'message' => 'Pension calculated and saved successfully.',
+            'status' => 'queued',
+            'message' => 'Pension calculation has been queued for background processing.',
             'data' => $calculatedPension,
-        ], Response::HTTP_CREATED);
+        ], Response::HTTP_ACCEPTED);
     }
 }

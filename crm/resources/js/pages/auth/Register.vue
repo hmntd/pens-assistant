@@ -2,10 +2,10 @@
 import { computed, watchEffect } from 'vue';
 import { Form, Head, setLayoutProps } from '@inertiajs/vue3';
 import { useI18n } from '@/composables/useI18n';
-import InputError from '@/components/InputError.vue';
-import PasswordInput from '@/components/PasswordInput.vue';
-import SocialAuthButtons from '@/components/SocialAuthButtons.vue';
-import TextLink from '@/components/TextLink.vue';
+import InputError from '@/components/common/atoms/InputError.vue';
+import PasswordInput from '@/components/auth/atoms/PasswordInput.vue';
+import SocialAuthButtons from '@/components/auth/molecules/SocialAuthButtons.vue';
+import TextLink from '@/components/common/atoms/TextLink.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -130,7 +130,7 @@ defineProps<{
         <div class="text-center text-sm text-muted-foreground">
             {{ t('auth.alreadyHaveAccount') }}
             <TextLink
-                :href="login()"
+                :href="login.url()"
                 class="underline underline-offset-4"
                 :tabindex="7"
                 >{{ t('auth.loginLink') }}</TextLink

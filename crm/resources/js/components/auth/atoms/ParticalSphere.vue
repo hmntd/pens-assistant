@@ -1,9 +1,3 @@
-<template>
-    <div class="wrap pointer-events-none">
-        <div v-for="n in total" :key="n" class="c"></div>
-    </div>
-</template>
-
 <script setup lang="ts">
 import { onMounted, onUnmounted } from 'vue';
 import { mountParticleStyles, unmountParticleStyles } from '@/lib/particleSphereCache';
@@ -18,6 +12,12 @@ onUnmounted(() => {
     unmountParticleStyles();
 });
 </script>
+
+<template>
+    <div class="wrap pointer-events-none">
+        <div v-for="n in total" :key="n" class="c"></div>
+    </div>
+</template>
 
 <style scoped>
 .wrap {

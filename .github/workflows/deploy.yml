@@ -3,12 +3,7 @@ name: CI/CD Pipeline & Deployment
 on:
   push:
     branches:
-      - '**'
-  pull_request:
-    branches:
       - main
-      - develop
-      - dev
   workflow_dispatch:
 
 permissions:
@@ -156,9 +151,35 @@ jobs:
       - name: Run Pytest
         run: pytest
 
+  security-scan:
+    name: Trivy Security Scan
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Scan Application Dependencies (Filesystem)
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'table'
+          exit-code: '0'
+          severity: 'CRITICAL,HIGH'
+
+      - name: Scan Infrastructure as Code (Dockerfiles & Compose)
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'config'
+          scan-ref: '.'
+          format: 'table'
+          exit-code: '0'
+          severity: 'CRITICAL,HIGH'
+
   deploy:
     name: Deploy to ${{ (github.ref == 'refs/heads/main') && 'Production' || 'Development' }}
-    needs: [calc-ci, crm-ci, ocr-ci]
+    needs: [calc-ci, crm-ci, ocr-ci, security-scan]
     if: (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/dev') && github.event_name == 'push'
     runs-on: ubuntu-latest
 
