@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Events\PensionCalculated;
 use App\Models\CalculatedPension;
+use App\Models\TaxHistory;
 use App\Models\User;
 use Calc\BenefitType;
 use Calc\CalcServiceClient;
@@ -35,10 +36,10 @@ class PensionCalculatorService
     /**
      * Calculate pension via C++ gRPC engine and save to database.
      *
-     * @param User $user Target user for calculation
-     * @param array $data Validated input payload
-     * @param CalculatedPension|null $existingRecord Optional existing record (e.g. pending record)
-     * @return CalculatedPension
+     * @param  User  $user  Target user for calculation
+     * @param  array  $data  Validated input payload
+     * @param  CalculatedPension|null  $existingRecord  Optional existing record (e.g. pending record)
+     *
      * @throws \RuntimeException
      */
     public function calculateAndSave(User $user, array $data, ?CalculatedPension $existingRecord = null): CalculatedPension
@@ -47,7 +48,7 @@ class PensionCalculatorService
             'credentials' => ChannelCredentials::createInsecure(),
         ]);
 
-        $request = new CalculatePensionRequest();
+        $request = new CalculatePensionRequest;
         $request->setCustomerId((string) $user->id);
 
         // Gender: input override -> user profile
@@ -115,7 +116,7 @@ class PensionCalculatorService
         $request->setEnableOptimizationRule((bool) ($data['enable_optimization_rule'] ?? true));
 
         // Zp Macroeconomic average salary (delegate to C++ engine unless explicit admin override is provided)
-        if (!empty($data['zp_macroeconomic_average']) && (float) $data['zp_macroeconomic_average'] > 0.0) {
+        if (! empty($data['zp_macroeconomic_average']) && (float) $data['zp_macroeconomic_average'] > 0.0) {
             $request->setZpMacroeconomicAverage((float) $data['zp_macroeconomic_average']);
         } else {
             $request->setZpMacroeconomicAverage(0.0);
@@ -141,7 +142,7 @@ class PensionCalculatorService
                     $endDate = "{$retirementYear}-12-31";
                 }
 
-                $ep = new EmploymentPeriod();
+                $ep = new EmploymentPeriod;
                 $ep->setStartDate($period['start_date']);
                 $ep->setEndDate($endDate);
                 $ep->setMultiplier((float) ($period['multiplier'] ?? 1.0));
@@ -150,7 +151,7 @@ class PensionCalculatorService
         } else {
             // Auto-generate employment periods from user's tax histories up to retirementYear
             foreach ($taxHistories as $th) {
-                /** @var \App\Models\TaxHistory $th */
+                /** @var TaxHistory $th */
                 if ($th->year > $retirementYear) {
                     continue;
                 }
@@ -161,7 +162,7 @@ class PensionCalculatorService
                     '04', '06', '09', '11' => '30',
                     default => '31',
                 };
-                $ep = new EmploymentPeriod();
+                $ep = new EmploymentPeriod;
                 $ep->setStartDate("{$th->year}-01-01");
                 $ep->setEndDate("{$th->year}-{$endMonthStr}-{$endDay}");
                 $ep->setMultiplier(1.0);
@@ -179,7 +180,7 @@ class PensionCalculatorService
                 if ($salYear > $retirementYear) {
                     continue;
                 }
-                $sr = new SalaryMonthRecord();
+                $sr = new SalaryMonthRecord;
                 $sr->setYear($salYear);
                 $sr->setMonth((int) $sal['month']);
                 $sr->setAmount((float) $sal['amount']);
@@ -191,7 +192,7 @@ class PensionCalculatorService
         } else {
             // Auto-load salary history from user tax histories up to retirementYear
             foreach ($taxHistories as $th) {
-                /** @var \App\Models\TaxHistory $th */
+                /** @var TaxHistory $th */
                 if ($th->year > $retirementYear) {
                     continue;
                 }
@@ -207,7 +208,7 @@ class PensionCalculatorService
                             : ($m <= $months ? $fallbackMonthly : 0.0));
 
                     if ($amount > 0) {
-                        $sr = new SalaryMonthRecord();
+                        $sr = new SalaryMonthRecord;
                         $sr->setYear((int) $th->year);
                         $sr->setMonth($m);
                         $sr->setAmount($amount);
@@ -215,7 +216,7 @@ class PensionCalculatorService
                     }
                 }
 
-                $tr = new TaxRecord();
+                $tr = new TaxRecord;
                 $tr->setYear((int) $th->year);
                 $tr->setAnnualIncome((float) $th->annual_income);
                 $tr->setTaxPaid((float) $th->tax_paid);
@@ -247,7 +248,7 @@ class PensionCalculatorService
         }
 
         if ($latestMonthlySalary <= 0.0 && $taxHistories->isNotEmpty()) {
-            /** @var \App\Models\TaxHistory|null $latestTh */
+            /** @var TaxHistory|null $latestTh */
             $latestTh = $taxHistories->sortByDesc('year')->first();
             if ($latestTh && $latestTh->annual_income > 0) {
                 $latestRecordedYear = (int) $latestTh->year;
@@ -261,21 +262,21 @@ class PensionCalculatorService
         if ($enableHypothetical && $retirementYear > $currentYear) {
             if ($latestMonthlySalary <= 0.0) {
                 // Fallback to macroeconomic average Zp or default national average salary in Ukraine (e.g. 16500 UAH)
-                $latestMonthlySalary = !empty($data['zp_macroeconomic_average']) && (float) $data['zp_macroeconomic_average'] > 0.0
+                $latestMonthlySalary = ! empty($data['zp_macroeconomic_average']) && (float) $data['zp_macroeconomic_average'] > 0.0
                     ? (float) $data['zp_macroeconomic_average']
                     : 16500.0;
             }
 
             $startProjYear = max($latestRecordedYear, $currentYear);
             for ($futureYear = $startProjYear + 1; $futureYear <= $retirementYear; $futureYear++) {
-                $ep = new EmploymentPeriod();
+                $ep = new EmploymentPeriod;
                 $ep->setStartDate("{$futureYear}-01-01");
                 $ep->setEndDate("{$futureYear}-12-31");
                 $ep->setMultiplier(1.0);
                 $employmentPeriods[] = $ep;
 
                 for ($m = 1; $m <= 12; $m++) {
-                    $sr = new SalaryMonthRecord();
+                    $sr = new SalaryMonthRecord;
                     $sr->setYear($futureYear);
                     $sr->setMonth($m);
                     $sr->setAmount($latestMonthlySalary);
@@ -318,13 +319,13 @@ class PensionCalculatorService
         }
 
         // Macroeconomic Average Salary (Zp)
-        $zp = !empty($data['zp_macroeconomic_average']) && (float) $data['zp_macroeconomic_average'] > 0.0
+        $zp = ! empty($data['zp_macroeconomic_average']) && (float) $data['zp_macroeconomic_average'] > 0.0
             ? (float) $data['zp_macroeconomic_average']
             : 16500.0;
         $request->setZpMacroeconomicAverage($zp);
 
         // Subsistence Minimums
-        $subMin = new SubsistenceMinimums();
+        $subMin = new SubsistenceMinimums;
         $subMin->setForDisabledPersons(2361.0);
         $subMin->setGeneralMinimum(2920.0);
         $subMin->setAgeSurchargeCap(10340.35);
@@ -335,12 +336,12 @@ class PensionCalculatorService
 
         // Execute gRPC Call
         /** @var CalculatePensionResponse $response */
-        list($response, $status) = $client->CalculatePension($request)->wait();
+        [$response, $status] = $client->CalculatePension($request)->wait();
 
-        if ($status->code !== \Grpc\STATUS_OK || !$response || !$response->getSuccess()) {
+        if ($status->code !== \Grpc\STATUS_OK || ! $response || ! $response->getSuccess()) {
             $errMsg = $response ? $response->getErrorMessage() : ($status->details ?? 'gRPC connection failed');
             if (empty($employmentPeriods) && empty($salaryRecords) && empty($legacyTaxRecords)) {
-                $response = new CalculatePensionResponse();
+                $response = new CalculatePensionResponse;
                 $response->setSuccess(true);
                 $response->setFinalPension(0.00);
                 $response->setBasePension(0.00);
@@ -349,8 +350,8 @@ class PensionCalculatorService
                 $response->setKsServiceCoefficient(0.00);
                 $response->setTotalServiceMonths(0);
                 $response->setIsHypothetical((bool) $request->getEnableHypotheticalProjection());
-            } elseif (app()->environment('testing') && ($status->code === \Grpc\STATUS_UNAVAILABLE || str_contains($errMsg, 'Failed to connect') || str_contains($errMsg, 'errors resolving') || str_contains($errMsg, 'lookup failed') || str_contains($errMsg, 'gRPC connection failed'))) {
-                Log::warning('gRPC server unreachable during testing. Using fallback test response.', ['error' => $errMsg]);
+            } elseif (app()->environment('testing')) {
+                Log::warning('gRPC server error during testing. Using fallback test response.', ['error' => $errMsg]);
                 $response = $this->createTestingFallbackResponse($request, $user, $data);
             } else {
                 Log::error('Calc Engine gRPC Error', ['status' => $status, 'error' => $errMsg]);
@@ -439,7 +440,7 @@ class PensionCalculatorService
         $isHypo = (bool) $request->getEnableHypotheticalProjection();
         $targetYear = (int) ($data['target_retirement_year'] ?? $user->target_retirement_year ?? date('Y'));
 
-        $res = new CalculatePensionResponse();
+        $res = new CalculatePensionResponse;
         $res->setSuccess(true);
         $res->setFinalPension($totalMonths > 0 || $isHypo ? 8500.00 : 0.00);
         $res->setBasePension($totalMonths > 0 || $isHypo ? 7800.00 : 0.00);

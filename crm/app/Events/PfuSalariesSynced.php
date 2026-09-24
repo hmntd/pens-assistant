@@ -11,7 +11,7 @@ class PfuSalariesSynced
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
-     * @param array<int, array{year: int, month: int, amount: float}> $records
+     * @param  array<int, array{year: int, month: int, amount: float}>  $records
      */
     public function __construct(
         public array $records,

@@ -12,7 +12,8 @@ export default {
     },
     analytics: {
         title: 'System Analytics & Activity',
-        subtitle: 'Comprehensive statistics on user activity, calculations, browsers, and data entry popularity.',
+        subtitle:
+            'Comprehensive statistics on user activity, calculations, browsers, and data entry popularity.',
         totalUsers: 'Total Registered Users',
         activeUsers: 'Active Users (30 Days)',
         totalCalculations: 'Total Pensions Calculated',
@@ -93,12 +94,16 @@ export default {
         resetTitle: 'Reset password',
         resetDesc: 'Please enter your new password below',
         confirmTitle: 'Confirm password',
-        confirmDesc: 'This is a secure area of the application. Please confirm your password before continuing.',
+        confirmDesc:
+            'This is a secure area of the application. Please confirm your password before continuing.',
         verifyTitle: 'Email verification',
-        verifyDesc: 'Please verify your email address by clicking on the link we just emailed to you.',
+        verifyDesc:
+            'Please verify your email address by clicking on the link we just emailed to you.',
         twoFactorTitle: 'Two-factor authentication',
-        twoFactorDescCode: 'Enter the authentication code provided by your authenticator application.',
-        twoFactorDescRecovery: 'Please confirm access to your account by entering one of your emergency recovery codes.',
+        twoFactorDescCode:
+            'Enter the authentication code provided by your authenticator application.',
+        twoFactorDescRecovery:
+            'Please confirm access to your account by entering one of your emergency recovery codes.',
         emailLabel: 'Email address',
         passwordLabel: 'Password',
         firstNameLabel: 'First name',
@@ -113,12 +118,13 @@ export default {
         confirmBtn: 'Confirm password',
         resendVerifyBtn: 'Resend verification email',
         logoutLink: 'Log out',
-        noAccount: 'Don\'t have an account?',
+        noAccount: "Don't have an account?",
         signUpLink: 'Sign up',
         alreadyHaveAccount: 'Already have an account?',
         loginLink: 'Log in',
         orReturnTo: 'Or, return to',
-        verifySentSuccess: 'A new verification link has been sent to the email address you provided during registration.',
+        verifySentSuccess:
+            'A new verification link has been sent to the email address you provided during registration.',
         continueBtn: 'Continue',
         orYouCan: 'or you can',
         loginWithAuthCode: 'login using an authentication code',
@@ -133,7 +139,8 @@ export default {
     hero: {
         badge: 'Ukrainian Pension Assistant',
         title: 'Calculate & Keep Your Pension Payments Correct',
-        subtitle: 'Use this assistant to keep your pensions corrected according to official Ukrainian laws.',
+        subtitle:
+            'Use this assistant to keep your pensions corrected according to official Ukrainian laws.',
         signIn: 'Sign In to Portal',
         signUp: 'Create Account',
         dashboard: 'Go to Dashboard',
@@ -147,78 +154,103 @@ export default {
     features: {
         badge: 'Key Features',
         title: 'Everything You Need for Precise Pension Recalculation',
-        subtitle: 'Official PFU formulas, benefit supplements, work history evaluation, and dynamic limit checks.',
+        subtitle:
+            'Official PFU formulas, benefit supplements, work history evaluation, and dynamic limit checks.',
         item1Title: '5-Stage Calculation Engine',
-        item1Desc: 'Calculates pensions using the official formula: P = Zp × Kz × Ks with service years & wage coefficients.',
+        item1Desc:
+            'Calculates pensions using the official formula: P = Zp × Kz × Ks with service years & wage coefficients.',
         item2Title: 'Automated OCR Document Parser',
-        item2Desc: 'Upload photos or PDF certificates of income — the system automatically extracts monthly salary & tax records.',
+        item2Desc:
+            'Upload photos or PDF certificates of income — the system automatically extracts monthly salary & tax records.',
         item3Title: 'Age-Based Surcharges (70+)',
-        item3Desc: 'Automatic application of legal monthly age supplements: +300 UAH (70-74), +456 UAH (75-79), +570 UAH (80+).',
+        item3Desc:
+            'Automatic application of legal monthly age supplements: +300 UAH (70-74), +456 UAH (75-79), +570 UAH (80+).',
         item4Title: 'Special Status & Benefit Modifiers',
-        item4Desc: 'Integrated surcharges for Combat Veterans (+25%), Donors (+10%), Chornobyl Liquidators (+30%), and Disability.',
+        item4Desc:
+            'Integrated surcharges for Combat Veterans (+25%), Donors (+10%), Chornobyl Liquidators (+30%), and Disability.',
     },
     testimonials: {
         badge: 'Key Features',
         title: 'Core System Capabilities',
-        subtitle: 'Advanced functional tools for accurate calculation, optimization, and prediction of pension benefits.',
+        subtitle:
+            'Advanced functional tools for accurate calculation, optimization, and prediction of pension benefits.',
         feature1Title: 'Analysis of experience until 2000',
-        feature1Desc: 'Automated verification and accounting of insurance service records prior to July 1, 2000 (Art. 40 Law 1058-IV).',
+        feature1Desc:
+            'Automated verification and accounting of insurance service records prior to July 1, 2000 (Art. 40 Law 1058-IV).',
         feature2Title: 'Accurate calculation according to PFU formulas',
-        feature2Desc: 'Computation of baseline pension payouts using the official PFU formula P = Zp × Kz × Ks with full audit.',
+        feature2Desc:
+            'Computation of baseline pension payouts using the official PFU formula P = Zp × Kz × Ks with full audit.',
         feature3Title: 'Hypothetical prediction of payments',
-        feature3Desc: 'Future pension forecasting for target retirement years with salary and service projection.',
+        feature3Desc:
+            'Future pension forecasting for target retirement years with salary and service projection.',
         feature4Title: 'Automatic optimization of the Kz coefficient',
-        feature4Desc: 'Automated dropping of low-salary months (up to 10% optimization rule for best Kz coefficient).',
+        feature4Desc:
+            'Automated dropping of low-salary months (up to 10% optimization rule for best Kz coefficient).',
         feature5Title: 'Consideration of age allowances and benefits',
-        feature5Desc: 'Automatic application of 70+ age supplements (+570 UAH) and special status benefits (Combat Veteran, Donor, etc.).',
+        feature5Desc:
+            'Automatic application of 70+ age supplements (+570 UAH) and special status benefits (Combat Veteran, Donor, etc.).',
         feature6Title: 'Generation of detailed reports in PDF',
-        feature6Desc: 'Exporting comprehensive official calculation reports with step-by-step formula breakdown.',
+        feature6Desc:
+            'Exporting comprehensive official calculation reports with step-by-step formula breakdown.',
         feature7Title: 'OCR Scanning of OK-5 & Work Records',
-        feature7Desc: 'Automated extraction of monthly salary history and service records from scanned PDFs and photos.',
+        feature7Desc:
+            'Automated extraction of monthly salary history and service records from scanned PDFs and photos.',
         feature8Title: 'Live Macroeconomic Zp Salary Sync',
-        feature8Desc: 'Up-to-date national average salary data across Ukraine for 3 prior years with live synchronization.',
+        feature8Desc:
+            'Up-to-date national average salary data across Ukraine for 3 prior years with live synchronization.',
     },
     blog: {
         badge: 'Pension News',
         title: 'Latest PFU Updates & Regulatory Analytics',
-        subtitle: 'Stay informed about changes in Ukrainian pension legislation.',
+        subtitle:
+            'Stay informed about changes in Ukrainian pension legislation.',
         readAllPfuNews: 'Read all PFU news',
         pfuNewsTag: 'PFU News',
         readOnPfuSite: 'Read on PFU portal',
         post1Tag: 'Indexation 2026',
         post1Title: 'Subsistence Minimum Updates for Disabled Persons',
         post1Date: 'August 15, 2026',
-        post1Desc: 'The Pension Fund of Ukraine published updated subsistence minimum figures for 2026. Here is how it impacts minimum payouts.',
+        post1Desc:
+            'The Pension Fund of Ukraine published updated subsistence minimum figures for 2026. Here is how it impacts minimum payouts.',
         post2Tag: 'Legal Guide',
         post2Title: 'How Age-Based Pension Surcharges Work After Age 70',
         post2Date: 'August 10, 2026',
-        post2Desc: 'Detailed analysis of Resolution No. 168: rules for 300, 456, and 570 UAH supplements and the 10,340.35 UAH cap.',
+        post2Desc:
+            'Detailed analysis of Resolution No. 168: rules for 300, 456, and 570 UAH supplements and the 10,340.35 UAH cap.',
         post3Tag: 'Documents',
         post3Title: 'OK-5 & OK-7 Certificates: How to Upload & Parse',
         post3Date: 'August 02, 2026',
-        post3Desc: 'Step-by-step guide on exporting electronic statements from Diia portal for automated OCR parsing.',
+        post3Desc:
+            'Step-by-step guide on exporting electronic statements from Diia portal for automated OCR parsing.',
     },
     cta: {
         badge: 'Quick Access',
         title: 'Ready to Recalculate Your Pension?',
-        subtitle: 'Select a destination below to get started with the platform.',
+        subtitle:
+            'Select a destination below to get started with the platform.',
         goToBtn: 'Go to',
         link1Title: 'Calculate Pension Now',
-        link1Desc: 'Run a complete 5-stage calculation with document upload or profile auto-fill.',
+        link1Desc:
+            'Run a complete 5-stage calculation with document upload or profile auto-fill.',
         link2Title: 'Upload Income Certificate',
-        link2Desc: 'Parse OK-5 / OK-7 statements using our automated OCR document scanner.',
+        link2Desc:
+            'Parse OK-5 / OK-7 statements using our automated OCR document scanner.',
         link3Title: 'National Salary Coefficients',
-        link3Desc: 'View national average salary metrics across all historical years in Ukraine.',
+        link3Desc:
+            'View national average salary metrics across all historical years in Ukraine.',
         link4Title: 'Subsistence Minimum Limits',
         link4Desc: 'Check legal minimum and maximum pension payout bounds.',
         link5Title: 'User Profile Settings',
-        link5Desc: 'Set gender, birth date, and benefits for automatic calculation loading.',
+        link5Desc:
+            'Set gender, birth date, and benefits for automatic calculation loading.',
         link6Title: 'Frequently Asked Questions',
-        link6Desc: 'Answers to common questions regarding pension formulas and legal rules.',
+        link6Desc:
+            'Answers to common questions regarding pension formulas and legal rules.',
     },
     footer: {
         disclaimerTitle: 'Diploma Student Project',
-        disclaimerText: 'This website is a student diploma thesis project and does not represent an official platform of the Pension Fund of Ukraine or government agencies.',
+        disclaimerText:
+            'This website is a student diploma thesis project and does not represent an official platform of the Pension Fund of Ukraine or government agencies.',
         rights: 'All rights reserved.',
     },
     dashboard: {
@@ -230,7 +262,8 @@ export default {
         },
         overview: {
             title: 'Pension Overview & Calculation',
-            subtitle: 'Automated pension calculation based on specified user profile parameters and work service history',
+            subtitle:
+                'Automated pension calculation based on specified user profile parameters and work service history',
             userCardTitle: 'User Profile Calculation Parameters',
             edit: 'Edit',
             fullName: 'Full Name',
@@ -244,36 +277,47 @@ export default {
             calculateBtn: 'Run Pension Calculation',
             calculatingBtn: 'Calculating...',
             pendingTitle: 'Pension calculation in progress...',
-            pendingDesc: 'Request sent to the PFU calculation engine. The result will appear here automatically in a few seconds.',
+            pendingDesc:
+                'Request sent to the PFU calculation engine. The result will appear here automatically in a few seconds.',
             pendingHistoryTitle: 'Calculation in progress...',
-            pendingHistoryDesc: 'Waiting for background PFU calculation engine to complete',
+            pendingHistoryDesc:
+                'Waiting for background PFU calculation engine to complete',
             pendingBadge: 'In Queue',
             failedBadge: 'Error',
             failedHistoryTitle: 'Calculation Error',
             failedHistoryDesc: 'An error occurred during pension calculation',
-            blockedNotice: 'Please specify retirement year and service history to calculate',
+            blockedNotice:
+                'Please specify retirement year and service history to calculate',
             resultTitle: 'Latest Calculation Result',
             calculatedPfu: 'Calculated via PFU Formula',
             basePension: 'Base Pension',
             serviceMultiplier: 'Service Multiplier',
             historyTitle: 'Calculation History',
-            emptyHistory: 'Fill in personal data and service, then click "Run Pension Calculation"',
+            emptyHistory:
+                'Fill in personal data and service, then click "Run Pension Calculation"',
             enableHypotheticalLabel: 'Model hypothetical future pension',
-            enableHypotheticalDesc: 'Project continuous service and salary up to target retirement year at current rate',
+            enableHypotheticalDesc:
+                'Project continuous service and salary up to target retirement year at current rate',
             hypotheticalTitle: 'Theoretical (Projected) Pension Calculation',
-            hypotheticalDesc: 'This calculation is projected for target retirement year :year (or before meeting full service/age requirements). It models future earnings assuming your current salary level.',
+            hypotheticalDesc:
+                'This calculation is projected for target retirement year :year (or before meeting full service/age requirements). It models future earnings assuming your current salary level.',
             hypotheticalInfoTooltip: 'How does theoretical calculation work?',
             hypotheticalModalTitle: 'How is theoretical pension calculated?',
             criteriaNotMetTitle: 'Statutory Pension Criteria Not Yet Met',
-            criteriaNotMetDesc: 'You have not yet met the required legal criteria (age 60+, service 35+ years, or target year in future). Your calculated pension based on current available data is :amount ₴.',
+            criteriaNotMetDesc:
+                'You have not yet met the required legal criteria (age 60+, service 35+ years, or target year in future). Your calculated pension based on current available data is :amount ₴.',
             hypotheticalStep1Title: '1. Continuous Service Projection',
-            hypotheticalStep1Desc: 'The system projects continuous monthly employment from current year up to your target retirement year (:year).',
+            hypotheticalStep1Desc:
+                'The system projects continuous monthly employment from current year up to your target retirement year (:year).',
             hypotheticalStep2Title: '2. Current Salary Baseline',
-            hypotheticalStep2Desc: 'Future projected months use your latest recorded monthly salary level.',
+            hypotheticalStep2Desc:
+                'Future projected months use your latest recorded monthly salary level.',
             hypotheticalStep3Title: '3. Official PFU Baseline (Zp)',
-            hypotheticalStep3Desc: 'Uses the latest available 3-year national average salary figures from the PFU database.',
+            hypotheticalStep3Desc:
+                'Uses the latest available 3-year national average salary figures from the PFU database.',
             hypotheticalStep4Title: '4. Unadjusted for Future Inflation',
-            hypotheticalStep4Desc: 'Calculations provide a base benchmark and do not account for future inflation, legislation changes, or annual indexations.',
+            hypotheticalStep4Desc:
+                'Calculations provide a base benchmark and do not account for future inflation, legislation changes, or annual indexations.',
             closeModal: 'Understood',
         },
         details: {
@@ -294,31 +338,41 @@ export default {
             tableNationalSalary: 'Average UA Wage (MN)',
             tableMonthlyCoeff: 'Coefficient (Ki = Mi / MN)',
             avgKzTitle: 'Weighted Average Coefficient (Kz)',
-            noTaxRecordsNotice: 'Tax earnings history is empty or not yet recognized from documents',
+            noTaxRecordsNotice:
+                'Tax earnings history is empty or not yet recognized from documents',
             ksFormulaTitle: 'Insurance Service Coefficient Calculation',
             ksMonthsLabel: 'Total Service Months',
             ksFormulaExpr: 'Ks = Service Months / 1200',
             zpFormulaTitle: '3-Year Macroeconomic Average Wage Indicator',
-            zpDescription: 'Under Art. 40 of Law No. 1058-IV, the average salary in Ukraine for the three calendar years preceding the year of retirement application is used.',
+            zpDescription:
+                'Under Art. 40 of Law No. 1058-IV, the average salary in Ukraine for the three calendar years preceding the year of retirement application is used.',
             logsTitle: 'Step-by-Step 5-Stage Execution Logs (C++ Engine)',
-            noLogsNotice: 'No detailed execution logs available for this record',
+            noLogsNotice:
+                'No detailed execution logs available for this record',
             clampingTitle: 'Statutory Pension Limits (Stage 5 Clamping)',
-            minClampedText: 'Pension clamped up to minimum subsistence floor (2,361.00 ₴)',
-            maxClampedText: 'Pension clamped down to statutory maximum limit of 10 subsistence minimums (23,610.00 ₴)',
-            unclampedText: 'Calculated pension amount is within statutory PFU limits',
+            minClampedText:
+                'Pension clamped up to minimum subsistence floor (2,361.00 ₴)',
+            maxClampedText:
+                'Pension clamped down to statutory maximum limit of 10 subsistence minimums (23,610.00 ₴)',
+            unclampedText:
+                'Calculated pension amount is within statutory PFU limits',
             viewDetailsBtn: 'View Calculation Details',
             inspectCoeffBtn: 'Inspect Coefficient',
-            kzNoticeText: 'The Kz coefficient is computed separately for each month as the ratio of your monthly income (Mi) to the average monthly wage in Ukraine (MN) for that month (Ki = Mi / MN). Click on a year to inspect the monthly breakdown.',
-            interactiveFormulaElements: 'Interactive Formula Elements (Click for details):',
+            kzNoticeText:
+                'The Kz coefficient is computed separately for each month as the ratio of your monthly income (Mi) to the average monthly wage in Ukraine (MN) for that month (Ki = Mi / MN). Click on a year to inspect the monthly breakdown.',
+            interactiveFormulaElements:
+                'Interactive Formula Elements (Click for details):',
             zpCardLabel: 'Zp (Avg. Salary)',
             kzCardLabel: 'Kz (Wage Coeff.)',
             ksCardLabel: 'Ks (Service Coeff.)',
         },
         alerts: {
             missingRetirementYearTitle: 'Retirement year not specified',
-            missingRetirementYearDesc: 'Click here to go to Personal Data and set your planned retirement year',
+            missingRetirementYearDesc:
+                'Click here to go to Personal Data and set your planned retirement year',
             missingServiceTitle: 'Insurance service & salary history missing',
-            missingServiceDesc: 'Click here to go to Documents and enter service manually or upload certificates',
+            missingServiceDesc:
+                'Click here to go to Documents and enter service manually or upload certificates',
             fillBtn: 'Fill In',
         },
         disabilityLabels: {
@@ -330,7 +384,8 @@ export default {
     },
     documents: {
         title: 'Documents & Insurance Service Entry',
-        subtitle: 'Upload work record books/certificates OR manually enter work service and salary history',
+        subtitle:
+            'Upload work record books/certificates OR manually enter work service and salary history',
         totalService: 'Total Service:',
         yrs: 'yrs',
         months: 'mos.',
@@ -344,13 +399,16 @@ export default {
         rangeTab: 'Year Range',
         fromYear: 'From Year',
         toYear: 'To Year',
-        rangeNotice: 'Salary will be automatically populated across all years in the range',
+        rangeNotice:
+            'Salary will be automatically populated across all years in the range',
         singleYear: 'Year',
         monthlySalary: 'Monthly Salary (UAH)',
         monthsInYear: 'Months in Year',
         includePre2000SalaryLabel: 'Specify Salary Amount (pre-2000 period)',
-        pre2000SalaryNoticeWith: 'Salary prior to 01.07.2000 is used for calculation if 60 consecutive months are confirmed (Art. 40 Law 1058-IV).',
-        pre2000SalaryNoticeWithout: 'This period will count towards insurance service (Ks) only. Salary amount will be omitted from Kz calculation.',
+        pre2000SalaryNoticeWith:
+            'Salary prior to 01.07.2000 is used for calculation if 60 consecutive months are confirmed (Art. 40 Law 1058-IV).',
+        pre2000SalaryNoticeWithout:
+            'This period will count towards insurance service (Ks) only. Salary amount will be omitted from Kz calculation.',
         noSalaryBadge: 'No salary (service only)',
         addRecordBtn: 'Add Service Record',
         savingBtn: 'Saving...',
@@ -361,7 +419,8 @@ export default {
         colMonths: 'Months',
         colAnnualIncome: 'Annual Income',
         colAction: 'Action',
-        emptyHistory: 'Service history is empty. Use the form on the left to upload a file or enter service manually.',
+        emptyHistory:
+            'Service history is empty. Use the form on the left to upload a file or enter service manually.',
         scansTitle: 'Uploaded Document Scans',
         filesCount: 'Files:',
         processed: 'Processed',
@@ -374,12 +433,14 @@ export default {
         deleteConfirmTax: 'Delete this service record?',
         editMonthlySalary: 'Edit monthly income',
         editSalaryTitle: 'Edit Salary Breakdown for :year',
-        editSalarySubtitle: 'Specify the income amount individually for each month of the year',
+        editSalarySubtitle:
+            'Specify the income amount individually for each month of the year',
         totalAnnualIncome: 'Total Annual Income:',
         cancelBtn: 'Cancel',
         saveBtn: 'Save',
         fileNotFoundTitle: 'Sorry, we could not find your document',
-        fileNotFoundDesc: 'The document file may have been removed or deleted from storage.',
+        fileNotFoundDesc:
+            'The document file may have been removed or deleted from storage.',
         docTypeLabel: 'Type',
         downloadBtn: 'Download',
         ocrResultTitle: 'OCR Recognition Result',
@@ -389,16 +450,20 @@ export default {
         closeModal: 'Close',
         deleteConfirmDocTitle: 'Delete Document',
         deleteConfirmTaxTitle: 'Delete Service Record',
-        deleteConfirmDocMsg: 'Are you sure you want to delete this document? This action cannot be undone.',
-        deleteConfirmTaxMsg: 'Are you sure you want to delete this service record? This action cannot be undone.',
+        deleteConfirmDocMsg:
+            'Are you sure you want to delete this document? This action cannot be undone.',
+        deleteConfirmTaxMsg:
+            'Are you sure you want to delete this service record? This action cannot be undone.',
         deletingBtn: 'Deleting...',
         confirmDeleteBtn: 'Delete',
-        ocrSuccessToast: "Document ':file' has been successfully recognized and imported!",
+        ocrSuccessToast:
+            "Document ':file' has been successfully recognized and imported!",
         ocrFailedToast: "Failed to process document ':file'",
     },
     profileDetails: {
         title: 'Personal Details & Disability Group',
-        subtitle: 'Configure benefit categories, disability group, and recalculation parameters',
+        subtitle:
+            'Configure benefit categories, disability group, and recalculation parameters',
         savedSuccess: 'Changes saved successfully!',
         mainInfoTitle: 'Primary Information',
         firstName: 'First Name',
@@ -439,20 +504,23 @@ export default {
         },
         sessions: {
             title: 'Browser Sessions',
-            description: 'Manage and log out your active sessions on other browsers and devices.',
+            description:
+                'Manage and log out your active sessions on other browsers and devices.',
             info: 'If necessary, you may log out of all of your other browser sessions across all of your devices. Some of your recent sessions are listed below. If you feel your account has been compromised, you should also update your password.',
             thisDevice: 'This device',
             lastActive: 'Last active',
             unknownDevice: 'Unknown Device',
             logoutOtherBtn: 'Log Out Other Browser Sessions',
             modalTitle: 'Log Out Other Browser Sessions',
-            modalDesc: 'Please enter your password to confirm you would like to log out of your other browser sessions across all of your devices.',
+            modalDesc:
+                'Please enter your password to confirm you would like to log out of your other browser sessions across all of your devices.',
             passwordLabel: 'Password',
             passwordPlaceholder: 'Enter your current password',
             confirmBtn: 'Log Out Other Sessions',
             cancelBtn: 'Cancel',
             revokeBtn: 'Terminate Session',
-            revokeConfirm: 'Are you sure you want to terminate this browser session?',
+            revokeConfirm:
+                'Are you sure you want to terminate this browser session?',
             successToast: 'Logged out of other browser sessions successfully.',
             revokeSuccessToast: 'Session terminated successfully.',
             loggingOut: 'Logging out...',
@@ -464,7 +532,8 @@ export default {
             warningText: 'Please proceed with caution, this cannot be undone.',
             btnDelete: 'Delete account',
             modalTitle: 'Are you sure you want to delete your account?',
-            modalDesc: 'Once your account is deleted, all of its resources and data will also be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.',
+            modalDesc:
+                'Once your account is deleted, all of its resources and data will also be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.',
             passwordLabel: 'Password',
             cancelBtn: 'Cancel',
         },
@@ -483,7 +552,8 @@ export default {
             added: 'Added',
             lastUsed: 'Last used',
             removeTitle: 'Remove passkey',
-            removeDesc: 'Are you sure you want to remove the passkey? You will no longer be able to use it to sign in.',
+            removeDesc:
+                'Are you sure you want to remove the passkey? You will no longer be able to use it to sign in.',
             removing: 'Removing...',
             removeBtn: 'Remove passkey',
             signInWithPasskey: 'Sign in with a passkey',
@@ -494,23 +564,30 @@ export default {
         twoFactor: {
             title: 'Two-factor authentication',
             description: 'Manage your two-factor authentication settings',
-            infoDisabled: 'When you enable two-factor authentication, you will be prompted for a secure pin during login. This pin can be retrieved from a TOTP-supported application on your phone.',
-            infoEnabled: 'You will be prompted for a secure, random pin during login, which you can retrieve from the TOTP-supported application on your phone.',
+            infoDisabled:
+                'When you enable two-factor authentication, you will be prompted for a secure pin during login. This pin can be retrieved from a TOTP-supported application on your phone.',
+            infoEnabled:
+                'You will be prompted for a secure, random pin during login, which you can retrieve from the TOTP-supported application on your phone.',
             enableBtn: 'Enable 2FA',
             disableBtn: 'Disable 2FA',
             continueSetupBtn: 'Continue setup',
             recoveryCodesTitle: '2FA recovery codes',
-            recoveryCodesDesc: 'Recovery codes let you regain access if you lose your 2FA device. Store them in a secure password manager.',
+            recoveryCodesDesc:
+                'Recovery codes let you regain access if you lose your 2FA device. Store them in a secure password manager.',
             showCodes: 'View recovery codes',
             hideCodes: 'Hide recovery codes',
             regenerateCodes: 'Regenerate codes',
-            recoveryHelp: 'Each recovery code can be used once to access your account and will be removed after use. If you need more, click Regenerate codes above.',
+            recoveryHelp:
+                'Each recovery code can be used once to access your account and will be removed after use. If you need more, click Regenerate codes above.',
             modalEnabledTitle: 'Two-factor authentication enabled',
-            modalEnabledDesc: 'Two-factor authentication is now enabled. Scan the QR code or enter the setup key in your authenticator app.',
+            modalEnabledDesc:
+                'Two-factor authentication is now enabled. Scan the QR code or enter the setup key in your authenticator app.',
             modalVerifyTitle: 'Verify authentication code',
-            modalVerifyDesc: 'Enter the 6-digit code from your authenticator app',
+            modalVerifyDesc:
+                'Enter the 6-digit code from your authenticator app',
             modalSetupTitle: 'Enable two-factor authentication',
-            modalSetupDesc: 'To finish enabling two-factor authentication, scan the QR code or enter the setup key in your authenticator app',
+            modalSetupDesc:
+                'To finish enabling two-factor authentication, scan the QR code or enter the setup key in your authenticator app',
             modalManualText: 'or, enter the code manually',
             close: 'Close',
             continue: 'Continue',
@@ -527,29 +604,35 @@ export default {
         },
         notificationChannels: {
             title: 'Channels & Notifications',
-            description: 'Connect Email, Telegram, and SMS for instant delivery',
+            description:
+                'Connect Email, Telegram, and SMS for instant delivery',
             saveBtn: 'Save Channel Settings',
             sendTestBtn: 'Send Test Notification',
             sendingTest: 'Sending...',
             emailTitle: 'Email Channel',
-            emailDesc: 'Receive notifications directly at your primary email address',
+            emailDesc:
+                'Receive notifications directly at your primary email address',
             telegramTitle: 'Telegram Bot',
-            telegramDesc: 'Receive instant messages in Telegram via your Chat ID',
+            telegramDesc:
+                'Receive instant messages in Telegram via your Chat ID',
             telegramChatId: 'Telegram Chat ID',
             telegramPlaceholder: 'Example: 123456789',
             telegramGuideTitle: 'How to setup bot notifications?',
             telegramGuideStep1: 'Open the bot using the direct link: ',
-            telegramGuideStep2: 'Click the "Start" button or send the /start command',
+            telegramGuideStep2:
+                'Click the "Start" button or send the /start command',
             telegramGuideStep3Prefix: 'Find your numeric Chat ID (e.g. using ',
             telegramGuideStep3Or: ' or ',
-            telegramGuideStep4: 'Enter the numeric ID in the field below and click "Send Test Notification" or "Save Settings"',
+            telegramGuideStep4:
+                'Enter the numeric ID in the field below and click "Send Test Notification" or "Save Settings"',
             telegramInfoTooltip: 'Click for setup instructions',
             smsTitle: 'SMS Notifications',
             smsDesc: 'Deliver urgent text alerts to your mobile phone number',
             phoneNumber: 'Phone Number',
             phonePlaceholder: '+380XXXXXXXXX',
             preferencesTitle: 'Notification Events',
-            preferencesDesc: 'Choose which events trigger instant notification alerts',
+            preferencesDesc:
+                'Choose which events trigger instant notification alerts',
             notifyCalcCompleted: 'Pension calculation completion',
             notifyDocumentProcessed: 'OCR document processing results',
             notifySystemAlerts: 'System & security alerts',
@@ -560,40 +643,50 @@ export default {
         title: 'Notifications',
         newCount: 'new',
         markAllRead: 'Mark all as read',
-        ocrSuccessToast: "Document ':file' successfully recognized and added to insurance history!",
+        ocrSuccessToast:
+            "Document ':file' successfully recognized and added to insurance history!",
         ocrFailedToast: "Failed to process document recognition for ':file'",
-        pensionCalculationStartedToast: "Pension calculation started. You can continue using the application.",
-        pensionCalculationSuccessToast: "Pension calculation completed successfully!",
+        pensionCalculationStartedToast:
+            'Pension calculation started. You can continue using the application.',
+        pensionCalculationSuccessToast:
+            'Pension calculation completed successfully!',
     },
     error: {
         code404: '404',
         pageNotFound: 'Page Not Found',
-        description: 'The page you are looking for might have been removed or is temporarily unavailable.',
+        description:
+            'The page you are looking for might have been removed or is temporarily unavailable.',
         backHome: 'Return to Landing Page',
         goBack: 'Go Back to Previous Page',
         serverErrorTitle: 'An error occurred',
         serverError: 'A server error occurred. Please try again later.',
         code400: 'Bad Request',
-        desc400: 'The server could not understand the request due to invalid syntax.',
+        desc400:
+            'The server could not understand the request due to invalid syntax.',
         code401: 'Unauthorized',
         desc401: 'You must be logged in to access this resource.',
         code403: 'Access Forbidden',
         desc403: 'You do not have permission to access this page or resource.',
         desc404: 'The requested URL was not found on this server.',
         code419: 'Session Expired',
-        desc419: 'Your session has expired. Please refresh the page and try again.',
+        desc419:
+            'Your session has expired. Please refresh the page and try again.',
         code429: 'Too Many Requests',
         desc429: 'You have sent too many requests in a short period of time.',
         code500: 'Internal Server Error',
-        desc500: 'The server encountered an unexpected error. Our team has been notified.',
+        desc500:
+            'The server encountered an unexpected error. Our team has been notified.',
         code502: 'Bad Gateway',
-        desc502: 'The server received an invalid response from the upstream server.',
+        desc502:
+            'The server received an invalid response from the upstream server.',
         code503: 'Service Unavailable',
-        desc503: 'The server is temporarily offline for maintenance or overloaded.',
+        desc503:
+            'The server is temporarily offline for maintenance or overloaded.',
         code504: 'Gateway Timeout',
         desc504: 'The upstream server failed to send a timely response.',
         genericTitle: 'Unexpected Error',
-        genericDesc: 'An unexpected error occurred while processing your request.',
+        genericDesc:
+            'An unexpected error occurred while processing your request.',
     },
     adminNav: {
         title: 'Admin Panel',
@@ -663,7 +756,8 @@ export default {
         modalDeleteTitle: 'Soft Delete User?',
         modalRestoreTitle: 'Restore User?',
         modalSuspendTitle: 'Change Suspension Status?',
-        modalConfirmText: 'Are you sure you want to perform this action for user',
+        modalConfirmText:
+            'Are you sure you want to perform this action for user',
         btnCancel: 'Cancel',
         btnConfirm: 'Confirm',
         btnExecuting: 'Executing...',
@@ -693,7 +787,8 @@ export default {
         btnDelete: 'Delete',
         totalRecords: 'Total records:',
         modalTitle: 'Pension Calculation Protocol (C++ Audit Log)',
-        modalSub: 'Intermediate coefficient breakdown and execution log of calculation engine',
+        modalSub:
+            'Intermediate coefficient breakdown and execution log of calculation engine',
         errorFetch: 'Error loading calculation history.',
         networkErrorFetch: 'Network error while loading calculations.',
         errorDetailFetch: 'Failed to load calculation details.',
@@ -754,7 +849,8 @@ export default {
     },
     adminSystemErrors: {
         title: 'System Errors',
-        subtitle: 'System error monitoring, log inspection & resolution tracking',
+        subtitle:
+            'System error monitoring, log inspection & resolution tracking',
         totalErrors: 'Total Errors',
         unresolvedErrors: 'Unresolved Errors',
         resolvedToday: 'Resolved Today',
@@ -806,6 +902,7 @@ export default {
         female: 'Female',
         notSpecified: 'Not specified (Required)',
         requiredTitle: 'Gender not specified in profile',
-        requiredNotice: 'Selecting gender in profile is required to calculate pension.',
+        requiredNotice:
+            'Selecting gender in profile is required to calculate pension.',
     },
 };

@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted } from 'vue';
-import { mountParticleStyles, unmountParticleStyles } from '@/lib/particleSphereCache';
+import {
+    mountParticleStyles,
+    unmountParticleStyles,
+} from '@/lib/particleSphereCache';
 
 const total = 300;
 

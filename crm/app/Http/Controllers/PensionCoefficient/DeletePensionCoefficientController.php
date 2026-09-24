@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\PensionCoefficient;
 
 use App\Http\Controllers\Controller;
+use Calc\CalcServiceClient;
+use Calc\DeleteCoefficientRequest;
+use Calc\DeleteCoefficientResponse;
+use Grpc\ChannelCredentials;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
@@ -10,17 +14,17 @@ class DeletePensionCoefficientController extends Controller
 {
     public function __invoke(int $id): JsonResponse
     {
-        $calcClient = new \Calc\CalcServiceClient('calc:50051', [
-            'credentials' => \Grpc\ChannelCredentials::createInsecure(),
+        $calcClient = new CalcServiceClient('calc:50051', [
+            'credentials' => ChannelCredentials::createInsecure(),
         ]);
 
-        $grpcRequest = new \Calc\DeleteCoefficientRequest();
+        $grpcRequest = new DeleteCoefficientRequest;
         $grpcRequest->setId($id);
 
-        /** @var \Calc\DeleteCoefficientResponse|null $response */
-        list($response, $status) = $calcClient->DeleteCoefficient($grpcRequest)->wait();
+        /** @var DeleteCoefficientResponse|null $response */
+        [$response, $status] = $calcClient->DeleteCoefficient($grpcRequest)->wait();
 
-        if ($status->code !== \Grpc\STATUS_OK || !$response || !$response->getSuccess()) {
+        if ($status->code !== \Grpc\STATUS_OK || ! $response || ! $response->getSuccess()) {
             if (app()->environment('testing')) {
                 return response()->json([
                     'status' => 'success',

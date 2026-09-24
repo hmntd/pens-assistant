@@ -7,7 +7,6 @@ class AgentParserService
     /**
      * Parse User-Agent string to extract device type, platform, and browser details.
      *
-     * @param string|null $userAgent
      * @return array{device_type: string, platform: string, browser: string, browser_version: string|null}
      */
     public function parse(?string $userAgent): array

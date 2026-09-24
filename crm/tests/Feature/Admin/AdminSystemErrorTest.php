@@ -128,7 +128,7 @@ class AdminSystemErrorTest extends TestCase
         $admin = User::factory()->create();
         $admin->assignRole('admin');
 
-        $service = new SystemErrorLoggerService();
+        $service = new SystemErrorLoggerService;
 
         $request = Request::create('/test-url', 'GET');
         $exception = new Exception('Test runtime failure');

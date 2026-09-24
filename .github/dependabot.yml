@@ -1,0 +1,59 @@
+version: 2
+updates:
+  # GitHub Actions Workflows
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+
+  # CRM Laravel / PHP (Composer)
+  - package-ecosystem: "composer"
+    directory: "/crm"
+    schedule:
+      interval: "weekly"
+    groups:
+      php-dependencies:
+        patterns:
+          - "*"
+
+  # Root PHP (Deployer)
+  - package-ecosystem: "composer"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+
+  # CRM Vue / Frontend (npm)
+  - package-ecosystem: "npm"
+    directory: "/crm"
+    schedule:
+      interval: "weekly"
+    groups:
+      npm-dependencies:
+        patterns:
+          - "*"
+
+  # OCR Service (Python / pip)
+  - package-ecosystem: "pip"
+    directory: "/ocr"
+    schedule:
+      interval: "weekly"
+
+  # Docker Base Images
+  - package-ecosystem: "docker"
+    directory: "/crm"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "docker"
+    directory: "/calc"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "docker"
+    directory: "/ocr"
+    schedule:
+      interval: "weekly"

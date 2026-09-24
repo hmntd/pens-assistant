@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { computed, watchEffect } from 'vue';
 import { Form, Head, setLayoutProps } from '@inertiajs/vue3';
-import { useI18n } from '@/composables/useI18n';
+import { computed, watchEffect } from 'vue';
 import {
     index as confirmOptions,
     store as confirmStore,
 } from '@/actions/Laravel/Passkeys/Http/Controllers/PasskeyConfirmationController';
-import InputError from '@/components/common/atoms/InputError.vue';
-import PasskeyVerify from '@/components/auth/organisms/PasskeyVerify.vue';
 import PasswordInput from '@/components/auth/atoms/PasswordInput.vue';
+import PasskeyVerify from '@/components/auth/organisms/PasskeyVerify.vue';
+import InputError from '@/components/common/atoms/InputError.vue';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
+import { useI18n } from '@/composables/useI18n';
 import { store } from '@/routes/password/confirm';
 
 const { t } = useI18n();
@@ -62,7 +62,7 @@ watchEffect(() => {
 
             <div class="flex items-center">
                 <Button
-                    class="w-full bg-main text-slate-950 hover:bg-main-dark font-bold"
+                    class="w-full bg-main font-bold text-slate-950 hover:bg-main-dark"
                     :disabled="processing"
                     data-test="confirm-password-button"
                 >

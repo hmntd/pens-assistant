@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('tax_histories', function (Blueprint $table) {
-            if (!Schema::hasColumn('tax_histories', 'monthly_breakdown')) {
+            if (! Schema::hasColumn('tax_histories', 'monthly_breakdown')) {
                 $table->json('monthly_breakdown')->nullable()->after('months_worked');
             }
         });

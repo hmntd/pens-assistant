@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Services\NotificationChannelService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -14,7 +15,7 @@ class SendTestNotificationController extends Controller
      */
     public function __invoke(Request $request, NotificationChannelService $service): JsonResponse
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = $request->user();
 
         $validated = $request->validate([
@@ -23,7 +24,7 @@ class SendTestNotificationController extends Controller
         ]);
 
         $result = $service->sendTestNotification(
-            $user, 
+            $user,
             (string) $validated['channel'],
             $validated['telegram_chat_id'] ?? null
         );

@@ -17,7 +17,7 @@ class PensionCalculationPdfService
         $user = $user ?? $calculation->user;
 
         $logs = [];
-        if (!empty($calculation->calculation_logs)) {
+        if (! empty($calculation->calculation_logs)) {
             $logs = is_array($calculation->calculation_logs)
                 ? $calculation->calculation_logs
                 : (json_decode((string) $calculation->calculation_logs, true) ?? []);
@@ -35,11 +35,11 @@ class PensionCalculationPdfService
 
         $pdf->setPaper('A4', 'portrait');
 
-        $filename = 'Pension_Calculation_' . $calculation->id . '_' . date('Ymd') . '.pdf';
+        $filename = 'Pension_Calculation_'.$calculation->id.'_'.date('Ymd').'.pdf';
 
         return response($pdf->output(), 200, [
             'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+            'Content-Disposition' => 'attachment; filename="'.$filename.'"',
         ]);
     }
 }

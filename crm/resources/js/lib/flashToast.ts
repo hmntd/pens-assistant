@@ -15,7 +15,8 @@ export function initializeFlashToast(): void {
         }
 
         const translated = t(data.message);
-        const displayMsg = translated !== data.message ? translated : data.message;
+        const displayMsg =
+            translated !== data.message ? translated : data.message;
 
         toast[data.type](displayMsg);
     });

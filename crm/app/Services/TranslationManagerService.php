@@ -98,6 +98,7 @@ class TranslationManagerService
         $content = File::get($path);
         if (preg_match('/export\s+default\s+(\{[\s\S]*\});?$/', trim($content), $matches)) {
             $jsonLike = $matches[1];
+
             return $this->parseJsObjectString($jsonLike);
         }
 
@@ -106,7 +107,7 @@ class TranslationManagerService
 
     private function saveTsFile(string $path, array $data): void
     {
-        $exportContent = "export default ".json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE).";\n";
+        $exportContent = 'export default '.json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE).";\n";
         File::put($path, $exportContent);
     }
 

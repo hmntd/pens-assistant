@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { Form, Head, setLayoutProps } from '@inertiajs/vue3';
 import { computed, ref, watchEffect } from 'vue';
-import { useI18n } from '@/composables/useI18n';
 import InputError from '@/components/common/atoms/InputError.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -10,6 +9,7 @@ import {
     InputOTPGroup,
     InputOTPSlot,
 } from '@/components/ui/input-otp';
+import { useI18n } from '@/composables/useI18n';
 import { store } from '@/routes/two-factor/login';
 import type { TwoFactorConfigContent } from '@/types';
 
@@ -83,7 +83,10 @@ const toggleRecoveryMode = (clearErrors: () => void): void => {
                     </div>
                     <InputError :message="errors.code" />
                 </div>
-                <Button type="submit" class="w-full bg-main text-slate-950 hover:bg-main-dark font-bold" :disabled="processing"
+                <Button
+                    type="submit"
+                    class="w-full bg-main font-bold text-slate-950 hover:bg-main-dark"
+                    :disabled="processing"
                     >{{ t('auth.continueBtn') }}</Button
                 >
                 <div class="text-center text-sm text-muted-foreground">
@@ -114,7 +117,10 @@ const toggleRecoveryMode = (clearErrors: () => void): void => {
                     required
                 />
                 <InputError :message="errors.recovery_code" />
-                <Button type="submit" class="w-full bg-main text-slate-950 hover:bg-main-dark font-bold" :disabled="processing"
+                <Button
+                    type="submit"
+                    class="w-full bg-main font-bold text-slate-950 hover:bg-main-dark"
+                    :disabled="processing"
                     >{{ t('auth.continueBtn') }}</Button
                 >
 

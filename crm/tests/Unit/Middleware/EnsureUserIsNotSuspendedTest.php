@@ -15,7 +15,7 @@ class EnsureUserIsNotSuspendedTest extends TestCase
 
     public function test_allows_guest_requests(): void
     {
-        $middleware = new EnsureUserIsNotSuspended();
+        $middleware = new EnsureUserIsNotSuspended;
         $request = Request::create('/dashboard', 'GET');
 
         $response = $middleware->handle($request, function ($req) {
@@ -27,7 +27,7 @@ class EnsureUserIsNotSuspendedTest extends TestCase
 
     public function test_allows_active_user_requests(): void
     {
-        $middleware = new EnsureUserIsNotSuspended();
+        $middleware = new EnsureUserIsNotSuspended;
         $user = User::factory()->create(['is_suspended' => false]);
         $request = Request::create('/dashboard', 'GET');
         $request->setUserResolver(fn () => $user);
@@ -41,7 +41,7 @@ class EnsureUserIsNotSuspendedTest extends TestCase
 
     public function test_blocks_suspended_user_and_logs_out(): void
     {
-        $middleware = new EnsureUserIsNotSuspended();
+        $middleware = new EnsureUserIsNotSuspended;
         $user = User::factory()->create(['is_suspended' => true]);
         $this->actingAs($user);
 

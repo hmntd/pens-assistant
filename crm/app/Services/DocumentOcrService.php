@@ -9,8 +9,12 @@ use App\Models\Document;
 use App\Models\RecognizedDocument;
 use App\Models\TaxHistory;
 use App\Models\User;
+use Grpc\ChannelCredentials;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Ocr\OcrRequest;
+use Ocr\OcrResponse;
+use Ocr\OcrServiceClient;
 use Throwable;
 
 class DocumentOcrService
@@ -23,7 +27,7 @@ class DocumentOcrService
         $document->update(['status' => 'processing']);
         event(new DocumentStatusUpdated($document, 'processing'));
 
-        $fullPath = storage_path('app/' . $document->file_path);
+        $fullPath = storage_path('app/'.$document->file_path);
         $fileBytes = file_exists($fullPath) ? file_get_contents($fullPath) : '';
         if (empty($fileBytes) && Storage::disk('local')->exists($document->file_path)) {
             $fileBytes = Storage::disk('local')->get($document->file_path);
@@ -31,17 +35,17 @@ class DocumentOcrService
 
         $extension = pathinfo($document->original_filename, PATHINFO_EXTENSION);
 
-        $ocrClient = new \Ocr\OcrServiceClient('ocr:50052', [
-            'credentials' => \Grpc\ChannelCredentials::createInsecure(),
+        $ocrClient = new OcrServiceClient('ocr:50052', [
+            'credentials' => ChannelCredentials::createInsecure(),
         ]);
 
-        $ocrRequest = new \Ocr\OcrRequest();
+        $ocrRequest = new OcrRequest;
         $ocrRequest->setFileContent($fileBytes);
         $ocrRequest->setFileExtension(strtolower($extension ?: 'pdf'));
         $ocrRequest->setDocumentType($document->document_type);
 
-        /** @var \Ocr\OcrResponse|null $ocrResponse */
-        list($ocrResponse, $ocrStatus) = $ocrClient->RecognizeTaxDocument($ocrRequest)->wait();
+        /** @var OcrResponse|null $ocrResponse */
+        [$ocrResponse, $ocrStatus] = $ocrClient->RecognizeTaxDocument($ocrRequest)->wait();
 
         if ($ocrStatus->code !== \Grpc\STATUS_OK || ! $ocrResponse || ! $ocrResponse->getSuccess()) {
             $errorMsg = $ocrResponse ?
@@ -64,6 +68,7 @@ class DocumentOcrService
                 if ($document->user instanceof User) {
                     $this->calculatePensionForUser($document->user);
                 }
+
                 return $recognized;
             }
 
@@ -76,6 +81,7 @@ class DocumentOcrService
                 ]
             );
             event(new DocumentStatusUpdated($document, 'failed', $errorMsg));
+
             return $recognized;
         }
 
@@ -120,7 +126,7 @@ class DocumentOcrService
                     $yr = (int) $rec['year'];
                     $salaryRaw = (string) ($rec['salary_amount'] ?? '0');
                     $salary = (float) preg_replace('/[^\d.]/', '', $salaryRaw);
-                    $month = !empty($rec['month']) ? (int) $rec['month'] : null;
+                    $month = ! empty($rec['month']) ? (int) $rec['month'] : null;
 
                     if ($yr > 1950) {
                         if (! isset($byYear[$yr])) {
@@ -218,9 +224,11 @@ class DocumentOcrService
         try {
             /** @var PensionCalculatorService $calcService */
             $calcService = app(PensionCalculatorService::class);
+
             return $calcService->calculateAndSave($user, []);
         } catch (Throwable $e) {
-            Log::warning('Failed to trigger pension calculation for user: ' . $e->getMessage());
+            Log::warning('Failed to trigger pension calculation for user: '.$e->getMessage());
+
             return null;
         }
     }

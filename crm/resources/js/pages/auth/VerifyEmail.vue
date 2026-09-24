@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { computed, watchEffect } from 'vue';
 import { Form, Head, setLayoutProps } from '@inertiajs/vue3';
-import { useI18n } from '@/composables/useI18n';
+import { computed, watchEffect } from 'vue';
 import TextLink from '@/components/common/atoms/TextLink.vue';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
+import { useI18n } from '@/composables/useI18n';
 import { logout } from '@/routes';
 import { send } from '@/routes/verification';
 
@@ -40,12 +40,21 @@ defineProps<{
         class="space-y-6 text-center"
         v-slot="{ processing }"
     >
-        <Button :disabled="processing" variant="secondary" class="w-full font-bold">
+        <Button
+            :disabled="processing"
+            variant="secondary"
+            class="w-full font-bold"
+        >
             <Spinner v-if="processing" />
             {{ t('auth.resendVerifyBtn') }}
         </Button>
 
-        <TextLink :href="logout.url()" method="post" as="button" class="mx-auto block text-sm">
+        <TextLink
+            :href="logout.url()"
+            method="post"
+            as="button"
+            class="mx-auto block text-sm"
+        >
             {{ t('auth.logoutLink') }}
         </TextLink>
     </Form>

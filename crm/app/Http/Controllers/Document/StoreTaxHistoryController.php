@@ -6,6 +6,7 @@ use App\Events\TaxHistoryAdded;
 use App\Http\Controllers\Controller;
 use App\Models\AuditLog;
 use App\Models\TaxHistory;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -16,7 +17,7 @@ class StoreTaxHistoryController extends Controller
 {
     public function __invoke(Request $request): JsonResponse|RedirectResponse
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = $request->user();
 
         $currentYear = (int) date('Y');
@@ -47,6 +48,7 @@ class StoreTaxHistoryController extends Controller
                         'errors' => ['from_year' => ['From year must be less than or equal to to year.']],
                     ], Response::HTTP_UNPROCESSABLE_ENTITY);
                 }
+
                 return back()->withErrors(['from_year' => 'From year must be less than or equal to to year.']);
             }
 
@@ -118,6 +120,7 @@ class StoreTaxHistoryController extends Controller
                 'type' => 'success',
                 'message' => __('Insurance service record for :period added successfully.', ['period' => $period]),
             ]);
+
             return redirect()->back();
         }
 

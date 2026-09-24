@@ -1,5 +1,6 @@
 import { createInertiaApp } from '@inertiajs/vue3';
 import { initializeTheme } from '@/composables/useAppearance';
+import { initializeEcho } from '@/echo';
 import AppLayout from '@/layouts/AppLayout.vue';
 import AuthLayout from '@/layouts/AuthLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
@@ -36,5 +37,4 @@ initializeTheme();
 initializeFlashToast();
 
 // Initialize Echo for Pusher WebSockets...
-import { initializeEcho } from '@/echo';
 initializeEcho();

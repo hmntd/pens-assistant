@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { KeyRound, Trash2 } from '@lucide/vue';
 import { ref } from 'vue';
-import { useI18n } from '@/composables/useI18n';
 import { Button } from '@/components/ui/button';
 import {
     Dialog,
@@ -12,6 +11,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from '@/components/ui/dialog';
+import { useI18n } from '@/composables/useI18n';
 import type { Passkey } from '@/types/auth';
 
 const { t } = useI18n();
@@ -37,22 +37,28 @@ const handleDelete = () => {
 <template>
     <div class="flex items-center justify-between border-b p-4 last:border-b-0">
         <div class="flex items-center gap-4">
-            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-muted">
+            <div
+                class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-muted"
+            >
                 <KeyRound class="h-5 w-5 text-muted-foreground" />
             </div>
             <div class="space-y-1">
                 <div class="flex items-center gap-2.5">
                     <p class="font-medium tracking-tight">{{ passkey.name }}</p>
-                    <span v-if="passkey.authenticator"
-                        class="inline-flex items-center gap-1 rounded-md bg-muted px-2 py-0.5 text-[11px] font-medium tracking-wide text-muted-foreground uppercase ring-1 ring-border ring-inset">
+                    <span
+                        v-if="passkey.authenticator"
+                        class="inline-flex items-center gap-1 rounded-md bg-muted px-2 py-0.5 text-[11px] font-medium tracking-wide text-muted-foreground uppercase ring-1 ring-border ring-inset"
+                    >
                         {{ passkey.authenticator }}
                     </span>
                 </div>
                 <p class="text-sm text-muted-foreground">
-                    {{ t('settings.passkeys.added') }} {{ passkey.created_at_diff }}
+                    {{ t('settings.passkeys.added') }}
+                    {{ passkey.created_at_diff }}
                     <template v-if="passkey.last_used_at_diff">
                         <span class="mx-1 text-muted-foreground/50">/</span>
-                        {{ t('settings.passkeys.lastUsed') }} {{ passkey.last_used_at_diff }}
+                        {{ t('settings.passkeys.lastUsed') }}
+                        {{ passkey.last_used_at_diff }}
                     </template>
                 </p>
             </div>
@@ -60,24 +66,41 @@ const handleDelete = () => {
 
         <Dialog>
             <DialogTrigger as-child>
-                <Button variant="ghost" size="sm"
-                    class="text-destructive hover:bg-destructive/10 hover:text-destructive">
+                <Button
+                    variant="ghost"
+                    size="sm"
+                    class="text-destructive hover:bg-destructive/10 hover:text-destructive"
+                >
                     <Trash2 class="h-4 w-4" />
-                    <span class="sr-only">{{ t('settings.passkeys.removeBtn') }}</span>
+                    <span class="sr-only">{{
+                        t('settings.passkeys.removeBtn')
+                    }}</span>
                 </Button>
             </DialogTrigger>
 
             <DialogContent>
-                <DialogTitle>{{ t('settings.passkeys.removeTitle') }}</DialogTitle>
+                <DialogTitle>{{
+                    t('settings.passkeys.removeTitle')
+                }}</DialogTitle>
                 <DialogDescription>
                     {{ t('settings.passkeys.removeDesc') }}
                 </DialogDescription>
                 <DialogFooter class="gap-2">
                     <DialogClose as-child>
-                        <Button variant="secondary">{{ t('settings.deleteUser.cancelBtn') }}</Button>
+                        <Button variant="secondary">{{
+                            t('settings.deleteUser.cancelBtn')
+                        }}</Button>
                     </DialogClose>
-                    <Button variant="destructive" :disabled="isDeleting" @click="handleDelete">
-                        {{ isDeleting ? t('settings.passkeys.removing') : t('settings.passkeys.removeBtn') }}
+                    <Button
+                        variant="destructive"
+                        :disabled="isDeleting"
+                        @click="handleDelete"
+                    >
+                        {{
+                            isDeleting
+                                ? t('settings.passkeys.removing')
+                                : t('settings.passkeys.removeBtn')
+                        }}
                     </Button>
                 </DialogFooter>
             </DialogContent>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Document;
 
 use App\Http\Controllers\Controller;
 use App\Models\Document;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -12,7 +13,7 @@ class IndexDocumentController extends Controller
 {
     public function __invoke(Request $request): JsonResponse
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = $request->user();
 
         $page = max(1, (int) $request->input('page', 1));

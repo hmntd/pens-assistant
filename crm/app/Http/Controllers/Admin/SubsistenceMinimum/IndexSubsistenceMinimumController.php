@@ -16,7 +16,7 @@ class IndexSubsistenceMinimumController extends Controller
     public function __invoke(Request $request): JsonResponse
     {
         $user = $request->user();
-        if (!$user || !$user->isAdmin()) {
+        if (! $user || ! $user->isAdmin()) {
             return response()->json(['message' => 'Unauthorized. Admin access required.'], Response::HTTP_FORBIDDEN);
         }
 
@@ -37,9 +37,9 @@ class IndexSubsistenceMinimumController extends Controller
             'credentials' => ChannelCredentials::createInsecure(),
         ]);
 
-        $grpcRequest = new ListSubsistenceMinimumsRequest();
+        $grpcRequest = new ListSubsistenceMinimumsRequest;
         /** @var ListSubsistenceMinimumsResponse|null $response */
-        list($response, $status) = $calcClient->ListSubsistenceMinimums($grpcRequest)->wait();
+        [$response, $status] = $calcClient->ListSubsistenceMinimums($grpcRequest)->wait();
 
         $records = [];
         if ($status->code === \Grpc\STATUS_OK && $response && $response->getSuccess()) {

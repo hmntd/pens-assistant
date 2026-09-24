@@ -6,6 +6,7 @@ use App\Events\UserProfileUpdated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Settings\ProfileUpdateRequest;
 use App\Models\AuditLog;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 
@@ -16,7 +17,7 @@ class UpdateProfileController extends Controller
      */
     public function __invoke(ProfileUpdateRequest $request): RedirectResponse
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = $request->user();
 
         $validated = $request->validated();

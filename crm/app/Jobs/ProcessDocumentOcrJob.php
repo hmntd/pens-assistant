@@ -14,14 +14,13 @@ class ProcessDocumentOcrJob implements ShouldQueue
     use InteractsWithQueue, Queueable, SerializesModels;
 
     public int $tries = 3;
+
     public int $timeout = 120;
 
     /**
      * Create a new job instance.
      */
-    public function __construct(public Document $document)
-    {
-    }
+    public function __construct(public Document $document) {}
 
     /**
      * Execute the job.
@@ -29,7 +28,7 @@ class ProcessDocumentOcrJob implements ShouldQueue
     public function handle(DocumentOcrService $ocrService): void
     {
         $document = Document::find($this->document->id);
-        if (!$document || in_array($document->status, ['completed', 'failed'], true)) {
+        if (! $document || in_array($document->status, ['completed', 'failed'], true)) {
             return;
         }
 

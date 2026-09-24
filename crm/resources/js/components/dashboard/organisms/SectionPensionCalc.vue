@@ -1,11 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 import { useForm, usePage } from '@inertiajs/vue3';
-import { useI18n } from '@/composables/useI18n';
-import {
-    setPendingCalculationState,
-    clearPendingCalculationState,
-} from '@/composables/useDocumentNotifier';
 import {
     Calculator,
     ArrowUpRight,
@@ -26,8 +20,10 @@ import {
     Download,
     Loader2,
 } from '@lucide/vue';
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
+
+import { toast } from 'vue-sonner';
 import { Button } from '@/components/ui/button';
-import { Skeleton } from '@/components/ui/skeleton';
 import {
     Dialog,
     DialogContent,
@@ -36,10 +32,19 @@ import {
     DialogHeader,
     DialogTitle,
 } from '@/components/ui/dialog';
+import { Skeleton } from '@/components/ui/skeleton';
+import {
+    setPendingCalculationState,
+    clearPendingCalculationState,
+} from '@/composables/useDocumentNotifier';
+import { useI18n } from '@/composables/useI18n';
+import type {
+    User,
+    PensionForm,
+    CalculationItem,
+    TaxHistoryItem,
+} from '@/types';
 import MissingDataHighlight from '../atoms/MissingDataHighlight.vue';
-
-import { toast } from 'vue-sonner';
-import type { User, PensionForm, CalculationItem, TaxHistoryItem } from '@/types';
 
 const props = defineProps<{
     initialCalculations?: CalculationItem[];
@@ -52,15 +57,21 @@ const emit = defineEmits<{
 
 const { t, locale } = useI18n();
 const page = usePage();
-const user = computed<User | undefined>(() => page.props.auth?.user as User | undefined);
+const user = computed<User | undefined>(
+    () => page.props.auth?.user as User | undefined,
+);
 
 const isSectionLoading = ref(true);
 const showHypotheticalModal = ref(false);
 const showDetailsModal = ref(false);
 const activeDetailTab = ref<'kz' | 'zp' | 'ks' | 'logs'>('kz');
 
-const calculationsList = ref<CalculationItem[]>(props.initialCalculations || []);
-const activeResult = ref<CalculationItem | null>(calculationsList.value[0] || null);
+const calculationsList = ref<CalculationItem[]>(
+    props.initialCalculations || [],
+);
+const activeResult = ref<CalculationItem | null>(
+    calculationsList.value[0] || null,
+);
 
 const taxHistoriesList = ref<TaxHistoryItem[]>(props.initialTaxHistories || []);
 
@@ -71,7 +82,7 @@ watch(
             taxHistoriesList.value = newVal;
         }
     },
-    { deep: true }
+    { deep: true },
 );
 
 watch(
@@ -79,13 +90,19 @@ watch(
     (newVal) => {
         if (newVal && Array.isArray(newVal)) {
             calculationsList.value = newVal;
-            const completed = calculationsList.value.filter((c) => (c.status || 'completed') === 'completed');
-            if (completed.length > 0 && (!activeResult.value || activeResult.value.status === 'pending')) {
+            const completed = calculationsList.value.filter(
+                (c) => (c.status || 'completed') === 'completed',
+            );
+
+            if (
+                completed.length > 0 &&
+                (!activeResult.value || activeResult.value.status === 'pending')
+            ) {
                 activeResult.value = completed[0];
             }
         }
     },
-    { deep: true, immediate: true }
+    { deep: true, immediate: true },
 );
 
 const form = useForm<PensionForm>({
@@ -96,25 +113,37 @@ const form = useForm<PensionForm>({
 });
 
 const isGenderMissing = computed(() => !user.value?.gender);
-const isRetirementYearMissing = computed(() => !user.value?.target_retirement_year);
-const isInsuranceServiceMissing = computed(() => !taxHistoriesList.value || taxHistoriesList.value.length === 0);
+const isRetirementYearMissing = computed(
+    () => !user.value?.target_retirement_year,
+);
+const isInsuranceServiceMissing = computed(
+    () => !taxHistoriesList.value || taxHistoriesList.value.length === 0,
+);
 
 const totalYearsWorked = computed(() => {
-    if (!taxHistoriesList.value) return 0;
+    if (!taxHistoriesList.value) {
+        return 0;
+    }
+
     return taxHistoriesList.value.length;
 });
 
 const currentYear = new Date().getFullYear();
 
 const userAge = computed(() => {
-    if (!user.value?.date_of_birth) return 0;
+    if (!user.value?.date_of_birth) {
+        return 0;
+    }
+
     const dob = new Date(user.value.date_of_birth);
     const today = new Date();
     let age = today.getFullYear() - dob.getFullYear();
     const m = today.getMonth() - dob.getMonth();
+
     if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
         age--;
     }
+
     return age;
 });
 
@@ -122,27 +151,42 @@ const hasReachedCriteria = computed(() => {
     if (activeResult.value?.calculation_breakdown?.criteria_met !== undefined) {
         return Boolean(activeResult.value.calculation_breakdown.criteria_met);
     }
+
     const targetYr = user.value?.target_retirement_year || currentYear;
     const isFutureYear = targetYr > currentYear;
     const isUnderAge = userAge.value < 60;
     const isUnderService = totalYearsWorked.value < 35;
+
     return !isFutureYear && !isUnderAge && !isUnderService;
 });
 
 const isHypothetical = computed(() => {
-    if (activeResult.value?.calculation_breakdown?.is_hypothetical !== undefined) {
-        return Boolean(activeResult.value.calculation_breakdown.is_hypothetical);
+    if (
+        activeResult.value?.calculation_breakdown?.is_hypothetical !== undefined
+    ) {
+        return Boolean(
+            activeResult.value.calculation_breakdown.is_hypothetical,
+        );
     }
+
     return Boolean(form.enable_hypothetical_projection);
 });
 
-const isCalculationBlocked = computed(() => isGenderMissing.value || isRetirementYearMissing.value || isInsuranceServiceMissing.value);
+const isCalculationBlocked = computed(
+    () =>
+        isGenderMissing.value ||
+        isRetirementYearMissing.value ||
+        isInsuranceServiceMissing.value,
+);
 
 const isAdmin = computed(() => {
     return Boolean(
         user.value?.is_admin ||
         user.value?.role === 'admin' ||
-        (Array.isArray(user.value?.roles) && user.value.roles.some((r: any) => (typeof r === 'string' ? r === 'admin' : r.name === 'admin')))
+        (Array.isArray(user.value?.roles) &&
+            user.value.roles.some((r: any) =>
+                typeof r === 'string' ? r === 'admin' : r.name === 'admin',
+            )),
     );
 });
 
@@ -155,17 +199,26 @@ function toggleYearAccordion(year: number) {
 }
 
 async function fetchDetailedBreakdown(calcId: number) {
-    if (!calcId) return;
+    if (!calcId) {
+        return;
+    }
+
     isLoadingBreakdown.value = true;
+
     try {
-        const response = await fetch(`/pension-calculations/${calcId}/breakdown`, {
-            headers: {
-                'Accept': 'application/json',
-                'X-Requested-With': 'XMLHttpRequest',
+        const response = await fetch(
+            `/pension-calculations/${calcId}/breakdown`,
+            {
+                headers: {
+                    Accept: 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                },
             },
-        });
+        );
+
         if (response.ok) {
             const json = await response.json();
+
             if (json?.success) {
                 detailedBreakdown.value = json.data || [];
             }
@@ -177,15 +230,20 @@ async function fetchDetailedBreakdown(calcId: number) {
     }
 }
 
-function openCalculationDetails(tab: 'kz' | 'zp' | 'ks' | 'logs' = 'kz', item?: CalculationItem) {
+function openCalculationDetails(
+    tab: 'kz' | 'zp' | 'ks' | 'logs' = 'kz',
+    item?: CalculationItem,
+) {
     if (item) {
         activeResult.value = item;
     }
+
     if (tab === 'logs' && !isAdmin.value) {
         activeDetailTab.value = 'kz';
     } else {
         activeDetailTab.value = tab;
     }
+
     showDetailsModal.value = true;
 
     if (activeResult.value?.id) {
@@ -203,27 +261,36 @@ async function refreshTaxHistories() {
     try {
         const res = await fetch('/documents', {
             headers: {
-                'Accept': 'application/json',
+                Accept: 'application/json',
                 'X-Requested-With': 'XMLHttpRequest',
             },
         });
-        if (!res.ok) return;
+
+        if (!res.ok) {
+            return;
+        }
 
         const json = await res.json();
+
         if (Array.isArray(json.tax_histories)) {
             taxHistoriesList.value = json.tax_histories;
         }
-    } catch (e) {
+    } catch {
         // silent fallback
     }
 }
 
 const isCalculating = computed(() => {
-    const hasPendingInList = calculationsList.value.some((c) => c.status === 'pending');
+    const hasPendingInList = calculationsList.value.some(
+        (c) => c.status === 'pending',
+    );
+
     if (!hasPendingInList) {
         clearPendingCalculationState();
+
         return false;
     }
+
     return true;
 });
 
@@ -231,44 +298,60 @@ async function refreshCalculations() {
     try {
         const res = await fetch('/pension-calculations', {
             headers: {
-                'Accept': 'application/json',
+                Accept: 'application/json',
                 'X-Requested-With': 'XMLHttpRequest',
             },
         });
-        if (!res.ok) return;
+
+        if (!res.ok) {
+            return;
+        }
 
         const json = await res.json();
+
         if (Array.isArray(json.data)) {
-            const previousLatestCompletedId = calculationsList.value.find((c) => (c.status || 'completed') === 'completed')?.id;
+            const previousLatestCompletedId = calculationsList.value.find(
+                (c) => (c.status || 'completed') === 'completed',
+            )?.id;
 
             calculationsList.value = json.data as CalculationItem[];
-            const hasPending = calculationsList.value.some((c) => c.status === 'pending');
+            const hasPending = calculationsList.value.some(
+                (c) => c.status === 'pending',
+            );
+
             if (!hasPending) {
                 clearPendingCalculationState();
             }
 
-            const completed = calculationsList.value.filter((c) => (c.status || 'completed') === 'completed');
+            const completed = calculationsList.value.filter(
+                (c) => (c.status || 'completed') === 'completed',
+            );
+
             if (completed.length > 0) {
                 const latestCompleted = completed[0];
-                if (!activeResult.value || activeResult.value.status === 'pending' || latestCompleted.id !== previousLatestCompletedId) {
+
+                if (
+                    !activeResult.value ||
+                    activeResult.value.status === 'pending' ||
+                    latestCompleted.id !== previousLatestCompletedId
+                ) {
                     activeResult.value = latestCompleted;
                 }
             }
         }
-    } catch (e) {
+    } catch {
         // silent fallback
     }
 }
 
 async function initializeSection() {
     isSectionLoading.value = true;
+
     if (props.initialTaxHistories && props.initialTaxHistories.length > 0) {
         taxHistoriesList.value = props.initialTaxHistories;
     }
-    await Promise.all([
-        refreshTaxHistories(),
-        refreshCalculations(),
-    ]);
+
+    await Promise.all([refreshTaxHistories(), refreshCalculations()]);
     isSectionLoading.value = false;
 }
 
@@ -297,7 +380,10 @@ function getDisabilityLabel(group?: string | null) {
 }
 
 function runCalculation() {
-    if (isCalculationBlocked.value) return;
+    if (isCalculationBlocked.value) {
+        return;
+    }
+
     setPendingCalculationState();
 
     // Optimistically insert a pending calculation item immediately into history list
@@ -309,9 +395,11 @@ function runCalculation() {
         base_pension: 0,
         created_at: new Date().toISOString(),
     };
+
     if (!calculationsList.value.some((c) => c.status === 'pending')) {
         calculationsList.value.unshift(tempPendingItem);
     }
+
     activeResult.value = tempPendingItem;
 
     toast.info(t('notifications.pensionCalculationStartedToast'));
@@ -333,10 +421,13 @@ function runCalculation() {
 <template>
     <div class="space-y-8">
         <!-- Section Header -->
-        <div class="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+        <div
+            class="flex flex-col gap-2 md:flex-row md:items-center md:justify-between"
+        >
             <div>
                 <h2
-                    class="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
+                    class="flex items-center gap-2 text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white"
+                >
                     <Calculator class="h-6 w-6 text-main" />
                     {{ t('dashboard.overview.title') }}
                 </h2>
@@ -347,23 +438,28 @@ function runCalculation() {
         </div>
 
         <!-- Skeleton Loading View -->
-        <div v-if="isSectionLoading" class="space-y-8 animate-fade-in">
+        <div v-if="isSectionLoading" class="animate-fade-in space-y-8">
             <div class="space-y-3">
                 <Skeleton class="h-14 w-full rounded-2xl" />
             </div>
 
-            <div class="grid grid-cols-1 gap-8 lg:grid-cols-12 items-start">
+            <div class="grid grid-cols-1 items-start gap-8 lg:grid-cols-12">
                 <!-- Left Card Skeleton -->
                 <div
-                    class="lg:col-span-5 rounded-2xl border border-slate-200/80 bg-white/70 p-6 backdrop-blur-md dark:border-zinc-800/80 dark:bg-zinc-950/80 space-y-6 self-start h-fit">
+                    class="h-fit space-y-6 self-start rounded-2xl border border-slate-200/80 bg-white/70 p-6 backdrop-blur-md lg:col-span-5 dark:border-zinc-800/80 dark:bg-zinc-950/80"
+                >
                     <div
-                        class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-zinc-800/60">
+                        class="flex items-center justify-between border-b border-slate-100 pb-3 dark:border-zinc-800/60"
+                    >
                         <Skeleton class="h-5 w-48 rounded-lg" />
                         <Skeleton class="h-4 w-12 rounded-lg" />
                     </div>
                     <div class="space-y-4">
-                        <div v-for="i in 4" :key="i"
-                            class="flex justify-between items-center py-2 border-b border-slate-100 dark:border-zinc-900">
+                        <div
+                            v-for="i in 4"
+                            :key="i"
+                            class="flex items-center justify-between border-b border-slate-100 py-2 dark:border-zinc-900"
+                        >
                             <Skeleton class="h-4 w-28 rounded-lg" />
                             <Skeleton class="h-4 w-24 rounded-lg" />
                         </div>
@@ -372,20 +468,28 @@ function runCalculation() {
                 </div>
 
                 <!-- Right Card Skeleton -->
-                <div class="lg:col-span-7 space-y-6">
+                <div class="space-y-6 lg:col-span-7">
                     <div
-                        class="rounded-2xl border border-slate-200/80 bg-white/70 p-6 dark:border-zinc-800/80 dark:bg-zinc-950/80 space-y-4">
+                        class="space-y-4 rounded-2xl border border-slate-200/80 bg-white/70 p-6 dark:border-zinc-800/80 dark:bg-zinc-950/80"
+                    >
                         <Skeleton class="h-4 w-36 rounded-lg" />
                         <Skeleton class="h-12 w-64 rounded-xl" />
-                        <div class="grid grid-cols-2 gap-4 border-t border-slate-100 pt-4 dark:border-zinc-800">
+                        <div
+                            class="grid grid-cols-2 gap-4 border-t border-slate-100 pt-4 dark:border-zinc-800"
+                        >
                             <Skeleton class="h-10 w-full rounded-xl" />
                             <Skeleton class="h-10 w-full rounded-xl" />
                         </div>
                     </div>
                     <div
-                        class="rounded-2xl border border-slate-200/80 bg-white/70 p-6 dark:border-zinc-800/80 dark:bg-zinc-950/80 space-y-3">
+                        class="space-y-3 rounded-2xl border border-slate-200/80 bg-white/70 p-6 dark:border-zinc-800/80 dark:bg-zinc-950/80"
+                    >
                         <Skeleton class="h-5 w-40 rounded-lg" />
-                        <Skeleton v-for="i in 3" :key="i" class="h-12 w-full rounded-xl" />
+                        <Skeleton
+                            v-for="i in 3"
+                            :key="i"
+                            class="h-12 w-full rounded-xl"
+                        />
                     </div>
                 </div>
             </div>
@@ -395,32 +499,47 @@ function runCalculation() {
         <div v-else class="space-y-8">
             <!-- Highlighted Missing Data Alerts -->
             <div class="space-y-3">
-                <MissingDataHighlight v-if="isGenderMissing" :title="t('gender.requiredTitle')"
-                    :description="t('gender.requiredNotice')" @click="emit('go-to-section', 'profile_details')" />
+                <MissingDataHighlight
+                    v-if="isGenderMissing"
+                    :title="t('gender.requiredTitle')"
+                    :description="t('gender.requiredNotice')"
+                    @click="emit('go-to-section', 'profile_details')"
+                />
 
-                <MissingDataHighlight v-if="isRetirementYearMissing"
+                <MissingDataHighlight
+                    v-if="isRetirementYearMissing"
                     :title="t('dashboard.alerts.missingRetirementYearTitle')"
-                    :description="t('dashboard.alerts.missingRetirementYearDesc')"
-                    @click="emit('go-to-section', 'profile_details')" />
+                    :description="
+                        t('dashboard.alerts.missingRetirementYearDesc')
+                    "
+                    @click="emit('go-to-section', 'profile_details')"
+                />
 
-                <MissingDataHighlight v-if="isInsuranceServiceMissing"
+                <MissingDataHighlight
+                    v-if="isInsuranceServiceMissing"
                     :title="t('dashboard.alerts.missingServiceTitle')"
                     :description="t('dashboard.alerts.missingServiceDesc')"
-                    @click="emit('go-to-section', 'documents')" />
+                    @click="emit('go-to-section', 'documents')"
+                />
             </div>
 
-            <div class="grid grid-cols-1 gap-8 lg:grid-cols-12 items-start">
+            <div class="grid grid-cols-1 items-start gap-8 lg:grid-cols-12">
                 <!-- Left: Read-Only User Data Summary & Calculation Trigger -->
                 <div
-                    class="lg:col-span-5 rounded-2xl border border-slate-200/80 bg-white/70 p-6 shadow-sm backdrop-blur-md dark:border-zinc-800/80 dark:bg-zinc-950/80 space-y-6 self-start h-fit">
+                    class="h-fit space-y-6 self-start rounded-2xl border border-slate-200/80 bg-white/70 p-6 shadow-sm backdrop-blur-md lg:col-span-5 dark:border-zinc-800/80 dark:bg-zinc-950/80"
+                >
                     <h3
-                        class="text-base font-bold text-slate-900 dark:text-white border-b border-slate-100 dark:border-zinc-800/60 pb-3 flex items-center justify-between">
+                        class="flex items-center justify-between border-b border-slate-100 pb-3 text-base font-bold text-slate-900 dark:border-zinc-800/60 dark:text-white"
+                    >
                         <span class="flex items-center gap-2">
                             <UserCheck class="h-4 w-4 text-main" />
                             {{ t('dashboard.overview.userCardTitle') }}
                         </span>
-                        <button @click="emit('go-to-section', 'profile_details')" type="button"
-                            class="text-xs font-bold text-main-dark dark:text-main hover:underline cursor-pointer">
+                        <button
+                            @click="emit('go-to-section', 'profile_details')"
+                            type="button"
+                            class="cursor-pointer text-xs font-bold text-main-dark hover:underline dark:text-main"
+                        >
                             {{ t('dashboard.overview.edit') }}
                         </button>
                     </h3>
@@ -428,95 +547,171 @@ function runCalculation() {
                     <!-- Read-Only Profile Parameters -->
                     <div class="space-y-4 text-xs">
                         <div
-                            class="flex items-center justify-between py-2 border-b border-slate-100 dark:border-zinc-900">
-                            <span class="text-slate-500 dark:text-zinc-400">{{ t('dashboard.overview.fullName')
+                            class="flex items-center justify-between border-b border-slate-100 py-2 dark:border-zinc-900"
+                        >
+                            <span class="text-slate-500 dark:text-zinc-400">{{
+                                t('dashboard.overview.fullName')
                             }}</span>
-                            <span class="font-bold text-slate-900 dark:text-white">
-                                {{ user?.first_name ? `${user.first_name} ${user.last_name || ''}` : (user?.name ||
-                                    '---') }}
+                            <span
+                                class="font-bold text-slate-900 dark:text-white"
+                            >
+                                {{
+                                    user?.first_name
+                                        ? `${user.first_name} ${user.last_name || ''}`
+                                        : user?.name || '---'
+                                }}
                             </span>
                         </div>
 
                         <div
-                            class="flex items-center justify-between py-2 border-b border-slate-100 dark:border-zinc-900">
-                            <span class="text-slate-500 dark:text-zinc-400">{{ t('gender.label') }}</span>
-                            <span v-if="user?.gender" class="font-bold text-slate-900 dark:text-white">
-                                {{ user.gender === 'MALE' || user.gender === 'male' ? t('gender.male') :
-                                    t('gender.female') }}
+                            class="flex items-center justify-between border-b border-slate-100 py-2 dark:border-zinc-900"
+                        >
+                            <span class="text-slate-500 dark:text-zinc-400">{{
+                                t('gender.label')
+                            }}</span>
+                            <span
+                                v-if="user?.gender"
+                                class="font-bold text-slate-900 dark:text-white"
+                            >
+                                {{
+                                    user.gender === 'MALE' ||
+                                    user.gender === 'male'
+                                        ? t('gender.male')
+                                        : t('gender.female')
+                                }}
                             </span>
-                            <button v-else @click="emit('go-to-section', 'profile_details')" type="button"
-                                class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-600 dark:text-amber-400 font-bold hover:underline cursor-pointer">
+                            <button
+                                v-else
+                                @click="
+                                    emit('go-to-section', 'profile_details')
+                                "
+                                type="button"
+                                class="cursor-pointer rounded bg-amber-500/20 px-2 py-0.5 font-bold text-amber-600 hover:underline dark:text-amber-400"
+                            >
                                 {{ t('gender.notSpecified') }}
                             </button>
                         </div>
 
                         <div
-                            class="flex items-center justify-between py-2 border-b border-slate-100 dark:border-zinc-900">
-                            <span class="text-slate-500 dark:text-zinc-400">{{ t('dashboard.overview.disabilityGroup')
+                            class="flex items-center justify-between border-b border-slate-100 py-2 dark:border-zinc-900"
+                        >
+                            <span class="text-slate-500 dark:text-zinc-400">{{
+                                t('dashboard.overview.disabilityGroup')
                             }}</span>
-                            <span class="font-bold text-slate-900 dark:text-white">
+                            <span
+                                class="font-bold text-slate-900 dark:text-white"
+                            >
                                 {{ getDisabilityLabel(user?.disability_group) }}
                             </span>
                         </div>
 
                         <div
-                            class="flex items-center justify-between py-2 border-b border-slate-100 dark:border-zinc-900">
-                            <span class="text-slate-500 dark:text-zinc-400">{{ t('dashboard.overview.retirementYear')
+                            class="flex items-center justify-between border-b border-slate-100 py-2 dark:border-zinc-900"
+                        >
+                            <span class="text-slate-500 dark:text-zinc-400">{{
+                                t('dashboard.overview.retirementYear')
                             }}</span>
-                            <span v-if="user?.target_retirement_year" class="font-bold text-slate-900 dark:text-white">
-                                {{ user.target_retirement_year }} {{ t('dashboard.overview.yearUnit') }}
+                            <span
+                                v-if="user?.target_retirement_year"
+                                class="font-bold text-slate-900 dark:text-white"
+                            >
+                                {{ user.target_retirement_year }}
+                                {{ t('dashboard.overview.yearUnit') }}
                             </span>
-                            <button v-else @click="emit('go-to-section', 'profile_details')" type="button"
-                                class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-600 dark:text-amber-400 font-bold hover:underline cursor-pointer">
+                            <button
+                                v-else
+                                @click="
+                                    emit('go-to-section', 'profile_details')
+                                "
+                                type="button"
+                                class="cursor-pointer rounded bg-amber-500/20 px-2 py-0.5 font-bold text-amber-600 hover:underline dark:text-amber-400"
+                            >
                                 {{ t('dashboard.overview.notSpecified') }}
                             </button>
                         </div>
 
                         <div
-                            class="flex items-center justify-between py-2 border-b border-slate-100 dark:border-zinc-900">
-                            <span class="text-slate-500 dark:text-zinc-400">{{ t('dashboard.overview.confirmedService')
+                            class="flex items-center justify-between border-b border-slate-100 py-2 dark:border-zinc-900"
+                        >
+                            <span class="text-slate-500 dark:text-zinc-400">{{
+                                t('dashboard.overview.confirmedService')
                             }}</span>
-                            <span v-if="totalYearsWorked > 0" class="font-bold text-slate-900 dark:text-white">
-                                {{ totalYearsWorked }} {{ t('dashboard.overview.yearsWorkedUnit') }}
+                            <span
+                                v-if="totalYearsWorked > 0"
+                                class="font-bold text-slate-900 dark:text-white"
+                            >
+                                {{ totalYearsWorked }}
+                                {{ t('dashboard.overview.yearsWorkedUnit') }}
                             </span>
-                            <button v-else @click="emit('go-to-section', 'documents')" type="button"
-                                class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-600 dark:text-amber-400 font-bold hover:underline cursor-pointer">
+                            <button
+                                v-else
+                                @click="emit('go-to-section', 'documents')"
+                                type="button"
+                                class="cursor-pointer rounded bg-amber-500/20 px-2 py-0.5 font-bold text-amber-600 hover:underline dark:text-amber-400"
+                            >
                                 {{ t('dashboard.overview.notFilled') }}
                             </button>
                         </div>
                     </div>
 
                     <!-- Hypothetical Calculation Flag Toggle -->
-                    <div class="pt-3 border-t border-slate-100 dark:border-zinc-800/80">
+                    <div
+                        class="border-t border-slate-100 pt-3 dark:border-zinc-800/80"
+                    >
                         <label
-                            class="flex items-start justify-between gap-3 p-3 rounded-xl border border-slate-200/80 bg-slate-50/70 hover:bg-slate-100/80 dark:border-zinc-800 dark:bg-zinc-900/60 dark:hover:bg-zinc-900 transition-colors cursor-pointer group">
-                            <div class="space-y-0.5 min-w-0">
+                            class="group flex cursor-pointer items-start justify-between gap-3 rounded-xl border border-slate-200/80 bg-slate-50/70 p-3 transition-colors hover:bg-slate-100/80 dark:border-zinc-800 dark:bg-zinc-900/60 dark:hover:bg-zinc-900"
+                        >
+                            <div class="min-w-0 space-y-0.5">
                                 <span
-                                    class="text-xs font-bold text-slate-900 dark:text-zinc-200 group-hover:text-main-dark dark:group-hover:text-main transition-colors flex items-center gap-1.5">
-                                    <Sparkles class="h-3.5 w-3.5 text-amber-500 shrink-0" />
-                                    {{ t('dashboard.overview.enableHypotheticalLabel') }}
+                                    class="flex items-center gap-1.5 text-xs font-bold text-slate-900 transition-colors group-hover:text-main-dark dark:text-zinc-200 dark:group-hover:text-main"
+                                >
+                                    <Sparkles
+                                        class="h-3.5 w-3.5 shrink-0 text-amber-500"
+                                    />
+                                    {{
+                                        t(
+                                            'dashboard.overview.enableHypotheticalLabel',
+                                        )
+                                    }}
                                 </span>
-                                <p class="text-[11px] text-slate-500 dark:text-zinc-400 leading-snug">
-                                    {{ t('dashboard.overview.enableHypotheticalDesc') }}
+                                <p
+                                    class="text-[11px] leading-snug text-slate-500 dark:text-zinc-400"
+                                >
+                                    {{
+                                        t(
+                                            'dashboard.overview.enableHypotheticalDesc',
+                                        )
+                                    }}
                                 </p>
                             </div>
-                            <input v-model="form.enable_hypothetical_projection" type="checkbox"
-                                class="mt-0.5 h-4 w-4 rounded border-slate-300 text-main focus:ring-main dark:border-zinc-700 dark:bg-zinc-800 cursor-pointer shrink-0" />
+                            <input
+                                v-model="form.enable_hypothetical_projection"
+                                type="checkbox"
+                                class="mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded border-slate-300 text-main focus:ring-main dark:border-zinc-700 dark:bg-zinc-800"
+                            />
                         </label>
                     </div>
 
                     <!-- Run Calculation Button -->
-                    <div class="pt-2 space-y-2">
-                        <Button @click="runCalculation" type="button"
-                            class="w-full bg-main text-slate-950 hover:bg-main-dark font-bold shadow-md h-11 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-                            :disabled="form.processing || isCalculationBlocked">
+                    <div class="space-y-2 pt-2">
+                        <Button
+                            @click="runCalculation"
+                            type="button"
+                            class="h-11 w-full cursor-pointer bg-main font-bold text-slate-950 shadow-md hover:bg-main-dark disabled:cursor-not-allowed disabled:opacity-50"
+                            :disabled="form.processing || isCalculationBlocked"
+                        >
                             <Calculator class="mr-2 h-4 w-4" />
-                            {{ form.processing ? t('dashboard.overview.calculatingBtn') :
-                                t('dashboard.overview.calculateBtn') }}
+                            {{
+                                form.processing
+                                    ? t('dashboard.overview.calculatingBtn')
+                                    : t('dashboard.overview.calculateBtn')
+                            }}
                         </Button>
 
-                        <p v-if="isCalculationBlocked"
-                            class="text-[11px] text-amber-600 dark:text-amber-400 font-semibold text-center flex items-center justify-center gap-1">
+                        <p
+                            v-if="isCalculationBlocked"
+                            class="flex items-center justify-center gap-1 text-center text-[11px] font-semibold text-amber-600 dark:text-amber-400"
+                        >
                             <AlertCircle class="h-3.5 w-3.5 shrink-0" />
                             {{ t('dashboard.overview.blockedNotice') }}
                         </p>
@@ -524,97 +719,184 @@ function runCalculation() {
                 </div>
 
                 <!-- Right: Calculation Results & Detailed Formula Breakdown -->
-                <div class="lg:col-span-7 space-y-6">
+                <div class="space-y-6 lg:col-span-7">
                     <!-- Calculation History Log Section (Placed TOP) -->
-                    <div v-if="calculationsList.length > 0 || isCalculating"
-                        class="rounded-2xl border border-slate-200/80 bg-white/70 p-6 shadow-sm backdrop-blur-md dark:border-zinc-800/80 dark:bg-zinc-950/80 space-y-4">
+                    <div
+                        v-if="calculationsList.length > 0 || isCalculating"
+                        class="space-y-4 rounded-2xl border border-slate-200/80 bg-white/70 p-6 shadow-sm backdrop-blur-md dark:border-zinc-800/80 dark:bg-zinc-950/80"
+                    >
                         <h4
-                            class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-zinc-400 flex items-center gap-1.5">
+                            class="flex items-center gap-1.5 text-xs font-bold tracking-wider text-slate-500 uppercase dark:text-zinc-400"
+                        >
                             <History class="h-4 w-4" />
                             {{ t('dashboard.overview.historyTitle') }}
                         </h4>
-                        <div class="space-y-2 max-h-64 overflow-y-auto pr-1">
+                        <div class="max-h-64 space-y-2 overflow-y-auto pr-1">
                             <!-- Calculation Items List -->
-                            <div v-for="item in calculationsList" :key="item.id" @click="activeResult = item"
-                                class="flex items-center justify-between p-3.5 rounded-xl border transition-all cursor-pointer"
+                            <div
+                                v-for="item in calculationsList"
+                                :key="item.id"
+                                @click="activeResult = item"
+                                class="flex cursor-pointer items-center justify-between rounded-xl border p-3.5 transition-all"
                                 :class="[
                                     activeResult?.id === item.id
-                                        ? 'bg-main/10 dark:bg-main/15 border-main/50 ring-1 ring-main/30'
+                                        ? 'border-main/50 bg-main/10 ring-1 ring-main/30 dark:bg-main/15'
                                         : item.status === 'pending'
-                                            ? 'border-amber-500/40 bg-amber-500/10 dark:border-amber-500/30 dark:bg-amber-950/20 animate-pulse'
-                                            : item.status === 'failed'
-                                                ? 'border-red-500/40 bg-red-500/10 dark:border-red-500/30 dark:bg-red-950/20'
-                                                : 'border-slate-100 hover:border-main/40 dark:border-zinc-900 dark:hover:border-main/30 bg-slate-50/50 dark:bg-zinc-900/50'
-                                ]">
+                                          ? 'animate-pulse border-amber-500/40 bg-amber-500/10 dark:border-amber-500/30 dark:bg-amber-950/20'
+                                          : item.status === 'failed'
+                                            ? 'border-red-500/40 bg-red-500/10 dark:border-red-500/30 dark:bg-red-950/20'
+                                            : 'border-slate-100 bg-slate-50/50 hover:border-main/40 dark:border-zinc-900 dark:bg-zinc-900/50 dark:hover:border-main/30',
+                                ]"
+                            >
                                 <!-- Item Pending -->
                                 <template v-if="item.status === 'pending'">
-                                    <div class="space-y-0.5 min-w-0">
+                                    <div class="min-w-0 space-y-0.5">
                                         <div class="flex items-center gap-2">
-                                            <Loader2 class="h-4 w-4 animate-spin text-amber-500 shrink-0" />
-                                            <span class="text-sm font-extrabold text-slate-900 dark:text-white">
-                                                {{ t('dashboard.overview.pendingHistoryTitle') }}
+                                            <Loader2
+                                                class="h-4 w-4 shrink-0 animate-spin text-amber-500"
+                                            />
+                                            <span
+                                                class="text-sm font-extrabold text-slate-900 dark:text-white"
+                                            >
+                                                {{
+                                                    t(
+                                                        'dashboard.overview.pendingHistoryTitle',
+                                                    )
+                                                }}
                                             </span>
                                         </div>
-                                        <div class="text-xs text-slate-500 dark:text-zinc-400 font-medium">
-                                            {{ t('dashboard.overview.pendingHistoryDesc') }}
+                                        <div
+                                            class="text-xs font-medium text-slate-500 dark:text-zinc-400"
+                                        >
+                                            {{
+                                                t(
+                                                    'dashboard.overview.pendingHistoryDesc',
+                                                )
+                                            }}
                                         </div>
                                     </div>
                                     <span
-                                        class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-amber-500/20 text-amber-700 dark:text-amber-300 shrink-0 ml-3">
-                                        {{ t('dashboard.overview.pendingBadge') }}
+                                        class="ml-3 shrink-0 rounded-lg bg-amber-500/20 px-2.5 py-1 text-[11px] font-bold text-amber-700 dark:text-amber-300"
+                                    >
+                                        {{
+                                            t('dashboard.overview.pendingBadge')
+                                        }}
                                     </span>
                                 </template>
 
                                 <!-- Item Failed -->
                                 <template v-else-if="item.status === 'failed'">
-                                    <div class="space-y-0.5 min-w-0">
+                                    <div class="min-w-0 space-y-0.5">
                                         <div class="flex items-center gap-2">
-                                            <AlertCircle class="h-4 w-4 text-red-500 shrink-0" />
-                                            <span class="text-sm font-extrabold text-red-600 dark:text-red-400">
-                                                {{ t('dashboard.overview.failedHistoryTitle') }}
+                                            <AlertCircle
+                                                class="h-4 w-4 shrink-0 text-red-500"
+                                            />
+                                            <span
+                                                class="text-sm font-extrabold text-red-600 dark:text-red-400"
+                                            >
+                                                {{
+                                                    t(
+                                                        'dashboard.overview.failedHistoryTitle',
+                                                    )
+                                                }}
                                             </span>
                                         </div>
-                                        <div class="text-xs text-red-500/80 dark:text-red-400/80 font-medium">
-                                            {{ item.error_message || t('dashboard.overview.failedHistoryDesc') }}
+                                        <div
+                                            class="text-xs font-medium text-red-500/80 dark:text-red-400/80"
+                                        >
+                                            {{
+                                                item.error_message ||
+                                                t(
+                                                    'dashboard.overview.failedHistoryDesc',
+                                                )
+                                            }}
                                         </div>
                                     </div>
                                     <span
-                                        class="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-red-500/20 text-red-700 dark:text-red-300 shrink-0 ml-3">
-                                        {{ t('dashboard.overview.failedBadge') }}
+                                        class="ml-3 shrink-0 rounded-lg bg-red-500/20 px-2.5 py-1 text-[11px] font-bold text-red-700 dark:text-red-300"
+                                    >
+                                        {{
+                                            t('dashboard.overview.failedBadge')
+                                        }}
                                     </span>
                                 </template>
 
                                 <!-- Item Completed -->
                                 <template v-else>
-                                    <div class="space-y-0.5 min-w-0">
+                                    <div class="min-w-0 space-y-0.5">
                                         <div class="flex items-center gap-2">
-                                            <span class="text-sm font-extrabold text-slate-900 dark:text-white">
-                                                {{ Number(item.final_pension).toLocaleString('uk-UA', {
-                                                    minimumFractionDigits: 2
-                                                }) }} ₴
+                                            <span
+                                                class="text-sm font-extrabold text-slate-900 dark:text-white"
+                                            >
+                                                {{
+                                                    Number(
+                                                        item.final_pension,
+                                                    ).toLocaleString('uk-UA', {
+                                                        minimumFractionDigits: 2,
+                                                    })
+                                                }}
+                                                ₴
                                             </span>
-                                            <span v-if="item.created_at"
-                                                class="text-[10px] font-medium text-slate-400 dark:text-zinc-500">
-                                                {{ new Date(item.created_at).toLocaleDateString('uk-UA') }}
+                                            <span
+                                                v-if="item.created_at"
+                                                class="text-[10px] font-medium text-slate-400 dark:text-zinc-500"
+                                            >
+                                                {{
+                                                    new Date(
+                                                        item.created_at,
+                                                    ).toLocaleDateString(
+                                                        'uk-UA',
+                                                    )
+                                                }}
                                             </span>
                                         </div>
                                         <div
-                                            class="text-xs text-slate-500 dark:text-zinc-400 flex flex-wrap items-center gap-2">
-                                            <span>Base Pension: {{ Number(item.base_pension).toLocaleString('uk-UA', {
-                                                minimumFractionDigits: 2
-                                            }) }} ₴</span>
-                                            <span v-if="item.kz_wage_coefficient"
-                                                class="text-[11px] text-main-dark dark:text-main font-semibold">
-                                                (Кз: {{ Number(item.kz_wage_coefficient).toFixed(4) }}, Кс: {{
-                                                    Number(item.ks_service_coefficient || 1.35).toFixed(4) }})
+                                            class="flex flex-wrap items-center gap-2 text-xs text-slate-500 dark:text-zinc-400"
+                                        >
+                                            <span
+                                                >Base Pension:
+                                                {{
+                                                    Number(
+                                                        item.base_pension,
+                                                    ).toLocaleString('uk-UA', {
+                                                        minimumFractionDigits: 2,
+                                                    })
+                                                }}
+                                                ₴</span
+                                            >
+                                            <span
+                                                v-if="item.kz_wage_coefficient"
+                                                class="text-[11px] font-semibold text-main-dark dark:text-main"
+                                            >
+                                                (Кз:
+                                                {{
+                                                    Number(
+                                                        item.kz_wage_coefficient,
+                                                    ).toFixed(4)
+                                                }}, Кс:
+                                                {{
+                                                    Number(
+                                                        item.ks_service_coefficient ||
+                                                            1.35,
+                                                    ).toFixed(4)
+                                                }})
                                             </span>
                                         </div>
                                     </div>
 
-                                    <button v-if="activeResult?.id === item.id"
-                                        @click.stop="openCalculationDetails('kz', item)" type="button"
-                                        class="shrink-0 flex items-center gap-1 text-xs font-bold text-main-dark dark:text-main bg-main/15 hover:bg-main/25 dark:bg-main/20 dark:hover:bg-main/30 px-3 py-1.5 rounded-lg transition-colors cursor-pointer ml-3">
-                                        <span>{{ t('dashboard.details.viewDetailsBtn') }}</span>
+                                    <button
+                                        v-if="activeResult?.id === item.id"
+                                        @click.stop="
+                                            openCalculationDetails('kz', item)
+                                        "
+                                        type="button"
+                                        class="ml-3 flex shrink-0 cursor-pointer items-center gap-1 rounded-lg bg-main/15 px-3 py-1.5 text-xs font-bold text-main-dark transition-colors hover:bg-main/25 dark:bg-main/20 dark:text-main dark:hover:bg-main/30"
+                                    >
+                                        <span>{{
+                                            t(
+                                                'dashboard.details.viewDetailsBtn',
+                                            )
+                                        }}</span>
                                         <ArrowUpRight class="h-3.5 w-3.5" />
                                     </button>
                                 </template>
@@ -623,100 +905,181 @@ function runCalculation() {
                     </div>
 
                     <!-- Pending Calculation Status Banner (Shown when active selected item is pending or calculation is in progress) -->
-                    <div v-if="activeResult?.status === 'pending' || (isCalculating && !activeResult)"
-                        class="rounded-2xl border border-amber-500/40 bg-gradient-to-r from-amber-500/15 via-amber-500/10 to-transparent p-6 shadow-sm backdrop-blur-md dark:border-amber-500/30 dark:bg-amber-950/40 text-amber-950 dark:text-amber-100 flex items-center gap-4 animate-pulse transition-all">
+                    <div
+                        v-if="
+                            activeResult?.status === 'pending' ||
+                            (isCalculating && !activeResult)
+                        "
+                        class="flex animate-pulse items-center gap-4 rounded-2xl border border-amber-500/40 bg-gradient-to-r from-amber-500/15 via-amber-500/10 to-transparent p-6 text-amber-950 shadow-sm backdrop-blur-md transition-all dark:border-amber-500/30 dark:bg-amber-950/40 dark:text-amber-100"
+                    >
                         <div
-                            class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-amber-500/20 text-amber-600 dark:text-amber-400">
+                            class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-amber-500/20 text-amber-600 dark:text-amber-400"
+                        >
                             <Loader2 class="h-6 w-6 animate-spin" />
                         </div>
                         <div class="space-y-1">
-                            <h4 class="text-sm font-black uppercase tracking-wider text-amber-900 dark:text-amber-200">
+                            <h4
+                                class="text-sm font-black tracking-wider text-amber-900 uppercase dark:text-amber-200"
+                            >
                                 {{ t('dashboard.overview.pendingTitle') }}
                             </h4>
-                            <p class="text-xs text-amber-800/80 dark:text-amber-300/80 font-medium">
+                            <p
+                                class="text-xs font-medium text-amber-800/80 dark:text-amber-300/80"
+                            >
                                 {{ t('dashboard.overview.pendingDesc') }}
                             </p>
                         </div>
                     </div>
 
                     <!-- Failed Calculation Notice Banner (Shown when active selected item failed) -->
-                    <div v-if="activeResult?.status === 'failed'"
-                        class="rounded-2xl border border-red-500/40 bg-gradient-to-r from-red-500/15 via-red-500/10 to-transparent p-6 shadow-sm backdrop-blur-md dark:border-red-500/30 dark:bg-red-950/40 text-red-950 dark:text-red-100 flex items-center gap-4 transition-all">
+                    <div
+                        v-if="activeResult?.status === 'failed'"
+                        class="flex items-center gap-4 rounded-2xl border border-red-500/40 bg-gradient-to-r from-red-500/15 via-red-500/10 to-transparent p-6 text-red-950 shadow-sm backdrop-blur-md transition-all dark:border-red-500/30 dark:bg-red-950/40 dark:text-red-100"
+                    >
                         <div
-                            class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-red-500/20 text-red-600 dark:text-red-400">
+                            class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-red-500/20 text-red-600 dark:text-red-400"
+                        >
                             <AlertCircle class="h-6 w-6" />
                         </div>
                         <div class="space-y-1">
-                            <h4 class="text-sm font-black uppercase tracking-wider text-red-900 dark:text-red-200">
+                            <h4
+                                class="text-sm font-black tracking-wider text-red-900 uppercase dark:text-red-200"
+                            >
                                 {{ t('pensionCalc.failedHistoryTitle') }}
                             </h4>
-                            <p class="text-xs text-red-800/80 dark:text-red-300/80 font-medium">
-                                {{ activeResult.error_message ||
-                                    t('pensionCalc.failedHistoryDesc') }}
+                            <p
+                                class="text-xs font-medium text-red-800/80 dark:text-red-300/80"
+                            >
+                                {{
+                                    activeResult.error_message ||
+                                    t('pensionCalc.failedHistoryDesc')
+                                }}
                             </p>
                         </div>
                     </div>
 
                     <!-- Calculation Results & Detailed Formula Breakdown (Shown when active selected item is completed) -->
-                    <template v-if="activeResult && (activeResult.status || 'completed') === 'completed'">
+                    <template
+                        v-if="
+                            activeResult &&
+                            (activeResult.status || 'completed') === 'completed'
+                        "
+                    >
                         <!-- Criteria Not Yet Reached Notice Banner -->
-                        <div v-if="!hasReachedCriteria && !isHypothetical"
-                            class="rounded-2xl border border-blue-500/40 bg-gradient-to-r from-blue-500/15 via-blue-500/10 to-transparent p-5 shadow-sm backdrop-blur-md dark:border-blue-500/30 dark:bg-blue-950/40 text-blue-950 dark:text-blue-100 relative overflow-hidden transition-all duration-300">
-                            <div class="flex items-start gap-3.5 min-w-0">
+                        <div
+                            v-if="!hasReachedCriteria && !isHypothetical"
+                            class="relative overflow-hidden rounded-2xl border border-blue-500/40 bg-gradient-to-r from-blue-500/15 via-blue-500/10 to-transparent p-5 text-blue-950 shadow-sm backdrop-blur-md transition-all duration-300 dark:border-blue-500/30 dark:bg-blue-950/40 dark:text-blue-100"
+                        >
+                            <div class="flex min-w-0 items-start gap-3.5">
                                 <div
-                                    class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-blue-500/20 text-blue-600 dark:text-blue-400 mt-0.5 shadow-inner">
+                                    class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-blue-500/20 text-blue-600 shadow-inner dark:text-blue-400"
+                                >
                                     <Info class="h-5 w-5" />
                                 </div>
                                 <div class="space-y-1">
-                                    <div class="flex flex-wrap items-center gap-2">
+                                    <div
+                                        class="flex flex-wrap items-center gap-2"
+                                    >
                                         <span
-                                            class="text-xs font-black uppercase tracking-wider text-blue-800 dark:text-blue-300">
-                                            {{ t('dashboard.overview.criteriaNotMetTitle') }}
+                                            class="text-xs font-black tracking-wider text-blue-800 uppercase dark:text-blue-300"
+                                        >
+                                            {{
+                                                t(
+                                                    'dashboard.overview.criteriaNotMetTitle',
+                                                )
+                                            }}
                                         </span>
                                     </div>
                                     <p
-                                        class="text-xs text-blue-900/90 dark:text-blue-200/90 leading-relaxed font-medium">
-                                        {{ t('dashboard.overview.criteriaNotMetDesc').replace(':amount',
-                                            Number(activeResult.final_pension).toLocaleString('uk-UA', {
-                                                minimumFractionDigits: 2
-                                            })) }}
+                                        class="text-xs leading-relaxed font-medium text-blue-900/90 dark:text-blue-200/90"
+                                    >
+                                        {{
+                                            t(
+                                                'dashboard.overview.criteriaNotMetDesc',
+                                            ).replace(
+                                                ':amount',
+                                                Number(
+                                                    activeResult.final_pension,
+                                                ).toLocaleString('uk-UA', {
+                                                    minimumFractionDigits: 2,
+                                                }),
+                                            )
+                                        }}
                                     </p>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Theoretical (Projected) Calculation Warning Banner -->
-                        <div v-if="isHypothetical"
-                            class="rounded-2xl border border-amber-500/40 bg-gradient-to-r from-amber-500/15 via-amber-500/10 to-transparent p-5 shadow-sm backdrop-blur-md dark:border-amber-500/30 dark:bg-amber-950/40 text-amber-950 dark:text-amber-100 relative overflow-hidden transition-all duration-300">
+                        <div
+                            v-if="isHypothetical"
+                            class="relative overflow-hidden rounded-2xl border border-amber-500/40 bg-gradient-to-r from-amber-500/15 via-amber-500/10 to-transparent p-5 text-amber-950 shadow-sm backdrop-blur-md transition-all duration-300 dark:border-amber-500/30 dark:bg-amber-950/40 dark:text-amber-100"
+                        >
                             <div class="flex items-start justify-between gap-4">
-                                <div class="flex items-start gap-3.5 min-w-0">
+                                <div class="flex min-w-0 items-start gap-3.5">
                                     <div
-                                        class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-amber-500/20 text-amber-600 dark:text-amber-400 mt-0.5 shadow-inner">
+                                        class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-amber-500/20 text-amber-600 shadow-inner dark:text-amber-400"
+                                    >
                                         <AlertTriangle class="h-5 w-5" />
                                     </div>
                                     <div class="space-y-1">
-                                        <div class="flex flex-wrap items-center gap-2">
+                                        <div
+                                            class="flex flex-wrap items-center gap-2"
+                                        >
                                             <span
-                                                class="text-xs font-black uppercase tracking-wider text-amber-800 dark:text-amber-300">
-                                                {{ t('dashboard.overview.hypotheticalTitle') }}
+                                                class="text-xs font-black tracking-wider text-amber-800 uppercase dark:text-amber-300"
+                                            >
+                                                {{
+                                                    t(
+                                                        'dashboard.overview.hypotheticalTitle',
+                                                    )
+                                                }}
                                             </span>
-                                            <span v-if="user?.target_retirement_year"
-                                                class="px-2 py-0.5 rounded-md bg-amber-500/25 text-[10px] font-extrabold text-amber-900 dark:text-amber-200">
-                                                {{ user.target_retirement_year }} {{ t('dashboard.overview.yearUnit') }}
+                                            <span
+                                                v-if="
+                                                    user?.target_retirement_year
+                                                "
+                                                class="rounded-md bg-amber-500/25 px-2 py-0.5 text-[10px] font-extrabold text-amber-900 dark:text-amber-200"
+                                            >
+                                                {{
+                                                    user.target_retirement_year
+                                                }}
+                                                {{
+                                                    t(
+                                                        'dashboard.overview.yearUnit',
+                                                    )
+                                                }}
                                             </span>
                                         </div>
                                         <p
-                                            class="text-xs text-amber-900/90 dark:text-amber-200/90 leading-relaxed font-medium">
-                                            {{ t('dashboard.overview.hypotheticalDesc').replace(':year',
-                                                String(user?.target_retirement_year || currentYear)) }}
+                                            class="text-xs leading-relaxed font-medium text-amber-900/90 dark:text-amber-200/90"
+                                        >
+                                            {{
+                                                t(
+                                                    'dashboard.overview.hypotheticalDesc',
+                                                ).replace(
+                                                    ':year',
+                                                    String(
+                                                        user?.target_retirement_year ||
+                                                            currentYear,
+                                                    ),
+                                                )
+                                            }}
                                         </p>
                                     </div>
                                 </div>
 
                                 <!-- Interactive Info Icon Button (i) -->
-                                <button @click="showHypotheticalModal = true" type="button"
-                                    class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-amber-500/20 text-amber-700 dark:text-amber-300 hover:bg-amber-500/30 dark:hover:bg-amber-500/40 transition-colors cursor-pointer"
-                                    :title="t('dashboard.overview.hypotheticalInfoTooltip')">
+                                <button
+                                    @click="showHypotheticalModal = true"
+                                    type="button"
+                                    class="flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-xl bg-amber-500/20 text-amber-700 transition-colors hover:bg-amber-500/30 dark:text-amber-300 dark:hover:bg-amber-500/40"
+                                    :title="
+                                        t(
+                                            'dashboard.overview.hypotheticalInfoTooltip',
+                                        )
+                                    "
+                                >
                                     <Info class="h-5 w-5" />
                                 </button>
                             </div>
@@ -724,120 +1087,247 @@ function runCalculation() {
 
                         <!-- Result Card with Primary Formula Header -->
                         <div
-                            class="rounded-2xl border border-main/30 bg-gradient-to-br from-main/10 via-emerald-500/5 to-transparent p-6 shadow-md backdrop-blur-md dark:border-main/20 dark:bg-zinc-950/90 relative overflow-hidden transition-all duration-300">
-                            <div class="absolute -right-6 -bottom-6 opacity-10 pointer-events-none">
+                            class="relative overflow-hidden rounded-2xl border border-main/30 bg-gradient-to-br from-main/10 via-emerald-500/5 to-transparent p-6 shadow-md backdrop-blur-md transition-all duration-300 dark:border-main/20 dark:bg-zinc-950/90"
+                        >
+                            <div
+                                class="pointer-events-none absolute -right-6 -bottom-6 opacity-10"
+                            >
                                 <TrendingUp class="h-48 w-48 text-main" />
                             </div>
 
                             <div class="flex items-center justify-between">
                                 <span
-                                    class="text-xs font-semibold uppercase tracking-wider text-main-dark dark:text-main">
+                                    class="text-xs font-semibold tracking-wider text-main-dark uppercase dark:text-main"
+                                >
                                     {{ t('dashboard.overview.resultTitle') }}
                                 </span>
-                                <button @click="openCalculationDetails('kz')" type="button"
-                                    class="flex items-center gap-1 text-xs font-bold text-main-dark dark:text-main bg-main/20 hover:bg-main/30 px-3 py-1 rounded-lg transition-colors cursor-pointer">
-                                    <span>{{ t('dashboard.details.viewDetailsBtn') }}</span>
+                                <button
+                                    @click="openCalculationDetails('kz')"
+                                    type="button"
+                                    class="flex cursor-pointer items-center gap-1 rounded-lg bg-main/20 px-3 py-1 text-xs font-bold text-main-dark transition-colors hover:bg-main/30 dark:text-main"
+                                >
+                                    <span>{{
+                                        t('dashboard.details.viewDetailsBtn')
+                                    }}</span>
                                     <ArrowUpRight class="h-3.5 w-3.5" />
                                 </button>
                             </div>
 
-                            <div class="mt-4 flex flex-wrap items-baseline gap-4">
-                                <span class="text-4xl font-extrabold text-slate-900 sm:text-5xl dark:text-white">
-                                    {{ Number(activeResult.final_pension).toLocaleString('uk-UA', {
-                                        minimumFractionDigits: 2
-                                    }) }} ₴
+                            <div
+                                class="mt-4 flex flex-wrap items-baseline gap-4"
+                            >
+                                <span
+                                    class="text-4xl font-extrabold text-slate-900 sm:text-5xl dark:text-white"
+                                >
+                                    {{
+                                        Number(
+                                            activeResult.final_pension,
+                                        ).toLocaleString('uk-UA', {
+                                            minimumFractionDigits: 2,
+                                        })
+                                    }}
+                                    ₴
                                 </span>
-                                <span class="text-xs font-bold text-emerald-600 dark:text-main flex items-center gap-1">
+                                <span
+                                    class="flex items-center gap-1 text-xs font-bold text-emerald-600 dark:text-main"
+                                >
                                     <CheckCircle2 class="h-4 w-4" />
                                     {{ t('dashboard.overview.calculatedPfu') }}
                                 </span>
                             </div>
 
                             <div
-                                class="mt-6 grid grid-cols-2 gap-4 border-t border-slate-200/60 pt-4 dark:border-zinc-800/60">
+                                class="mt-6 grid grid-cols-2 gap-4 border-t border-slate-200/60 pt-4 dark:border-zinc-800/60"
+                            >
                                 <div>
-                                    <span class="text-xs text-slate-500 dark:text-zinc-400">{{
-                                        t('dashboard.overview.basePension') }}</span>
-                                    <p class="text-base font-bold text-slate-900 dark:text-white">
-                                        {{ Number(activeResult.base_pension).toLocaleString('uk-UA', {
-                                            minimumFractionDigits: 2
-                                        }) }} ₴
+                                    <span
+                                        class="text-xs text-slate-500 dark:text-zinc-400"
+                                        >{{
+                                            t('dashboard.overview.basePension')
+                                        }}</span
+                                    >
+                                    <p
+                                        class="text-base font-bold text-slate-900 dark:text-white"
+                                    >
+                                        {{
+                                            Number(
+                                                activeResult.base_pension,
+                                            ).toLocaleString('uk-UA', {
+                                                minimumFractionDigits: 2,
+                                            })
+                                        }}
+                                        ₴
                                     </p>
                                 </div>
                                 <div>
-                                    <span class="text-xs text-slate-500 dark:text-zinc-400">{{
-                                        t('dashboard.overview.serviceMultiplier') }}</span>
-                                    <p class="text-base font-bold text-main-dark dark:text-main">
-                                        {{ activeResult.coefficient_multiplier || activeResult.ks_service_coefficient ||
-                                            '1.35' }}
+                                    <span
+                                        class="text-xs text-slate-500 dark:text-zinc-400"
+                                        >{{
+                                            t(
+                                                'dashboard.overview.serviceMultiplier',
+                                            )
+                                        }}</span
+                                    >
+                                    <p
+                                        class="text-base font-bold text-main-dark dark:text-main"
+                                    >
+                                        {{
+                                            activeResult.coefficient_multiplier ||
+                                            activeResult.ks_service_coefficient ||
+                                            '1.35'
+                                        }}
                                     </p>
                                 </div>
                             </div>
 
                             <!-- Interactive Formula Coefficient Cards -->
-                            <div class="mt-6 pt-4 border-t border-slate-200/60 dark:border-zinc-800/60">
+                            <div
+                                class="mt-6 border-t border-slate-200/60 pt-4 dark:border-zinc-800/60"
+                            >
                                 <span
-                                    class="text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-zinc-400 mb-3 block">
-                                    {{ t('dashboard.details.interactiveFormulaElements') }}
+                                    class="mb-3 block text-[11px] font-bold tracking-wider text-slate-500 uppercase dark:text-zinc-400"
+                                >
+                                    {{
+                                        t(
+                                            'dashboard.details.interactiveFormulaElements',
+                                        )
+                                    }}
                                 </span>
-                                <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                                <div
+                                    class="grid grid-cols-1 gap-3 sm:grid-cols-3"
+                                >
                                     <!-- Zp Card -->
-                                    <button @click="openCalculationDetails('zp')" type="button"
-                                        class="group flex flex-col justify-between rounded-xl border border-slate-200/80 bg-white/60 p-3.5 text-left transition-all hover:border-main/50 hover:bg-main/10 dark:border-zinc-800 dark:bg-zinc-900/60 dark:hover:border-main/40 dark:hover:bg-main/10 cursor-pointer">
-                                        <div class="flex items-center justify-between">
+                                    <button
+                                        @click="openCalculationDetails('zp')"
+                                        type="button"
+                                        class="group flex cursor-pointer flex-col justify-between rounded-xl border border-slate-200/80 bg-white/60 p-3.5 text-left transition-all hover:border-main/50 hover:bg-main/10 dark:border-zinc-800 dark:bg-zinc-900/60 dark:hover:border-main/40 dark:hover:bg-main/10"
+                                    >
+                                        <div
+                                            class="flex items-center justify-between"
+                                        >
                                             <span
-                                                class="text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-zinc-400">
-                                                {{ t('dashboard.details.zpCardLabel') }}
+                                                class="text-[11px] font-bold tracking-wider text-slate-500 uppercase dark:text-zinc-400"
+                                            >
+                                                {{
+                                                    t(
+                                                        'dashboard.details.zpCardLabel',
+                                                    )
+                                                }}
                                             </span>
-                                            <Layers class="h-3.5 w-3.5 text-main shrink-0" />
+                                            <Layers
+                                                class="h-3.5 w-3.5 shrink-0 text-main"
+                                            />
                                         </div>
-                                        <p class="mt-2 text-sm font-extrabold text-slate-900 dark:text-white">
-                                            {{ Number(activeResult.zp_macroeconomic_average ||
-                                                16500).toLocaleString('uk-UA', { minimumFractionDigits: 2 }) }} ₴
+                                        <p
+                                            class="mt-2 text-sm font-extrabold text-slate-900 dark:text-white"
+                                        >
+                                            {{
+                                                Number(
+                                                    activeResult.zp_macroeconomic_average ||
+                                                        16500,
+                                                ).toLocaleString('uk-UA', {
+                                                    minimumFractionDigits: 2,
+                                                })
+                                            }}
+                                            ₴
                                         </p>
                                         <span
-                                            class="mt-1 text-[10px] text-main-dark dark:text-main group-hover:underline flex items-center gap-0.5 font-semibold">
-                                            {{ t('dashboard.details.clickToViewTable') }} &rarr;
+                                            class="mt-1 flex items-center gap-0.5 text-[10px] font-semibold text-main-dark group-hover:underline dark:text-main"
+                                        >
+                                            {{
+                                                t(
+                                                    'dashboard.details.clickToViewTable',
+                                                )
+                                            }}
+                                            &rarr;
                                         </span>
                                     </button>
 
                                     <!-- Kz Card -->
-                                    <button @click="openCalculationDetails('kz')" type="button"
-                                        class="group flex flex-col justify-between rounded-xl border border-slate-200/80 bg-white/60 p-3.5 text-left transition-all hover:border-main/50 hover:bg-main/10 dark:border-zinc-800 dark:bg-zinc-900/60 dark:hover:border-main/40 dark:hover:bg-main/10 cursor-pointer">
-                                        <div class="flex items-center justify-between">
+                                    <button
+                                        @click="openCalculationDetails('kz')"
+                                        type="button"
+                                        class="group flex cursor-pointer flex-col justify-between rounded-xl border border-slate-200/80 bg-white/60 p-3.5 text-left transition-all hover:border-main/50 hover:bg-main/10 dark:border-zinc-800 dark:bg-zinc-900/60 dark:hover:border-main/40 dark:hover:bg-main/10"
+                                    >
+                                        <div
+                                            class="flex items-center justify-between"
+                                        >
                                             <span
-                                                class="text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-zinc-400">
-                                                {{ t('dashboard.details.kzCardLabel') }}
+                                                class="text-[11px] font-bold tracking-wider text-slate-500 uppercase dark:text-zinc-400"
+                                            >
+                                                {{
+                                                    t(
+                                                        'dashboard.details.kzCardLabel',
+                                                    )
+                                                }}
                                             </span>
-                                            <Table class="h-3.5 w-3.5 text-main shrink-0" />
+                                            <Table
+                                                class="h-3.5 w-3.5 shrink-0 text-main"
+                                            />
                                         </div>
-                                        <p class="mt-2 text-sm font-extrabold text-slate-900 dark:text-white">
-                                            {{ Number(activeResult.kz_wage_coefficient || 1.0).toFixed(4) }}
+                                        <p
+                                            class="mt-2 text-sm font-extrabold text-slate-900 dark:text-white"
+                                        >
+                                            {{
+                                                Number(
+                                                    activeResult.kz_wage_coefficient ||
+                                                        1.0,
+                                                ).toFixed(4)
+                                            }}
                                         </p>
                                         <span
-                                            class="mt-1 text-[10px] text-main-dark dark:text-main group-hover:underline flex items-center gap-0.5 font-semibold">
-                                            {{ t('dashboard.details.inspectCoeffBtn') }} &rarr;
+                                            class="mt-1 flex items-center gap-0.5 text-[10px] font-semibold text-main-dark group-hover:underline dark:text-main"
+                                        >
+                                            {{
+                                                t(
+                                                    'dashboard.details.inspectCoeffBtn',
+                                                )
+                                            }}
+                                            &rarr;
                                         </span>
                                     </button>
 
                                     <!-- Ks Card -->
-                                    <button @click="openCalculationDetails('ks')" type="button"
-                                        class="group flex flex-col justify-between rounded-xl border border-slate-200/80 bg-white/60 p-3.5 text-left transition-all hover:border-main/50 hover:bg-main/10 dark:border-zinc-800 dark:bg-zinc-900/60 dark:hover:border-main/40 dark:hover:bg-main/10 cursor-pointer">
-                                        <div class="flex items-center justify-between">
+                                    <button
+                                        @click="openCalculationDetails('ks')"
+                                        type="button"
+                                        class="group flex cursor-pointer flex-col justify-between rounded-xl border border-slate-200/80 bg-white/60 p-3.5 text-left transition-all hover:border-main/50 hover:bg-main/10 dark:border-zinc-800 dark:bg-zinc-900/60 dark:hover:border-main/40 dark:hover:bg-main/10"
+                                    >
+                                        <div
+                                            class="flex items-center justify-between"
+                                        >
                                             <span
-                                                class="text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-zinc-400">
-                                                {{ t('dashboard.details.ksCardLabel') }}
+                                                class="text-[11px] font-bold tracking-wider text-slate-500 uppercase dark:text-zinc-400"
+                                            >
+                                                {{
+                                                    t(
+                                                        'dashboard.details.ksCardLabel',
+                                                    )
+                                                }}
                                             </span>
-                                            <Clock class="h-3.5 w-3.5 text-main shrink-0" />
+                                            <Clock
+                                                class="h-3.5 w-3.5 shrink-0 text-main"
+                                            />
                                         </div>
-                                        <p class="mt-2 text-sm font-extrabold text-slate-900 dark:text-white">
-                                            {{ Number(activeResult.ks_service_coefficient ||
-                                                activeResult.coefficient_multiplier || 1.35).toFixed(4) }}
+                                        <p
+                                            class="mt-2 text-sm font-extrabold text-slate-900 dark:text-white"
+                                        >
+                                            {{
+                                                Number(
+                                                    activeResult.ks_service_coefficient ||
+                                                        activeResult.coefficient_multiplier ||
+                                                        1.35,
+                                                ).toFixed(4)
+                                            }}
                                         </p>
                                         <span
-                                            class="mt-1 text-[10px] text-main-dark dark:text-main group-hover:underline flex items-center gap-0.5 font-semibold">
-                                            {{ activeResult.total_service_months || (totalYearsWorked * 12) }} {{
-                                                t('documents.months') }} &rarr;
+                                            class="mt-1 flex items-center gap-0.5 text-[10px] font-semibold text-main-dark group-hover:underline dark:text-main"
+                                        >
+                                            {{
+                                                activeResult.total_service_months ||
+                                                totalYearsWorked * 12
+                                            }}
+                                            {{ t('documents.months') }} &rarr;
                                         </span>
                                     </button>
                                 </div>
@@ -846,9 +1336,12 @@ function runCalculation() {
                     </template>
                     <template v-else-if="!isCalculating">
                         <div
-                            class="flex h-48 flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 dark:border-zinc-800 text-slate-400 dark:text-zinc-500 text-xs p-6 text-center gap-2">
+                            class="flex h-48 flex-col items-center justify-center gap-2 rounded-2xl border border-dashed border-slate-300 p-6 text-center text-xs text-slate-400 dark:border-zinc-800 dark:text-zinc-500"
+                        >
                             <Calculator class="h-8 w-8 text-slate-400" />
-                            <span>{{ t('dashboard.overview.emptyHistory') }}</span>
+                            <span>{{
+                                t('dashboard.overview.emptyHistory')
+                            }}</span>
                         </div>
                     </template>
                 </div>
@@ -856,67 +1349,110 @@ function runCalculation() {
         </div>
 
         <!-- Hypothetical Projection Explanation Modal Dialog -->
-        <Dialog :open="showHypotheticalModal" @update:open="showHypotheticalModal = $event">
+        <Dialog
+            :open="showHypotheticalModal"
+            @update:open="showHypotheticalModal = $event"
+        >
             <DialogContent
-                class="sm:max-w-lg rounded-3xl border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 p-6 shadow-2xl">
+                class="rounded-3xl border border-slate-200 bg-white p-6 shadow-2xl sm:max-w-lg dark:border-zinc-800 dark:bg-zinc-950"
+            >
                 <DialogHeader class="space-y-2">
-                    <div class="flex items-center gap-2 text-amber-600 dark:text-amber-400">
+                    <div
+                        class="flex items-center gap-2 text-amber-600 dark:text-amber-400"
+                    >
                         <Info class="h-6 w-6" />
-                        <DialogTitle class="text-lg font-extrabold text-slate-900 dark:text-white">
+                        <DialogTitle
+                            class="text-lg font-extrabold text-slate-900 dark:text-white"
+                        >
                             {{ t('dashboard.overview.hypotheticalModalTitle') }}
                         </DialogTitle>
                     </div>
-                    <DialogDescription class="text-xs text-slate-500 dark:text-zinc-400">
-                        Детальний алгоритм прогностичного розрахунку для майбутніх років пенсії.
+                    <DialogDescription
+                        class="text-xs text-slate-500 dark:text-zinc-400"
+                    >
+                        Детальний алгоритм прогностичного розрахунку для
+                        майбутніх років пенсії.
                     </DialogDescription>
                 </DialogHeader>
 
                 <div class="mt-4 space-y-3.5 text-xs">
                     <div
-                        class="rounded-2xl bg-slate-50 dark:bg-zinc-900/60 p-4 border border-slate-100 dark:border-zinc-800 space-y-1">
-                        <h5 class="font-bold text-slate-900 dark:text-amber-300">
+                        class="space-y-1 rounded-2xl border border-slate-100 bg-slate-50 p-4 dark:border-zinc-800 dark:bg-zinc-900/60"
+                    >
+                        <h5
+                            class="font-bold text-slate-900 dark:text-amber-300"
+                        >
                             {{ t('dashboard.overview.hypotheticalStep1Title') }}
                         </h5>
-                        <p class="text-slate-600 dark:text-zinc-300 leading-relaxed">
-                            {{ t('dashboard.overview.hypotheticalStep1Desc').replace(':year',
-                                String(user?.target_retirement_year || currentYear)) }}
+                        <p
+                            class="leading-relaxed text-slate-600 dark:text-zinc-300"
+                        >
+                            {{
+                                t(
+                                    'dashboard.overview.hypotheticalStep1Desc',
+                                ).replace(
+                                    ':year',
+                                    String(
+                                        user?.target_retirement_year ||
+                                            currentYear,
+                                    ),
+                                )
+                            }}
                         </p>
                     </div>
 
                     <div
-                        class="rounded-2xl bg-slate-50 dark:bg-zinc-900/60 p-4 border border-slate-100 dark:border-zinc-800 space-y-1">
-                        <h5 class="font-bold text-slate-900 dark:text-amber-300">
+                        class="space-y-1 rounded-2xl border border-slate-100 bg-slate-50 p-4 dark:border-zinc-800 dark:bg-zinc-900/60"
+                    >
+                        <h5
+                            class="font-bold text-slate-900 dark:text-amber-300"
+                        >
                             {{ t('dashboard.overview.hypotheticalStep2Title') }}
                         </h5>
-                        <p class="text-slate-600 dark:text-zinc-300 leading-relaxed">
+                        <p
+                            class="leading-relaxed text-slate-600 dark:text-zinc-300"
+                        >
                             {{ t('dashboard.overview.hypotheticalStep2Desc') }}
                         </p>
                     </div>
 
                     <div
-                        class="rounded-2xl bg-slate-50 dark:bg-zinc-900/60 p-4 border border-slate-100 dark:border-zinc-800 space-y-1">
-                        <h5 class="font-bold text-slate-900 dark:text-amber-300">
+                        class="space-y-1 rounded-2xl border border-slate-100 bg-slate-50 p-4 dark:border-zinc-800 dark:bg-zinc-900/60"
+                    >
+                        <h5
+                            class="font-bold text-slate-900 dark:text-amber-300"
+                        >
                             {{ t('dashboard.overview.hypotheticalStep3Title') }}
                         </h5>
-                        <p class="text-slate-600 dark:text-zinc-300 leading-relaxed">
+                        <p
+                            class="leading-relaxed text-slate-600 dark:text-zinc-300"
+                        >
                             {{ t('dashboard.overview.hypotheticalStep3Desc') }}
                         </p>
                     </div>
 
                     <div
-                        class="rounded-2xl bg-slate-50 dark:bg-zinc-900/60 p-4 border border-slate-100 dark:border-zinc-800 space-y-1">
-                        <h5 class="font-bold text-slate-900 dark:text-amber-300">
+                        class="space-y-1 rounded-2xl border border-slate-100 bg-slate-50 p-4 dark:border-zinc-800 dark:bg-zinc-900/60"
+                    >
+                        <h5
+                            class="font-bold text-slate-900 dark:text-amber-300"
+                        >
                             {{ t('dashboard.overview.hypotheticalStep4Title') }}
                         </h5>
-                        <p class="text-slate-600 dark:text-zinc-300 leading-relaxed">
+                        <p
+                            class="leading-relaxed text-slate-600 dark:text-zinc-300"
+                        >
                             {{ t('dashboard.overview.hypotheticalStep4Desc') }}
                         </p>
                     </div>
                 </div>
 
                 <DialogFooter class="mt-6">
-                    <Button @click="showHypotheticalModal = false" type="button"
-                        class="w-full bg-main text-slate-950 font-bold hover:bg-main-dark rounded-xl h-10 cursor-pointer">
+                    <Button
+                        @click="showHypotheticalModal = false"
+                        type="button"
+                        class="h-10 w-full cursor-pointer rounded-xl bg-main font-bold text-slate-950 hover:bg-main-dark"
+                    >
                         {{ t('dashboard.overview.closeModal') }}
                     </Button>
                 </DialogFooter>
@@ -924,50 +1460,96 @@ function runCalculation() {
         </Dialog>
 
         <!-- Calculation Details & Coefficient Formula Breakdown Modal Dialog -->
-        <Dialog :open="showDetailsModal" @update:open="showDetailsModal = $event">
+        <Dialog
+            :open="showDetailsModal"
+            @update:open="showDetailsModal = $event"
+        >
             <DialogContent
-                class="sm:max-w-3xl h-[85vh] max-h-[85vh] w-[95vw] sm:w-full flex flex-col rounded-2xl sm:rounded-3xl border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-950 p-4 sm:p-6 shadow-2xl overflow-hidden">
-                <DialogHeader class="space-y-1.5 sm:space-y-2 shrink-0">
-                    <div class="flex items-center gap-2 text-main-dark dark:text-main">
-                        <Layers class="h-5 w-5 sm:h-6 sm:w-6 text-main shrink-0" />
-                        <DialogTitle class="text-base sm:text-lg font-extrabold text-slate-900 dark:text-white">
+                class="flex h-[85vh] max-h-[85vh] w-[95vw] flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white p-4 shadow-2xl sm:w-full sm:max-w-3xl sm:rounded-3xl sm:p-6 dark:border-zinc-800 dark:bg-zinc-950"
+            >
+                <DialogHeader class="shrink-0 space-y-1.5 sm:space-y-2">
+                    <div
+                        class="flex items-center gap-2 text-main-dark dark:text-main"
+                    >
+                        <Layers
+                            class="h-5 w-5 shrink-0 text-main sm:h-6 sm:w-6"
+                        />
+                        <DialogTitle
+                            class="text-base font-extrabold text-slate-900 sm:text-lg dark:text-white"
+                        >
                             {{ t('dashboard.details.modalTitle') }}
                         </DialogTitle>
                     </div>
-                    <DialogDescription class="text-[11px] sm:text-xs text-slate-500 dark:text-zinc-400">
-                        {{ t('dashboard.details.baseFormulaTitle') }}: <span
-                            class="font-bold text-slate-900 dark:text-white">{{
-                                t('dashboard.details.formulaExpression') }}</span>
+                    <DialogDescription
+                        class="text-[11px] text-slate-500 sm:text-xs dark:text-zinc-400"
+                    >
+                        {{ t('dashboard.details.baseFormulaTitle') }}:
+                        <span
+                            class="font-bold text-slate-900 dark:text-white"
+                            >{{
+                                t('dashboard.details.formulaExpression')
+                            }}</span
+                        >
                     </DialogDescription>
                 </DialogHeader>
 
                 <!-- Dynamic Tab Navigation Bar (Scrollable on mobile) -->
                 <div
-                    class="mt-3 sm:mt-4 flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-2 sm:pb-3 border-b border-slate-100 dark:border-zinc-800 scrollbar-none shrink-0">
-                    <button @click="activeDetailTab = 'kz'" type="button"
-                        class="px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
-                        :class="activeDetailTab === 'kz' ? 'bg-main text-slate-950 shadow-sm' : 'bg-slate-100 text-slate-600 dark:bg-zinc-900 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white'">
+                    class="mt-3 flex shrink-0 scrollbar-none items-center gap-1.5 overflow-x-auto border-b border-slate-100 pb-2 sm:mt-4 sm:gap-2 sm:pb-3 dark:border-zinc-800"
+                >
+                    <button
+                        @click="activeDetailTab = 'kz'"
+                        type="button"
+                        class="flex shrink-0 cursor-pointer items-center gap-1.5 rounded-xl px-3 py-1.5 text-[11px] font-bold transition-all sm:px-3.5 sm:py-2 sm:text-xs"
+                        :class="
+                            activeDetailTab === 'kz'
+                                ? 'bg-main text-slate-950 shadow-sm'
+                                : 'bg-slate-100 text-slate-600 hover:text-slate-900 dark:bg-zinc-900 dark:text-zinc-400 dark:hover:text-white'
+                        "
+                    >
                         <Table class="h-3.5 w-3.5 shrink-0" />
                         <span>{{ t('dashboard.details.tabKzTitle') }}</span>
                     </button>
 
-                    <button @click="activeDetailTab = 'zp'" type="button"
-                        class="px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
-                        :class="activeDetailTab === 'zp' ? 'bg-main text-slate-950 shadow-sm' : 'bg-slate-100 text-slate-600 dark:bg-zinc-900 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white'">
+                    <button
+                        @click="activeDetailTab = 'zp'"
+                        type="button"
+                        class="flex shrink-0 cursor-pointer items-center gap-1.5 rounded-xl px-3 py-1.5 text-[11px] font-bold transition-all sm:px-3.5 sm:py-2 sm:text-xs"
+                        :class="
+                            activeDetailTab === 'zp'
+                                ? 'bg-main text-slate-950 shadow-sm'
+                                : 'bg-slate-100 text-slate-600 hover:text-slate-900 dark:bg-zinc-900 dark:text-zinc-400 dark:hover:text-white'
+                        "
+                    >
                         <Layers class="h-3.5 w-3.5 shrink-0" />
                         <span>{{ t('dashboard.details.tabZpTitle') }}</span>
                     </button>
 
-                    <button @click="activeDetailTab = 'ks'" type="button"
-                        class="px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
-                        :class="activeDetailTab === 'ks' ? 'bg-main text-slate-950 shadow-sm' : 'bg-slate-100 text-slate-600 dark:bg-zinc-900 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white'">
+                    <button
+                        @click="activeDetailTab = 'ks'"
+                        type="button"
+                        class="flex shrink-0 cursor-pointer items-center gap-1.5 rounded-xl px-3 py-1.5 text-[11px] font-bold transition-all sm:px-3.5 sm:py-2 sm:text-xs"
+                        :class="
+                            activeDetailTab === 'ks'
+                                ? 'bg-main text-slate-950 shadow-sm'
+                                : 'bg-slate-100 text-slate-600 hover:text-slate-900 dark:bg-zinc-900 dark:text-zinc-400 dark:hover:text-white'
+                        "
+                    >
                         <Clock class="h-3.5 w-3.5 shrink-0" />
                         <span>{{ t('dashboard.details.tabKsTitle') }}</span>
                     </button>
 
-                    <button v-if="isAdmin" @click="activeDetailTab = 'logs'" type="button"
-                        class="px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-xl text-[11px] sm:text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
-                        :class="activeDetailTab === 'logs' ? 'bg-main text-slate-950 shadow-sm' : 'bg-slate-100 text-slate-600 dark:bg-zinc-900 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white'">
+                    <button
+                        v-if="isAdmin"
+                        @click="activeDetailTab = 'logs'"
+                        type="button"
+                        class="flex shrink-0 cursor-pointer items-center gap-1.5 rounded-xl px-3 py-1.5 text-[11px] font-bold transition-all sm:px-3.5 sm:py-2 sm:text-xs"
+                        :class="
+                            activeDetailTab === 'logs'
+                                ? 'bg-main text-slate-950 shadow-sm'
+                                : 'bg-slate-100 text-slate-600 hover:text-slate-900 dark:bg-zinc-900 dark:text-zinc-400 dark:hover:text-white'
+                        "
+                    >
                         <FileText class="h-3.5 w-3.5 shrink-0" />
                         <span>{{ t('dashboard.details.tabLogsTitle') }}</span>
                     </button>
@@ -975,29 +1557,48 @@ function runCalculation() {
 
                 <!-- Scrollable Tab Content Container -->
                 <div
-                    class="mt-3 sm:mt-4 flex-1 overflow-y-auto min-h-0 pr-1 space-y-3 sm:space-y-4 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-slate-300 dark:[&::-webkit-scrollbar-thumb]:bg-zinc-800 [&::-webkit-scrollbar-thumb]:rounded-full">
+                    class="mt-3 min-h-0 flex-1 space-y-3 overflow-y-auto pr-1 sm:mt-4 sm:space-y-4 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-slate-300 dark:[&::-webkit-scrollbar-thumb]:bg-zinc-800 [&::-webkit-scrollbar-track]:bg-transparent"
+                >
                     <!-- Tab 1: Kz Wage Coefficient Table -->
-                    <div v-if="activeDetailTab === 'kz'" class="space-y-3 sm:space-y-4">
+                    <div
+                        v-if="activeDetailTab === 'kz'"
+                        class="space-y-3 sm:space-y-4"
+                    >
                         <div
-                            class="rounded-2xl border border-slate-100 dark:border-zinc-800 bg-slate-50/60 dark:bg-zinc-900/50 p-3.5 sm:p-4 space-y-1.5 sm:space-y-2">
+                            class="space-y-1.5 rounded-2xl border border-slate-100 bg-slate-50/60 p-3.5 sm:space-y-2 sm:p-4 dark:border-zinc-800 dark:bg-zinc-900/50"
+                        >
                             <div class="flex items-center justify-between">
-                                <span class="text-xs font-extrabold text-slate-900 dark:text-white">
+                                <span
+                                    class="text-xs font-extrabold text-slate-900 dark:text-white"
+                                >
                                     {{ t('dashboard.details.avgKzTitle') }}
                                 </span>
-                                <span class="text-base sm:text-lg font-black text-main-dark dark:text-main">
-                                    {{ Number(activeResult?.kz_wage_coefficient || 1.0).toFixed(4) }}
+                                <span
+                                    class="text-base font-black text-main-dark sm:text-lg dark:text-main"
+                                >
+                                    {{
+                                        Number(
+                                            activeResult?.kz_wage_coefficient ||
+                                                1.0,
+                                        ).toFixed(4)
+                                    }}
                                 </span>
                             </div>
-                            <p class="text-[11px] text-slate-500 dark:text-zinc-400 leading-relaxed">
+                            <p
+                                class="text-[11px] leading-relaxed text-slate-500 dark:text-zinc-400"
+                            >
                                 {{ t('dashboard.details.kzNoticeText') }}
                             </p>
                         </div>
 
                         <!-- Skeleton Loading State -->
-                        <div v-if="isLoadingBreakdown"
-                            class="space-y-3 p-3.5 sm:p-4 rounded-2xl border border-slate-200 dark:border-zinc-800">
+                        <div
+                            v-if="isLoadingBreakdown"
+                            class="space-y-3 rounded-2xl border border-slate-200 p-3.5 sm:p-4 dark:border-zinc-800"
+                        >
                             <div
-                                class="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-zinc-800">
+                                class="flex items-center justify-between border-b border-slate-100 pb-2 dark:border-zinc-800"
+                            >
                                 <Skeleton class="h-4 w-32" />
                                 <Skeleton class="h-4 w-24" />
                             </div>
@@ -1012,83 +1613,210 @@ function runCalculation() {
                         </div>
 
                         <!-- Detailed Accordion Breakdown Table -->
-                        <div v-else-if="detailedBreakdown && detailedBreakdown.length > 0"
-                            class="overflow-x-auto rounded-2xl border border-slate-200 dark:border-zinc-800 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-slate-300 dark:[&::-webkit-scrollbar-thumb]:bg-zinc-800 [&::-webkit-scrollbar-thumb]:rounded-full">
-                            <table class="w-full text-left text-[11px] sm:text-xs min-w-[520px] sm:min-w-full">
+                        <div
+                            v-else-if="
+                                detailedBreakdown &&
+                                detailedBreakdown.length > 0
+                            "
+                            class="overflow-x-auto rounded-2xl border border-slate-200 dark:border-zinc-800 [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-slate-300 dark:[&::-webkit-scrollbar-thumb]:bg-zinc-800 [&::-webkit-scrollbar-track]:bg-transparent"
+                        >
+                            <table
+                                class="w-full min-w-[520px] text-left text-[11px] sm:min-w-full sm:text-xs"
+                            >
                                 <thead
-                                    class="sticky top-0 z-10 bg-slate-100 dark:bg-zinc-900 text-slate-600 dark:text-zinc-300 font-bold uppercase tracking-wider text-[9px] sm:text-[10px] shadow-xs">
+                                    class="sticky top-0 z-10 bg-slate-100 text-[9px] font-bold tracking-wider text-slate-600 uppercase shadow-xs sm:text-[10px] dark:bg-zinc-900 dark:text-zinc-300"
+                                >
                                     <tr>
-                                        <th class="p-2 sm:p-3">{{ t('dashboard.details.tableYear') }}</th>
-                                        <th class="p-2 sm:p-3">{{ t('dashboard.details.tableUserSalary') }}</th>
-                                        <th class="p-2 sm:p-3">{{ t('dashboard.details.tableNationalSalary') }}</th>
-                                        <th class="p-2 sm:p-3 text-right">{{ t('dashboard.details.tableMonthlyCoeff') }}
+                                        <th class="p-2 sm:p-3">
+                                            {{
+                                                t('dashboard.details.tableYear')
+                                            }}
+                                        </th>
+                                        <th class="p-2 sm:p-3">
+                                            {{
+                                                t(
+                                                    'dashboard.details.tableUserSalary',
+                                                )
+                                            }}
+                                        </th>
+                                        <th class="p-2 sm:p-3">
+                                            {{
+                                                t(
+                                                    'dashboard.details.tableNationalSalary',
+                                                )
+                                            }}
+                                        </th>
+                                        <th class="p-2 text-right sm:p-3">
+                                            {{
+                                                t(
+                                                    'dashboard.details.tableMonthlyCoeff',
+                                                )
+                                            }}
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody class="divide-y divide-slate-100 dark:divide-zinc-800/80 font-medium">
-                                    <template v-for="yItem in detailedBreakdown" :key="yItem.year">
+                                <tbody
+                                    class="divide-y divide-slate-100 font-medium dark:divide-zinc-800/80"
+                                >
+                                    <template
+                                        v-for="yItem in detailedBreakdown"
+                                        :key="yItem.year"
+                                    >
                                         <!-- Year Summary Row (Accordion Trigger) -->
-                                        <tr @click="toggleYearAccordion(yItem.year)"
-                                            class="hover:bg-slate-100/80 dark:hover:bg-zinc-900/80 cursor-pointer transition-colors bg-slate-50/50 dark:bg-zinc-900/30">
+                                        <tr
+                                            @click="
+                                                toggleYearAccordion(yItem.year)
+                                            "
+                                            class="cursor-pointer bg-slate-50/50 transition-colors hover:bg-slate-100/80 dark:bg-zinc-900/30 dark:hover:bg-zinc-900/80"
+                                        >
                                             <td
-                                                class="p-2 sm:p-3 font-bold text-slate-900 dark:text-white flex items-center gap-1.5 sm:gap-2">
-                                                <component :is="expandedYears[yItem.year] ? ChevronDown : ChevronRight"
-                                                    class="h-3.5 w-3.5 sm:h-4 sm:w-4 text-main shrink-0 transition-transform" />
+                                                class="flex items-center gap-1.5 p-2 font-bold text-slate-900 sm:gap-2 sm:p-3 dark:text-white"
+                                            >
+                                                <component
+                                                    :is="
+                                                        expandedYears[
+                                                            yItem.year
+                                                        ]
+                                                            ? ChevronDown
+                                                            : ChevronRight
+                                                    "
+                                                    class="h-3.5 w-3.5 shrink-0 text-main transition-transform sm:h-4 sm:w-4"
+                                                />
                                                 <span>{{ yItem.year }} р.</span>
                                             </td>
-                                            <td class="p-2 sm:p-3 text-slate-700 dark:text-zinc-300">
-                                                <template v-if="yItem.user_annual_income > 0">
-                                                    <div>{{
-                                                        Number(yItem.user_avg_monthly_salary).toLocaleString('uk-UA', {
-                                                            minimumFractionDigits: 2
-                                                        }) }} ₴ /міс</div>
-                                                    <span class="text-[9px] sm:text-[10px] text-slate-400 block">({{
-                                                        Number(yItem.user_annual_income).toLocaleString('uk-UA') }} ₴
-                                                        /рік, {{ yItem.months_worked }} міс.)</span>
+                                            <td
+                                                class="p-2 text-slate-700 sm:p-3 dark:text-zinc-300"
+                                            >
+                                                <template
+                                                    v-if="
+                                                        yItem.user_annual_income >
+                                                        0
+                                                    "
+                                                >
+                                                    <div>
+                                                        {{
+                                                            Number(
+                                                                yItem.user_avg_monthly_salary,
+                                                            ).toLocaleString(
+                                                                'uk-UA',
+                                                                {
+                                                                    minimumFractionDigits: 2,
+                                                                },
+                                                            )
+                                                        }}
+                                                        ₴ /міс
+                                                    </div>
+                                                    <span
+                                                        class="block text-[9px] text-slate-400 sm:text-[10px]"
+                                                        >({{
+                                                            Number(
+                                                                yItem.user_annual_income,
+                                                            ).toLocaleString(
+                                                                'uk-UA',
+                                                            )
+                                                        }}
+                                                        ₴ /рік,
+                                                        {{
+                                                            yItem.months_worked
+                                                        }}
+                                                        міс.)</span
+                                                    >
                                                 </template>
                                                 <template v-else>
                                                     <span
-                                                        class="text-[9px] sm:text-[10px] italic text-amber-700 dark:text-amber-400 font-semibold bg-amber-50 dark:bg-amber-950/40 px-1.5 py-0.5 rounded-md border border-amber-200/60 dark:border-amber-900/40">
-                                                        {{ t('documents.noSalaryBadge') }}
+                                                        class="rounded-md border border-amber-200/60 bg-amber-50 px-1.5 py-0.5 text-[9px] font-semibold text-amber-700 italic sm:text-[10px] dark:border-amber-900/40 dark:bg-amber-950/40 dark:text-amber-400"
+                                                    >
+                                                        {{
+                                                            t(
+                                                                'documents.noSalaryBadge',
+                                                            )
+                                                        }}
                                                     </span>
                                                 </template>
                                             </td>
-                                            <td class="p-2 sm:p-3 text-slate-700 dark:text-zinc-300 font-semibold">
-                                                {{ Number(yItem.national_avg_salary).toLocaleString('uk-UA', {
-                                                    minimumFractionDigits: 2
-                                                }) }} ₴
+                                            <td
+                                                class="p-2 font-semibold text-slate-700 sm:p-3 dark:text-zinc-300"
+                                            >
+                                                {{
+                                                    Number(
+                                                        yItem.national_avg_salary,
+                                                    ).toLocaleString('uk-UA', {
+                                                        minimumFractionDigits: 2,
+                                                    })
+                                                }}
+                                                ₴
                                             </td>
                                             <td
-                                                class="p-2 sm:p-3 text-right font-extrabold text-main-dark dark:text-main">
-                                                {{ Number(yItem.yearly_coefficient).toFixed(4) }}
+                                                class="p-2 text-right font-extrabold text-main-dark sm:p-3 dark:text-main"
+                                            >
+                                                {{
+                                                    Number(
+                                                        yItem.yearly_coefficient,
+                                                    ).toFixed(4)
+                                                }}
                                             </td>
                                         </tr>
 
                                         <!-- Expanded Monthly Sub-Rows -->
-                                        <template v-if="expandedYears[yItem.year]">
-                                            <tr v-for="mRec in yItem.months" :key="mRec.month"
-                                                class="bg-slate-100/40 dark:bg-zinc-950/60 hover:bg-slate-100 dark:hover:bg-zinc-900/60 text-[10px] sm:text-[11px]">
+                                        <template
+                                            v-if="expandedYears[yItem.year]"
+                                        >
+                                            <tr
+                                                v-for="mRec in yItem.months"
+                                                :key="mRec.month"
+                                                class="bg-slate-100/40 text-[10px] hover:bg-slate-100 sm:text-[11px] dark:bg-zinc-950/60 dark:hover:bg-zinc-900/60"
+                                            >
                                                 <td
-                                                    class="py-1.5 sm:py-2 px-2 sm:px-3 pl-5 sm:pl-8 text-slate-600 dark:text-zinc-400 font-medium flex items-center gap-1 sm:gap-1.5">
+                                                    class="flex items-center gap-1 px-2 py-1.5 pl-5 font-medium text-slate-600 sm:gap-1.5 sm:px-3 sm:py-2 sm:pl-8 dark:text-zinc-400"
+                                                >
                                                     <span
-                                                        class="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-main/60 shrink-0"></span>
-                                                    <span>{{ t('monthNames.' + mRec.month) }}</span>
+                                                        class="h-1 w-1 shrink-0 rounded-full bg-main/60 sm:h-1.5 sm:w-1.5"
+                                                    ></span>
+                                                    <span>{{
+                                                        t(
+                                                            'monthNames.' +
+                                                                mRec.month,
+                                                        )
+                                                    }}</span>
                                                 </td>
                                                 <td
-                                                    class="py-1.5 sm:py-2 px-2 sm:px-3 font-mono text-slate-700 dark:text-zinc-300">
-                                                    {{ Number(mRec.user_salary).toLocaleString('uk-UA', {
-                                                        minimumFractionDigits: 2
-                                                    }) }} ₴
+                                                    class="px-2 py-1.5 font-mono text-slate-700 sm:px-3 sm:py-2 dark:text-zinc-300"
+                                                >
+                                                    {{
+                                                        Number(
+                                                            mRec.user_salary,
+                                                        ).toLocaleString(
+                                                            'uk-UA',
+                                                            {
+                                                                minimumFractionDigits: 2,
+                                                            },
+                                                        )
+                                                    }}
+                                                    ₴
                                                 </td>
                                                 <td
-                                                    class="py-1.5 sm:py-2 px-2 sm:px-3 font-mono text-slate-600 dark:text-zinc-400">
-                                                    {{ Number(mRec.national_avg_salary).toLocaleString('uk-UA', {
-                                                        minimumFractionDigits: 2
-                                                    }) }} ₴
+                                                    class="px-2 py-1.5 font-mono text-slate-600 sm:px-3 sm:py-2 dark:text-zinc-400"
+                                                >
+                                                    {{
+                                                        Number(
+                                                            mRec.national_avg_salary,
+                                                        ).toLocaleString(
+                                                            'uk-UA',
+                                                            {
+                                                                minimumFractionDigits: 2,
+                                                            },
+                                                        )
+                                                    }}
+                                                    ₴
                                                 </td>
                                                 <td
-                                                    class="py-1.5 sm:py-2 px-2 sm:px-3 text-right font-mono font-bold text-main-dark dark:text-main">
-                                                    {{ Number(mRec.monthly_coefficient).toFixed(4) }}
+                                                    class="px-2 py-1.5 text-right font-mono font-bold text-main-dark sm:px-3 sm:py-2 dark:text-main"
+                                                >
+                                                    {{
+                                                        Number(
+                                                            mRec.monthly_coefficient,
+                                                        ).toFixed(4)
+                                                    }}
                                                 </td>
                                             </tr>
                                         </template>
@@ -1096,105 +1824,184 @@ function runCalculation() {
                                 </tbody>
                             </table>
                         </div>
-                        <div v-else
-                            class="p-4 sm:p-6 text-center text-xs text-slate-400 dark:text-zinc-500 rounded-2xl border border-dashed border-slate-200 dark:border-zinc-800">
+                        <div
+                            v-else
+                            class="rounded-2xl border border-dashed border-slate-200 p-4 text-center text-xs text-slate-400 sm:p-6 dark:border-zinc-800 dark:text-zinc-500"
+                        >
                             {{ t('dashboard.details.noTaxRecordsNotice') }}
                         </div>
                     </div>
 
                     <!-- Tab 2: Zp Macroeconomic Salary -->
-                    <div v-if="activeDetailTab === 'zp'" class="space-y-3 sm:space-y-4">
+                    <div
+                        v-if="activeDetailTab === 'zp'"
+                        class="space-y-3 sm:space-y-4"
+                    >
                         <div
-                            class="rounded-2xl border border-slate-100 dark:border-zinc-800 bg-slate-50/60 dark:bg-zinc-900/50 p-4 sm:p-5 space-y-2 sm:space-y-3">
+                            class="space-y-2 rounded-2xl border border-slate-100 bg-slate-50/60 p-4 sm:space-y-3 sm:p-5 dark:border-zinc-800 dark:bg-zinc-900/50"
+                        >
                             <span
-                                class="text-[10px] sm:text-xs font-extrabold uppercase tracking-wider text-slate-500 dark:text-zinc-400">
+                                class="text-[10px] font-extrabold tracking-wider text-slate-500 uppercase sm:text-xs dark:text-zinc-400"
+                            >
                                 {{ t('dashboard.details.zpFormulaTitle') }}
                             </span>
-                            <div class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
-                                {{ Number(activeResult?.zp_macroeconomic_average || 16500).toLocaleString('uk-UA', {
-                                    minimumFractionDigits: 2
-                                }) }} ₴
+                            <div
+                                class="text-2xl font-extrabold text-slate-900 sm:text-3xl dark:text-white"
+                            >
+                                {{
+                                    Number(
+                                        activeResult?.zp_macroeconomic_average ||
+                                            16500,
+                                    ).toLocaleString('uk-UA', {
+                                        minimumFractionDigits: 2,
+                                    })
+                                }}
+                                ₴
                             </div>
-                            <p class="text-xs text-slate-600 dark:text-zinc-300 leading-relaxed">
+                            <p
+                                class="text-xs leading-relaxed text-slate-600 dark:text-zinc-300"
+                            >
                                 {{ t('dashboard.details.zpDescription') }}
                             </p>
                         </div>
                     </div>
 
                     <!-- Tab 3: Ks Service Multiplier -->
-                    <div v-if="activeDetailTab === 'ks'" class="space-y-3 sm:space-y-4">
+                    <div
+                        v-if="activeDetailTab === 'ks'"
+                        class="space-y-3 sm:space-y-4"
+                    >
                         <div
-                            class="rounded-2xl border border-slate-100 dark:border-zinc-800 bg-slate-50/60 dark:bg-zinc-900/50 p-4 sm:p-5 space-y-3">
+                            class="space-y-3 rounded-2xl border border-slate-100 bg-slate-50/60 p-4 sm:p-5 dark:border-zinc-800 dark:bg-zinc-900/50"
+                        >
                             <span
-                                class="text-[10px] sm:text-xs font-extrabold uppercase tracking-wider text-slate-500 dark:text-zinc-400">
+                                class="text-[10px] font-extrabold tracking-wider text-slate-500 uppercase sm:text-xs dark:text-zinc-400"
+                            >
                                 {{ t('dashboard.details.ksFormulaTitle') }}
                             </span>
-                            <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
-                                <span class="text-xs text-slate-500 dark:text-zinc-400">{{
-                                    t('dashboard.details.ksMonthsLabel')
-                                    }}:</span>
-                                <span class="text-sm sm:text-base font-bold text-slate-900 dark:text-white">
-                                    {{ activeResult?.total_service_months || (totalYearsWorked * 12) }} {{
-                                        t('documents.months')
-                                    }} ({{ Math.floor((activeResult?.total_service_months || (totalYearsWorked * 12)) /
-                                        12) }}
+                            <div
+                                class="flex flex-col justify-between gap-1 sm:flex-row sm:items-baseline"
+                            >
+                                <span
+                                    class="text-xs text-slate-500 dark:text-zinc-400"
+                                    >{{
+                                        t('dashboard.details.ksMonthsLabel')
+                                    }}:</span
+                                >
+                                <span
+                                    class="text-sm font-bold text-slate-900 sm:text-base dark:text-white"
+                                >
+                                    {{
+                                        activeResult?.total_service_months ||
+                                        totalYearsWorked * 12
+                                    }}
+                                    {{ t('documents.months') }} ({{
+                                        Math.floor(
+                                            (activeResult?.total_service_months ||
+                                                totalYearsWorked * 12) / 12,
+                                        )
+                                    }}
                                     {{ t('documents.yrs') }})
                                 </span>
                             </div>
                             <div
-                                class="flex flex-col sm:flex-row sm:items-baseline justify-between border-t border-slate-200/60 dark:border-zinc-800 pt-3 gap-1">
-                                <span class="text-xs text-slate-500 dark:text-zinc-400">Підсумковий коефіцієнт
-                                    Ks:</span>
-                                <span class="text-xl sm:text-2xl font-black text-main-dark dark:text-main">
-                                    {{ Number(activeResult?.ks_service_coefficient ||
-                                        activeResult?.coefficient_multiplier ||
-                                        1.35).toFixed(4) }}
+                                class="flex flex-col justify-between gap-1 border-t border-slate-200/60 pt-3 sm:flex-row sm:items-baseline dark:border-zinc-800"
+                            >
+                                <span
+                                    class="text-xs text-slate-500 dark:text-zinc-400"
+                                    >Підсумковий коефіцієнт Ks:</span
+                                >
+                                <span
+                                    class="text-xl font-black text-main-dark sm:text-2xl dark:text-main"
+                                >
+                                    {{
+                                        Number(
+                                            activeResult?.ks_service_coefficient ||
+                                                activeResult?.coefficient_multiplier ||
+                                                1.35,
+                                        ).toFixed(4)
+                                    }}
                                 </span>
                             </div>
-                            <p class="text-[11px] text-slate-500 dark:text-zinc-400 leading-relaxed">
-                                За кожен рік страхового стажу коефіцієнт оцінки стажу становить 1% (0.01). Формула: Ks =
-                                Місяці
+                            <p
+                                class="text-[11px] leading-relaxed text-slate-500 dark:text-zinc-400"
+                            >
+                                За кожен рік страхового стажу коефіцієнт оцінки
+                                стажу становить 1% (0.01). Формула: Ks = Місяці
                                 / 1200.
                             </p>
                         </div>
                     </div>
 
                     <!-- Tab 4: 5-Stage Execution Audit Logs (Admin Only) -->
-                    <div v-if="isAdmin && activeDetailTab === 'logs'" class="space-y-3 sm:space-y-4">
+                    <div
+                        v-if="isAdmin && activeDetailTab === 'logs'"
+                        class="space-y-3 sm:space-y-4"
+                    >
                         <div
-                            class="rounded-2xl border border-slate-100 dark:border-zinc-800 bg-slate-50/60 dark:bg-zinc-900/50 p-3.5 sm:p-4 space-y-1.5 sm:space-y-2">
-                            <h5 class="text-xs font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                                <FileText class="h-4 w-4 text-main shrink-0" />
+                            class="space-y-1.5 rounded-2xl border border-slate-100 bg-slate-50/60 p-3.5 sm:space-y-2 sm:p-4 dark:border-zinc-800 dark:bg-zinc-900/50"
+                        >
+                            <h5
+                                class="flex items-center gap-2 text-xs font-bold text-slate-900 dark:text-white"
+                            >
+                                <FileText class="h-4 w-4 shrink-0 text-main" />
                                 {{ t('dashboard.details.logsTitle') }}
                             </h5>
-                            <p class="text-[11px] text-slate-500 dark:text-zinc-400">
-                                Аудит 5 етапів обчислення пенсійним математичним движком C++ (Закон України № 1058-IV).
+                            <p
+                                class="text-[11px] text-slate-500 dark:text-zinc-400"
+                            >
+                                Аудит 5 етапів обчислення пенсійним математичним
+                                движком C++ (Закон України № 1058-IV).
                             </p>
                         </div>
 
-                        <div v-if="(activeResult?.calculation_logs && activeResult.calculation_logs.length > 0) || (activeResult?.calculation_breakdown?.logs && activeResult.calculation_breakdown.logs.length > 0)"
-                            class="rounded-2xl bg-zinc-950 p-3 sm:p-4 font-mono text-[10px] sm:text-[11px] text-emerald-400 leading-relaxed max-h-60 overflow-y-auto space-y-1 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-slate-300 dark:[&::-webkit-scrollbar-thumb]:bg-zinc-800 [&::-webkit-scrollbar-thumb]:rounded-full">
-                            <div v-for="(logLine, lIdx) in (activeResult?.calculation_logs || activeResult?.calculation_breakdown?.logs || [])"
-                                :key="lIdx">
+                        <div
+                            v-if="
+                                (activeResult?.calculation_logs &&
+                                    activeResult.calculation_logs.length > 0) ||
+                                (activeResult?.calculation_breakdown?.logs &&
+                                    activeResult.calculation_breakdown.logs
+                                        .length > 0)
+                            "
+                            class="max-h-60 space-y-1 overflow-y-auto rounded-2xl bg-zinc-950 p-3 font-mono text-[10px] leading-relaxed text-emerald-400 sm:p-4 sm:text-[11px] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-slate-300 dark:[&::-webkit-scrollbar-thumb]:bg-zinc-800 [&::-webkit-scrollbar-track]:bg-transparent"
+                        >
+                            <div
+                                v-for="(
+                                    logLine, lIdx
+                                ) in activeResult?.calculation_logs ||
+                                activeResult?.calculation_breakdown?.logs ||
+                                []"
+                                :key="lIdx"
+                            >
                                 &gt; {{ logLine }}
                             </div>
                         </div>
-                        <div v-else
-                            class="p-4 sm:p-6 text-center text-xs text-slate-400 dark:text-zinc-500 rounded-2xl border border-dashed border-slate-200 dark:border-zinc-800">
+                        <div
+                            v-else
+                            class="rounded-2xl border border-dashed border-slate-200 p-4 text-center text-xs text-slate-400 sm:p-6 dark:border-zinc-800 dark:text-zinc-500"
+                        >
                             {{ t('dashboard.details.noLogsNotice') }}
                         </div>
                     </div>
                 </div>
 
-                <DialogFooter class="mt-4 sm:mt-6 shrink-0 flex flex-col sm:flex-row items-center gap-2">
-                    <a v-if="activeResult?.id" :href="`/pension-calculations/${activeResult.id}/pdf?lang=${locale}`"
+                <DialogFooter
+                    class="mt-4 flex shrink-0 flex-col items-center gap-2 sm:mt-6 sm:flex-row"
+                >
+                    <a
+                        v-if="activeResult?.id"
+                        :href="`/pension-calculations/${activeResult.id}/pdf?lang=${locale}`"
                         download
-                        class="w-full sm:flex-1 bg-slate-900 dark:bg-white text-white dark:text-slate-950 font-bold hover:bg-slate-800 dark:hover:bg-slate-100 rounded-xl h-9 sm:h-10 cursor-pointer text-xs sm:text-sm flex items-center justify-center gap-2 transition-colors">
+                        class="flex h-9 w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-slate-900 text-xs font-bold text-white transition-colors hover:bg-slate-800 sm:h-10 sm:flex-1 sm:text-sm dark:bg-white dark:text-slate-950 dark:hover:bg-slate-100"
+                    >
                         <Download class="h-4 w-4" />
                         <span>{{ t('dashboard.details.downloadPdf') }}</span>
                     </a>
-                    <Button @click="showDetailsModal = false" type="button"
-                        class="w-full sm:flex-1 bg-main text-slate-950 font-bold hover:bg-main-dark rounded-xl h-9 sm:h-10 cursor-pointer text-xs sm:text-sm">
+                    <Button
+                        @click="showDetailsModal = false"
+                        type="button"
+                        class="h-9 w-full cursor-pointer rounded-xl bg-main text-xs font-bold text-slate-950 hover:bg-main-dark sm:h-10 sm:flex-1 sm:text-sm"
+                    >
                         {{ t('dashboard.overview.closeModal') }}
                     </Button>
                 </DialogFooter>
