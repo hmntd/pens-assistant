@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Jobs\ProcessDocumentOcrJob;
 use App\Models\AuditLog;
 use App\Models\Document;
+use App\Models\RecognizedDocument;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Inertia\Inertia;
@@ -15,7 +17,7 @@ class UploadDocumentController extends Controller
 {
     public function __invoke(Request $request)
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = $request->user();
 
         $request->validate([
@@ -33,7 +35,7 @@ class UploadDocumentController extends Controller
 
         $file = $request->file('file');
         $originalFilename = $file->getClientOriginalName();
-        $storedPath = $file->store('documents/' . $user->id, 'local');
+        $storedPath = $file->store('documents/'.$user->id, 'local');
 
         $document = Document::create([
             'user_id' => $user->id,
@@ -64,7 +66,7 @@ class UploadDocumentController extends Controller
         }
 
         $document->refresh();
-        /** @var \App\Models\RecognizedDocument|null $recognizedDoc */
+        /** @var RecognizedDocument|null $recognizedDoc */
         $recognizedDoc = $document->recognizedDocument;
 
         if ($request->wantsJson()) {

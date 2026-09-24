@@ -80,7 +80,6 @@
   color utility to any element that depends on these defaults.
 */
 @layer base {
-
     *,
     ::after,
     ::before,
@@ -91,7 +90,6 @@
 }
 
 @layer utilities {
-
     body,
     html {
         --font-sans:
@@ -103,8 +101,8 @@
 
 :root {
     /* Main Brand Colors (#31DE97 system) */
-    --main: #31DE97;
-    --main-hover: #28C586;
+    --main: #31de97;
+    --main-hover: #28c586;
     --main-dark: #1cb777;
     --main-light: rgba(49, 222, 151, 0.1);
 
@@ -146,7 +144,7 @@
 
 .dark {
     /* Main Brand Colors in Dark mode */
-    --main: #31DE97;
+    --main: #31de97;
     --main-hover: #24b87b;
     --main-dark: #24b87b;
     --main-light: rgba(49, 222, 151, 0.15);

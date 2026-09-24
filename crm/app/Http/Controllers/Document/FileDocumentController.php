@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Document;
 
 use App\Http\Controllers\Controller;
 use App\Models\Document;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,11 +17,11 @@ class FileDocumentController extends Controller
      */
     public function __invoke(Request $request, string $id): StreamedResponse|Response
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = $request->user();
 
         $query = Document::query();
-        if (!$user->hasRole('admin')) {
+        if (! $user->hasRole('admin')) {
             $query->where('user_id', $user->id);
         }
 
@@ -37,7 +38,7 @@ class FileDocumentController extends Controller
 
         return Storage::disk('local')->response($document->file_path, $document->original_filename, [
             'Content-Type' => $mimeType,
-            'Content-Disposition' => 'inline; filename="' . $document->original_filename . '"',
+            'Content-Disposition' => 'inline; filename="'.$document->original_filename.'"',
         ]);
     }
 }

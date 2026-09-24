@@ -47,7 +47,7 @@ class SocialiteCallbackController extends Controller
             Log::error("Socialite callback failed for provider {$provider}: {$e->getMessage()}");
 
             return redirect()->route('login')->withErrors([
-                'email' => 'Failed to authenticate via ' . ucfirst($provider) . '. Please try again.',
+                'email' => 'Failed to authenticate via '.ucfirst($provider).'. Please try again.',
             ]);
         }
 
@@ -56,7 +56,7 @@ class SocialiteCallbackController extends Controller
 
         if (empty($email)) {
             return redirect()->route('login')->withErrors([
-                'email' => 'Your ' . ucfirst($provider) . ' account does not provide an email address.',
+                'email' => 'Your '.ucfirst($provider).' account does not provide an email address.',
             ]);
         }
 

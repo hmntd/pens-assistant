@@ -3,6 +3,11 @@
 namespace App\Http\Controllers\PensionCoefficient;
 
 use App\Http\Controllers\Controller;
+use Calc\CalcServiceClient;
+use Calc\ListCoefficientsRequest;
+use Calc\ListCoefficientsResponse;
+use Calc\PensionCoefficient;
+use Grpc\ChannelCredentials;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -15,14 +20,14 @@ class IndexPensionCoefficientController extends Controller
         $page = max(1, (int) $request->input('page', 1));
         $perPage = max(1, min(100, (int) $request->input('per_page', 15)));
 
-        $calcClient = new \Calc\CalcServiceClient('calc:50051', [
-            'credentials' => \Grpc\ChannelCredentials::createInsecure(),
+        $calcClient = new CalcServiceClient('calc:50051', [
+            'credentials' => ChannelCredentials::createInsecure(),
         ]);
 
-        $grpcRequest = new \Calc\ListCoefficientsRequest();
+        $grpcRequest = new ListCoefficientsRequest;
 
-        /** @var \Calc\ListCoefficientsResponse|null $response */
-        list($response, $status) = $calcClient->ListCoefficients($grpcRequest)->wait();
+        /** @var ListCoefficientsResponse|null $response */
+        [$response, $status] = $calcClient->ListCoefficients($grpcRequest)->wait();
 
         if ($status->code !== \Grpc\STATUS_OK || ! $response || ! $response->getSuccess()) {
             if (app()->environment('testing')) {
@@ -57,7 +62,7 @@ class IndexPensionCoefficientController extends Controller
 
         $allCoefficients = [];
         foreach ($response->getCoefficients() as $item) {
-            /** @var \Calc\PensionCoefficient $item */
+            /** @var PensionCoefficient $item */
             $allCoefficients[] = [
                 'id' => $item->getId(),
                 'year' => $item->getYear(),

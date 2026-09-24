@@ -22,6 +22,22 @@ const paddingAroundControl = [
 ];
 
 export default defineConfigWithVueTs(
+    {
+        ignores: [
+            '**/vendor/**',
+            '**/node_modules/**',
+            '**/public/**',
+            '**/storage/**',
+            '**/bootstrap/ssr/**',
+            '**/bootstrap/cache/**',
+            'tailwind.config.js',
+            'vite.config.ts',
+            'resources/js/actions/**',
+            'resources/js/components/ui/*',
+            'resources/js/routes/**',
+            'resources/js/wayfinder/**',
+        ],
+    },
     vue.configs['flat/essential'],
     vueTsConfigs.recommended,
     {
@@ -72,20 +88,7 @@ export default defineConfigWithVueTs(
             ],
         },
     },
-    {
-        ignores: [
-            'vendor',
-            'node_modules',
-            'public',
-            'bootstrap/ssr',
-            'tailwind.config.js',
-            'vite.config.ts',
-            'resources/js/actions/**',
-            'resources/js/components/ui/*',
-            'resources/js/routes/**',
-            'resources/js/wayfinder/**',
-        ],
-    },
+
     prettier,
     {
         plugins: {

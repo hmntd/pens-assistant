@@ -37,6 +37,7 @@ class DeleteTaxHistoryController extends Controller
                 'type' => 'success',
                 'message' => __('Service history record deleted.'),
             ]);
+
             return redirect()->back();
         }
 

@@ -7,7 +7,6 @@ class UserAgentParserService
     /**
      * Parse raw User-Agent string into Browser, OS, and Device attributes.
      *
-     * @param string|null $userAgent
      * @return array{browser: string, os: string, device: string}
      */
     public function parse(?string $userAgent): array

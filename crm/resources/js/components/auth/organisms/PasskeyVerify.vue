@@ -3,11 +3,11 @@ import type { UrlMethodPair } from '@inertiajs/core';
 import { router } from '@inertiajs/vue3';
 import { usePasskeyVerify } from '@laravel/passkeys/vue';
 import { KeyRound } from '@lucide/vue';
-import { useI18n } from '@/composables/useI18n';
 import InputError from '@/components/common/atoms/InputError.vue';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Spinner } from '@/components/ui/spinner';
+import { useI18n } from '@/composables/useI18n';
 
 type Props = {
     routes?: {
@@ -25,11 +25,11 @@ const { t } = useI18n();
 const { verify, isLoading, error, isSupported } = usePasskeyVerify({
     ...(props.routes
         ? {
-            routes: {
-                options: props.routes.options.url,
-                submit: props.routes.submit.url,
-            },
-        }
+              routes: {
+                  options: props.routes.options.url,
+                  submit: props.routes.submit.url,
+              },
+          }
         : {}),
     onSuccess: (response) => {
         router.visit(response.redirect ?? '/dashboard');
@@ -40,13 +40,21 @@ const { verify, isLoading, error, isSupported } = usePasskeyVerify({
 <template>
     <div v-if="isSupported">
         <div class="grid gap-2">
-            <Button type="button" variant="outline" class="w-full" @click="verify" :disabled="isLoading">
+            <Button
+                type="button"
+                variant="outline"
+                class="w-full"
+                @click="verify"
+                :disabled="isLoading"
+            >
                 <Spinner v-if="isLoading" />
                 <KeyRound v-else class="h-4 w-4" />
                 {{
                     isLoading
-                        ? (props.loadingLabel ?? t('settings.passkeys.authenticating'))
-                        : (props.label ?? t('settings.passkeys.signInWithPasskey'))
+                        ? (props.loadingLabel ??
+                          t('settings.passkeys.authenticating'))
+                        : (props.label ??
+                          t('settings.passkeys.signInWithPasskey'))
                 }}
             </Button>
 
@@ -61,7 +69,10 @@ const { verify, isLoading, error, isSupported } = usePasskeyVerify({
             </div>
             <div class="relative flex justify-center text-xs uppercase">
                 <span class="bg-background px-2 text-muted-foreground">
-                    {{ props.separator ?? t('settings.passkeys.orContinueEmail') }}
+                    {{
+                        props.separator ??
+                        t('settings.passkeys.orContinueEmail')
+                    }}
                 </span>
             </div>
         </div>

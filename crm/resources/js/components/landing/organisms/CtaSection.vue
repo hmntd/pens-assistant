@@ -16,7 +16,7 @@ const props = withDefaults(
     }>(),
     {
         items: undefined,
-    }
+    },
 );
 
 const { t } = useI18n();
@@ -45,22 +45,30 @@ const activeItems = computed(() => props.items || defaultItems.value);
 // Dynamic grid columns adaptation (supports 2, 3, 6, etc.)
 const gridColsClass = computed(() => {
     const count = activeItems.value.length;
-    if (count === 2) return 'grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto';
-    if (count === 3) return 'grid-cols-1 md:grid-cols-3 max-w-6xl mx-auto';
+
+    if (count === 2) {
+        return 'grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto';
+    }
+
+    if (count === 3) {
+        return 'grid-cols-1 md:grid-cols-3 max-w-6xl mx-auto';
+    }
+
     return 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-7xl mx-auto';
 });
 </script>
 
 <template>
-    <section id="cta" class="py-16 lg:py-24 bg-slate-50/50 dark:bg-black">
+    <section id="cta" class="bg-slate-50/50 py-16 lg:py-24 dark:bg-black">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            
             <!-- Section Header -->
-            <div class="mx-auto max-w-3xl text-center mb-16">
+            <div class="mx-auto mb-16 max-w-3xl text-center">
                 <BadgeTag class="mb-4">
                     {{ t('cta.badge') }}
                 </BadgeTag>
-                <h2 class="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl dark:text-white">
+                <h2
+                    class="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl dark:text-white"
+                >
                     {{ t('cta.title') }}
                 </h2>
                 <p class="mt-4 text-base text-slate-600 dark:text-slate-400">
@@ -78,7 +86,6 @@ const gridColsClass = computed(() => {
                     :href="item.href"
                 />
             </div>
-
         </div>
     </section>
 </template>

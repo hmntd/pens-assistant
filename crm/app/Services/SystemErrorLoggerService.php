@@ -49,7 +49,7 @@ class SystemErrorLoggerService
             return $errorLog;
         } catch (Throwable $e) {
             // Fallback to standard Laravel log if logging to DB fails
-            Log::critical('Failed to store system error log in database: ' . $e->getMessage(), [
+            Log::critical('Failed to store system error log in database: '.$e->getMessage(), [
                 'original_exception' => $exception->getMessage(),
             ]);
 
@@ -82,14 +82,14 @@ class SystemErrorLoggerService
             foreach ($admins as $admin) {
                 $this->notificationChannelService->dispatchNotification(
                     $admin,
-                    'Виявлено системну помилку: ' . $shortMessage,
-                    'System error detected: ' . $shortMessage,
+                    'Виявлено системну помилку: '.$shortMessage,
+                    'System error detected: '.$shortMessage,
                     'error',
                     'system_alerts'
                 );
             }
         } catch (Throwable $e) {
-            Log::warning('Could not notify admins about system error: ' . $e->getMessage());
+            Log::warning('Could not notify admins about system error: '.$e->getMessage());
         }
     }
 }

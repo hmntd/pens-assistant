@@ -22,8 +22,8 @@ class DocumentStatusUpdated implements ShouldBroadcastNow
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('users.' . $this->document->user_id),
-            new PrivateChannel('App.Models.User.' . $this->document->user_id),
+            new PrivateChannel('users.'.$this->document->user_id),
+            new PrivateChannel('App.Models.User.'.$this->document->user_id),
         ];
     }
 

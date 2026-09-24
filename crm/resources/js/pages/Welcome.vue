@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue';
 import { Head } from '@inertiajs/vue3';
-import { useI18n } from '@/composables/useI18n';
-import LandingHeader from '@/components/landing/organisms/LandingHeader.vue';
-import HeroSection from '@/components/landing/organisms/HeroSection.vue';
-import FeaturesSection from '@/components/landing/organisms/FeaturesSection.vue';
-import TestimonialsSection from '@/components/landing/organisms/TestimonialsSection.vue';
-import BlogPreviewSection, { PfuNewsItem } from '@/components/landing/organisms/BlogPreviewSection.vue';
+import { ref, onMounted, onUnmounted } from 'vue';
+import type { PfuNewsItem } from '@/components/landing/organisms/BlogPreviewSection.vue';
+import BlogPreviewSection from '@/components/landing/organisms/BlogPreviewSection.vue';
 import CtaSection from '@/components/landing/organisms/CtaSection.vue';
+import FeaturesSection from '@/components/landing/organisms/FeaturesSection.vue';
+import HeroSection from '@/components/landing/organisms/HeroSection.vue';
 import LandingFooter from '@/components/landing/organisms/LandingFooter.vue';
+import LandingHeader from '@/components/landing/organisms/LandingHeader.vue';
+import TestimonialsSection from '@/components/landing/organisms/TestimonialsSection.vue';
+import { useI18n } from '@/composables/useI18n';
 
 defineProps<{
     pfuNews?: PfuNewsItem[];
@@ -22,10 +23,13 @@ const showHeaderAuthButtons = ref(false);
 let observer: IntersectionObserver | null = null;
 
 onMounted(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === 'undefined') {
+        return;
+    }
 
     // Observe Hero Action Buttons container
     const target = heroRef.value?.actionsRef;
+
     if (target) {
         observer = new IntersectionObserver(
             ([entry]) => {
@@ -34,7 +38,7 @@ onMounted(() => {
             },
             {
                 threshold: 0.1,
-            }
+            },
         );
         observer.observe(target);
     }
@@ -53,8 +57,9 @@ onUnmounted(() => {
         <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
     </Head>
 
-    <div class="min-h-screen bg-slate-50 font-sans text-slate-900 selection:bg-main selection:text-slate-950 dark:bg-black dark:text-slate-100">
-        
+    <div
+        class="min-h-screen bg-slate-50 font-sans text-slate-900 selection:bg-main selection:text-slate-950 dark:bg-black dark:text-slate-100"
+    >
         <!-- Sticky Header with dynamic floating auth buttons -->
         <LandingHeader :show-auth-buttons="showHeaderAuthButtons" />
 
@@ -77,6 +82,5 @@ onUnmounted(() => {
 
         <!-- Footer -->
         <LandingFooter />
-
     </div>
 </template>

@@ -302,7 +302,7 @@ class PensionCalculationTest extends TestCase
             'months_worked' => 12,
         ]);
 
-        $service = new PensionCalculatorService();
+        $service = new PensionCalculatorService;
         $result = $service->calculateAndSave($user, [
             'gender' => 'male',
             'date_of_birth' => '1960-01-01',
@@ -327,7 +327,7 @@ class PensionCalculationTest extends TestCase
             'months_worked' => 12,
         ]);
 
-        $service = new PensionCalculatorService();
+        $service = new PensionCalculatorService;
         $result = $service->calculateAndSave($user, [
             'gender' => 'male',
             'date_of_birth' => '1970-01-01',
@@ -346,7 +346,7 @@ class PensionCalculationTest extends TestCase
             'target_retirement_year' => 2030,
         ]);
 
-        $service = new PensionCalculatorService();
+        $service = new PensionCalculatorService;
         $result = $service->calculateAndSave($user, [
             'gender' => 'male',
             'date_of_birth' => '1970-01-01',
@@ -373,7 +373,7 @@ class PensionCalculationTest extends TestCase
             'months_worked' => 12,
         ]);
 
-        $service = new PensionCalculatorService();
+        $service = new PensionCalculatorService;
         $calc = $service->calculateAndSave($user, [
             'gender' => 'male',
             'date_of_birth' => '1960-01-01',

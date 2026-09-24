@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Document;
 
 use App\Http\Controllers\Controller;
 use App\Models\Document;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -15,15 +16,16 @@ class DeleteDocumentController extends Controller
 {
     public function __invoke(Request $request, string $id): JsonResponse|RedirectResponse
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = $request->user();
 
         $document = Document::where('user_id', $user->id)->find($id);
 
-        if (!$document) {
+        if (! $document) {
             if ($request->header('X-Inertia')) {
                 return redirect()->back()->withErrors(['message' => 'Document not found']);
             }
+
             return response()->json([
                 'status' => 'error',
                 'message' => 'Document not found',
@@ -41,6 +43,7 @@ class DeleteDocumentController extends Controller
                 'type' => 'success',
                 'message' => __('Document deleted successfully.'),
             ]);
+
             return redirect()->back();
         }
 

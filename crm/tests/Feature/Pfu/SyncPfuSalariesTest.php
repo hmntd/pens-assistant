@@ -3,7 +3,6 @@
 namespace Tests\Feature\Pfu;
 
 use App\Events\PfuSalariesSynced;
-use App\Models\AuditLog;
 use App\Services\PfuSalaryScraperService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
@@ -15,9 +14,9 @@ class SyncPfuSalariesTest extends TestCase
 
     public function test_extract_year_urls_finds_target_year_links(): void
     {
-        $service = new PfuSalaryScraperService();
+        $service = new PfuSalaryScraperService;
 
-        $sampleHtml = <<<HTML
+        $sampleHtml = <<<'HTML'
         <div>
             <a href="https://www.pfu.gov.ua/2179262-pokaznyk-serednoyi-zarobitnoyi-platy-za-2026-rik/" title=""><span>2026 </span></a>
             <a href="https://www.pfu.gov.ua/1987654-pokaznyk-serednoyi-zarobitnoyi-platy-za-2025-rik/" title=""><span>2025 </span></a>
@@ -35,7 +34,7 @@ class SyncPfuSalariesTest extends TestCase
 
     public function test_salary_text_parser_converts_ukrainian_formats(): void
     {
-        $service = new PfuSalaryScraperService();
+        $service = new PfuSalaryScraperService;
 
         $this->assertEquals(21876.06, $service->parseSalaryText('21 876 грн 06 коп.'));
         $this->assertEquals(16849.15, $service->parseSalaryText('16 849 грн 15 коп.'));
@@ -44,7 +43,7 @@ class SyncPfuSalariesTest extends TestCase
 
     public function test_month_name_parser(): void
     {
-        $service = new PfuSalaryScraperService();
+        $service = new PfuSalaryScraperService;
 
         $this->assertEquals(1, $service->parseMonthNameToNumber('Січень'));
         $this->assertEquals(5, $service->parseMonthNameToNumber('Травень'));
@@ -68,7 +67,7 @@ class SyncPfuSalariesTest extends TestCase
     {
         Event::fake([PfuSalariesSynced::class]);
 
-        $service = new PfuSalaryScraperService();
+        $service = new PfuSalaryScraperService;
         $service->scrapeAndSync();
 
         Event::assertDispatched(PfuSalariesSynced::class);

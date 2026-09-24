@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import { ExternalLink } from '@lucide/vue';
 import { useI18n } from '@/composables/useI18n';
 import BadgeTag from '../atoms/BadgeTag.vue';
 import BlogCard from '../molecules/BlogCard.vue';
-import { ExternalLink } from '@lucide/vue';
 
 export interface PfuNewsItem {
     id?: number;
@@ -12,34 +12,40 @@ export interface PfuNewsItem {
     preview_text?: string | null;
 }
 
-const props = withDefaults(
+withDefaults(
     defineProps<{
         news?: PfuNewsItem[];
     }>(),
     {
         news: () => [],
-    }
+    },
 );
 
 const { t } = useI18n();
 
-const PFU_NEWS_PAGE_URL = 'https://www.pfu.gov.ua/kr/category/prestsentr/novini/';
+const PFU_NEWS_PAGE_URL =
+    'https://www.pfu.gov.ua/kr/category/prestsentr/novini/';
 </script>
 
 <template>
     <section id="blog" class="py-16 lg:py-24">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            
             <!-- Section Header with "Читати всі новини ПФУ" button -->
-            <div class="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end">
+            <div
+                class="flex flex-col items-start justify-between gap-6 md:flex-row md:items-end"
+            >
                 <div class="max-w-2xl text-left">
                     <BadgeTag class="mb-4">
                         {{ t('blog.badge') }}
                     </BadgeTag>
-                    <h2 class="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl dark:text-white">
+                    <h2
+                        class="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl dark:text-white"
+                    >
                         {{ t('blog.title') }}
                     </h2>
-                    <p class="mt-4 text-base text-slate-600 dark:text-slate-400">
+                    <p
+                        class="mt-4 text-base text-slate-600 dark:text-slate-400"
+                    >
                         {{ t('blog.subtitle') }}
                     </p>
                 </div>
@@ -94,7 +100,6 @@ const PFU_NEWS_PAGE_URL = 'https://www.pfu.gov.ua/kr/category/prestsentr/novini/
                     />
                 </template>
             </div>
-
         </div>
     </section>
 </template>

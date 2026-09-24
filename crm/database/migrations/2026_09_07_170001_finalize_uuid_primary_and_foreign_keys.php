@@ -255,6 +255,7 @@ return new class extends Migration
             }
 
             DB::statement('PRAGMA foreign_keys = ON;');
+
             return;
         }
 

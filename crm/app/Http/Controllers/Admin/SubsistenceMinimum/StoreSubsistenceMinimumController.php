@@ -16,7 +16,7 @@ class StoreSubsistenceMinimumController extends Controller
     public function __invoke(StoreSubsistenceMinimumRequest $request): JsonResponse
     {
         $user = $request->user();
-        if (!$user || !$user->isAdmin()) {
+        if (! $user || ! $user->isAdmin()) {
             return response()->json(['message' => 'Unauthorized. Admin access required.'], Response::HTTP_FORBIDDEN);
         }
 
@@ -37,17 +37,18 @@ class StoreSubsistenceMinimumController extends Controller
             'credentials' => ChannelCredentials::createInsecure(),
         ]);
 
-        $grpcRequest = new UpsertSubsistenceMinimumRequest();
+        $grpcRequest = new UpsertSubsistenceMinimumRequest;
         $grpcRequest->setYear((int) $validated['year']);
         $grpcRequest->setForDisabledPersons((float) $validated['for_disabled_persons']);
         $grpcRequest->setGeneralMinimum((float) $validated['general_minimum']);
         $grpcRequest->setAgeSurchargeCap((float) ($validated['age_surcharge_cap']));
 
         /** @var UpsertSubsistenceMinimumResponse|null $response */
-        list($response, $status) = $calcClient->UpsertSubsistenceMinimum($grpcRequest)->wait();
+        [$response, $status] = $calcClient->UpsertSubsistenceMinimum($grpcRequest)->wait();
 
-        if ($status->code !== \Grpc\STATUS_OK || !$response || !$response->getSuccess()) {
+        if ($status->code !== \Grpc\STATUS_OK || ! $response || ! $response->getSuccess()) {
             $errMsg = $response ? $response->getErrorMessage() : ($status->details ?? 'Connection to Calc Service failed');
+
             return response()->json([
                 'message' => "Failed to update subsistence minimum: {$errMsg}",
             ], Response::HTTP_INTERNAL_SERVER_ERROR);

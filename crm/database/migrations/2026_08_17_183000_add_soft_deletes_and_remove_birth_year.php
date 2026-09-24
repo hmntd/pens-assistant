@@ -15,31 +15,31 @@ return new class extends Migration
             if (Schema::hasColumn('users', 'birth_year')) {
                 $table->dropColumn('birth_year');
             }
-            if (!Schema::hasColumn('users', 'deleted_at')) {
+            if (! Schema::hasColumn('users', 'deleted_at')) {
                 $table->softDeletes();
             }
         });
 
         Schema::table('documents', function (Blueprint $table) {
-            if (!Schema::hasColumn('documents', 'deleted_at')) {
+            if (! Schema::hasColumn('documents', 'deleted_at')) {
                 $table->softDeletes();
             }
         });
 
         Schema::table('calculated_pensions', function (Blueprint $table) {
-            if (!Schema::hasColumn('calculated_pensions', 'deleted_at')) {
+            if (! Schema::hasColumn('calculated_pensions', 'deleted_at')) {
                 $table->softDeletes();
             }
         });
 
         Schema::table('recognized_documents', function (Blueprint $table) {
-            if (!Schema::hasColumn('recognized_documents', 'deleted_at')) {
+            if (! Schema::hasColumn('recognized_documents', 'deleted_at')) {
                 $table->softDeletes();
             }
         });
 
         Schema::table('tax_histories', function (Blueprint $table) {
-            if (!Schema::hasColumn('tax_histories', 'deleted_at')) {
+            if (! Schema::hasColumn('tax_histories', 'deleted_at')) {
                 $table->softDeletes();
             }
         });

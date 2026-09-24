@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { computed, watchEffect } from 'vue';
 import { Form, Head, setLayoutProps } from '@inertiajs/vue3';
-import { useI18n } from '@/composables/useI18n';
+import { computed, watchEffect } from 'vue';
 import InputError from '@/components/common/atoms/InputError.vue';
 import TextLink from '@/components/common/atoms/TextLink.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
+import { useI18n } from '@/composables/useI18n';
 import { login } from '@/routes';
 import { email } from '@/routes/password';
 
@@ -55,7 +55,7 @@ defineProps<{
 
             <div class="my-6 flex items-center justify-start">
                 <Button
-                    class="w-full bg-main text-slate-950 hover:bg-main-dark font-bold"
+                    class="w-full bg-main font-bold text-slate-950 hover:bg-main-dark"
                     :disabled="processing"
                     data-test="email-password-reset-link-button"
                 >

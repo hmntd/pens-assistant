@@ -9,7 +9,9 @@ declare global {
 }
 
 export function initializeEcho(): Echo<'reverb'> | null {
-    if (typeof window === 'undefined') return null;
+    if (typeof window === 'undefined') {
+        return null;
+    }
 
     if (window.Echo) {
         return window.Echo;
@@ -21,7 +23,10 @@ export function initializeEcho(): Echo<'reverb'> | null {
     const scheme = import.meta.env.VITE_REVERB_SCHEME || 'http';
 
     if (!appKey) {
-        console.warn('[Echo] VITE_REVERB_APP_KEY is not set. Real-time updates will use polling fallback.');
+        console.warn(
+            '[Echo] VITE_REVERB_APP_KEY is not set. Real-time updates will use polling fallback.',
+        );
+
         return null;
     }
 
