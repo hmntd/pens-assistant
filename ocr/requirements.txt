@@ -1,6 +1,6 @@
 grpcio>=1.60.0
 grpcio-tools>=1.60.0
-opencv-python-headless>=4.8.0
+opencv-python-headless>=5.0.0.93
 pytesseract>=0.3.10
 numpy>=1.26.0
 pdf2image>=1.17.0
