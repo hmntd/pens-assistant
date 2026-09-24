@@ -6,6 +6,7 @@ use App\Events\TaxHistoryAdded;
 use App\Http\Controllers\Controller;
 use App\Models\AuditLog;
 use App\Models\TaxHistory;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -16,7 +17,7 @@ class UpdateTaxHistoryController extends Controller
 {
     public function __invoke(Request $request, int|string $id): JsonResponse|RedirectResponse
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = $request->user();
 
         $taxHistory = TaxHistory::where('user_id', $user->id)->findOrFail($id);
@@ -65,8 +66,9 @@ class UpdateTaxHistoryController extends Controller
         if ($request->header('X-Inertia')) {
             Inertia::flash('toast', [
                 'type' => 'success',
-                'message' => __("Salary breakdown for year :year updated successfully.", ['year' => $taxHistory->year]),
+                'message' => __('Salary breakdown for year :year updated successfully.', ['year' => $taxHistory->year]),
             ]);
+
             return redirect()->back();
         }
 

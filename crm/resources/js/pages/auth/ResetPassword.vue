@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { computed, ref, watchEffect } from 'vue';
 import { Form, Head, setLayoutProps } from '@inertiajs/vue3';
-import { useI18n } from '@/composables/useI18n';
-import InputError from '@/components/common/atoms/InputError.vue';
+import { computed, ref, watchEffect } from 'vue';
 import PasswordInput from '@/components/auth/atoms/PasswordInput.vue';
+import InputError from '@/components/common/atoms/InputError.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
+import { useI18n } from '@/composables/useI18n';
 import { update } from '@/routes/password';
 
 const { t } = useI18n();
@@ -70,7 +70,9 @@ const inputEmail = ref(props.email);
             </div>
 
             <div class="grid gap-2">
-                <Label for="password_confirmation">{{ t('auth.confirmPasswordLabel') }}</Label>
+                <Label for="password_confirmation">{{
+                    t('auth.confirmPasswordLabel')
+                }}</Label>
                 <PasswordInput
                     id="password_confirmation"
                     name="password_confirmation"
@@ -84,7 +86,7 @@ const inputEmail = ref(props.email);
 
             <Button
                 type="submit"
-                class="mt-4 w-full bg-main text-slate-950 hover:bg-main-dark font-bold"
+                class="mt-4 w-full bg-main font-bold text-slate-950 hover:bg-main-dark"
                 :disabled="processing"
                 data-test="reset-password-button"
             >

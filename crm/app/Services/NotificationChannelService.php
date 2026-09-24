@@ -16,11 +16,8 @@ class NotificationChannelService
     /**
      * Dispatch a notification across all enabled channels for the given user.
      *
-     * @param User $user
-     * @param string $messageUk
-     * @param string $messageEn
-     * @param string $type ('info', 'success', 'warning', 'error')
-     * @param string|null $eventCategory ('calc_completed', 'document_processed', 'system_alerts', 'pension_updates')
+     * @param  string  $type  ('info', 'success', 'warning', 'error')
+     * @param  string|null  $eventCategory  ('calc_completed', 'document_processed', 'system_alerts', 'pension_updates')
      * @return array<string, bool> Results per channel
      */
     public function dispatchNotification(
@@ -87,6 +84,7 @@ class NotificationChannelService
                     return ['success' => false, 'message' => 'Електронна адреса користувача відсутня.'];
                 }
                 $sent = $this->sendEmail($user->email, $testTitle, $testMessage);
+
                 return [
                     'success' => $sent,
                     'message' => $sent ? "Тестовий лист надіслано на {$user->email}." : 'Не вдалося надіслати тестовий лист.',
@@ -104,22 +102,22 @@ class NotificationChannelService
 
                 return [
                     'success' => $sent,
-                    'message' => $sent 
-                        ? "Тестове повідомлення успішно надіслано в Telegram (Chat ID: {$chatId})." 
+                    'message' => $sent
+                        ? "Тестове повідомлення успішно надіслано в Telegram (Chat ID: {$chatId})."
                         : 'Не вдалося надіслати тестове повідомлення в Telegram. Перевірте введений Chat ID та переконайтеся, що ви натиснули /start у боті.',
                 ];
 
-            /* SMS channel commented out for future implementation
-            case 'sms':
-                if (empty($settings->phone_number)) {
-                    return ['success' => false, 'message' => 'Phone number is not configured.'];
-                }
-                $sent = $this->sendSms($settings->phone_number, $testTitle, $testMessage);
-                return [
-                    'success' => $sent,
-                    'message' => $sent ? "Test SMS dispatched to {$settings->phone_number}." : 'Failed to send test SMS.',
-                ];
-            */
+                /* SMS channel commented out for future implementation
+                case 'sms':
+                    if (empty($settings->phone_number)) {
+                        return ['success' => false, 'message' => 'Phone number is not configured.'];
+                    }
+                    $sent = $this->sendSms($settings->phone_number, $testTitle, $testMessage);
+                    return [
+                        'success' => $sent,
+                        'message' => $sent ? "Test SMS dispatched to {$settings->phone_number}." : 'Failed to send test SMS.',
+                    ];
+                */
 
             default:
                 return ['success' => false, 'message' => "Unsupported notification channel: {$channel}"];
@@ -143,9 +141,11 @@ class NotificationChannelService
             Mail::raw("{$title}\n\n{$message}", function ($mail) use ($toEmail, $title) {
                 $mail->to($toEmail)->subject($title);
             });
+
             return true;
         } catch (Throwable $e) {
-            Log::error("Failed sending notification email to {$toEmail}: " . $e->getMessage());
+            Log::error("Failed sending notification email to {$toEmail}: ".$e->getMessage());
+
             return false;
         }
     }
@@ -160,6 +160,7 @@ class NotificationChannelService
 
             if (empty($token)) {
                 Log::info("Telegram notification simulated for chat {$chatId} (TELEGRAM_BOT_TOKEN not set): {$title} - {$message}");
+
                 return true;
             }
 
@@ -171,7 +172,8 @@ class NotificationChannelService
 
             return $response->successful();
         } catch (Throwable $e) {
-            Log::error("Failed sending Telegram message to {$chatId}: " . $e->getMessage());
+            Log::error("Failed sending Telegram message to {$chatId}: ".$e->getMessage());
+
             return false;
         }
     }

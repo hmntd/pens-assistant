@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\CalculatedPension;
 use App\Models\TaxHistory;
+use App\Models\User;
 use Calc\CalcServiceClient;
 use Calc\GetAverageSalariesRequest;
+use Calc\GetAverageSalariesResponse;
 use Grpc\ChannelCredentials;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -22,12 +24,12 @@ class PensionCalculationBreakdownController extends Controller
 
     public function __invoke(Request $request, string $id): JsonResponse
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = $request->user();
 
         $calc = CalculatedPension::where('id', $id)
             ->where(function ($query) use ($user) {
-                if (!$user->is_admin) {
+                if (! $user->is_admin) {
                     $query->where('user_id', $user->id);
                 }
             })
@@ -61,13 +63,13 @@ class PensionCalculationBreakdownController extends Controller
                 'credentials' => ChannelCredentials::createInsecure(),
             ]);
 
-            $grpcReq = new GetAverageSalariesRequest();
+            $grpcReq = new GetAverageSalariesRequest;
             if (! empty($years)) {
                 $grpcReq->setYears($years);
             }
 
-            /** @var \Calc\GetAverageSalariesResponse|null $grpcRes */
-            list($grpcRes, $status) = $client->GetAverageSalaries($grpcReq)->wait();
+            /** @var GetAverageSalariesResponse|null $grpcRes */
+            [$grpcRes, $status] = $client->GetAverageSalaries($grpcReq)->wait();
 
             if ($status->code === \Grpc\STATUS_OK && $grpcRes && $grpcRes->getSuccess()) {
                 foreach ($grpcRes->getSalaries() as $rec) {
@@ -79,7 +81,7 @@ class PensionCalculationBreakdownController extends Controller
             }
         } catch (\Throwable $e) {
             // Log fallback if gRPC is unavailable
-            Log::warning('Failed to fetch detailed average salaries via gRPC: ' . $e->getMessage());
+            Log::warning('Failed to fetch detailed average salaries via gRPC: '.$e->getMessage());
         }
 
         $yearsData = [];
@@ -126,7 +128,7 @@ class PensionCalculationBreakdownController extends Controller
                 if ($natSalary <= 0.0) {
                     // Fallback to nearest prior published month in the same year
                     for ($checkMonth = $m - 1; $checkMonth >= 1; $checkMonth--) {
-                        if (!empty($nationalSalariesMap[$year][$checkMonth]) && $nationalSalariesMap[$year][$checkMonth] > 0) {
+                        if (! empty($nationalSalariesMap[$year][$checkMonth]) && $nationalSalariesMap[$year][$checkMonth] > 0) {
                             $natSalary = $nationalSalariesMap[$year][$checkMonth];
                             break;
                         }

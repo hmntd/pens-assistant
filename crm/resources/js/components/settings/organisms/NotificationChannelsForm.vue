@@ -1,23 +1,17 @@
 <script setup lang="ts">
-import { ref } from 'vue';
 import { useForm } from '@inertiajs/vue3';
-import { useI18n } from '@/composables/useI18n';
+import { Mail, Send, Loader2, BellRing, Info } from '@lucide/vue';
+import { ref } from 'vue';
 import InputError from '@/components/common/atoms/InputError.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import {
-    Mail,
-    Send,
-    Loader2,
-    BellRing,
-    Info
-} from '@lucide/vue';
+import { useI18n } from '@/composables/useI18n';
 
+import ChannelTestFeedback from '../atoms/ChannelTestFeedback.vue';
 import NotificationChannelCard from '../molecules/NotificationChannelCard.vue';
 import NotificationPreferenceToggle from '../molecules/NotificationPreferenceToggle.vue';
 import TelegramSetupGuide from '../molecules/TelegramSetupGuide.vue';
-import ChannelTestFeedback from '../atoms/ChannelTestFeedback.vue';
 
 export interface UserNotificationChannelData {
     id?: number;
@@ -53,10 +47,17 @@ const form = useForm({
 
 const showTelegramGuide = ref(false);
 const testingChannel = ref<string | null>(null);
-const testFeedback = ref<{ channel: string; success: boolean; message: string } | null>(null);
+const testFeedback = ref<{
+    channel: string;
+    success: boolean;
+    message: string;
+} | null>(null);
 
 function getCsrfToken(): string {
-    const meta = document.querySelector('meta[name="csrf-token"]') as HTMLMetaElement | null;
+    const meta = document.querySelector(
+        'meta[name="csrf-token"]',
+    ) as HTMLMetaElement | null;
+
     return meta?.content || '';
 }
 
@@ -72,6 +73,7 @@ const sendTest = async (channel: string) => {
 
     try {
         const payload: Record<string, any> = { channel };
+
         if (channel === 'telegram') {
             payload.telegram_chat_id = form.telegram_chat_id;
         }
@@ -80,7 +82,7 @@ const sendTest = async (channel: string) => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Accept': 'application/json',
+                Accept: 'application/json',
                 'X-CSRF-TOKEN': getCsrfToken(),
             },
             body: JSON.stringify(payload),
@@ -90,13 +92,18 @@ const sendTest = async (channel: string) => {
         testFeedback.value = {
             channel,
             success: Boolean(data.success),
-            message: data.message || (data.success ? 'Test notification sent successfully.' : 'Failed to send test notification.'),
+            message:
+                data.message ||
+                (data.success
+                    ? 'Test notification sent successfully.'
+                    : 'Failed to send test notification.'),
         };
     } catch (err: any) {
         testFeedback.value = {
             channel,
             success: false,
-            message: err.message || 'Error executing test notification request.',
+            message:
+                err.message || 'Error executing test notification request.',
         };
     } finally {
         testingChannel.value = null;
@@ -108,64 +115,133 @@ const sendTest = async (channel: string) => {
     <form @submit.prevent="submit" class="space-y-8">
         <!-- CHANNELS SECTION -->
         <div class="space-y-6">
-            <h3 class="text-base font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+            <h3
+                class="flex items-center gap-2 text-base font-bold text-slate-900 dark:text-slate-100"
+            >
                 <BellRing class="h-5 w-5 text-[#31DE97]" />
                 <span>{{ t('settings.notificationChannels.title') }}</span>
             </h3>
 
             <div class="grid gap-6">
                 <!-- 1. EMAIL CHANNEL -->
-                <NotificationChannelCard :title="t('settings.notificationChannels.emailTitle')"
-                    :description="t('settings.notificationChannels.emailDesc')" :icon="Mail"
-                    v-model:enabled="form.email_enabled" icon-bg-class="bg-blue-500/10 dark:bg-blue-500/20"
-                    icon-color-class="text-blue-600 dark:text-blue-400">
+                <NotificationChannelCard
+                    :title="t('settings.notificationChannels.emailTitle')"
+                    :description="t('settings.notificationChannels.emailDesc')"
+                    :icon="Mail"
+                    v-model:enabled="form.email_enabled"
+                    icon-bg-class="bg-blue-500/10 dark:bg-blue-500/20"
+                    icon-color-class="text-blue-600 dark:text-blue-400"
+                >
                     <div
-                        class="mt-4 pt-4 border-t border-slate-200/60 dark:border-zinc-800/60 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                        <div class="flex items-center gap-2 text-xs text-slate-600 dark:text-zinc-400">
+                        class="mt-4 flex flex-col items-start justify-between gap-3 border-t border-slate-200/60 pt-4 sm:flex-row sm:items-center dark:border-zinc-800/60"
+                    >
+                        <div
+                            class="flex items-center gap-2 text-xs text-slate-600 dark:text-zinc-400"
+                        >
                             <span>Email recipient:</span>
                             <code
-                                class="px-2 py-1 rounded bg-slate-200/70 dark:bg-zinc-800 text-slate-900 dark:text-slate-100 font-mono text-xs">{{ userEmail }}</code>
+                                class="rounded bg-slate-200/70 px-2 py-1 font-mono text-xs text-slate-900 dark:bg-zinc-800 dark:text-slate-100"
+                                >{{ userEmail }}</code
+                            >
                         </div>
-                        <Button type="button" variant="outline" size="sm" class="shrink-0"
-                            :disabled="testingChannel === 'email'" @click="sendTest('email')">
-                            <Loader2 v-if="testingChannel === 'email'" class="h-4 w-4 animate-spin mr-2" />
-                            <span>{{ t('settings.notificationChannels.sendTestBtn') }}</span>
+                        <Button
+                            type="button"
+                            variant="outline"
+                            size="sm"
+                            class="shrink-0"
+                            :disabled="testingChannel === 'email'"
+                            @click="sendTest('email')"
+                        >
+                            <Loader2
+                                v-if="testingChannel === 'email'"
+                                class="mr-2 h-4 w-4 animate-spin"
+                            />
+                            <span>{{
+                                t('settings.notificationChannels.sendTestBtn')
+                            }}</span>
                         </Button>
                     </div>
                 </NotificationChannelCard>
 
                 <!-- 2. TELEGRAM CHANNEL -->
-                <NotificationChannelCard :title="t('settings.notificationChannels.telegramTitle')"
-                    :description="t('settings.notificationChannels.telegramDesc')" :icon="Send"
-                    v-model:enabled="form.telegram_enabled" icon-bg-class="bg-sky-500/10 dark:bg-sky-500/20"
-                    icon-color-class="text-sky-600 dark:text-sky-400">
-                    <div class="mt-4 pt-4 border-t border-slate-200/60 dark:border-zinc-800/60 space-y-3">
+                <NotificationChannelCard
+                    :title="t('settings.notificationChannels.telegramTitle')"
+                    :description="
+                        t('settings.notificationChannels.telegramDesc')
+                    "
+                    :icon="Send"
+                    v-model:enabled="form.telegram_enabled"
+                    icon-bg-class="bg-sky-500/10 dark:bg-sky-500/20"
+                    icon-color-class="text-sky-600 dark:text-sky-400"
+                >
+                    <div
+                        class="mt-4 space-y-3 border-t border-slate-200/60 pt-4 dark:border-zinc-800/60"
+                    >
                         <div class="flex items-center justify-between">
-                            <Label for="telegram_chat_id" class="text-xs font-bold text-slate-800 dark:text-slate-200">
-                                {{ t('settings.notificationChannels.telegramChatId') }}
+                            <Label
+                                for="telegram_chat_id"
+                                class="text-xs font-bold text-slate-800 dark:text-slate-200"
+                            >
+                                {{
+                                    t(
+                                        'settings.notificationChannels.telegramChatId',
+                                    )
+                                }}
                             </Label>
 
-                            <button type="button" @click="showTelegramGuide = !showTelegramGuide"
-                                class="flex items-center gap-1.5 text-xs text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 font-medium transition-colors focus:outline-none cursor-pointer">
+                            <button
+                                type="button"
+                                @click="showTelegramGuide = !showTelegramGuide"
+                                class="flex cursor-pointer items-center gap-1.5 text-xs font-medium text-sky-600 transition-colors hover:text-sky-700 focus:outline-none dark:text-sky-400 dark:hover:text-sky-300"
+                            >
                                 <Info class="h-4 w-4" />
-                                <span>{{ t('settings.notificationChannels.telegramInfoTooltip') }}</span>
+                                <span>{{
+                                    t(
+                                        'settings.notificationChannels.telegramInfoTooltip',
+                                    )
+                                }}</span>
                             </button>
                         </div>
 
                         <!-- Telegram Setup Guide Molecule -->
-                        <TelegramSetupGuide v-if="showTelegramGuide" :telegram-bot-username="telegramBotUsername"
-                            @close="showTelegramGuide = false" />
+                        <TelegramSetupGuide
+                            v-if="showTelegramGuide"
+                            :telegram-bot-username="telegramBotUsername"
+                            @close="showTelegramGuide = false"
+                        />
 
-                        <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                        <div
+                            class="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center"
+                        >
                             <div class="flex-1">
-                                <Input id="telegram_chat_id" v-model="form.telegram_chat_id"
-                                    :placeholder="t('settings.notificationChannels.telegramPlaceholder')"
-                                    class="w-full font-mono" />
+                                <Input
+                                    id="telegram_chat_id"
+                                    v-model="form.telegram_chat_id"
+                                    :placeholder="
+                                        t(
+                                            'settings.notificationChannels.telegramPlaceholder',
+                                        )
+                                    "
+                                    class="w-full font-mono"
+                                />
                             </div>
-                            <Button type="button" variant="outline" size="sm" class="shrink-0"
-                                :disabled="testingChannel === 'telegram'" @click="sendTest('telegram')">
-                                <Loader2 v-if="testingChannel === 'telegram'" class="h-4 w-4 animate-spin mr-2" />
-                                <span>{{ t('settings.notificationChannels.sendTestBtn') }}</span>
+                            <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
+                                class="shrink-0"
+                                :disabled="testingChannel === 'telegram'"
+                                @click="sendTest('telegram')"
+                            >
+                                <Loader2
+                                    v-if="testingChannel === 'telegram'"
+                                    class="mr-2 h-4 w-4 animate-spin"
+                                />
+                                <span>{{
+                                    t(
+                                        'settings.notificationChannels.sendTestBtn',
+                                    )
+                                }}</span>
                             </Button>
                         </div>
                         <InputError :message="form.errors.telegram_chat_id" />
@@ -175,13 +251,21 @@ const sendTest = async (channel: string) => {
         </div>
 
         <!-- TEST FEEDBACK FEED ATOM -->
-        <ChannelTestFeedback v-if="testFeedback" :channel="testFeedback.channel" :success="testFeedback.success"
-            :message="testFeedback.message" />
+        <ChannelTestFeedback
+            v-if="testFeedback"
+            :channel="testFeedback.channel"
+            :success="testFeedback.success"
+            :message="testFeedback.message"
+        />
 
         <!-- NOTIFICATION PREFERENCES SECTION -->
-        <div class="space-y-6 pt-4 border-t border-slate-200 dark:border-zinc-800">
+        <div
+            class="space-y-6 border-t border-slate-200 pt-4 dark:border-zinc-800"
+        >
             <div>
-                <h3 class="text-base font-bold text-slate-900 dark:text-slate-100">
+                <h3
+                    class="text-base font-bold text-slate-900 dark:text-slate-100"
+                >
                     {{ t('settings.notificationChannels.preferencesTitle') }}
                 </h3>
                 <p class="text-xs text-slate-500 dark:text-zinc-400">
@@ -189,23 +273,47 @@ const sendTest = async (channel: string) => {
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <NotificationPreferenceToggle v-model="form.notify_calc_completed"
-                    :label="t('settings.notificationChannels.notifyCalcCompleted')" />
-                <NotificationPreferenceToggle v-model="form.notify_document_processed"
-                    :label="t('settings.notificationChannels.notifyDocumentProcessed')" />
-                <NotificationPreferenceToggle v-model="form.notify_system_alerts"
-                    :label="t('settings.notificationChannels.notifySystemAlerts')" />
-                <NotificationPreferenceToggle v-model="form.notify_pension_updates"
-                    :label="t('settings.notificationChannels.notifyPensionUpdates')" />
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <NotificationPreferenceToggle
+                    v-model="form.notify_calc_completed"
+                    :label="
+                        t('settings.notificationChannels.notifyCalcCompleted')
+                    "
+                />
+                <NotificationPreferenceToggle
+                    v-model="form.notify_document_processed"
+                    :label="
+                        t(
+                            'settings.notificationChannels.notifyDocumentProcessed',
+                        )
+                    "
+                />
+                <NotificationPreferenceToggle
+                    v-model="form.notify_system_alerts"
+                    :label="
+                        t('settings.notificationChannels.notifySystemAlerts')
+                    "
+                />
+                <NotificationPreferenceToggle
+                    v-model="form.notify_pension_updates"
+                    :label="
+                        t('settings.notificationChannels.notifyPensionUpdates')
+                    "
+                />
             </div>
         </div>
 
         <!-- SUBMIT BUTTON -->
         <div class="flex items-center gap-4 pt-4">
-            <Button type="submit" :disabled="form.processing"
-                class="bg-[#31DE97] text-slate-950 font-bold hover:bg-[#28C586] transition-colors cursor-pointer">
-                <Loader2 v-if="form.processing" class="h-4 w-4 animate-spin mr-2" />
+            <Button
+                type="submit"
+                :disabled="form.processing"
+                class="cursor-pointer bg-[#31DE97] font-bold text-slate-950 transition-colors hover:bg-[#28C586]"
+            >
+                <Loader2
+                    v-if="form.processing"
+                    class="mr-2 h-4 w-4 animate-spin"
+                />
                 <span>{{ t('settings.notificationChannels.saveBtn') }}</span>
             </Button>
         </div>

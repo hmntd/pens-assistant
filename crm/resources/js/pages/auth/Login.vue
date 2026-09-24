@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { computed, watchEffect } from 'vue';
 import { Form, Head, setLayoutProps } from '@inertiajs/vue3';
-import { useI18n } from '@/composables/useI18n';
-import InputError from '@/components/common/atoms/InputError.vue';
-import PasskeyVerify from '@/components/auth/organisms/PasskeyVerify.vue';
+import { computed, watchEffect } from 'vue';
 import PasswordInput from '@/components/auth/atoms/PasswordInput.vue';
 import SocialAuthButtons from '@/components/auth/molecules/SocialAuthButtons.vue';
+import PasskeyVerify from '@/components/auth/organisms/PasskeyVerify.vue';
+import InputError from '@/components/common/atoms/InputError.vue';
 import TextLink from '@/components/common/atoms/TextLink.vue';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
+import { useI18n } from '@/composables/useI18n';
 import { register } from '@/routes';
 import { store } from '@/routes/login';
 import { request } from '@/routes/password';
@@ -100,7 +100,7 @@ defineProps<{
 
             <Button
                 type="submit"
-                class="mt-4 w-full bg-main text-slate-950 hover:bg-main-dark font-bold"
+                class="mt-4 w-full bg-main font-bold text-slate-950 hover:bg-main-dark"
                 :tabindex="4"
                 :disabled="processing"
                 data-test="login-button"
@@ -114,7 +114,9 @@ defineProps<{
 
         <div class="text-center text-sm text-muted-foreground">
             {{ t('auth.noAccount') }}
-            <TextLink :href="register.url()" :tabindex="5">{{ t('auth.signUpLink') }}</TextLink>
+            <TextLink :href="register.url()" :tabindex="5">{{
+                t('auth.signUpLink')
+            }}</TextLink>
         </div>
     </Form>
 </template>

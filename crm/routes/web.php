@@ -2,30 +2,33 @@
 
 use App\Http\Controllers\Admin\AdminAuthCheckController;
 use App\Http\Controllers\Admin\Analytics\AdminAnalyticsController;
-use App\Http\Controllers\Admin\SubsistenceMinimum\DeleteSubsistenceMinimumController;
 use App\Http\Controllers\Admin\Document\AdminDeleteDocumentController;
 use App\Http\Controllers\Admin\Document\AdminDownloadDocumentController;
 use App\Http\Controllers\Admin\Document\AdminIndexDocumentController;
 use App\Http\Controllers\Admin\Document\AdminIndexDocumentStatusesController;
 use App\Http\Controllers\Admin\Document\AdminShowDocumentController;
-use App\Http\Controllers\Admin\SubsistenceMinimum\IndexSubsistenceMinimumController;
 use App\Http\Controllers\Admin\PensionCalculation\AdminDeletePensionCalculationController;
+use App\Http\Controllers\Admin\PensionCalculation\AdminDownloadPensionCalculationPdfController;
 use App\Http\Controllers\Admin\PensionCalculation\AdminIndexPensionCalculationController;
 use App\Http\Controllers\Admin\PensionCalculation\AdminShowPensionCalculationController;
+use App\Http\Controllers\Admin\SubsistenceMinimum\DeleteSubsistenceMinimumController;
+use App\Http\Controllers\Admin\SubsistenceMinimum\IndexSubsistenceMinimumController;
 use App\Http\Controllers\Admin\SubsistenceMinimum\StoreSubsistenceMinimumController;
+use App\Http\Controllers\Admin\SubsistenceMinimum\UpdateSubsistenceMinimumController;
+use App\Http\Controllers\Admin\SystemError\BatchResolveSystemErrorController;
+use App\Http\Controllers\Admin\SystemError\IndexSystemErrorController;
+use App\Http\Controllers\Admin\SystemError\ToggleResolveSystemErrorController;
 use App\Http\Controllers\Admin\Translation\AdminIndexTranslationController;
 use App\Http\Controllers\Admin\Translation\AdminStoreTranslationController;
 use App\Http\Controllers\Admin\Translation\AdminUpdateTranslationController;
-use App\Http\Controllers\Admin\SubsistenceMinimum\UpdateSubsistenceMinimumController;
 use App\Http\Controllers\Admin\User\AdminDeleteUserController;
 use App\Http\Controllers\Admin\User\AdminIndexUserController;
 use App\Http\Controllers\Admin\User\AdminRestoreUserController;
 use App\Http\Controllers\Admin\User\AdminShowUserController;
 use App\Http\Controllers\Admin\User\AdminToggleUserSuspendController;
 use App\Http\Controllers\Admin\User\AdminUpdateUserRoleController;
-use App\Http\Controllers\Admin\SystemError\BatchResolveSystemErrorController;
-use App\Http\Controllers\Admin\SystemError\IndexSystemErrorController;
-use App\Http\Controllers\Admin\SystemError\ToggleResolveSystemErrorController;
+use App\Http\Controllers\Auth\SocialiteCallbackController;
+use App\Http\Controllers\Auth\SocialiteRedirectController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Document\DeleteDocumentController;
 use App\Http\Controllers\Document\DeleteTaxHistoryController;
@@ -39,18 +42,18 @@ use App\Http\Controllers\FallbackController;
 use App\Http\Controllers\Notification\IndexNotificationController;
 use App\Http\Controllers\Notification\MarkAllNotificationsAsReadController;
 use App\Http\Controllers\Notification\MarkNotificationAsReadController;
+use App\Http\Controllers\PensionCalculation\DownloadPensionCalculationPdfController;
 use App\Http\Controllers\PensionCalculation\IndexPensionCalculationController;
 use App\Http\Controllers\PensionCalculation\ShowPensionCalculationController;
 use App\Http\Controllers\PensionCalculation\StorePensionCalculationController;
+use App\Http\Controllers\PensionCalculationBreakdownController;
 use App\Http\Controllers\PensionCoefficient\DeletePensionCoefficientController;
 use App\Http\Controllers\PensionCoefficient\IndexPensionCoefficientController;
 use App\Http\Controllers\PensionCoefficient\StorePensionCoefficientController;
 use App\Http\Controllers\PensionCoefficient\UpdatePensionCoefficientController;
-use App\Http\Controllers\Auth\SocialiteCallbackController;
-use App\Http\Controllers\Auth\SocialiteRedirectController;
-use App\Http\Controllers\PensionCalculationBreakdownController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 Route::get('/', WelcomeController::class)->name('home');
 
@@ -74,7 +77,7 @@ Route::middleware(['auth'])->prefix('notifications')->group(function () {
 Route::middleware(['auth'])->prefix('pension-calculations')->group(function () {
     Route::get('/', IndexPensionCalculationController::class)->name('pension-calculations.index');
     Route::post('/', StorePensionCalculationController::class)->name('pension-calculations.store');
-    Route::get('/{calculation}/pdf', \App\Http\Controllers\PensionCalculation\DownloadPensionCalculationPdfController::class)->name('pension-calculations.pdf');
+    Route::get('/{calculation}/pdf', DownloadPensionCalculationPdfController::class)->name('pension-calculations.pdf');
     Route::get('/{id}', ShowPensionCalculationController::class)->name('pension-calculations.show');
     Route::get('/{id}/breakdown', PensionCalculationBreakdownController::class)->name('pension-calculations.breakdown');
 });
@@ -94,7 +97,7 @@ Route::get('/admin/auth-check', AdminAuthCheckController::class)->name('admin.au
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', function () {
-        return \Inertia\Inertia::render('admin/AdminDashboard');
+        return Inertia::render('admin/AdminDashboard');
     })->name('dashboard');
 
     // Section 0: Analytics & Insights
@@ -110,7 +113,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     // Section 2: Calculation Results History
     Route::get('/pension-calculations', AdminIndexPensionCalculationController::class)->name('pension-calculations.index');
-    Route::get('/pension-calculations/{calculation}/pdf', \App\Http\Controllers\Admin\PensionCalculation\AdminDownloadPensionCalculationPdfController::class)->name('pension-calculations.pdf');
+    Route::get('/pension-calculations/{calculation}/pdf', AdminDownloadPensionCalculationPdfController::class)->name('pension-calculations.pdf');
     Route::get('/pension-calculations/{id}', AdminShowPensionCalculationController::class)->name('pension-calculations.show');
     Route::delete('/pension-calculations/{id}', AdminDeletePensionCalculationController::class)->name('pension-calculations.destroy');
 

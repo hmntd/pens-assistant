@@ -4,6 +4,10 @@ namespace App\Http\Controllers\PensionCoefficient;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PensionCoefficient\UpdatePensionCoefficientRequest;
+use Calc\CalcServiceClient;
+use Calc\UpdateCoefficientRequest;
+use Calc\UpdateCoefficientResponse;
+use Grpc\ChannelCredentials;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
@@ -13,19 +17,19 @@ class UpdatePensionCoefficientController extends Controller
     {
         $validated = $request->validated();
 
-        $calcClient = new \Calc\CalcServiceClient('calc:50051', [
-            'credentials' => \Grpc\ChannelCredentials::createInsecure(),
+        $calcClient = new CalcServiceClient('calc:50051', [
+            'credentials' => ChannelCredentials::createInsecure(),
         ]);
 
-        $grpcRequest = new \Calc\UpdateCoefficientRequest();
+        $grpcRequest = new UpdateCoefficientRequest;
         $grpcRequest->setId($id);
         $grpcRequest->setYear((int) $validated['year']);
         $grpcRequest->setMonth((int) $validated['month']);
         $grpcRequest->setCoefficient((float) $validated['coefficient']);
         $grpcRequest->setDescription($validated['description'] ?? '');
 
-        /** @var \Calc\UpdateCoefficientResponse|null $response */
-        list($response, $status) = $calcClient->UpdateCoefficient($grpcRequest)->wait();
+        /** @var UpdateCoefficientResponse|null $response */
+        [$response, $status] = $calcClient->UpdateCoefficient($grpcRequest)->wait();
 
         if ($status->code !== \Grpc\STATUS_OK || ! $response || ! $response->getSuccess()) {
             if (app()->environment('testing')) {

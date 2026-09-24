@@ -14,7 +14,7 @@ class SyncPfuNewsTest extends TestCase
 
     public function test_sync_pfu_news_command_scrapes_and_stores_top_3_items()
     {
-        $sampleHtml = <<<HTML
+        $sampleHtml = <<<'HTML'
         <div class="item-block-news">
             <a href="https://www.pfu.gov.ua/kr/1" class="active-news">
                 <div class="title-block-news">Новина 1 про пенсії</div>
@@ -78,5 +78,27 @@ class SyncPfuNewsTest extends TestCase
                 ->has('pfuNews', 1)
                 ->where('pfuNews.0.title', 'Тестова новина ПФУ')
             );
+    }
+
+    public function test_sync_pfu_news_command_preserves_database_and_exits_cleanly_on_http_failure()
+    {
+        PfuNews::create([
+            'title' => 'Існуюча новина',
+            'url' => 'https://www.pfu.gov.ua/kr/existing',
+            'published_at' => '01 Вересня 2026',
+            'preview_text' => 'Опис',
+        ]);
+
+        Http::fake([
+            SyncPfuNewsCommand::PFU_NEWS_URL => Http::response(null, 500),
+        ]);
+
+        $this->artisan('pfu:sync-news')
+            ->assertExitCode(0);
+
+        $this->assertDatabaseCount('pfu_news', 1);
+        $this->assertDatabaseHas('pfu_news', [
+            'url' => 'https://www.pfu.gov.ua/kr/existing',
+        ]);
     }
 }

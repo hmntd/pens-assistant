@@ -28,7 +28,7 @@ class SubsistenceMinimumScraperService
                 Log::info('Fetched official budget laws page successfully.');
             }
         } catch (Exception $e) {
-            Log::warning('Official budget laws page fetch failed, using official statutory database: ' . $e->getMessage());
+            Log::warning('Official budget laws page fetch failed, using official statutory database: '.$e->getMessage());
         }
 
         $synced = 0;
@@ -47,7 +47,7 @@ class SubsistenceMinimumScraperService
                 $synced++;
             }
         } catch (Exception $e) {
-            Log::error('Failed to sync subsistence minimums to calc_db: ' . $e->getMessage());
+            Log::error('Failed to sync subsistence minimums to calc_db: '.$e->getMessage());
         }
 
         return [

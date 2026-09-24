@@ -92,6 +92,7 @@ class StorePensionCalculationController extends Controller
                 'type' => 'info',
                 'message' => __('Pension calculation has been queued for processing.'),
             ]);
+
             return redirect()->back();
         }
 

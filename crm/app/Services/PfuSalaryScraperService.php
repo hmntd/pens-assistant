@@ -3,7 +3,12 @@
 namespace App\Services;
 
 use App\Events\PfuSalariesSynced;
+use Calc\AverageSalaryRecord;
+use Calc\CalcServiceClient;
+use Calc\SyncAverageSalariesRequest;
+use Calc\SyncAverageSalariesResponse;
 use Exception;
+use Grpc\ChannelCredentials;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -14,7 +19,7 @@ class PfuSalaryScraperService
      */
     public function parseSalaryText(string $text): ?float
     {
-        $clean = str_replace(["\xC2\xA0", "&nbsp;"], ' ', trim($text));
+        $clean = str_replace(["\xC2\xA0", '&nbsp;'], ' ', trim($text));
 
         if (empty($clean)) {
             return null;
@@ -23,17 +28,20 @@ class PfuSalaryScraperService
         if (preg_match('/(\d{1,3}(?:[\s\xA0]?\d{3})*)\s*(?:грн|гривень|гривні|гривня)\s*(\d{1,2})\s*(?:коп|копійок|копійки)/iu', $clean, $matches)) {
             $hryvniasStr = preg_replace('/[^\d]/', '', $matches[1]);
             $kopecksStr = str_pad($matches[2], 2, '0', STR_PAD_RIGHT);
-            return (float) ($hryvniasStr . '.' . $kopecksStr);
+
+            return (float) ($hryvniasStr.'.'.$kopecksStr);
         }
 
         if (preg_match('/(\d{1,3}(?:[\s\xA0]?\d{3})*)[,.](\d{1,2})(?:\s*(?:грн|гривень|гривні|гривня))?/iu', $clean, $matches)) {
             $hryvniasStr = preg_replace('/[^\d]/', '', $matches[1]);
             $kopecksStr = str_pad($matches[2], 2, '0', STR_PAD_RIGHT);
-            return (float) ($hryvniasStr . '.' . $kopecksStr);
+
+            return (float) ($hryvniasStr.'.'.$kopecksStr);
         }
 
         if (preg_match('/(\d{1,3}(?:[\s\xA0]?\d{3})*)\s*(?:грн|гривень|гривні|гривня)/iu', $clean, $matches)) {
             $hryvniasStr = preg_replace('/[^\d]/', '', $matches[1]);
+
             return (float) $hryvniasStr;
         }
 
@@ -87,8 +95,8 @@ class PfuSalaryScraperService
             return $yearUrls;
         }
 
-        $dom = new \DOMDocument();
-        @$dom->loadHTML('<?xml encoding="UTF-8">' . $html);
+        $dom = new \DOMDocument;
+        @$dom->loadHTML('<?xml encoding="UTF-8">'.$html);
         $xpath = new \DOMXPath($dom);
 
         $links = $xpath->query('//a[@href]');
@@ -102,7 +110,7 @@ class PfuSalaryScraperService
                     $yearStr = (string) $year;
 
                     if (str_contains($text, $yearStr) || str_contains($href, "-za-{$yearStr}-rik") || str_contains($href, "{$yearStr}-rik")) {
-                        $fullUrl = str_starts_with($href, 'http') ? $href : 'https://www.pfu.gov.ua' . ltrim($href, '/');
+                        $fullUrl = str_starts_with($href, 'http') ? $href : 'https://www.pfu.gov.ua'.ltrim($href, '/');
 
                         if (! in_array($fullUrl, $yearUrls[$year])) {
                             if (str_contains($href, 'zarobitnoy') || str_contains($text, 'заробітн')) {
@@ -131,8 +139,8 @@ class PfuSalaryScraperService
                 return $records;
             }
 
-            $dom = new \DOMDocument();
-            @$dom->loadHTML('<?xml encoding="UTF-8">' . $response->body());
+            $dom = new \DOMDocument;
+            @$dom->loadHTML('<?xml encoding="UTF-8">'.$response->body());
             $xpath = new \DOMXPath($dom);
 
             $nodes = $xpath->query('//tr | //p | //li');
@@ -140,7 +148,7 @@ class PfuSalaryScraperService
                 foreach ($nodes as $node) {
                     $text = '';
                     foreach ($node->childNodes as $child) {
-                        $text .= $child->textContent . ' ';
+                        $text .= $child->textContent.' ';
                     }
                     $text = preg_replace('/\s+/u', ' ', trim($text));
 
@@ -160,7 +168,7 @@ class PfuSalaryScraperService
                 }
             }
         } catch (Exception $e) {
-            Log::warning("Failed to scrape detail page for year {$year} at {$url}: " . $e->getMessage());
+            Log::warning("Failed to scrape detail page for year {$year} at {$url}: ".$e->getMessage());
         }
 
         return $records;
@@ -184,7 +192,7 @@ class PfuSalaryScraperService
             $mainResponse = Http::timeout(10)->get($mainUrl);
             $archiveResponse = Http::timeout(10)->get($archiveUrl);
 
-            $combinedHtml = ($mainResponse->successful() ? $mainResponse->body() : '') .
+            $combinedHtml = ($mainResponse->successful() ? $mainResponse->body() : '').
                 ($archiveResponse->successful() ? $archiveResponse->body() : '');
 
             $yearUrls = $this->extractYearUrls($combinedHtml, $targetYears);
@@ -202,20 +210,18 @@ class PfuSalaryScraperService
                 }
             }
         } catch (Exception $e) {
-            Log::warning('PFU main page fetch failed: ' . $e->getMessage());
+            Log::warning('PFU main page fetch failed: '.$e->getMessage());
         }
 
-
-
-        $calcClient = new \Calc\CalcServiceClient('calc:50051', [
-            'credentials' => \Grpc\ChannelCredentials::createInsecure(),
+        $calcClient = new CalcServiceClient('calc:50051', [
+            'credentials' => ChannelCredentials::createInsecure(),
         ]);
 
-        $grpcRequest = new \Calc\SyncAverageSalariesRequest();
+        $grpcRequest = new SyncAverageSalariesRequest;
         $salaryProtos = [];
 
         foreach ($records as $item) {
-            $protoRec = new \Calc\AverageSalaryRecord();
+            $protoRec = new AverageSalaryRecord;
             $protoRec->setYear($item['year']);
             $protoRec->setMonth($item['month']);
             $protoRec->setAmount($item['amount']);
@@ -224,10 +230,10 @@ class PfuSalaryScraperService
 
         $grpcRequest->setSalaries($salaryProtos);
 
-        /** @var \Calc\SyncAverageSalariesResponse|null $grpcResponse */
-        list($grpcResponse, $status) = $calcClient->SyncAverageSalaries($grpcRequest)->wait();
+        /** @var SyncAverageSalariesResponse|null $grpcResponse */
+        [$grpcResponse, $status] = $calcClient->SyncAverageSalaries($grpcRequest)->wait();
 
-        Log::info("gRPC SyncAverageSalaries status code: " . $status->code . ", details: " . ($status->details ?? 'none'));
+        Log::info('gRPC SyncAverageSalaries status code: '.$status->code.', details: '.($status->details ?? 'none'));
 
         $processedCount = ($status->code === \Grpc\STATUS_OK && $grpcResponse && $grpcResponse->getSuccess())
             ? $grpcResponse->getProcessedCount()

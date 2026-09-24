@@ -15,7 +15,7 @@ export function getParticleCss(): string {
     for (let i = 1; i <= total; i++) {
         const z = Math.random() * 360;
         const y = Math.random() * 360;
-        const hue = (40 / total * i) + baseHue;
+        const hue = (40 / total) * i + baseHue;
         const delay = i * 0.01;
 
         cssText += `
@@ -44,13 +44,16 @@ export function getParticleCss(): string {
     }
 
     cachedCss = cssText;
+
     return cachedCss;
 }
 
 export function mountParticleStyles(): void {
     refCount++;
 
-    let styleEl = document.getElementById('particle-sphere-styles') as HTMLStyleElement | null;
+    let styleEl = document.getElementById(
+        'particle-sphere-styles',
+    ) as HTMLStyleElement | null;
 
     if (!styleEl) {
         styleEl = document.createElement('style');
@@ -66,6 +69,7 @@ export function unmountParticleStyles(): void {
 
     if (refCount === 0) {
         const styleEl = document.getElementById('particle-sphere-styles');
+
         if (styleEl && styleEl.parentNode) {
             styleEl.parentNode.removeChild(styleEl);
         }

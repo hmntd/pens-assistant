@@ -5,16 +5,20 @@ export async function getHeroFrames(): Promise<string[]> {
     if (inMemoryFrames && inMemoryFrames.length > 0) {
         return inMemoryFrames;
     }
+
     try {
         const cached = sessionStorage.getItem(STORAGE_KEY);
+
         if (cached) {
             const parsed = JSON.parse(cached);
+
             if (Array.isArray(parsed) && parsed.length > 0) {
                 inMemoryFrames = parsed;
+
                 return parsed;
             }
         }
-    } catch (e) {
+    } catch {
         // Fallback gracefully if storage is restricted
     }
 
@@ -25,11 +29,16 @@ export async function getHeroFrames(): Promise<string[]> {
 
         if (Array.isArray(loadedFrames) && loadedFrames.length > 0) {
             inMemoryFrames = loadedFrames;
+
             try {
-                sessionStorage.setItem(STORAGE_KEY, JSON.stringify(loadedFrames));
-            } catch (e) {
+                sessionStorage.setItem(
+                    STORAGE_KEY,
+                    JSON.stringify(loadedFrames),
+                );
+            } catch {
                 // Storage quota fallback
             }
+
             return loadedFrames;
         }
     } catch (e) {

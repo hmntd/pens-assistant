@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { usePasskeyRegister } from '@laravel/passkeys/vue';
 import { ref } from 'vue';
-import { useI18n } from '@/composables/useI18n';
 import InputError from '@/components/common/atoms/InputError.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { useI18n } from '@/composables/useI18n';
 
 const { t } = useI18n();
 
@@ -71,11 +71,23 @@ const handleCancel = () => {
         {{ t('settings.passkeys.addBtn') }}
     </Button>
 
-    <form v-else @submit="handleSubmit" class="space-y-4 rounded-lg border border-border bg-muted/50 p-4">
+    <form
+        v-else
+        @submit="handleSubmit"
+        class="space-y-4 rounded-lg border border-border bg-muted/50 p-4"
+    >
         <div class="grid gap-2">
-            <Label for="passkey-name">{{ t('settings.passkeys.nameLabel') }}</Label>
-            <Input id="passkey-name" type="text" v-model="name" :placeholder="t('settings.passkeys.namePlaceholder')"
-                class="mt-1 block w-full border-foreground/20" autofocus />
+            <Label for="passkey-name">{{
+                t('settings.passkeys.nameLabel')
+            }}</Label>
+            <Input
+                id="passkey-name"
+                type="text"
+                v-model="name"
+                :placeholder="t('settings.passkeys.namePlaceholder')"
+                class="mt-1 block w-full border-foreground/20"
+                autofocus
+            />
             <p class="text-xs text-muted-foreground">
                 {{ t('settings.passkeys.nameHelp') }}
             </p>
@@ -85,7 +97,11 @@ const handleCancel = () => {
 
         <div class="flex gap-2">
             <Button type="submit" :disabled="isLoading || !name.trim()">
-                {{ isLoading ? t('settings.passkeys.registering') : t('settings.passkeys.registerBtn') }}
+                {{
+                    isLoading
+                        ? t('settings.passkeys.registering')
+                        : t('settings.passkeys.registerBtn')
+                }}
             </Button>
             <Button type="button" variant="ghost" @click="handleCancel">
                 {{ t('settings.deleteUser.cancelBtn') }}

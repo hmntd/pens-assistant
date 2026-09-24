@@ -77,8 +77,8 @@ class SendSystemNotification
     {
         $this->notificationChannelService->dispatchNotification(
             $event->user,
-            "Запис про страховий стаж успішно додано.",
-            "Insurance service record added successfully.",
+            'Запис про страховий стаж успішно додано.',
+            'Insurance service record added successfully.',
             'success',
             'system_alerts'
         );
@@ -91,8 +91,8 @@ class SendSystemNotification
     {
         $this->notificationChannelService->dispatchNotification(
             $event->user,
-            "Персональні дані та налаштування профілю успішно оновлено.",
-            "Personal data and profile settings updated successfully.",
+            'Персональні дані та налаштування профілю успішно оновлено.',
+            'Personal data and profile settings updated successfully.',
             'success',
             'system_alerts'
         );
@@ -105,8 +105,8 @@ class SendSystemNotification
     {
         $this->notificationChannelService->dispatchNotification(
             $event->user,
-            "Розрахунок пенсійних виплат успішно виконано.",
-            "Pension calculation successfully completed.",
+            'Розрахунок пенсійних виплат успішно виконано.',
+            'Pension calculation successfully completed.',
             'calculation',
             'calc_completed'
         );

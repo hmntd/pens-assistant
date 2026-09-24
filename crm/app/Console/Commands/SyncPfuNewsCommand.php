@@ -35,28 +35,34 @@ class SyncPfuNewsCommand extends Command
      */
     public function handle(): int
     {
-        $this->info('Starting PFU news scrape from: ' . self::PFU_NEWS_URL);
+        $this->info('Starting PFU news scrape from: '.self::PFU_NEWS_URL);
 
         try {
-            $response = Http::timeout(15)
+            $response = Http::connectTimeout(10)
+                ->timeout(30)
+                ->retry(3, 2000, throw: false)
                 ->withHeaders([
                     'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
                     'Accept' => 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+                    'Accept-Language' => 'uk-UA,uk;q=0.9,en-US;q=0.8,en;q=0.7',
                 ])
                 ->get(self::PFU_NEWS_URL);
 
             if (! $response->successful()) {
-                $this->error('Failed to fetch PFU news page. HTTP Status: ' . $response->status());
-                Log::error('SyncPfuNewsCommand: HTTP request failed', ['status' => $response->status()]);
-                return self::FAILURE;
+                $this->warn('Failed to fetch PFU news page. HTTP Status: '.$response->status().'. Preserving current database records.');
+                Log::warning('SyncPfuNewsCommand: Unreachable external PFU news page', ['status' => $response->status()]);
+
+                return self::SUCCESS;
             }
 
             $html = $response->body();
             $items = $this->parseNewsItems($html);
 
             if (empty($items)) {
-                $this->warn('No news items parsed from PFU page.');
-                return self::FAILURE;
+                $this->warn('No news items parsed from PFU page. Preserving current database records.');
+                Log::warning('SyncPfuNewsCommand: 0 news items parsed from PFU page.');
+
+                return self::SUCCESS;
             }
 
             $top3 = array_slice($items, 0, 3);
@@ -73,12 +79,14 @@ class SyncPfuNewsCommand extends Command
                 }
             });
 
-            $this->info('Successfully updated PFU news table with ' . count($top3) . ' records.');
+            $this->info('Successfully updated PFU news table with '.count($top3).' records.');
+
             return self::SUCCESS;
         } catch (Throwable $e) {
-            $this->error('Error occurred while syncing PFU news: ' . $e->getMessage());
-            Log::error('SyncPfuNewsCommand error: ' . $e->getMessage(), ['exception' => $e]);
-            return self::FAILURE;
+            $this->warn('Error occurred while syncing PFU news: '.$e->getMessage().'. Preserving current database records.');
+            Log::warning('SyncPfuNewsCommand error: '.$e->getMessage(), ['exception' => $e]);
+
+            return self::SUCCESS;
         }
     }
 
@@ -95,9 +103,9 @@ class SyncPfuNewsCommand extends Command
             return $items;
         }
 
-        $dom = new \DOMDocument();
+        $dom = new \DOMDocument;
         libxml_use_internal_errors(true);
-        $dom->loadHTML('<?xml encoding="UTF-8" ?>' . $html, LIBXML_NOERROR | LIBXML_NOWARNING);
+        $dom->loadHTML('<?xml encoding="UTF-8" ?>'.$html, LIBXML_NOERROR | LIBXML_NOWARNING);
         libxml_clear_errors();
 
         $xpath = new \DOMXPath($dom);

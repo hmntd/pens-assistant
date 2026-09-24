@@ -35,11 +35,11 @@ class PensionCalculationPdfTest extends TestCase
             'calculation_logs' => ['Stage 1: Base pension computed'],
         ]);
 
-        $responseUk = $this->actingAs($user)->get('/pension-calculations/' . $calculation->id . '/pdf?lang=uk');
+        $responseUk = $this->actingAs($user)->get('/pension-calculations/'.$calculation->id.'/pdf?lang=uk');
         $responseUk->assertStatus(200);
         $responseUk->assertHeader('Content-Type', 'application/pdf');
 
-        $responseEn = $this->actingAs($user)->get('/pension-calculations/' . $calculation->id . '/pdf?lang=en');
+        $responseEn = $this->actingAs($user)->get('/pension-calculations/'.$calculation->id.'/pdf?lang=en');
         $responseEn->assertStatus(200);
         $responseEn->assertHeader('Content-Type', 'application/pdf');
     }
@@ -62,7 +62,7 @@ class PensionCalculationPdfTest extends TestCase
             'total_accumulated_capital' => 0.00,
         ]);
 
-        $response = $this->actingAs($user2)->get('/pension-calculations/' . $calculation->id . '/pdf');
+        $response = $this->actingAs($user2)->get('/pension-calculations/'.$calculation->id.'/pdf');
 
         $response->assertStatus(403);
     }
@@ -87,7 +87,7 @@ class PensionCalculationPdfTest extends TestCase
             'total_accumulated_capital' => 0.00,
         ]);
 
-        $response = $this->actingAs($admin)->get('/admin/pension-calculations/' . $calculation->id . '/pdf?lang=en');
+        $response = $this->actingAs($admin)->get('/admin/pension-calculations/'.$calculation->id.'/pdf?lang=en');
 
         $response->assertStatus(200);
         $response->assertHeader('Content-Type', 'application/pdf');

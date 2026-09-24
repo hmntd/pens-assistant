@@ -22,6 +22,7 @@ services:
     build:
       context: .
       dockerfile: crm/Dockerfile
+    image: pens-assistant-crm
     container_name: pens_crm
     restart: unless-stopped
     working_dir: /var/www
@@ -88,6 +89,9 @@ services:
       - pens_net
 
   crm_reverb:
+    build:
+      context: .
+      dockerfile: crm/Dockerfile
     image: pens-assistant-crm
     container_name: pens_crm_reverb
     restart: unless-stopped

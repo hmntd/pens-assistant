@@ -18,6 +18,7 @@ class CalculateUserPensionJob implements ShouldQueue
     use InteractsWithQueue, Queueable, SerializesModels;
 
     public int $tries = 3;
+
     public int $timeout = 60;
 
     /**
@@ -27,9 +28,7 @@ class CalculateUserPensionJob implements ShouldQueue
         public User $user,
         public array $data = [],
         public ?string $calculatedPensionId = null
-    )
-    {
-    }
+    ) {}
 
     /**
      * Execute the job.
