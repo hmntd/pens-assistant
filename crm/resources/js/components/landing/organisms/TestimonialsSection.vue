@@ -11,7 +11,6 @@ import {
 } from '@lucide/vue';
 import { computed } from 'vue';
 import { useI18n } from '@/composables/useI18n';
-import BadgeTag from '../atoms/BadgeTag.vue';
 import TestimonialCard from '../molecules/TestimonialCard.vue';
 
 const { t } = useI18n();
@@ -72,19 +71,12 @@ const row2 = computed(() => [
 </script>
 
 <template>
-    <section
-        id="testimonials"
-        class="testimonials relative overflow-hidden bg-slate-50/50 py-16 lg:py-24 dark:bg-black"
-    >
+    <section id="testimonials"
+        class="testimonials relative overflow-hidden bg-slate-50/50 py-16 lg:py-24 dark:bg-black">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <!-- Section Header -->
             <div class="mx-auto mb-12 max-w-3xl text-center">
-                <BadgeTag class="mb-4">
-                    {{ t('testimonials.badge') }}
-                </BadgeTag>
-                <h2
-                    class="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl dark:text-white"
-                >
+                <h2 class="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl dark:text-white">
                     {{ t('testimonials.title') }}
                 </h2>
                 <p class="mt-4 text-base text-slate-600 dark:text-slate-400">
@@ -94,27 +86,18 @@ const row2 = computed(() => [
 
             <!-- OpenClaw Infinite Running Rows Container with side fade gradient mask -->
             <div
-                class="relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)]"
-            >
+                class="relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_5%,black_95%,transparent)]">
                 <!-- Row 1 (Running Left) -->
                 <div class="marquee-row mb-6 flex w-max cursor-pointer">
                     <div class="animate-marquee-left flex gap-6 pr-6">
-                        <div
-                            v-for="(item, idx) in [
-                                ...row1,
-                                ...row1,
-                                ...row1,
-                                ...row1,
-                            ]"
-                            :key="'r1-' + idx"
-                            class="w-[300px] shrink-0 sm:w-[360px]"
-                        >
-                            <TestimonialCard
-                                :title="item.title"
-                                :description="item.description"
-                                :icon="item.icon"
-                                :tag="item.tag"
-                            />
+                        <div v-for="(item, idx) in [
+                            ...row1,
+                            ...row1,
+                            ...row1,
+                            ...row1,
+                        ]" :key="'r1-' + idx" class="w-[300px] shrink-0 sm:w-[360px]">
+                            <TestimonialCard :title="item.title" :description="item.description" :icon="item.icon"
+                                :tag="item.tag" />
                         </div>
                     </div>
                 </div>
@@ -122,22 +105,14 @@ const row2 = computed(() => [
                 <!-- Row 2 (Running Right) -->
                 <div class="marquee-row flex w-max cursor-pointer">
                     <div class="animate-marquee-right flex gap-6 pr-6">
-                        <div
-                            v-for="(item, idx) in [
-                                ...row2,
-                                ...row2,
-                                ...row2,
-                                ...row2,
-                            ]"
-                            :key="'r2-' + idx"
-                            class="w-[300px] shrink-0 sm:w-[360px]"
-                        >
-                            <TestimonialCard
-                                :title="item.title"
-                                :description="item.description"
-                                :icon="item.icon"
-                                :tag="item.tag"
-                            />
+                        <div v-for="(item, idx) in [
+                            ...row2,
+                            ...row2,
+                            ...row2,
+                            ...row2,
+                        ]" :key="'r2-' + idx" class="w-[300px] shrink-0 sm:w-[360px]">
+                            <TestimonialCard :title="item.title" :description="item.description" :icon="item.icon"
+                                :tag="item.tag" />
                         </div>
                     </div>
                 </div>

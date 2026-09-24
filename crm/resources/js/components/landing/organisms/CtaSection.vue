@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { useI18n } from '@/composables/useI18n';
-import BadgeTag from '../atoms/BadgeTag.vue';
 import AdaptiveCtaCard from '../molecules/AdaptiveCtaCard.vue';
 
 export interface CtaLinkItem {
@@ -63,12 +62,7 @@ const gridColsClass = computed(() => {
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <!-- Section Header -->
             <div class="mx-auto mb-16 max-w-3xl text-center">
-                <BadgeTag class="mb-4">
-                    {{ t('cta.badge') }}
-                </BadgeTag>
-                <h2
-                    class="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl dark:text-white"
-                >
+                <h2 class="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl dark:text-white">
                     {{ t('cta.title') }}
                 </h2>
                 <p class="mt-4 text-base text-slate-600 dark:text-slate-400">
@@ -78,13 +72,8 @@ const gridColsClass = computed(() => {
 
             <!-- Adaptive Grid -->
             <div :class="['grid gap-6', gridColsClass]">
-                <AdaptiveCtaCard
-                    v-for="(item, idx) in activeItems"
-                    :key="idx"
-                    :title="item.title"
-                    :description="item.description"
-                    :href="item.href"
-                />
+                <AdaptiveCtaCard v-for="(item, idx) in activeItems" :key="idx" :title="item.title"
+                    :description="item.description" :href="item.href" />
             </div>
         </div>
     </section>
