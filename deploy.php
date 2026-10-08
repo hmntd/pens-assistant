@@ -15,7 +15,7 @@ add('shared_dirs', ['crm/storage', 'crm/vendor']);
 add('writable_dirs', ['crm/storage', 'crm/bootstrap/cache']);
 
 // Hosts
-$serverHost = !empty(getenv('SERVER_HOST')) ? getenv('SERVER_HOST') : 'pens-assistant.ddns.net';
+$serverHost = !empty(getenv('SERVER_HOST')) ? getenv('SERVER_HOST') : 'pens-assistant.com';
 $serverUser = !empty(getenv('SERVER_USER')) ? getenv('SERVER_USER') : 'ubuntu';
 
 host('prod')
