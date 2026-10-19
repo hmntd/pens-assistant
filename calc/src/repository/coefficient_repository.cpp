@@ -1,12 +1,175 @@
 #include "coefficient_repository.h"
 #include "../db/db_config.h"
+#include "../cache/redis_client.h"
 #include <pqxx/pqxx>
 #include <iostream>
+#include <sstream>
+#include <iomanip>
 
 namespace calc
 {
     namespace repository
     {
+        namespace
+        {
+            constexpr int kCacheTtlSeconds = 3600;
+
+            std::string formatDouble(double val)
+            {
+                std::ostringstream oss;
+                oss << std::setprecision(12) << val;
+                return oss.str();
+            }
+
+            std::string coeffCacheKey(int year, int month)
+            {
+                return "calc:coeff:" + std::to_string(year) + ":" + std::to_string(month);
+            }
+
+            std::string avgSalaryCacheKey(int year, int month)
+            {
+                return "calc:avg_salary:" + std::to_string(year) + ":" + std::to_string(month);
+            }
+
+            std::string macroSalaryCacheKey(int retirement_year)
+            {
+                return "calc:macro_salary:" + std::to_string(retirement_year);
+            }
+
+            std::string subsistenceLimitsCacheKey(int year)
+            {
+                return "calc:subsistence_limits:" + std::to_string(year);
+            }
+
+            const std::string kCoeffListCacheKey = "calc:coefficients:list";
+            const std::string kSubsistenceListCacheKey = "calc:subsistence_minimums:list";
+
+            std::string serializeCoefficientList(const std::vector<CoefficientRecord> &records)
+            {
+                std::ostringstream oss;
+                for (const auto &rec : records)
+                {
+                    oss << rec.id << "\t" << rec.year << "\t" << rec.month << "\t"
+                        << formatDouble(rec.coefficient) << "\t" << rec.description << "\n";
+                }
+                return oss.str();
+            }
+
+            std::vector<CoefficientRecord> deserializeCoefficientList(const std::string &payload)
+            {
+                std::vector<CoefficientRecord> records;
+                std::istringstream iss(payload);
+                std::string line;
+                while (std::getline(iss, line))
+                {
+                    if (line.empty())
+                        continue;
+                    std::istringstream lss(line);
+                    std::string id_s, year_s, month_s, coeff_s, desc;
+                    if (std::getline(lss, id_s, '\t') &&
+                        std::getline(lss, year_s, '\t') &&
+                        std::getline(lss, month_s, '\t') &&
+                        std::getline(lss, coeff_s, '\t'))
+                    {
+                        std::getline(lss, desc);
+                        CoefficientRecord rec;
+                        rec.id = std::stoi(id_s);
+                        rec.year = std::stoi(year_s);
+                        rec.month = std::stoi(month_s);
+                        rec.coefficient = std::stod(coeff_s);
+                        rec.description = desc;
+                        records.push_back(rec);
+                    }
+                }
+                return records;
+            }
+
+            std::string serializeSubsistenceLimits(const service::SubsistenceLimits &l)
+            {
+                std::ostringstream oss;
+                oss << formatDouble(l.for_disabled_persons) << "|"
+                    << formatDouble(l.general_minimum) << "|"
+                    << formatDouble(l.age_surcharge_cap) << "|"
+                    << formatDouble(l.age_70_surcharge) << "|"
+                    << formatDouble(l.age_75_surcharge) << "|"
+                    << formatDouble(l.age_80_surcharge);
+                return oss.str();
+            }
+
+            bool deserializeSubsistenceLimits(const std::string &payload, service::SubsistenceLimits &l)
+            {
+                std::istringstream iss(payload);
+                std::string p1, p2, p3, p4, p5, p6;
+                if (std::getline(iss, p1, '|') &&
+                    std::getline(iss, p2, '|') &&
+                    std::getline(iss, p3, '|') &&
+                    std::getline(iss, p4, '|') &&
+                    std::getline(iss, p5, '|') &&
+                    std::getline(iss, p6, '|'))
+                {
+                    l.for_disabled_persons = std::stod(p1);
+                    l.general_minimum = std::stod(p2);
+                    l.age_surcharge_cap = std::stod(p3);
+                    l.age_70_surcharge = std::stod(p4);
+                    l.age_75_surcharge = std::stod(p5);
+                    l.age_80_surcharge = std::stod(p6);
+                    return true;
+                }
+                return false;
+            }
+
+            std::string serializeSubsistenceList(const std::vector<SubsistenceMinimumRecord> &records)
+            {
+                std::ostringstream oss;
+                for (const auto &rec : records)
+                {
+                    oss << rec.id << "|"
+                        << rec.year << "|"
+                        << formatDouble(rec.for_disabled_persons) << "|"
+                        << formatDouble(rec.general_minimum) << "|"
+                        << formatDouble(rec.age_surcharge_cap) << "|"
+                        << formatDouble(rec.age_70_surcharge) << "|"
+                        << formatDouble(rec.age_75_surcharge) << "|"
+                        << formatDouble(rec.age_80_surcharge) << "\n";
+                }
+                return oss.str();
+            }
+
+            std::vector<SubsistenceMinimumRecord> deserializeSubsistenceList(const std::string &payload)
+            {
+                std::vector<SubsistenceMinimumRecord> records;
+                std::istringstream iss(payload);
+                std::string line;
+                while (std::getline(iss, line))
+                {
+                    if (line.empty())
+                        continue;
+                    std::istringstream lss(line);
+                    std::string id_s, year_s, p1, p2, p3, p4, p5, p6;
+                    if (std::getline(lss, id_s, '|') &&
+                        std::getline(lss, year_s, '|') &&
+                        std::getline(lss, p1, '|') &&
+                        std::getline(lss, p2, '|') &&
+                        std::getline(lss, p3, '|') &&
+                        std::getline(lss, p4, '|') &&
+                        std::getline(lss, p5, '|') &&
+                        std::getline(lss, p6, '|'))
+                    {
+                        SubsistenceMinimumRecord rec;
+                        rec.id = std::stoi(id_s);
+                        rec.year = std::stoi(year_s);
+                        rec.for_disabled_persons = std::stod(p1);
+                        rec.general_minimum = std::stod(p2);
+                        rec.age_surcharge_cap = std::stod(p3);
+                        rec.age_70_surcharge = std::stod(p4);
+                        rec.age_75_surcharge = std::stod(p5);
+                        rec.age_80_surcharge = std::stod(p6);
+                        records.push_back(rec);
+                    }
+                }
+                return records;
+            }
+        } // namespace
 
         CoefficientRepository::CoefficientRepository(bool mock_mode)
             : mock_mode_(mock_mode)
@@ -46,6 +209,18 @@ namespace calc
                 return 1.0;
             }
 
+            std::string cache_key = coeffCacheKey(year, month);
+            if (auto cached = cache::RedisClient::get(cache_key))
+            {
+                try
+                {
+                    return std::stod(*cached);
+                }
+                catch (...)
+                {
+                }
+            }
+
             try
             {
                 pqxx::connection conn(db::DbConfig::getConnectionString());
@@ -65,6 +240,7 @@ namespace calc
                 {
                     double coef = res[0][0].as<double>();
                     std::cout << "[Calc DB] Found coefficient for " << year << "-" << month << ": " << coef << std::endl;
+                    cache::RedisClient::set(cache_key, formatDouble(coef), kCacheTtlSeconds);
                     return coef;
                 }
             }
@@ -78,6 +254,14 @@ namespace calc
 
         std::vector<CoefficientRecord> CoefficientRepository::listAll()
         {
+            if (!mock_mode_)
+            {
+                if (auto cached = cache::RedisClient::get(kCoeffListCacheKey))
+                {
+                    return deserializeCoefficientList(*cached);
+                }
+            }
+
             std::vector<CoefficientRecord> results;
             try
             {
@@ -96,6 +280,11 @@ namespace calc
                     rec.coefficient = row[3].as<double>();
                     rec.description = row[4].as<std::string>();
                     results.push_back(rec);
+                }
+
+                if (!mock_mode_)
+                {
+                    cache::RedisClient::set(kCoeffListCacheKey, serializeCoefficientList(results), kCacheTtlSeconds);
                 }
             }
             catch (const std::exception &e)
@@ -124,6 +313,8 @@ namespace calc
                     rec.month = res[0][2].as<int>();
                     rec.coefficient = res[0][3].as<double>();
                     rec.description = res[0][4].as<std::string>();
+
+                    cache::RedisClient::delMany({coeffCacheKey(year, month), kCoeffListCacheKey});
                     return rec;
                 }
             }
@@ -153,6 +344,8 @@ namespace calc
                     rec.month = res[0][2].as<int>();
                     rec.coefficient = res[0][3].as<double>();
                     rec.description = res[0][4].as<std::string>();
+
+                    cache::RedisClient::delMany({coeffCacheKey(year, month), kCoeffListCacheKey});
                     return rec;
                 }
             }
@@ -169,8 +362,15 @@ namespace calc
             {
                 pqxx::connection conn(db::DbConfig::getConnectionString());
                 pqxx::work txn(conn);
-                pqxx::result res = txn.exec_params("DELETE FROM pension_coefficients WHERE id = $1", id);
+                pqxx::result res = txn.exec_params("DELETE FROM pension_coefficients WHERE id = $1 RETURNING year, month", id);
                 txn.commit();
+                if (!res.empty())
+                {
+                    int year = res[0][0].as<int>();
+                    int month = res[0][1].as<int>();
+                    cache::RedisClient::delMany({coeffCacheKey(year, month), kCoeffListCacheKey});
+                    return true;
+                }
                 return res.affected_rows() > 0;
             }
             catch (const std::exception &e)
@@ -204,6 +404,18 @@ namespace calc
                 return 0.0;
             }
 
+            std::string cache_key = avgSalaryCacheKey(year, month);
+            if (auto cached = cache::RedisClient::get(cache_key))
+            {
+                try
+                {
+                    return std::stod(*cached);
+                }
+                catch (...)
+                {
+                }
+            }
+
             try
             {
                 pqxx::connection conn(db::DbConfig::getConnectionString());
@@ -220,7 +432,10 @@ namespace calc
                 {
                     double amount = res[0][0].as<double>();
                     if (amount > 0.0)
+                    {
+                        cache::RedisClient::set(cache_key, formatDouble(amount), kCacheTtlSeconds);
                         return amount;
+                    }
                 }
 
                 if (month != 0)
@@ -232,7 +447,10 @@ namespace calc
                     {
                         double amount = res_year[0][0].as<double>();
                         if (amount > 0.0)
+                        {
+                            cache::RedisClient::set(cache_key, formatDouble(amount), kCacheTtlSeconds);
                             return amount;
+                        }
                     }
                 }
 
@@ -242,7 +460,10 @@ namespace calc
                 {
                     double latest_amount = res_latest[0][0].as<double>();
                     if (latest_amount > 0.0)
+                    {
+                        cache::RedisClient::set(cache_key, formatDouble(latest_amount), kCacheTtlSeconds);
                         return latest_amount;
+                    }
                 }
             }
             catch (const std::exception &e)
@@ -269,6 +490,18 @@ namespace calc
                     }
                 }
                 return 0.0;
+            }
+
+            std::string cache_key = macroSalaryCacheKey(retirement_year);
+            if (auto cached = cache::RedisClient::get(cache_key))
+            {
+                try
+                {
+                    return std::stod(*cached);
+                }
+                catch (...)
+                {
+                }
             }
 
             try
@@ -307,7 +540,10 @@ namespace calc
                 {
                     double avg = res[0][0].as<double>();
                     if (avg > 0.0)
+                    {
+                        cache::RedisClient::set(cache_key, formatDouble(avg), kCacheTtlSeconds);
                         return avg;
+                    }
                 }
 
                 pqxx::result res_recent = txn.exec(
@@ -316,7 +552,10 @@ namespace calc
                 {
                     double avg_recent = res_recent[0][0].as<double>();
                     if (avg_recent > 0.0)
+                    {
+                        cache::RedisClient::set(cache_key, formatDouble(avg_recent), kCacheTtlSeconds);
                         return avg_recent;
+                    }
                 }
             }
             catch (const std::exception &e)
@@ -401,6 +640,17 @@ namespace calc
                     "INSERT INTO pfu_average_salaries (year, month, amount) VALUES ($1, $2, $3) ON CONFLICT (year, month) DO UPDATE SET amount = EXCLUDED.amount",
                     year, month, amount);
                 txn.commit();
+
+                std::vector<std::string> keys_to_del = {
+                    avgSalaryCacheKey(year, month),
+                    avgSalaryCacheKey(year, 0),
+                };
+                for (int y = year; y <= year + 4; ++y)
+                {
+                    keys_to_del.push_back(macroSalaryCacheKey(y));
+                }
+                cache::RedisClient::delMany(keys_to_del);
+
                 return true;
             }
             catch (const std::exception &e)
@@ -438,6 +688,15 @@ namespace calc
             }
 
             service::SubsistenceLimits limits{0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+            std::string cache_key = subsistenceLimitsCacheKey(year);
+            if (auto cached = cache::RedisClient::get(cache_key))
+            {
+                if (deserializeSubsistenceLimits(*cached, limits))
+                {
+                    return limits;
+                }
+            }
+
             try
             {
                 pqxx::connection conn(db::DbConfig::getConnectionString());
@@ -458,6 +717,8 @@ namespace calc
                     limits.age_70_surcharge = res[0][3].as<double>();
                     limits.age_75_surcharge = res[0][4].as<double>();
                     limits.age_80_surcharge = res[0][5].as<double>();
+
+                    cache::RedisClient::set(cache_key, serializeSubsistenceLimits(limits), kCacheTtlSeconds);
                     return limits;
                 }
             }
@@ -489,6 +750,8 @@ namespace calc
                     "INSERT INTO subsistence_minimums (year, for_disabled_persons, general_minimum, age_surcharge_cap, age_70_surcharge, age_75_surcharge, age_80_surcharge) VALUES ($1, $2, $3, $4, $5, $6, $7) ON CONFLICT (year) DO UPDATE SET for_disabled_persons = EXCLUDED.for_disabled_persons, general_minimum = EXCLUDED.general_minimum, age_surcharge_cap = EXCLUDED.age_surcharge_cap, age_70_surcharge = EXCLUDED.age_70_surcharge, age_75_surcharge = EXCLUDED.age_75_surcharge, age_80_surcharge = EXCLUDED.age_80_surcharge, updated_at = CURRENT_TIMESTAMP",
                     year, for_disabled, general, age_surcharge_cap, age_70, age_75, age_80);
                 txn.commit();
+
+                cache::RedisClient::delMany({subsistenceLimitsCacheKey(year), kSubsistenceListCacheKey});
                 return true;
             }
             catch (const std::exception &e)
@@ -500,6 +763,14 @@ namespace calc
 
         std::vector<SubsistenceMinimumRecord> CoefficientRepository::listSubsistenceMinimums() const
         {
+            if (!mock_mode_)
+            {
+                if (auto cached = cache::RedisClient::get(kSubsistenceListCacheKey))
+                {
+                    return deserializeSubsistenceList(*cached);
+                }
+            }
+
             std::vector<SubsistenceMinimumRecord> results;
             try
             {
@@ -526,6 +797,11 @@ namespace calc
                     rec.age_75_surcharge = row[6].as<double>();
                     rec.age_80_surcharge = row[7].as<double>();
                     results.push_back(rec);
+                }
+
+                if (!mock_mode_)
+                {
+                    cache::RedisClient::set(kSubsistenceListCacheKey, serializeSubsistenceList(results), kCacheTtlSeconds);
                 }
             }
             catch (const std::exception &e)
@@ -560,6 +836,8 @@ namespace calc
                     rec.age_70_surcharge = res[0][5].as<double>();
                     rec.age_75_surcharge = res[0][6].as<double>();
                     rec.age_80_surcharge = res[0][7].as<double>();
+
+                    cache::RedisClient::delMany({subsistenceLimitsCacheKey(year), kSubsistenceListCacheKey});
                     return rec;
                 }
             }
@@ -579,8 +857,14 @@ namespace calc
                     return false;
 
                 pqxx::work txn(conn);
-                pqxx::result res = txn.exec_params("DELETE FROM subsistence_minimums WHERE id = $1", id);
+                pqxx::result res = txn.exec_params("DELETE FROM subsistence_minimums WHERE id = $1 RETURNING year", id);
                 txn.commit();
+                if (!res.empty())
+                {
+                    int year = res[0][0].as<int>();
+                    cache::RedisClient::delMany({subsistenceLimitsCacheKey(year), kSubsistenceListCacheKey});
+                    return true;
+                }
                 return res.affected_rows() > 0;
             }
             catch (const std::exception &e)

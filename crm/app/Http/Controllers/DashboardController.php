@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CalculatedPension;
 use App\Models\Document;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -17,18 +18,27 @@ class DashboardController extends Controller
     {
         $user = $request->user();
 
-        $calculations = CalculatedPension::where('user_id', $user->id)
-            ->latest()
-            ->get();
+        $calculations = Cache::remember("user:{$user->id}:calculations", 600, function () use ($user) {
+            return CalculatedPension::where('user_id', $user->id)
+                ->latest()
+                ->get()
+                ->toArray();
+        });
 
-        $documents = Document::where('user_id', $user->id)
-            ->with(['recognizedDocument'])
-            ->latest()
-            ->get();
+        $documents = Cache::remember("user:{$user->id}:documents", 600, function () use ($user) {
+            return Document::where('user_id', $user->id)
+                ->with(['recognizedDocument'])
+                ->latest()
+                ->get()
+                ->toArray();
+        });
 
-        $taxHistories = $user->taxHistories()
-            ->orderBy('year', 'asc')
-            ->get();
+        $taxHistories = Cache::remember("user:{$user->id}:tax_histories", 600, function () use ($user) {
+            return $user->taxHistories()
+                ->orderBy('year', 'asc')
+                ->get()
+                ->toArray();
+        });
 
         return Inertia::render('Dashboard', [
             'initialCalculations' => $calculations,

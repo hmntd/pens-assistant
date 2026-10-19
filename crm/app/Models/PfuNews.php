@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * @property int $id
@@ -19,6 +20,8 @@ class PfuNews extends Model
 {
     use HasFactory;
 
+    public const CACHE_KEY_LATEST = 'pfu_news:latest_3';
+
     /**
      * The table associated with the model.
      *
@@ -32,4 +35,10 @@ class PfuNews extends Model
      * @var array<int, string>
      */
     protected $guarded = ['id'];
+
+    protected static function booted(): void
+    {
+        static::saved(fn () => Cache::forget(self::CACHE_KEY_LATEST));
+        static::deleted(fn () => Cache::forget(self::CACHE_KEY_LATEST));
+    }
 }

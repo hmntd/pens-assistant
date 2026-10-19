@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Cache;
 use Laravel\Fortify\Contracts\PasskeyUser;
 use Laravel\Fortify\PasskeyAuthenticatable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -60,6 +61,18 @@ class User extends Authenticatable implements PasskeyUser
      * @var list<string>
      */
     protected $appends = ['name', 'is_admin'];
+
+    protected static function booted(): void
+    {
+        $invalidate = function (User $user): void {
+            Cache::forget('admin:analytics:summary');
+            Cache::forget("user:{$user->id}:notification_channel");
+        };
+
+        static::saved($invalidate);
+        static::deleted($invalidate);
+        static::restored($invalidate);
+    }
 
     /**
      * Get the user's full name.
@@ -181,9 +194,6 @@ class User extends Authenticatable implements PasskeyUser
         return $this->hasOne(UserNotificationChannel::class);
     }
 
-    /**
-     * Get or create the notification channel settings record for the user.
-     */
     public function getNotificationChannel(): UserNotificationChannel
     {
         /** @var UserNotificationChannel $channel */

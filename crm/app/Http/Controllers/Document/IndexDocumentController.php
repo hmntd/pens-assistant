@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Cache;
 
 class IndexDocumentController extends Controller
 {
@@ -24,9 +25,12 @@ class IndexDocumentController extends Controller
             ->orderByDesc('id')
             ->paginate($perPage, ['*'], 'page', $page);
 
-        $taxHistories = $user->taxHistories()
-            ->orderBy('year', 'asc')
-            ->get();
+        $taxHistories = Cache::remember("user:{$user->id}:tax_histories", 600, function () use ($user) {
+            return $user->taxHistories()
+                ->orderBy('year', 'asc')
+                ->get()
+                ->toArray();
+        });
 
         return response()->json([
             'status' => 'success',

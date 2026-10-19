@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
-use App\Models\Session;
 use App\Services\AgentParserService;
+use App\Services\RedisSessionTrackerService;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -12,7 +12,8 @@ use Illuminate\Http\Request;
 class IndexSessionController extends Controller
 {
     public function __construct(
-        private readonly AgentParserService $agentParser
+        private readonly AgentParserService $agentParser,
+        private readonly RedisSessionTrackerService $sessionTracker
     ) {}
 
     public function __invoke(Request $request): JsonResponse
@@ -37,12 +38,13 @@ class IndexSessionController extends Controller
             return [];
         }
 
-        $currentSessionId = $request->session()->getId();
+        if ($request->hasSession()) {
+            $this->sessionTracker->trackRequestSession($request);
+        }
 
-        $rows = Session::query()
-            ->where('user_id', $user->id)
-            ->orderBy('last_activity', 'desc')
-            ->get();
+        $currentSessionId = $request->hasSession() ? $request->session()->getId() : '';
+
+        $rows = $this->sessionTracker->getSessionsForUser((string) $user->id);
 
         return $rows->map(function ($session) use ($currentSessionId) {
             $agentInfo = $this->agentParser->parse($session->user_agent);

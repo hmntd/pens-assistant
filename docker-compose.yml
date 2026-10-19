@@ -38,6 +38,8 @@ services:
       DB_USERNAME: ${DB_USERNAME:-postgres}
       DB_PASSWORD: ${DB_PASSWORD:-password}
       QUEUE_CONNECTION: redis
+      CACHE_STORE: redis
+      SESSION_DRIVER: redis
       REDIS_CLIENT: predis
       REDIS_HOST: redis
       REDIS_PORT: 6379
@@ -75,6 +77,8 @@ services:
       DB_USERNAME: ${DB_USERNAME:-postgres}
       DB_PASSWORD: ${DB_PASSWORD:-password}
       QUEUE_CONNECTION: redis
+      CACHE_STORE: redis
+      SESSION_DRIVER: redis
       REDIS_CLIENT: predis
       REDIS_HOST: redis
       REDIS_PORT: 6379
@@ -111,6 +115,8 @@ services:
       DB_USERNAME: ${DB_USERNAME:-postgres}
       DB_PASSWORD: ${DB_PASSWORD:-password}
       QUEUE_CONNECTION: redis
+      CACHE_STORE: redis
+      SESSION_DRIVER: redis
       REDIS_CLIENT: predis
       REDIS_HOST: redis
       REDIS_PORT: 6379
@@ -172,9 +178,13 @@ services:
       DB_USER: ${CALC_DB_USERNAME:-postgres}
       DB_PASSWORD: ${CALC_DB_PASSWORD:-password}
       DB_CONNECTION_STRING: "host=calc_db port=5432 user=${CALC_DB_USERNAME:-postgres} password=${CALC_DB_PASSWORD:-password} dbname=${CALC_DB_DATABASE:-calc_db} sslmode=disable"
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
     depends_on:
       calc_db:
         condition: service_healthy
+      redis:
+        condition: service_started
     networks:
       - pens_net
 

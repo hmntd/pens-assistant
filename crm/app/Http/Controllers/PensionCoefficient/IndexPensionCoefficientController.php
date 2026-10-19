@@ -12,64 +12,73 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Cache;
 
 class IndexPensionCoefficientController extends Controller
 {
+    public const CACHE_KEY_ALL = 'calc:pension_coefficients:all';
+
     public function __invoke(Request $request): JsonResponse
     {
         $page = max(1, (int) $request->input('page', 1));
         $perPage = max(1, min(100, (int) $request->input('per_page', 15)));
 
-        $calcClient = new CalcServiceClient('calc:50051', [
-            'credentials' => ChannelCredentials::createInsecure(),
-        ]);
+        $allCoefficients = Cache::get(self::CACHE_KEY_ALL);
 
-        $grpcRequest = new ListCoefficientsRequest;
+        if (! is_array($allCoefficients)) {
+            $calcClient = new CalcServiceClient('calc:50051', [
+                'credentials' => ChannelCredentials::createInsecure(),
+            ]);
 
-        /** @var ListCoefficientsResponse|null $response */
-        [$response, $status] = $calcClient->ListCoefficients($grpcRequest)->wait();
+            $grpcRequest = new ListCoefficientsRequest;
 
-        if ($status->code !== \Grpc\STATUS_OK || ! $response || ! $response->getSuccess()) {
-            if (app()->environment('testing')) {
-                $testItems = [
-                    ['id' => 1, 'year' => 2025, 'month' => 1, 'coefficient' => 1.052, 'description' => 'Test Base'],
-                ];
-                $paginator = new LengthAwarePaginator(
-                    $testItems,
-                    count($testItems),
-                    $perPage,
-                    $page,
-                    ['path' => $request->url(), 'query' => $request->query()]
-                );
+            /** @var ListCoefficientsResponse|null $response */
+            [$response, $status] = $calcClient->ListCoefficients($grpcRequest)->wait();
+
+            if ($status->code !== \Grpc\STATUS_OK || ! $response || ! $response->getSuccess()) {
+                if (app()->environment('testing')) {
+                    $testItems = [
+                        ['id' => 1, 'year' => 2025, 'month' => 1, 'coefficient' => 1.052, 'description' => 'Test Base'],
+                    ];
+                    $paginator = new LengthAwarePaginator(
+                        $testItems,
+                        count($testItems),
+                        $perPage,
+                        $page,
+                        ['path' => $request->url(), 'query' => $request->query()]
+                    );
+
+                    return response()->json([
+                        'status' => 'success',
+                        'data' => $paginator->items(),
+                        'meta' => [
+                            'current_page' => $paginator->currentPage(),
+                            'per_page' => $paginator->perPage(),
+                            'total' => $paginator->total(),
+                            'last_page' => $paginator->lastPage(),
+                        ],
+                    ], Response::HTTP_OK);
+                }
 
                 return response()->json([
-                    'status' => 'success',
-                    'data' => $paginator->items(),
-                    'meta' => [
-                        'current_page' => $paginator->currentPage(),
-                        'per_page' => $paginator->perPage(),
-                        'total' => $paginator->total(),
-                        'last_page' => $paginator->lastPage(),
-                    ],
-                ], Response::HTTP_OK);
+                    'status' => 'error',
+                    'message' => $response ? $response->getErrorMessage() : ($status->details ?? 'Connection failed'),
+                ], Response::HTTP_INTERNAL_SERVER_ERROR);
             }
 
-            return response()->json([
-                'status' => 'error',
-                'message' => $response ? $response->getErrorMessage() : ($status->details ?? 'Connection failed'),
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
+            $allCoefficients = [];
+            foreach ($response->getCoefficients() as $item) {
+                /** @var PensionCoefficient $item */
+                $allCoefficients[] = [
+                    'id' => $item->getId(),
+                    'year' => $item->getYear(),
+                    'month' => $item->getMonth(),
+                    'coefficient' => $item->getCoefficient(),
+                    'description' => $item->getDescription(),
+                ];
+            }
 
-        $allCoefficients = [];
-        foreach ($response->getCoefficients() as $item) {
-            /** @var PensionCoefficient $item */
-            $allCoefficients[] = [
-                'id' => $item->getId(),
-                'year' => $item->getYear(),
-                'month' => $item->getMonth(),
-                'coefficient' => $item->getCoefficient(),
-                'description' => $item->getDescription(),
-            ];
+            Cache::put(self::CACHE_KEY_ALL, $allCoefficients, 3600);
         }
 
         $total = count($allCoefficients);

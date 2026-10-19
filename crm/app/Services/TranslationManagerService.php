@@ -2,10 +2,13 @@
 
 namespace App\Services;
 
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 
 class TranslationManagerService
 {
+    public const CACHE_KEY_ALL = 'translations:all';
+
     private string $ukJsonPath;
 
     private string $enJsonPath;
@@ -27,28 +30,30 @@ class TranslationManagerService
      */
     public function getAllTranslations(): array
     {
-        $ukMap = $this->loadTsFile($this->ukTsPath);
-        $enMap = $this->loadTsFile($this->enTsPath);
+        return Cache::remember(self::CACHE_KEY_ALL, 3600, function () {
+            $ukMap = $this->loadTsFile($this->ukTsPath);
+            $enMap = $this->loadTsFile($this->enTsPath);
 
-        $ukJson = $this->loadJsonFile($this->ukJsonPath);
-        $enJson = $this->loadJsonFile($this->enJsonPath);
+            $ukJson = $this->loadJsonFile($this->ukJsonPath);
+            $enJson = $this->loadJsonFile($this->enJsonPath);
 
-        $flatUk = array_merge($this->flattenArray($ukMap), $ukJson);
-        $flatEn = array_merge($this->flattenArray($enMap), $enJson);
+            $flatUk = array_merge($this->flattenArray($ukMap), $ukJson);
+            $flatEn = array_merge($this->flattenArray($enMap), $enJson);
 
-        $allKeys = array_unique(array_merge(array_keys($flatUk), array_keys($flatEn)));
-        sort($allKeys);
+            $allKeys = array_unique(array_merge(array_keys($flatUk), array_keys($flatEn)));
+            sort($allKeys);
 
-        $items = [];
-        foreach ($allKeys as $key) {
-            $items[] = [
-                'key' => $key,
-                'uk' => $flatUk[$key] ?? '',
-                'en' => $flatEn[$key] ?? '',
-            ];
-        }
+            $items = [];
+            foreach ($allKeys as $key) {
+                $items[] = [
+                    'key' => $key,
+                    'uk' => $flatUk[$key] ?? '',
+                    'en' => $flatEn[$key] ?? '',
+                ];
+            }
 
-        return $items;
+            return $items;
+        });
     }
 
     /**
@@ -75,6 +80,8 @@ class TranslationManagerService
 
         $this->saveTsFile($this->ukTsPath, $ukTsData);
         $this->saveTsFile($this->enTsPath, $enTsData);
+
+        Cache::forget(self::CACHE_KEY_ALL);
     }
 
     private function loadJsonFile(string $path): array

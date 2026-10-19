@@ -10,6 +10,7 @@ use Calc\UpdateSubsistenceMinimumResponse;
 use Grpc\ChannelCredentials;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Cache;
 
 class UpdateSubsistenceMinimumController extends Controller
 {
@@ -23,6 +24,8 @@ class UpdateSubsistenceMinimumController extends Controller
         $validated = $request->validated();
 
         if (app()->environment('testing')) {
+            Cache::forget(IndexSubsistenceMinimumController::CACHE_KEY_ALL);
+
             return response()->json([
                 'message' => 'Subsistence minimum updated successfully.',
                 'data' => [
@@ -55,6 +58,8 @@ class UpdateSubsistenceMinimumController extends Controller
                 'message' => "Failed to update subsistence minimum: {$errMsg}",
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
+
+        Cache::forget(IndexSubsistenceMinimumController::CACHE_KEY_ALL);
 
         return response()->json([
             'message' => 'Subsistence minimum updated successfully.',

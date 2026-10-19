@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
-use App\Models\Session;
+use App\Services\RedisSessionTrackerService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -13,6 +13,10 @@ use Illuminate\Validation\ValidationException;
 
 class LogoutOtherSessionsController extends Controller
 {
+    public function __construct(
+        private readonly RedisSessionTrackerService $sessionTracker
+    ) {}
+
     public function __invoke(Request $request): JsonResponse|RedirectResponse
     {
         $request->validate([
@@ -29,10 +33,7 @@ class LogoutOtherSessionsController extends Controller
 
         Auth::logoutOtherDevices($request->password);
 
-        Session::query()
-            ->where('user_id', $user->id)
-            ->where('id', '!=', $request->session()->getId())
-            ->delete();
+        $this->sessionTracker->destroyOtherSessions((string) $user->id, $request->session()->getId());
 
         if ($request->wantsJson()) {
             return response()->json([
