@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Cache;
 use Throwable;
 
 /**
@@ -43,6 +44,19 @@ class CalculatedPension extends Model
      * @var array<int, string>
      */
     protected $guarded = ['id'];
+
+    protected static function booted(): void
+    {
+        $invalidate = function (CalculatedPension $calc): void {
+            Cache::forget("user:{$calc->user_id}:calculations");
+            Cache::forget("calculation:{$calc->id}:breakdown");
+            Cache::forget('admin:analytics:summary');
+        };
+
+        static::saved($invalidate);
+        static::deleted($invalidate);
+        static::restored($invalidate);
+    }
 
     /**
      * Get the attributes that should be cast.

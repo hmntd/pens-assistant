@@ -10,6 +10,7 @@ use Grpc\ChannelCredentials;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Cache;
 
 class DeleteSubsistenceMinimumController extends Controller
 {
@@ -21,6 +22,8 @@ class DeleteSubsistenceMinimumController extends Controller
         }
 
         if (app()->environment('testing')) {
+            Cache::forget(IndexSubsistenceMinimumController::CACHE_KEY_ALL);
+
             return response()->json([
                 'message' => 'Subsistence minimum deleted successfully.',
             ], Response::HTTP_OK);
@@ -43,6 +46,8 @@ class DeleteSubsistenceMinimumController extends Controller
                 'message' => "Failed to delete subsistence minimum: {$errMsg}",
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
+
+        Cache::forget(IndexSubsistenceMinimumController::CACHE_KEY_ALL);
 
         return response()->json([
             'message' => 'Subsistence minimum deleted successfully.',

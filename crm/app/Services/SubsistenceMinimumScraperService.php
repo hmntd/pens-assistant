@@ -2,10 +2,14 @@
 
 namespace App\Services;
 
+use App\Http\Controllers\Admin\SubsistenceMinimum\IndexSubsistenceMinimumController;
 use Exception;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redis;
+use Throwable;
 
 class SubsistenceMinimumScraperService
 {
@@ -48,6 +52,16 @@ class SubsistenceMinimumScraperService
             }
         } catch (Exception $e) {
             Log::error('Failed to sync subsistence minimums to calc_db: '.$e->getMessage());
+        }
+
+        Cache::forget(IndexSubsistenceMinimumController::CACHE_KEY_ALL);
+        try {
+            Redis::del('calc:subsistence_minimums:list');
+            foreach (array_keys($records) as $yr) {
+                Redis::del("calc:subsistence_limits:{$yr}");
+            }
+        } catch (Throwable) {
+            // Ignore Redis error when running in environments without Redis
         }
 
         return [

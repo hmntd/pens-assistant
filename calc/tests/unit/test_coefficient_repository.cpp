@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cassert>
 #include "../../src/repository/coefficient_repository.h"
+#include "../../src/cache/redis_client.h"
 
 void test_coefficient_repository_defaults()
 {
@@ -32,6 +33,30 @@ void test_upsert_average_salary_graceful_handling()
     }
 }
 
+void test_redis_cache_client()
+{
+    std::cout << "[Unit Test] Running test_redis_cache_client..." << std::endl;
+    const std::string key = "calc:test:unit_key";
+    bool set_ok = calc::cache::RedisClient::set(key, "123.45", 60);
+    if (set_ok)
+    {
+        auto val = calc::cache::RedisClient::get(key);
+        assert(val.has_value());
+        assert(*val == "123.45");
+        bool del_ok = calc::cache::RedisClient::del(key);
+        assert(del_ok);
+        auto after_del = calc::cache::RedisClient::get(key);
+        assert(!after_del.has_value());
+        std::cout << "  ✓ test_redis_cache_client passed (Redis connected, set/get/del verified)!" << std::endl;
+    }
+    else
+    {
+        auto val = calc::cache::RedisClient::get(key);
+        assert(!val.has_value());
+        std::cout << "  ✓ test_redis_cache_client handled offline Redis gracefully!" << std::endl;
+    }
+}
+
 int main()
 {
     std::cout << "=========================================" << std::endl;
@@ -40,6 +65,7 @@ int main()
 
     test_coefficient_repository_defaults();
     test_upsert_average_salary_graceful_handling();
+    test_redis_cache_client();
 
     std::cout << "=========================================" << std::endl;
     std::cout << "✅ All CoefficientRepository Unit Tests Passed!" << std::endl;

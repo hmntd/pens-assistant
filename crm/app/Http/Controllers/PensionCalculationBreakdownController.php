@@ -11,11 +11,14 @@ use Calc\GetAverageSalariesResponse;
 use Grpc\ChannelCredentials;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
 class PensionCalculationBreakdownController extends Controller
 {
+    public const CACHE_KEY_AVG_SALARIES_PREFIX = 'calc:average_salaries:year:';
+
     private array $monthNames = [
         1 => 'January', 2 => 'February', 3 => 'March', 4 => 'April',
         5 => 'May', 6 => 'June', 7 => 'July', 8 => 'August',
@@ -56,32 +59,48 @@ class PensionCalculationBreakdownController extends Controller
 
         $years = $taxHistories->pluck('year')->unique()->values()->all();
 
-        // Query gRPC calc service for monthly PFU average salaries for all user years
+        // Check Redis cache first for each year's national average salaries, only fetch missing years via gRPC
         $nationalSalariesMap = [];
-        try {
-            $client = new CalcServiceClient('calc:50051', [
-                'credentials' => ChannelCredentials::createInsecure(),
-            ]);
+        $missingYears = [];
 
-            $grpcReq = new GetAverageSalariesRequest;
-            if (! empty($years)) {
-                $grpcReq->setYears($years);
+        foreach ($years as $yr) {
+            $cachedYear = Cache::get(self::CACHE_KEY_AVG_SALARIES_PREFIX.$yr);
+            if (is_array($cachedYear) && ! empty($cachedYear)) {
+                $nationalSalariesMap[(int) $yr] = $cachedYear;
+            } else {
+                $missingYears[] = (int) $yr;
             }
+        }
 
-            /** @var GetAverageSalariesResponse|null $grpcRes */
-            [$grpcRes, $status] = $client->GetAverageSalaries($grpcReq)->wait();
+        if (! empty($missingYears)) {
+            try {
+                $client = new CalcServiceClient('calc:50051', [
+                    'credentials' => ChannelCredentials::createInsecure(),
+                ]);
 
-            if ($status->code === \Grpc\STATUS_OK && $grpcRes && $grpcRes->getSuccess()) {
-                foreach ($grpcRes->getSalaries() as $rec) {
-                    $y = (int) $rec->getYear();
-                    $m = (int) $rec->getMonth();
-                    $amt = (float) $rec->getAmount();
-                    $nationalSalariesMap[$y][$m] = $amt;
+                $grpcReq = new GetAverageSalariesRequest;
+                $grpcReq->setYears($missingYears);
+
+                /** @var GetAverageSalariesResponse|null $grpcRes */
+                [$grpcRes, $status] = $client->GetAverageSalaries($grpcReq)->wait();
+
+                if ($status->code === \Grpc\STATUS_OK && $grpcRes && $grpcRes->getSuccess()) {
+                    $fetchedByYear = [];
+                    foreach ($grpcRes->getSalaries() as $rec) {
+                        $y = (int) $rec->getYear();
+                        $m = (int) $rec->getMonth();
+                        $amt = (float) $rec->getAmount();
+                        $nationalSalariesMap[$y][$m] = $amt;
+                        $fetchedByYear[$y][$m] = $amt;
+                    }
+                    foreach ($fetchedByYear as $y => $monthMap) {
+                        Cache::put(self::CACHE_KEY_AVG_SALARIES_PREFIX.$y, $monthMap, 3600);
+                    }
                 }
+            } catch (\Throwable $e) {
+                // Log fallback if gRPC is unavailable
+                Log::warning('Failed to fetch detailed average salaries via gRPC: '.$e->getMessage());
             }
-        } catch (\Throwable $e) {
-            // Log fallback if gRPC is unavailable
-            Log::warning('Failed to fetch detailed average salaries via gRPC: '.$e->getMessage());
         }
 
         $yearsData = [];

@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\PfuNews;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -78,6 +79,8 @@ class SyncPfuNewsCommand extends Command
                     ]);
                 }
             });
+
+            Cache::forget(PfuNews::CACHE_KEY_LATEST);
 
             $this->info('Successfully updated PFU news table with '.count($top3).' records.');
 

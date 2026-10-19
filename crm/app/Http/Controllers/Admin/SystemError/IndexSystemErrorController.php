@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\SystemError\IndexSystemErrorRequest;
 use App\Models\SystemErrorLog;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Cache;
 
 class IndexSystemErrorController extends Controller
 {
@@ -36,11 +37,13 @@ class IndexSystemErrorController extends Controller
 
         $logs = $query->paginate($perPage);
 
-        $stats = [
-            'total' => SystemErrorLog::count(),
-            'unresolved' => SystemErrorLog::where('is_resolved', false)->count(),
-            'resolved_today' => SystemErrorLog::where('is_resolved', true)->whereDate('resolved_at', now()->today())->count(),
-        ];
+        $stats = Cache::remember(SystemErrorLog::CACHE_KEY_STATS, 300, function () {
+            return [
+                'total' => SystemErrorLog::count(),
+                'unresolved' => SystemErrorLog::where('is_resolved', false)->count(),
+                'resolved_today' => SystemErrorLog::where('is_resolved', true)->whereDate('resolved_at', now()->today())->count(),
+            ];
+        });
 
         return response()->json([
             'success' => true,
