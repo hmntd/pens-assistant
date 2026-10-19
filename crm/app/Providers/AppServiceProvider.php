@@ -15,6 +15,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 use SocialiteProviders\Azure\AzureExtendSocialite;
 use SocialiteProviders\Manager\SocialiteWasCalled;
+use Spatie\Permission\PermissionRegistrar;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -38,6 +39,26 @@ class AppServiceProvider extends ServiceProvider
         Auth::provider('eloquent', function ($app, array $config) {
             return new UuidEloquentUserProvider($app['hash'], $config['model']);
         });
+
+        if ($this->app->runningInConsole()) {
+            $isMigrateCommand = false;
+            foreach ($_SERVER['argv'] ?? [] as $arg) {
+                if (str_contains($arg, 'migrate')) {
+                    $isMigrateCommand = true;
+                    break;
+                }
+            }
+
+            if ($isMigrateCommand) {
+                config([
+                    'cache.default' => 'array',
+                    'permission.cache.store' => 'array',
+                ]);
+                if ($this->app->bound(PermissionRegistrar::class)) {
+                    $this->app->make(PermissionRegistrar::class)->initializeCache();
+                }
+            }
+        }
     }
 
     /**
