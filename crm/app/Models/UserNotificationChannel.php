@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * @property int $id
@@ -33,6 +34,16 @@ class UserNotificationChannel extends Model
      * @var array<int, string>
      */
     protected $guarded = ['id'];
+
+    protected static function booted(): void
+    {
+        $invalidate = function (UserNotificationChannel $channel): void {
+            Cache::forget("user:{$channel->user_id}:notification_channel");
+        };
+
+        static::saved($invalidate);
+        static::deleted($invalidate);
+    }
 
     /**
      * Get the attributes that should be cast.

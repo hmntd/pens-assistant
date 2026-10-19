@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\SystemError\BatchResolveSystemErrorRequest;
 use App\Models\SystemErrorLog;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Cache;
 
 class BatchResolveSystemErrorController extends Controller
 {
@@ -20,6 +21,8 @@ class BatchResolveSystemErrorController extends Controller
             'resolved_at' => $isResolved ? now() : null,
             'resolved_by_id' => $isResolved ? $user?->id : null,
         ]);
+
+        Cache::forget(SystemErrorLog::CACHE_KEY_STATS);
 
         return response()->json([
             'success' => true,

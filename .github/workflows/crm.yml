@@ -57,12 +57,18 @@ jobs:
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: ':memory:'
+          CACHE_STORE: array
+          SESSION_DRIVER: array
+          QUEUE_CONNECTION: sync
 
       - name: Run CI Checks
         run: composer ci:check
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: ':memory:'
+          CACHE_STORE: array
+          SESSION_DRIVER: array
+          QUEUE_CONNECTION: sync
 
       - name: Run Trivy Vulnerability Scanner (CRM Code & Dependencies)
         uses: aquasecurity/trivy-action@master
@@ -72,3 +78,6 @@ jobs:
           format: 'table'
           exit-code: '0'
           severity: 'CRITICAL,HIGH'
+          token-setup-trivy: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

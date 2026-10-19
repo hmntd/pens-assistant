@@ -10,6 +10,7 @@ use Calc\CalcServiceClient;
 use Grpc\ChannelCredentials;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Cache;
 
 class StorePensionCoefficientController extends Controller
 {
@@ -32,6 +33,8 @@ class StorePensionCoefficientController extends Controller
 
         if ($status->code !== \Grpc\STATUS_OK || ! $response || ! $response->getSuccess()) {
             if (app()->environment('testing')) {
+                Cache::forget(IndexPensionCoefficientController::CACHE_KEY_ALL);
+
                 return response()->json([
                     'status' => 'success',
                     'data' => [
@@ -49,6 +52,8 @@ class StorePensionCoefficientController extends Controller
                 'message' => $response ? $response->getErrorMessage() : ($status->details ?? 'Connection failed'),
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
+
+        Cache::forget(IndexPensionCoefficientController::CACHE_KEY_ALL);
 
         $item = $response->getCoefficient();
 

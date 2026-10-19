@@ -16,6 +16,7 @@ include_directories(
 )
 
 set(CALC_COMMON_SRCS
+    src/cache/redis_client.cpp
     src/db/db_config.cpp
     src/repository/coefficient_repository.cpp
     src/service/pension_calculator.cpp

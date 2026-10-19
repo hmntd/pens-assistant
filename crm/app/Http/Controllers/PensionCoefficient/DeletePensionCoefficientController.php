@@ -9,6 +9,7 @@ use Calc\DeleteCoefficientResponse;
 use Grpc\ChannelCredentials;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Cache;
 
 class DeletePensionCoefficientController extends Controller
 {
@@ -26,6 +27,8 @@ class DeletePensionCoefficientController extends Controller
 
         if ($status->code !== \Grpc\STATUS_OK || ! $response || ! $response->getSuccess()) {
             if (app()->environment('testing')) {
+                Cache::forget(IndexPensionCoefficientController::CACHE_KEY_ALL);
+
                 return response()->json([
                     'status' => 'success',
                     'message' => 'Pension coefficient deleted successfully',
@@ -37,6 +40,8 @@ class DeletePensionCoefficientController extends Controller
                 'message' => $response ? $response->getErrorMessage() : ($status->details ?? 'Connection failed'),
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
+
+        Cache::forget(IndexPensionCoefficientController::CACHE_KEY_ALL);
 
         return response()->json([
             'status' => 'success',

@@ -5,10 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Cache;
 
 class SystemErrorLog extends Model
 {
     use HasFactory;
+
+    public const CACHE_KEY_STATS = 'admin:system_errors:stats';
 
     protected $table = 'system_error_logs';
 
@@ -32,6 +35,12 @@ class SystemErrorLog extends Model
         'is_resolved' => 'boolean',
         'resolved_at' => 'datetime',
     ];
+
+    protected static function booted(): void
+    {
+        static::saved(fn () => Cache::forget(self::CACHE_KEY_STATS));
+        static::deleted(fn () => Cache::forget(self::CACHE_KEY_STATS));
+    }
 
     public function user(): BelongsTo
     {

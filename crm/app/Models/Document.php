@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * @property string $id
@@ -32,6 +33,18 @@ class Document extends Model
      * @var array<int, string>
      */
     protected $guarded = ['id'];
+
+    protected static function booted(): void
+    {
+        $invalidate = function (Document $doc): void {
+            Cache::forget("user:{$doc->user_id}:documents");
+            Cache::forget('admin:analytics:summary');
+        };
+
+        static::saved($invalidate);
+        static::deleted($invalidate);
+        static::restored($invalidate);
+    }
 
     /**
      * Get the user that owns the document.

@@ -167,6 +167,9 @@ jobs:
           format: 'table'
           exit-code: '0'
           severity: 'CRITICAL,HIGH'
+          token-setup-trivy: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Scan Infrastructure as Code (Dockerfiles & Compose)
         uses: aquasecurity/trivy-action@master
@@ -176,6 +179,9 @@ jobs:
           format: 'table'
           exit-code: '0'
           severity: 'CRITICAL,HIGH'
+          token-setup-trivy: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   deploy:
     name: Deploy to ${{ (github.ref == 'refs/heads/main') && 'Production' || 'Development' }}

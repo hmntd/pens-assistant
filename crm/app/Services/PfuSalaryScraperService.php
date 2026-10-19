@@ -3,12 +3,14 @@
 namespace App\Services;
 
 use App\Events\PfuSalariesSynced;
+use App\Http\Controllers\PensionCalculationBreakdownController;
 use Calc\AverageSalaryRecord;
 use Calc\CalcServiceClient;
 use Calc\SyncAverageSalariesRequest;
 use Calc\SyncAverageSalariesResponse;
 use Exception;
 use Grpc\ChannelCredentials;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -238,6 +240,10 @@ class PfuSalaryScraperService
         $processedCount = ($status->code === \Grpc\STATUS_OK && $grpcResponse && $grpcResponse->getSuccess())
             ? $grpcResponse->getProcessedCount()
             : count($records);
+
+        foreach ($targetYears as $yr) {
+            Cache::forget(PensionCalculationBreakdownController::CACHE_KEY_AVG_SALARIES_PREFIX.$yr);
+        }
 
         PfuSalariesSynced::dispatch(
             $records,

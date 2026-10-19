@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * @property int $id
@@ -55,6 +56,15 @@ class TaxHistory extends Model
                 $taxHistory->monthly_breakdown = $breakdown;
             }
         });
+
+        $invalidate = function (TaxHistory $taxHistory): void {
+            Cache::forget("user:{$taxHistory->user_id}:tax_histories");
+            Cache::forget('admin:analytics:summary');
+        };
+
+        static::saved($invalidate);
+        static::deleted($invalidate);
+        static::restored($invalidate);
     }
 
     /**

@@ -5,6 +5,7 @@ use App\Http\Middleware\EnsureUserIsNotSuspended;
 use App\Http\Middleware\HandleAppearance;
 use App\Http\Middleware\HandleInertiaRequests;
 use App\Http\Middleware\SetAppLocale;
+use App\Http\Middleware\TrackUserSession;
 use App\Services\SystemErrorLoggerService;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -35,6 +36,7 @@ return Application::configure(basePath: dirname(__DIR__))
             SetAppLocale::class,
             HandleAppearance::class,
             EnsureUserIsNotSuspended::class,
+            TrackUserSession::class,
             HandleInertiaRequests::class,
             AddLinkHeadersForPreloadedAssets::class,
         ]);
