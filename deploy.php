@@ -56,6 +56,8 @@ task('storage:prepare', function () {
 })->desc('Ensure Laravel storage subdirectories exist in shared path');
 
 task('docker:up', function () {
+    // If the CRM image does not exist yet on the host, build it using the fast prebuilt base image
+    run('cd {{deploy_path}}/current && if ! docker image inspect pens-assistant-crm > /dev/null 2>&1; then docker compose build crm; fi');
     run('cd {{deploy_path}}/current && docker compose up -d --no-build --force-recreate');
     // Allow container health checks to settle before running database migrations
     sleep(3);

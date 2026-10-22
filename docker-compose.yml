@@ -61,6 +61,7 @@ services:
     build:
       context: .
       dockerfile: crm/Dockerfile
+    image: pens-assistant-crm
     container_name: pens_crm_horizon
     restart: unless-stopped
     working_dir: /var/www

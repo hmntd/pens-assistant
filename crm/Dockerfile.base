@@ -1,0 +1,52 @@
+# ==============================================================================
+# Stage 1: Build & Strip gRPC Extension via PECL
+# ==============================================================================
+FROM php:8.5-fpm-alpine AS grpc-builder
+
+ARG MAKEFLAGS="-j4"
+
+# Install compilation dependencies and compile grpc-1.84.0 directly via PECL
+RUN apk add --no-cache $PHPIZE_DEPS linux-headers zlib-dev binutils \
+    && MAKEFLAGS="${MAKEFLAGS}" pecl install grpc-1.84.0 \
+    && docker-php-ext-enable grpc \
+    && strip --strip-debug $(php -r "echo ini_get('extension_dir');")/grpc.so
+
+# ==============================================================================
+# Stage 2: Final Base Image
+# ==============================================================================
+FROM php:8.5-fpm-alpine
+
+WORKDIR /var/www
+
+# 1. Base runtime tools and image optimizers
+RUN apk add --no-cache \
+    git \
+    curl \
+    unzip \
+    bash \
+    nodejs \
+    npm \
+    jpegoptim optipng pngquant gifsicle
+
+# 2. Copy precompiled & stripped gRPC extension from Stage 1
+COPY --from=grpc-builder /usr/local/lib/php/extensions/ /usr/local/lib/php/extensions/
+COPY --from=grpc-builder /usr/local/etc/php/conf.d/docker-php-ext-grpc.ini /usr/local/etc/php/conf.d/docker-php-ext-grpc.ini
+
+# 3. Fast standard PHP extensions & protobuf
+COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
+
+RUN install-php-extensions \
+    pdo_pgsql \
+    mbstring \
+    zip \
+    exif \
+    pcntl \
+    bcmath \
+    gd \
+    protobuf
+
+# 4. Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# 5. Non-root user setup
+RUN addgroup -g 1000 www && adduser -u 1000 -G www -s /bin/bash -D www
