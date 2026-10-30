@@ -1,0 +1,42 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: pens-assistant-ingress
+  namespace: pens-assistant
+  labels:
+    app.kubernetes.io/part-of: pens-assistant
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "25m"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    nginx.ingress.kubernetes.io/websocket-services: "laravel-reverb"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: pens-assistant.local
+      http:
+        paths:
+          # Route Pusher/Reverb WebSocket upgrade traffic to Laravel Reverb
+          - path: /app
+            pathType: Prefix
+            backend:
+              service:
+                name: laravel-reverb
+                port:
+                  number: 8080
+          - path: /apps
+            pathType: Prefix
+            backend:
+              service:
+                name: laravel-reverb
+                port:
+                  number: 8080
+          # Route HTTP web, Inertia & API traffic to Laravel Web App
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: laravel-app
+                port:
+                  number: 80
+

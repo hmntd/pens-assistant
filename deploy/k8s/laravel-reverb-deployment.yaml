@@ -1,0 +1,79 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: laravel-reverb
+  namespace: pens-assistant
+  labels:
+    app: laravel-reverb
+    app.kubernetes.io/part-of: pens-assistant
+spec:
+  type: ClusterIP
+  selector:
+    app: laravel-reverb
+  ports:
+    - name: websocket
+      port: 8080
+      targetPort: 8080
+      protocol: TCP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: laravel-reverb
+  namespace: pens-assistant
+  labels:
+    app: laravel-reverb
+    app.kubernetes.io/part-of: pens-assistant
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: laravel-reverb
+  template:
+    metadata:
+      labels:
+        app: laravel-reverb
+        app.kubernetes.io/part-of: pens-assistant
+    spec:
+      terminationGracePeriodSeconds: 30
+      containers:
+        - name: reverb
+          image: pens-assistant-crm:latest
+          imagePullPolicy: IfNotPresent
+          command:
+            - php
+            - artisan
+            - reverb:start
+            - --host=0.0.0.0
+            - --port=8080
+          ports:
+            - name: websocket
+              containerPort: 8080
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: pens-assistant-config
+            - secretRef:
+                name: pens-assistant-secrets
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"
+          livenessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+          readinessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 3
+

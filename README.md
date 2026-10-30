@@ -59,8 +59,8 @@ The system combines a reactive web orchestrator, high-precision template-based O
 ### 5. Database & Core Infrastructure
 * **Database:** PostgreSQL 16.
 * **Caching & Queue Store:** Redis Alpine.
-* **Containerization:** Docker & Docker Compose (`docker-compose.yml`).
-* **CI/CD & Cloud Deployment:** GitHub Actions (with Trivy security scanner), AWS infrastructure with zero-downtime deployment (Deployer).
+* **Containerization & Dual Orchestration:** Docker & Docker Compose (`docker-compose.yml`) for single-server setups, plus production-ready declarative Kubernetes manifests (`deploy/k8s/`).
+* **CI/CD & Cloud Deployment:** GitHub Actions (with Trivy security scanner), AWS single-node zero-downtime deployment (Deployer), and cloud-agnostic Kubernetes scaling (EKS, GKE, AKS, or bare metal).
 
 ---
 
@@ -168,6 +168,30 @@ Calculated dynamically against DB-stored statutory subsistence minimums (`subsis
 
 ---
 
+## ☸️ Cloud-Agnostic Kubernetes Deployment (`deploy/k8s`)
+
+In addition to single-node Docker Compose orchestration, PensAssistant is fully Kubernetes-ready for multi-node production clusters (AWS EKS, GCP GKE, Azure AKS, or local Minikube/Kind clusters).
+
+* **Self-Contained Topology:** Complete manifests located in [`deploy/k8s/`](deploy/k8s/):
+  * **Ingress (`ingress.yaml`):** Nginx Ingress routing HTTP traffic to Laravel (`/`) and WebSocket connections to Reverb (`/app`, `/apps`).
+  * **Laravel Web (`laravel-app-deployment.yaml`):** PHP-FPM 8.5 + Nginx sidecar architecture with `/up` readiness/liveness probes and automated migrations.
+  * **Queue Workers (`laravel-worker-deployment.yaml`):** Horizon workers with 60s termination grace periods and graceful shutdown hooks (`horizon:terminate`).
+  * **WebSockets (`laravel-reverb-deployment.yaml`):** Scalable Laravel Reverb server on port `8080`.
+  * **Microservices (`calc-engine-deployment.yaml` & `ocr-engine-deployment.yaml`):** Dedicated deployments and `ClusterIP` services for C++ gRPC calculation (`calc:50051`) and Python gRPC OCR (`ocr:50052`).
+  * **Persistence (`postgres-statefulset.yaml` & `redis-deployment.yaml`):** PostgreSQL 16 StatefulSet with automated multi-database provisioning (`crm_db`, `calc_db`) and Redis 7.
+  * **Autoscaling (`hpa.yaml`):** HorizontalPodAutoscalers for web pods, calculation engine, and OCR workers based on CPU/RAM thresholds.
+* **Quick Deploy via Kustomize:**
+  ```bash
+  # 1. Copy secret template (secret.yaml is gitignored)
+  cp deploy/k8s/secret.example.yaml deploy/k8s/secret.yaml
+
+  # 2. Deploy complete stack to the 'pens-assistant' namespace
+  kubectl apply -k deploy/k8s/
+  ```
+For detailed architecture, local validation steps (Minikube/Kind), and verification commands, see the [Kubernetes Deployment Guide](deploy/k8s/README.md).
+
+---
+
 ## 📁 Project Structure
 
 ```
@@ -201,6 +225,8 @@ pens-assistant/
 │   │   │   └── pages/                  # Inertia Pages
 │   │   └── views/pdf/                  # PDF Report Templates (UK & EN)
 │   └── routes/web.php
+├── deploy/
+│   └── k8s/                            # Declarative Kubernetes Manifests & HPA
 ├── docker-compose.yml                  # Container Orchestration
 └── deploy.php                          # Zero-downtime Deployment Configuration
 ```

@@ -1,0 +1,86 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ocr
+  namespace: pens-assistant
+  labels:
+    app: ocr-engine
+    app.kubernetes.io/part-of: pens-assistant
+spec:
+  type: ClusterIP
+  selector:
+    app: ocr-engine
+  ports:
+    - name: grpc
+      port: 50052
+      targetPort: 50052
+      protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ocr-engine
+  namespace: pens-assistant
+  labels:
+    app: ocr-engine
+    app.kubernetes.io/part-of: pens-assistant
+spec:
+  type: ClusterIP
+  selector:
+    app: ocr-engine
+  ports:
+    - name: grpc
+      port: 50052
+      targetPort: 50052
+      protocol: TCP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ocr-engine
+  namespace: pens-assistant
+  labels:
+    app: ocr-engine
+    app.kubernetes.io/part-of: pens-assistant
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ocr-engine
+  template:
+    metadata:
+      labels:
+        app: ocr-engine
+        app.kubernetes.io/part-of: pens-assistant
+    spec:
+      terminationGracePeriodSeconds: 30
+      containers:
+        - name: ocr
+          image: pens-assistant-ocr:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: grpc
+              containerPort: 50052
+              protocol: TCP
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "512Mi"
+            limits:
+              cpu: "1500m"
+              memory: "2Gi"
+          livenessProbe:
+            tcpSocket:
+              port: 50052
+            initialDelaySeconds: 20
+            periodSeconds: 15
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            tcpSocket:
+              port: 50052
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+

@@ -1,0 +1,165 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: calc
+  namespace: pens-assistant
+  labels:
+    app: calc-engine
+    app.kubernetes.io/part-of: pens-assistant
+spec:
+  type: ClusterIP
+  selector:
+    app: calc-engine
+  ports:
+    - name: grpc
+      port: 50051
+      targetPort: 50051
+      protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: calc-engine
+  namespace: pens-assistant
+  labels:
+    app: calc-engine
+    app.kubernetes.io/part-of: pens-assistant
+spec:
+  type: ClusterIP
+  selector:
+    app: calc-engine
+  ports:
+    - name: grpc
+      port: 50051
+      targetPort: 50051
+      protocol: TCP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calc-engine
+  namespace: pens-assistant
+  labels:
+    app: calc-engine
+    app.kubernetes.io/part-of: pens-assistant
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: calc-engine
+  template:
+    metadata:
+      labels:
+        app: calc-engine
+        app.kubernetes.io/part-of: pens-assistant
+    spec:
+      terminationGracePeriodSeconds: 30
+      initContainers:
+        - name: wait-for-calc-db
+          image: postgres:16-alpine
+          imagePullPolicy: IfNotPresent
+          command:
+            - /bin/sh
+            - -c
+            - |
+              until pg_isready -h "$DB_HOST" -p "$DB_PORT" -U "$DB_USER" -d "$DB_NAME"; do
+                echo "Waiting for calc-db PostgreSQL..."
+                sleep 2
+              done
+          env:
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: pens-assistant-config
+                  key: CALC_DB_HOST
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: pens-assistant-config
+                  key: CALC_DB_PORT
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: pens-assistant-config
+                  key: CALC_DB_DATABASE
+            - name: DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: pens-assistant-config
+                  key: CALC_DB_USERNAME
+          resources:
+            requests:
+              cpu: "50m"
+              memory: "32Mi"
+            limits:
+              cpu: "100m"
+              memory: "64Mi"
+      containers:
+        - name: calc
+          image: pens-assistant-calc:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: grpc
+              containerPort: 50051
+              protocol: TCP
+          env:
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: pens-assistant-config
+                  key: CALC_DB_HOST
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: pens-assistant-config
+                  key: CALC_DB_PORT
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: pens-assistant-config
+                  key: CALC_DB_DATABASE
+            - name: DB_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: pens-assistant-config
+                  key: CALC_DB_USERNAME
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pens-assistant-secrets
+                  key: CALC_DB_PASSWORD
+            - name: DB_CONNECTION_STRING
+              value: "host=$(DB_HOST) port=$(DB_PORT) user=$(DB_USER) password=$(DB_PASSWORD) dbname=$(DB_NAME) sslmode=disable"
+            - name: REDIS_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: pens-assistant-config
+                  key: REDIS_HOST
+            - name: REDIS_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: pens-assistant-config
+                  key: REDIS_PORT
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "128Mi"
+            limits:
+              cpu: "1000m"
+              memory: "512Mi"
+          # TCP socket probes verify the C++ gRPC listener on port 50051 without requiring grpc.health.v1.Health proto registration
+          livenessProbe:
+            tcpSocket:
+              port: 50051
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+          readinessProbe:
+            tcpSocket:
+              port: 50051
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 3
+

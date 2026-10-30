@@ -59,8 +59,8 @@
 ### 5. База даних та основна інфраструктура
 * **СУБД:** PostgreSQL 16.
 * **Кеш та брокер черг:** Redis Alpine.
-* **Контейнеризація:** Docker & Docker Compose (`docker-compose.yml`).
-* **CI/CD та деплой:** GitHub Actions (зі сканером безпеки Trivy), хмарне розгортання на AWS із підтримкою безперервного деплою без зупинки сервісу (Deployer / Zero-Downtime Deployment).
+* **Контейнеризація та дуальна оркестрація:** Docker & Docker Compose (`docker-compose.yml`) для односерверних оточень, а також декларативні Kubernetes-маніфести виробничого рівня (`deploy/k8s/`).
+* **CI/CD та деплой:** GitHub Actions (зі сканером безпеки Trivy), хмарне розгортання на AWS із підтримкою безперервного деплою (Deployer / Zero-Downtime Deployment) та хмаро-незалежне масштабування в Kubernetes (EKS, GKE, AKS, bare-metal).
 
 ---
 
@@ -168,6 +168,30 @@ $$\text{Базова пенсія } (P_{\text{базова}}) = Z_p \times K_z \
 
 ---
 
+## ☸️ Хмаро-незалежне розгортання в Kubernetes (`deploy/k8s`)
+
+Окрім односерверного розгортання через Docker Compose, платформа PensAssistant повністю підтримує оркестрацію в Kubernetes для виробничих кластерів (AWS EKS, GCP GKE, Azure AKS, або локальних Minikube/Kind):
+
+* **Топологія сервісів:** Маніфести розташовані в директорії [`deploy/k8s/`](../deploy/k8s/):
+  * **Ingress (`ingress.yaml`):** Nginx Ingress контролер для маршрутизації HTTP-трафіку до Laravel (`/`) та WebSocket-з'єднань до Reverb (`/app`, `/apps`).
+  * **Laravel Web (`laravel-app-deployment.yaml`):** Архітектура sidecar-контейнерів (PHP-FPM 8.5 + Nginx) із перевірками життєздатності (`/up`), кешуванням публічних ассетів та автоматичними міграціями.
+  * **Черги та воркери (`laravel-worker-deployment.yaml`):** Horizon-воркери з graceful shutdown та перехопленням `preStop` сигналів (`horizon:terminate`).
+  * **WebSockets (`laravel-reverb-deployment.yaml`):** Сервер Laravel Reverb на порту `8080`.
+  * **Мікросервіси (`calc-engine-deployment.yaml` та `ocr-engine-deployment.yaml`):** Окремі деплойменти та `ClusterIP`-сервіси для C++ gRPC движка (`calc:50051`) та Python gRPC OCR сервісу (`ocr:50052`).
+  * **Сховище даних (`postgres-statefulset.yaml` та `redis-deployment.yaml`):** PostgreSQL 16 StatefulSet з авто-ініціалізацією баз даних (`crm_db`, `calc_db`) та Redis 7.
+  * **Автомасштабування (`hpa.yaml`):** HorizontalPodAutoscaler для веб-подів, обчислювального движка та OCR-воркерів за пороговими значеннями CPU та пам'яті.
+* **Швидке розгортання через Kustomize:**
+  ```bash
+  # 1. Створення файлу секретів з шаблону (secret.yaml додано в .gitignore)
+  cp deploy/k8s/secret.example.yaml deploy/k8s/secret.yaml
+
+  # 2. Розгортання повного стеку в namespace 'pens-assistant'
+  kubectl apply -k deploy/k8s/
+  ```
+Детальні інструкції щодо архітектури, локальної валідації в Minikube/Kind та перевірки стану дивіться у [документації Kubernetes](../deploy/k8s/README.md).
+
+---
+
 ## 📁 Структура проекту
 
 ```
@@ -201,6 +225,8 @@ pens-assistant/
 │   │   │   └── pages/                  # Сторінки Inertia
 │   │   └── views/pdf/                  # Шаблони PDF-звітів (UK та EN)
 │   └── routes/web.php
+├── deploy/
+│   └── k8s/                            # Декларативні Kubernetes-маніфести та HPA
 ├── docker-compose.yml                  # Оркестрація контейнерів
 └── deploy.php                          # Скрипт zero-downtime деплою
 ```

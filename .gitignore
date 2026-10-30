@@ -10,3 +10,4 @@ __pycache__/
 calc/build/
 nginx/ssl/
 .vscode/
+deploy/k8s/secret.yaml
