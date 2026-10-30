@@ -1,0 +1,165 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pens-assistant-config
+  namespace: pens-assistant
+  labels:
+    app.kubernetes.io/part-of: pens-assistant
+data:
+  # Laravel Application Environment
+  APP_NAME: "Pens-Assistant"
+  APP_ENV: "production"
+  APP_DEBUG: "false"
+  APP_URL: "http://pens-assistant.local"
+  APP_LOCALE: "en"
+  APP_FALLBACK_LOCALE: "en"
+  LOG_CHANNEL: "stderr"
+  LOG_LEVEL: "info"
+
+  # Database Discovery (Internal Cluster DNS mirrors Docker Compose)
+  DB_CONNECTION: "pgsql"
+  DB_HOST: "crm-db"
+  DB_PORT: "5432"
+  DB_DATABASE: "crm_db"
+  DB_USERNAME: "postgres"
+
+  # C++ Calc Engine Database Discovery
+  CALC_DB_HOST: "calc-db"
+  CALC_DB_PORT: "5432"
+  CALC_DB_DATABASE: "calc_db"
+  CALC_DB_USERNAME: "postgres"
+
+  # Redis Cache, Session & Queue Discovery
+  CACHE_STORE: "redis"
+  SESSION_DRIVER: "redis"
+  SESSION_LIFETIME: "120"
+  QUEUE_CONNECTION: "redis"
+  REDIS_CLIENT: "predis"
+  REDIS_HOST: "redis"
+  REDIS_PORT: "6379"
+
+  # Internal gRPC Microservice Endpoints
+  CALC_GRPC_HOST: "calc:50051"
+  OCR_GRPC_HOST: "ocr:50052"
+
+  # Laravel Reverb WebSocket Server Configuration
+  BROADCAST_CONNECTION: "reverb"
+  REVERB_APP_ID: "pens-assistant-reverb"
+  REVERB_HOST: "pens-assistant.local"
+  REVERB_PORT: "80"
+  REVERB_SCHEME: "http"
+  REVERB_SERVER_HOST: "0.0.0.0"
+  REVERB_SERVER_PORT: "8080"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-k8s-config
+  namespace: pens-assistant
+  labels:
+    app.kubernetes.io/part-of: pens-assistant
+data:
+  default.conf: |
+    server {
+        listen 80;
+        server_name _;
+
+        root /var/www/public;
+        index index.php index.html;
+
+        error_log  /dev/stderr warn;
+        access_log /dev/stdout main;
+
+        client_max_body_size 25M;
+
+        location / {
+            try_files $uri $uri/ /index.php?$query_string;
+            gzip_static on;
+        }
+
+        location ~ \.php$ {
+            try_files $uri =404;
+            fastcgi_split_path_info ^(.+\.php)(/.+)$;
+            fastcgi_pass 127.0.0.1:9000;
+            fastcgi_index index.php;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+            fastcgi_param PATH_INFO $fastcgi_path_info;
+            fastcgi_intercept_errors on;
+            fastcgi_buffer_size 128k;
+            fastcgi_buffers 4 256k;
+            fastcgi_busy_buffers_size 256k;
+            fastcgi_read_timeout 300;
+        }
+
+        location ~ /\.(?!well-known).* {
+            deny all;
+        }
+    }
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-init-scripts
+  namespace: pens-assistant
+  labels:
+    app.kubernetes.io/part-of: pens-assistant
+data:
+  01-init-databases.sh: |
+    #!/bin/sh
+    set -e
+
+    echo "Creating calc_db database if not exists..."
+    psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
+        SELECT 'CREATE DATABASE calc_db'
+        WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'calc_db')\gexec
+    EOSQL
+
+    echo "Initializing calc_db schema and baseline subsistence minimums..."
+    psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "calc_db" <<-EOSQL
+        CREATE TABLE IF NOT EXISTS pension_coefficients (
+            id SERIAL PRIMARY KEY,
+            year INTEGER NOT NULL,
+            month INTEGER NOT NULL CHECK (month >= 1 AND month <= 12),
+            coefficient NUMERIC(8, 4) NOT NULL,
+            description TEXT,
+            created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+            CONSTRAINT unique_year_month UNIQUE (year, month)
+        );
+
+        CREATE TABLE IF NOT EXISTS pfu_average_salaries (
+            id SERIAL PRIMARY KEY,
+            year INT NOT NULL,
+            month INT NOT NULL,
+            amount NUMERIC(10, 2) NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            UNIQUE(year, month)
+        );
+
+        CREATE TABLE IF NOT EXISTS subsistence_minimums (
+            id SERIAL PRIMARY KEY,
+            year INT UNIQUE NOT NULL,
+            for_disabled_persons NUMERIC(10, 2) NULL,
+            general_minimum NUMERIC(10, 2) NULL,
+            age_surcharge_cap NUMERIC(10, 2) NULL,
+            age_70_surcharge NUMERIC(10, 2) DEFAULT 300.00,
+            age_75_surcharge NUMERIC(10, 2) DEFAULT 456.00,
+            age_80_surcharge NUMERIC(10, 2) DEFAULT 570.00,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
+
+        INSERT INTO subsistence_minimums (year, for_disabled_persons, general_minimum, age_surcharge_cap, age_70_surcharge, age_75_surcharge, age_80_surcharge)
+        VALUES
+            (2023, 2093.00, 2589.00, 10340.35, 300.00, 456.00, 570.00),
+            (2024, 2361.00, 2920.00, 10340.35, 300.00, 456.00, 570.00),
+            (2025, 2595.00, 3200.00, 10340.35, 300.00, 456.00, 570.00),
+            (2026, 2750.00, 3400.00, 10340.35, 300.00, 456.00, 570.00)
+        ON CONFLICT (year) DO UPDATE SET
+            for_disabled_persons = EXCLUDED.for_disabled_persons,
+            general_minimum = EXCLUDED.general_minimum,
+            age_surcharge_cap = EXCLUDED.age_surcharge_cap,
+            updated_at = CURRENT_TIMESTAMP;
+    EOSQL
+

@@ -2,6 +2,8 @@ crm/storage
 crm/vendor
 crm/node_modules
 crm/public/build
+calc/build
+deploy
 .git
 .idea
 .vscode
