@@ -1,0 +1,76 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: laravel-worker
+  namespace: pens-assistant
+  labels:
+    app: laravel-worker
+    app.kubernetes.io/part-of: pens-assistant
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: laravel-worker
+  template:
+    metadata:
+      labels:
+        app: laravel-worker
+        app.kubernetes.io/part-of: pens-assistant
+    spec:
+      # Allow sufficient time for in-flight queue jobs to finish cleanly after SIGTERM
+      terminationGracePeriodSeconds: 60
+      containers:
+        - name: horizon
+          image: pens-assistant-crm:latest
+          imagePullPolicy: IfNotPresent
+          command:
+            - php
+            - artisan
+            - horizon
+          envFrom:
+            - configMapRef:
+                name: pens-assistant-config
+            - secretRef:
+                name: pens-assistant-secrets
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "256Mi"
+            limits:
+              cpu: "1000m"
+              memory: "512Mi"
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  - /bin/sh
+                  - -c
+                  - php artisan horizon:terminate && sleep 5
+          livenessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - php artisan horizon:status | grep -q "running"
+            initialDelaySeconds: 20
+            periodSeconds: 15
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - php artisan horizon:status | grep -q "running"
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          volumeMounts:
+            - name: laravel-storage
+              mountPath: /var/www/storage
+      volumes:
+        - name: laravel-storage
+          persistentVolumeClaim:
+            claimName: laravel-storage-pvc
+
